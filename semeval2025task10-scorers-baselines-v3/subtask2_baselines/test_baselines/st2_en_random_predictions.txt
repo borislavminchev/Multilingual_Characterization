@@ -1,0 +1,101 @@
+CC_TEST_00063.txt	CC: Criticism of climate movement	URW: Distrust towards Media: Ukrainian media cannot be trusted;URW: Russia is the Victim: Russia actions in Ukraine are only self-defence
+RU_TEST_00021.txt	URW: Praise of Russia	URW: Distrust towards Media: Other
+CC_TEST_00004.txt	CC: Green policies are geopolitical instruments	CC: Climate change is beneficial: CO2 is beneficial;URW: Discrediting Ukraine: Situation in Ukraine is hopeless
+RU_TEST_00013.txt	CC: Criticism of climate policies	CC: Downplaying climate change: CO2 concentrations are too small to have an impact
+CC_TEST_00047.txt	URW: Distrust towards Media	URW: Discrediting Ukraine: Ukraine is a puppet of the West;URW: Negative Consequences for the West: Sanctions imposed by Western countries will backfire
+EN_UA_DEV_25.txt	CC: Green policies are geopolitical instruments	URW: Overpraising the West: Other;CC: Amplifying Climate Fears: Earth will be uninhabitable soon
+EN_UA_DEV_27.txt	URW: Russia is the Victim	CC: Questioning the measurements and science: Scientific community is unreliable;URW: Distrust towards Media: Western media is an instrument of propaganda
+RU_TEST_00060.txt	URW: Speculating war outcomes	CC: Criticism of institutions and authorities: Criticism of political organizations and figures
+CC_TEST_00035.txt	URW: Negative Consequences for the West	URW: Amplifying war-related fears: Other
+CC_TEST_00078.txt	URW: Hidden plots by secret schemes of powerful groups	CC: Downplaying climate change: Other;URW: Praise of Russia: Praise of Russian President Vladimir Putin
+RU_TEST_00079.txt	URW: Amplifying war-related fears	CC: Climate change is beneficial: CO2 is beneficial
+RU_TEST_00090.txt	URW: Negative Consequences for the West	CC: Controversy about green technologies: Other
+CC_TEST_00006.txt	URW: Amplifying war-related fears	URW: Russia is the Victim: Russia actions in Ukraine are only self-defence
+CC_TEST_00049.txt	CC: Controversy about green technologies	URW: Praise of Russia: Russian invasion has strong national support
+CC_TEST_00019.txt	URW: Discrediting Ukraine	URW: Amplifying war-related fears: By continuing the war we risk WWIII
+RU_TEST_00042.txt	URW: Speculating war outcomes	URW: Russia is the Victim: UA is anti-RU extremists
+RU_TEST_00085.txt	CC: Hidden plots by secret schemes of powerful groups	CC: Criticism of climate movement: Other;CC: Controversy about green technologies: Renewable energy is dangerous
+RU_TEST_00007.txt	CC: Criticism of institutions and authorities	CC: Criticism of climate policies: Climate policies are ineffective;CC: Criticism of institutions and authorities: Other
+CC_TEST_00010.txt	URW: Blaming the war on others rather than the invader	URW: Distrust towards Media: Ukrainian media cannot be trusted
+CC_TEST_00053.txt	CC: Green policies are geopolitical instruments	CC: Amplifying Climate Fears: Other;CC: Controversy about green technologies: Renewable energy is unreliable
+RU_TEST_00011.txt	URW: Praise of Russia	URW: Praise of Russia: Russian invasion has strong national support
+RU_TEST_00076.txt	URW: Speculating war outcomes	URW: Amplifying war-related fears: There is a real possibility that nuclear weapons will be employed;URW: Discrediting Ukraine: Discrediting Ukrainian government and officials and policies
+RU_TEST_00016.txt	URW: Blaming the war on others rather than the invader	CC: Criticism of climate policies: Other;CC: Controversy about green technologies: Renewable energy is dangerous
+RU_TEST_00041.txt	URW: Russia is the Victim	URW: Discrediting Ukraine: Rewriting Ukraine’s history;URW: Discrediting Ukraine: Discrediting Ukrainian nation and society
+CC_TEST_00059.txt	URW: Negative Consequences for the West	URW: Amplifying war-related fears: Other;CC: Green policies are geopolitical instruments: Other
+RU_TEST_00008.txt	URW: Speculating war outcomes	URW: Discrediting the West, Diplomacy: West is tired of Ukraine
+RU_TEST_00084.txt	CC: Amplifying Climate Fears	URW: Discrediting Ukraine: Rewriting Ukraine’s history;URW: Negative Consequences for the West: The conflict will increase the Ukrainian refugee flows to Europe
+CC_TEST_00033.txt	CC: Controversy about green technologies	URW: Praise of Russia: Other
+RU_TEST_00068.txt	CC: Green policies are geopolitical instruments	URW: Russia is the Victim: Russia actions in Ukraine are only self-defence;CC: Criticism of institutions and authorities: Criticism of international entities
+CC_TEST_00025.txt	CC: Climate change is beneficial	CC: Questioning the measurements and science: Methodologies/metrics used are unreliable/faulty
+CC_TEST_00091.txt	CC: Green policies are geopolitical instruments	URW: Russia is the Victim: UA is anti-RU extremists;CC: Amplifying Climate Fears: Whatever we do it is already too late
+RU_TEST_00031.txt	URW: Negative Consequences for the West	URW: Russia is the Victim: UA is anti-RU extremists;CC: Criticism of climate policies: Climate policies are ineffective
+EN_CC_200164.txt	URW: Overpraising the West	URW: Praise of Russia: Other
+RU_TEST_00074.txt	CC: Criticism of climate policies	URW: Blaming the war on others rather than the invader: Ukraine is the aggressor
+RU_TEST_00095.txt	CC: Criticism of climate movement	CC: Controversy about green technologies: Renewable energy is costly
+RU_TEST_00057.txt	CC: Controversy about green technologies	CC: Criticism of climate movement: Other
+RU_TEST_00082.txt	URW: Hidden plots by secret schemes of powerful groups	CC: Green policies are geopolitical instruments: Green activities are a form of neo-colonialism
+RU_TEST_00044.txt	URW: Discrediting the West, Diplomacy	URW: Negative Consequences for the West: The conflict will increase the Ukrainian refugee flows to Europe;URW: Praise of Russia: Praise of Russian military might
+CC_TEST_00087.txt	URW: Blaming the war on others rather than the invader	URW: Blaming the war on others rather than the invader: Ukraine is the aggressor;URW: Russia is the Victim: The West is russophobic
+RU_TEST_00014.txt	URW: Discrediting the West, Diplomacy	CC: Criticism of institutions and authorities: Other;CC: Criticism of institutions and authorities: Criticism of international entities
+CC_TEST_00080.txt	URW: Distrust towards Media	URW: Speculating war outcomes: Russian army is collapsing
+CC_TEST_00050.txt	CC: Criticism of institutions and authorities	URW: Distrust towards Media: Other;CC: Criticism of climate movement: Other
+CC_TEST_00093.txt	CC: Criticism of climate policies	CC: Amplifying Climate Fears: Whatever we do it is already too late
+CC_TEST_00001.txt	CC: Criticism of institutions and authorities	URW: Praise of Russia: Russia has international support from a number of countries and people;CC: Green policies are geopolitical instruments: Other
+RU_TEST_00020.txt	URW: Hidden plots by secret schemes of powerful groups	CC: Amplifying Climate Fears: Whatever we do it is already too late;URW: Overpraising the West: NATO will destroy Russia
+CC_TEST_00027.txt	CC: Criticism of climate movement	URW: Discrediting the West, Diplomacy: The EU is divided;URW: Discrediting the West, Diplomacy: The West is overreacting
+RU_TEST_00071.txt	CC: Green policies are geopolitical instruments	CC: Controversy about green technologies: Renewable energy is costly;URW: Discrediting Ukraine: Discrediting Ukrainian nation and society
+EN_UA_300008.txt	CC: Hidden plots by secret schemes of powerful groups	CC: Criticism of institutions and authorities: Criticism of national governments
+CC_TEST_00097.txt	URW: Discrediting the West, Diplomacy	URW: Discrediting Ukraine: Situation in Ukraine is hopeless
+RU_TEST_00098.txt	URW: Discrediting Ukraine	URW: Praise of Russia: Russia is a guarantor of peace and prosperity
+CC_TEST_00070.txt	CC: Controversy about green technologies	URW: Discrediting Ukraine: Rewriting Ukraine’s history
+CC_TEST_00046.txt	Other	URW: Amplifying war-related fears: NATO should/will directly intervene
+RU_TEST_00029.txt	URW: Praise of Russia	URW: Praise of Russia: Other
+RU_TEST_00055.txt	URW: Blaming the war on others rather than the invader	URW: Discrediting Ukraine: Situation in Ukraine is hopeless;CC: Hidden plots by secret schemes of powerful groups: Other
+CC_TEST_00089.txt	URW: Overpraising the West	URW: Discrediting the West, Diplomacy: The West is overreacting;CC: Controversy about green technologies: Other
+RU_TEST_00012.txt	CC: Criticism of climate movement	CC: Amplifying Climate Fears: Whatever we do it is already too late;CC: Criticism of climate policies: Other
+RU_TEST_00096.txt	URW: Discrediting Ukraine	URW: Praise of Russia: Praise of Russian President Vladimir Putin;CC: Criticism of institutions and authorities: Criticism of the EU
+CC_TEST_00003.txt	URW: Distrust towards Media	URW: Russia is the Victim: Russia actions in Ukraine are only self-defence
+EN_CC_300106.txt	CC: Hidden plots by secret schemes of powerful groups	URW: Amplifying war-related fears: There is a real possibility that nuclear weapons will be employed;URW: Discrediting the West, Diplomacy: The West does not care about Ukraine, only about its interests
+RU_TEST_00061.txt	CC: Criticism of climate policies	URW: Russia is the Victim: Russia actions in Ukraine are only self-defence
+CC_TEST_00038.txt	URW: Hidden plots by secret schemes of powerful groups	CC: Hidden plots by secret schemes of powerful groups: Other
+RU_TEST_00065.txt	CC: Criticism of institutions and authorities	URW: Speculating war outcomes: Russian army is collapsing
+CC_TEST_00018.txt	CC: Amplifying Climate Fears	CC: Hidden plots by secret schemes of powerful groups: Blaming global elites;URW: Discrediting Ukraine: Rewriting Ukraine’s history
+RU_TEST_00022.txt	URW: Amplifying war-related fears	CC: Green policies are geopolitical instruments: Other;CC: Downplaying climate change: Weather suggests the trend is global cooling
+CC_TEST_00005.txt	URW: Blaming the war on others rather than the invader	CC: Questioning the measurements and science: Data shows no temperature increase
+RU_TEST_00030.txt	URW: Distrust towards Media	CC: Questioning the measurements and science: Greenhouse effect/carbon dioxide do not drive climate change;CC: Controversy about green technologies: Renewable energy is dangerous
+RU_TEST_00086.txt	CC: Hidden plots by secret schemes of powerful groups	URW: Discrediting Ukraine: Ukraine is a puppet of the West;URW: Discrediting the West, Diplomacy: The West is overreacting
+RU_TEST_00073.txt	URW: Negative Consequences for the West	CC: Controversy about green technologies: Renewable energy is unreliable;URW: Blaming the war on others rather than the invader: The West are the aggressors
+CC_TEST_00072.txt	CC: Criticism of institutions and authorities	URW: Amplifying war-related fears: There is a real possibility that nuclear weapons will be employed
+CC_TEST_00066.txt	URW: Hidden plots by secret schemes of powerful groups	URW: Discrediting Ukraine: Ukraine is associated with nazism;URW: Russia is the Victim: Other
+RU_TEST_00037.txt	URW: Blaming the war on others rather than the invader	Other
+RU_TEST_00067.txt	URW: Discrediting the West, Diplomacy	CC: Amplifying Climate Fears: Whatever we do it is already too late;CC: Downplaying climate change: Ice is not melting
+EN_UA_300042.txt	URW: Blaming the war on others rather than the invader	URW: Speculating war outcomes: Other
+CC_TEST_00023.txt	CC: Green policies are geopolitical instruments	URW: Discrediting the West, Diplomacy: West is tired of Ukraine
+RU_TEST_00024.txt	CC: Green policies are geopolitical instruments	CC: Amplifying Climate Fears: Whatever we do it is already too late
+CC_TEST_00036.txt	CC: Criticism of climate policies	CC: Green policies are geopolitical instruments: Green activities are a form of neo-colonialism;URW: Discrediting the West, Diplomacy: Diplomacy does/will not work
+CC_TEST_00032.txt	CC: Controversy about green technologies	URW: Discrediting the West, Diplomacy: Diplomacy does/will not work
+CC_TEST_00083.txt	CC: Hidden plots by secret schemes of powerful groups	URW: Distrust towards Media: Other;CC: Downplaying climate change: Other
+RU_TEST_00092.txt	URW: Praise of Russia	URW: Amplifying war-related fears: By continuing the war we risk WWIII
+RU_TEST_00075.txt	CC: Controversy about green technologies	URW: Amplifying war-related fears: Russia will also attack other countries
+RU_TEST_00009.txt	URW: Overpraising the West	CC: Green policies are geopolitical instruments: Other
+CC_TEST_00017.txt	CC: Hidden plots by secret schemes of powerful groups	CC: Questioning the measurements and science: Scientific community is unreliable
+CC_TEST_00034.txt	URW: Discrediting the West, Diplomacy	URW: Discrediting Ukraine: Discrediting Ukrainian government and officials and policies
+RU_TEST_00026.txt	URW: Discrediting Ukraine	CC: Green policies are geopolitical instruments: Other
+CC_TEST_00043.txt	URW: Russia is the Victim	URW: Discrediting Ukraine: Discrediting Ukrainian government and officials and policies;URW: Russia is the Victim: Russia actions in Ukraine are only self-defence
+CC_TEST_00000.txt	URW: Amplifying war-related fears	URW: Discrediting the West, Diplomacy: The EU is divided;CC: Downplaying climate change: Temperature increase does not have significant impact
+EN_CC_300019.txt	CC: Amplifying Climate Fears	URW: Distrust towards Media: Western media is an instrument of propaganda
+CC_TEST_00099.txt	URW: Distrust towards Media	URW: Praise of Russia: Praise of Russian President Vladimir Putin;CC: Green policies are geopolitical instruments: Green activities are a form of neo-colonialism
+CC_TEST_00069.txt	URW: Discrediting the West, Diplomacy	CC: Criticism of climate movement: Ad hominem attacks on key activists
+CC_TEST_00094.txt	CC: Criticism of climate movement	CC: Criticism of climate movement: Ad hominem attacks on key activists
+CC_TEST_00056.txt	URW: Overpraising the West	URW: Discrediting Ukraine: Other
+CC_TEST_00039.txt	URW: Amplifying war-related fears	URW: Praise of Russia: Praise of Russian President Vladimir Putin;CC: Downplaying climate change: Temperature increase does not have significant impact
+RU_TEST_00081.txt	URW: Amplifying war-related fears	CC: Controversy about green technologies: Renewable energy is dangerous;URW: Speculating war outcomes: Ukrainian army is collapsing
+RU_TEST_00051.txt	CC: Criticism of climate movement	URW: Russia is the Victim: Other
+RU_TEST_00064.txt	CC: Green policies are geopolitical instruments	URW: Discrediting the West, Diplomacy: The West does not care about Ukraine, only about its interests;URW: Russia is the Victim: Other
+RU_TEST_00028.txt	URW: Blaming the war on others rather than the invader	CC: Criticism of climate policies: Climate policies are only for profit;URW: Speculating war outcomes: Other
+RU_TEST_00015.txt	URW: Discrediting the West, Diplomacy	URW: Negative Consequences for the West: Other;URW: Overpraising the West: NATO will destroy Russia
+RU_TEST_00002.txt	URW: Blaming the war on others rather than the invader	URW: Discrediting the West, Diplomacy: The West is overreacting
+RU_TEST_00045.txt	URW: Russia is the Victim	URW: Speculating war outcomes: Russian army will lose all the occupied territories;URW: Russia is the Victim: The West is russophobic
+CC_TEST_00058.txt	URW: Speculating war outcomes	CC: Questioning the measurements and science: Data shows no temperature increase
+CC_TEST_00088.txt	URW: Speculating war outcomes	URW: Overpraising the West: NATO will destroy Russia

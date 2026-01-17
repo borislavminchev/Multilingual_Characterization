@@ -1,0 +1,297 @@
+PT_URW_TEST_489.txt	Rússia	246	251	Antagonist	Victim
+PT_URW_TEST_489.txt	Vladimir Putin	1298	1311	Antagonist	Victim
+PT_URW_TEST_489.txt	Ucrânia	1369	1375	Antagonist	Victim
+PT_URW_TEST_489.txt	Rússia	1395	1400	Antagonist	Victim
+PT_URW_TEST_500.txt	Volodymyr Zelensky	1305	1322	Antagonist	Victim
+PT_URW_TEST_500.txt	Kiev	1380	1383	Antagonist	Victim
+PT_URW_TEST_500.txt	Zelensky	1535	1542	Antagonist	Victim
+PT_URW_TEST_500.txt	Zelensky	1729	1736	Antagonist	Victim
+PT_URW_TEST_500.txt	Ucrânia	1998	2004	Antagonist	Victim
+PT_URW_TEST_500.txt	Moscovo	2093	2099	Antagonist	Victim
+PT_URW_TEST_500.txt	Kiev	2272	2275	Antagonist	Victim
+PT_URW_TEST_497.txt	Rússia	1457	1462	Antagonist	Victim
+PT_CC_TEST_533.txt	Obama	1205	1209	Antagonist	Victim
+PT_URW_TEST_480.txt	Rússia	1313	1318	Antagonist	Victim
+PT_URW_TEST_480.txt	Putin	2600	2604	Antagonist	Victim
+PT_URW_TEST_480.txt	Ucrânia	2649	2655	Antagonist	Victim
+PT_CC_TEST_444.txt	Volodymyr Zelensky	288	305	Antagonist	Victim
+PT_CC_TEST_444.txt	Rússia	1216	1221	Antagonist	Victim
+PT_URW_TEST_472.txt	Vladimir Zelensky	1065	1081	Antagonist	Victim
+PT_URW_TEST_472.txt	Vladimir Putin	2743	2756	Antagonist	Victim
+PT_URW_TEST_472.txt	Ucrânia	2802	2808	Antagonist	Victim
+PT_URW_TEST_472.txt	Rússia	2876	2881	Antagonist	Victim
+PT_CC_TEST_436.txt	Greta Thunberg	99	112	Antagonist	Victim
+PT_URW_TEST_509.txt	Ucrânia	192	198	Antagonist	Victim
+PT_URW_TEST_509.txt	Andrei Turchak	430	443	Antagonist	Victim
+PT_URW_TEST_509.txt	Rússia	572	577	Antagonist	Victim
+PT_URW_TEST_509.txt	Rússia	1796	1801	Antagonist	Victim
+PT_CC_TEST_454.txt	António Guterres	122	137	Antagonist	Victim
+PT_CC_TEST_454.txt	Guterres	1659	1666	Antagonist	Victim
+PT_URW_TEST_464.txt	Rússia	729	734	Antagonist	Victim
+PT_URW_TEST_464.txt	Vladimir Zelensky	783	799	Antagonist	Victim
+PT_CC_TEST_525.txt	Al Gore	648	654	Antagonist	Victim
+PT_URW_TEST_490.txt	Rússia	295	300	Antagonist	Victim
+PT_URW_TEST_490.txt	Kiev	359	362	Antagonist	Victim
+PT_URW_TEST_490.txt	Igor Konashenkov	621	636	Antagonist	Victim
+PT_URW_TEST_490.txt	Federação Russa	901	915	Antagonist	Victim
+PT_URW_TEST_490.txt	Ocidente	947	954	Antagonist	Victim
+PT_URW_TEST_490.txt	Vladimir Putin	1399	1412	Antagonist	Victim
+PT_URW_TEST_490.txt	Ucrânia	1458	1464	Antagonist	Victim
+PT_URW_TEST_490.txt	Rússia	1532	1537	Antagonist	Victim
+PT_URW_TEST_474.txt	União Europeia	497	510	Antagonist	Victim
+PT_URW_TEST_474.txt	Ocidente	624	631	Antagonist	Victim
+PT_URW_TEST_474.txt	Rússia	1543	1548	Antagonist	Victim
+PT_URW_TEST_474.txt	Moscovo	1594	1600	Antagonist	Victim
+PT_URW_TEST_474.txt	Ocidente	2014	2021	Antagonist	Victim
+PT_URW_TEST_474.txt	Estados Unidos	2425	2438	Antagonist	Victim
+PT_URW_TEST_474.txt	União Europeia	2463	2476	Antagonist	Victim
+PT_URW_TEST_474.txt	Washington	2514	2523	Antagonist	Victim
+PT_URW_TEST_474.txt	Bruxelas	2527	2534	Antagonist	Victim
+PT_URW_TEST_474.txt	Kiev	2952	2955	Antagonist	Victim
+PT_URW_TEST_499.txt	EUA	240	242	Antagonist	Victim
+PT_URW_TEST_499.txt	EUA	332	334	Antagonist	Victim
+PT_URW_TEST_499.txt	Washington	707	716	Antagonist	Victim
+PT_URW_TEST_499.txt	Kiev	917	920	Antagonist	Victim
+PT_URW_TEST_499.txt	Estados Unidos	1052	1065	Antagonist	Victim
+PT_URW_TEST_499.txt	Federação Russa	1435	1449	Antagonist	Victim
+PT_URW_TEST_499.txt	Ucrânia	1486	1492	Antagonist	Victim
+PT_URW_TEST_510.txt	Ucrânia	432	438	Antagonist	Victim
+PT_URW_TEST_510.txt	Rússia	1219	1224	Antagonist	Victim
+PT_URW_TEST_510.txt	Banco Central	1885	1897	Antagonist	Victim
+PT_URW_TEST_469.txt	RTP	1970	1972	Antagonist	Victim
+PT_URW_TEST_469.txt	Público	1975	1981	Antagonist	Victim
+PT_URW_TEST_469.txt	Expresso	1984	1991	Antagonist	Victim
+PT_URW_TEST_469.txt	Observador	1995	2004	Antagonist	Victim
+PT_URW_TEST_469.txt	União Europeia	3055	3068	Antagonist	Victim
+PT_URW_TEST_462.txt	Kiev	188	191	Antagonist	Victim
+PT_URW_TEST_462.txt	Vassily Nebenzia	525	540	Antagonist	Victim
+PT_URW_TEST_462.txt	Ucrânia	631	637	Antagonist	Victim
+PT_URW_TEST_462.txt	Kiev	973	976	Antagonist	Victim
+PT_URW_TEST_462.txt	Kiev	1157	1160	Antagonist	Victim
+PT_URW_TEST_462.txt	Ocidente	2797	2804	Antagonist	Victim
+PT_URW_TEST_492.txt	Ocidente	684	691	Antagonist	Victim
+PT_URW_TEST_492.txt	Putin	941	945	Antagonist	Victim
+PT_URW_TEST_492.txt	Vladimir Putin	1302	1315	Antagonist	Victim
+PT_URW_TEST_492.txt	Ucrânia	1355	1361	Antagonist	Victim
+PT_URW_TEST_492.txt	Rússia	1381	1386	Antagonist	Victim
+PT_URW_TEST_507.txt	Ucrânia	185	191	Antagonist	Victim
+PT_URW_TEST_507.txt	Moscovo	281	287	Antagonist	Victim
+PT_URW_TEST_507.txt	Kiev	668	671	Antagonist	Victim
+PT_URW_TEST_484.txt	Rússia	363	368	Antagonist	Victim
+PT_URW_TEST_484.txt	Estados Unidos	483	496	Antagonist	Victim
+PT_URW_TEST_484.txt	Kremlin	1580	1586	Antagonist	Victim
+PT_CC_TEST_512.txt	Climáximo»	310	319	Antagonist	Victim
+PT_CC_TEST_512.txt	RTP	501	503	Antagonist	Victim
+PT_URW_TEST_476.txt	Kiev	833	836	Antagonist	Victim
+PT_URW_TEST_476.txt	Rússia	1678	1683	Antagonist	Victim
+PT_URW_TEST_476.txt	Ucrânia	2140	2146	Antagonist	Victim
+PT_URW_TEST_476.txt	Ocidente	2291	2298	Antagonist	Victim
+PT_URW_TEST_493.txt	Kremlin	579	585	Antagonist	Victim
+PT_URW_TEST_493.txt	Governos ocidentais	1195	1213	Antagonist	Victim
+PT_URW_TEST_493.txt	Rússia	1326	1331	Antagonist	Victim
+PT_URW_TEST_493.txt	Ucrânia	1846	1852	Antagonist	Victim
+PT_URW_TEST_493.txt	Vladimir Putin	2447	2460	Antagonist	Victim
+PT_URW_TEST_493.txt	Kremlin	2688	2694	Antagonist	Victim
+PT_URW_TEST_467.txt	NATO	2172	2175	Antagonist	Victim
+PT_URW_TEST_467.txt	Estados Unidos	2182	2195	Antagonist	Victim
+PT_CC_TEST_449.txt	Climáximo	151	159	Antagonist	Victim
+PT_CC_TEST_449.txt	Camargo	636	642	Antagonist	Victim
+PT_CC_TEST_449.txt	João Camargo	937	948	Antagonist	Victim
+PT_CC_TEST_449.txt	Joana Louçã	1371	1381	Antagonist	Victim
+PT_URW_TEST_465.txt	Agência Internacional de Energia Atómica	233	272	Antagonist	Victim
+PT_URW_TEST_478.txt	União Europeia	174	187	Antagonist	Victim
+PT_URW_TEST_478.txt	Rússia	1334	1339	Antagonist	Victim
+PT_URW_TEST_478.txt	Moscovo	1385	1391	Antagonist	Victim
+PT_URW_TEST_478.txt	Ocidente	1809	1816	Antagonist	Victim
+PT_URW_TEST_478.txt	Estados Unidos	2010	2023	Antagonist	Victim
+PT_URW_TEST_478.txt	União Europeia	2048	2061	Antagonist	Victim
+PT_URW_TEST_478.txt	Washington	2486	2495	Antagonist	Victim
+PT_URW_TEST_478.txt	Bruxelas	2499	2506	Antagonist	Victim
+PT_URW_TEST_478.txt	Kiev	2881	2884	Antagonist	Victim
+PT_URW_TEST_495.txt	UE	1458	1459	Antagonist	Victim
+PT_URW_TEST_495.txt	Ucrânia	1506	1512	Antagonist	Victim
+PT_URW_TEST_495.txt	Rússia	2250	2255	Antagonist	Victim
+PT_URW_TEST_495.txt	Moscovo	2607	2613	Antagonist	Victim
+PT_CC_TEST_455.txt	António Guterres	499	514	Antagonist	Victim
+PT_URW_TEST_482.txt	Moscovo	698	704	Antagonist	Victim
+PT_URW_TEST_482.txt	Rússia	1121	1126	Antagonist	Victim
+PT_URW_TEST_482.txt	Kremlin	1890	1896	Antagonist	Victim
+PT_URW_TEST_482.txt	Dmitri Peskov	1899	1911	Antagonist	Victim
+PT_CC_TEST_442.txt	António Costa e Silva	3911	3931	Antagonist	Victim
+PT_CC_TEST_438.txt	Google	215	220	Antagonist	Victim
+PT_CC_TEST_438.txt	Google	880	885	Antagonist	Victim
+PT_URW_TEST_503.txt	Kremlin	220	226	Antagonist	Victim
+PT_URW_TEST_503.txt	Pequim	505	510	Antagonist	Victim
+PT_URW_TEST_503.txt	Ucrânia	836	842	Antagonist	Victim
+PT_URW_TEST_503.txt	China	1031	1035	Antagonist	Victim
+PT_URW_TEST_503.txt	Jen Psaki	1232	1240	Antagonist	Victim
+PT_CC_TEST_523.txt	Mme. Sandrine Dixson-Declève	991	1018	Antagonist	Victim
+PT_CC_TEST_523.txt	Clube de Roma	1051	1063	Antagonist	Victim
+PT_CC_TEST_523.txt	Clube de Roma	1782	1794	Antagonist	Victim
+PT_CC_TEST_453.txt	Exxon Mobil	757	767	Antagonist	Victim
+PT_CC_TEST_437.txt	Instituto George Marshall	1904	1928	Antagonist	Victim
+PT_URW_TEST_471.txt	Moscovo	656	662	Antagonist	Victim
+PT_URW_TEST_471.txt	Canadá	683	688	Antagonist	Victim
+PT_URW_TEST_471.txt	Ucrânia	906	912	Antagonist	Victim
+PT_CC_TEST_526.txt	Bjorn Lomborg	895	907	Antagonist	Victim
+PT_CC_TEST_526.txt	Times	2239	2243	Antagonist	Victim
+PT_CC_TEST_526.txt	Times	2372	2376	Antagonist	Victim
+PT_URW_TEST_501.txt	Estados Unidos	139	152	Antagonist	Victim
+PT_URW_TEST_501.txt	Washington	307	316	Antagonist	Victim
+PT_URW_TEST_501.txt	Rússia	363	368	Antagonist	Victim
+PT_URW_TEST_501.txt	Joe Biden	1040	1048	Antagonist	Victim
+PT_URW_TEST_501.txt	Ocidente	1796	1803	Antagonist	Victim
+PT_URW_TEST_501.txt	Estados Unidos	1850	1863	Antagonist	Victim
+PT_URW_TEST_501.txt	Donetsk	2313	2319	Antagonist	Victim
+PT_URW_TEST_501.txt	Lugansk	2323	2329	Antagonist	Victim
+PT_URW_TEST_501.txt	Kyiv	2355	2358	Antagonist	Victim
+PT_URW_TEST_501.txt	Ocidente	2382	2389	Antagonist	Victim
+PT_URW_TEST_501.txt	Rússia	2467	2472	Antagonist	Victim
+PT_URW_TEST_501.txt	Vladimir Putin	3041	3054	Antagonist	Victim
+PT_URW_TEST_501.txt	Ucrânia	3112	3118	Antagonist	Victim
+PT_URW_TEST_501.txt	Rússia	3138	3143	Antagonist	Victim
+PT_URW_TEST_481.txt	Rússia	292	297	Antagonist	Victim
+PT_URW_TEST_481.txt	Volodymyr Zelensky	959	976	Antagonist	Victim
+PT_URW_TEST_498.txt	Vladimir Putin	100	113	Antagonist	Victim
+PT_URW_TEST_498.txt	Moscovo	479	485	Antagonist	Victim
+PT_URW_TEST_498.txt	Kyiv	541	544	Antagonist	Victim
+PT_URW_TEST_498.txt	Putin	803	807	Antagonist	Victim
+PT_URW_TEST_498.txt	Putin	988	992	Antagonist	Victim
+PT_URW_TEST_498.txt	Rússia	1538	1543	Antagonist	Victim
+PT_URW_TEST_498.txt	Vladimir Putin	1915	1928	Antagonist	Victim
+PT_URW_TEST_498.txt	Ucrânia	1968	1974	Antagonist	Victim
+PT_URW_TEST_498.txt	Rússia	1994	1999	Antagonist	Victim
+PT_CC_TEST_445.txt	Jair Bolsonaro	158	171	Antagonist	Victim
+PT_CC_TEST_451.txt	Parlamento Europeu	22	39	Antagonist	Victim
+PT_CC_TEST_451.txt	Comissão Europeia	77	93	Antagonist	Victim
+PT_CC_TEST_451.txt	Parlamento Europeu	268	285	Antagonist	Victim
+PT_CC_TEST_451.txt	Europa	916	921	Antagonist	Victim
+PT_CC_TEST_451.txt	Parlamento Europeu	2428	2445	Antagonist	Victim
+PT_CC_TEST_451.txt	Comissão	2452	2459	Antagonist	Victim
+PT_URW_TEST_473.txt	Rússia	2017	2022	Antagonist	Victim
+PT_URW_TEST_511.txt	Rússia	253	258	Antagonist	Victim
+PT_URW_TEST_511.txt	Vladimir Putin	1493	1506	Antagonist	Victim
+PT_URW_TEST_511.txt	Ucrânia	1564	1570	Antagonist	Victim
+PT_URW_TEST_511.txt	Rússia	1590	1595	Antagonist	Victim
+PT_URW_TEST_486.txt	Leste da Europa	770	784	Antagonist	Victim
+PT_URW_TEST_486.txt	EUA	838	840	Antagonist	Victim
+PT_URW_TEST_486.txt	NATO	845	848	Antagonist	Victim
+PT_URW_TEST_486.txt	União Europeia	854	867	Antagonist	Victim
+PT_URW_TEST_486.txt	Federação Russa	2416	2430	Antagonist	Victim
+PT_URW_TEST_486.txt	República Popular da China	2436	2461	Antagonist	Victim
+PT_URW_TEST_486.txt	EUA	3173	3175	Antagonist	Victim
+PT_URW_TEST_486.txt	Japão	3213	3217	Antagonist	Victim
+PT_URW_TEST_486.txt	Austrália	3223	3231	Antagonist	Victim
+PT_URW_TEST_439.txt	Volodymyr Zelensky	340	357	Antagonist	Victim
+PT_URW_TEST_491.txt	Ocidente	128	135	Antagonist	Victim
+PT_URW_TEST_491.txt	Putin	443	447	Antagonist	Victim
+PT_URW_TEST_491.txt	Ucrânia	461	467	Antagonist	Victim
+PT_URW_TEST_491.txt	Moscovo	486	492	Antagonist	Victim
+PT_URW_TEST_491.txt	Ucrânia	1658	1664	Antagonist	Victim
+PT_URW_TEST_508.txt	Ucrânia	175	181	Antagonist	Victim
+PT_URW_TEST_508.txt	Sergei Lavov	432	443	Antagonist	Victim
+PT_URW_TEST_508.txt	Estados Unidos	1151	1164	Antagonist	Victim
+PT_URW_TEST_508.txt	NATO	1186	1189	Antagonist	Victim
+PT_URW_TEST_508.txt	Rússia	1304	1309	Antagonist	Victim
+PT_URW_TEST_508.txt	Ocidente	1430	1437	Antagonist	Victim
+PT_URW_TEST_508.txt	Zelensky	1466	1473	Antagonist	Victim
+PT_URW_TEST_508.txt	EUA	1568	1570	Antagonist	Victim
+PT_URW_TEST_508.txt	NATO	1594	1597	Antagonist	Victim
+PT_URW_TEST_508.txt	ocidente	1920	1927	Antagonist	Victim
+PT_URW_TEST_508.txt	Dmytro Kuleba	2268	2280	Antagonist	Victim
+PT_URW_TEST_508.txt	Rússia	2397	2402	Antagonist	Victim
+PT_URW_TEST_506.txt	Ucrânia	106	112	Antagonist	Victim
+PT_URW_TEST_506.txt	Governo ucraniano	383	399	Antagonist	Victim
+PT_URW_TEST_488.txt	Rússia	208	213	Antagonist	Victim
+PT_URW_TEST_488.txt	Vladimir Putin	1953	1966	Antagonist	Victim
+PT_URW_TEST_488.txt	Ucrânia	2012	2018	Antagonist	Victim
+PT_URW_TEST_488.txt	Rússia	2086	2091	Antagonist	Victim
+PT_URW_TEST_475.txt	Kiev	269	272	Antagonist	Victim
+PT_CC_TEST_532.txt	Michael Gove	2418	2429	Antagonist	Victim
+PT_CC_TEST_514.txt	Universidade de Coimbra	535	557	Antagonist	Victim
+PT_URW_TEST_504.txt	Ocidente	622	629	Antagonist	Victim
+PT_URW_TEST_504.txt	Putin	1966	1970	Antagonist	Victim
+PT_CC_TEST_513.txt	António Guterres	992	1007	Antagonist	Victim
+PT_CC_TEST_441.txt	União Europeia	60	73	Antagonist	Victim
+PT_CC_TEST_441.txt	Comissão Europeia	565	581	Antagonist	Victim
+PT_CC_TEST_441.txt	UE	2365	2366	Antagonist	Victim
+PT_URW_TEST_477.txt	Vladimir Putin	322	335	Antagonist	Victim
+PT_URW_TEST_477.txt	Rússia	892	897	Antagonist	Victim
+PT_URW_TEST_477.txt	Moscovo	1156	1162	Antagonist	Victim
+PT_URW_TEST_477.txt	Vladimir Putin	2397	2410	Antagonist	Victim
+PT_URW_TEST_477.txt	Ucrânia	2457	2463	Antagonist	Victim
+PT_URW_TEST_477.txt	Rússia	2552	2557	Antagonist	Victim
+PT_URW_TEST_485.txt	Ocidente	259	266	Antagonist	Victim
+PT_URW_TEST_485.txt	União Soviética	730	744	Antagonist	Victim
+PT_URW_TEST_485.txt	Alemanha	760	767	Antagonist	Victim
+PT_URW_TEST_485.txt	Rússia	935	940	Antagonist	Victim
+PT_URW_TEST_485.txt	União Soviética	1832	1846	Antagonist	Victim
+PT_URW_TEST_485.txt	China	2845	2849	Antagonist	Victim
+PT_URW_TEST_468.txt	NATO	260	263	Antagonist	Victim
+PT_URW_TEST_494.txt	Estados Unidos	202	215	Antagonist	Victim
+PT_URW_TEST_494.txt	Ocidente	316	323	Antagonist	Victim
+PT_URW_TEST_494.txt	Estados Unidos	542	555	Antagonist	Victim
+PT_URW_TEST_494.txt	Moscovo	760	766	Antagonist	Victim
+PT_URW_TEST_494.txt	Rússia	958	963	Antagonist	Victim
+PT_URW_TEST_494.txt	Moscovo	1148	1154	Antagonist	Victim
+PT_URW_TEST_494.txt	Pequim	1158	1163	Antagonist	Victim
+PT_URW_TEST_494.txt	EUA	1205	1207	Antagonist	Victim
+PT_URW_TEST_494.txt	Rússia	1270	1275	Antagonist	Victim
+PT_URW_TEST_494.txt	Organização do Tratado do Atlântico Norte	1313	1353	Antagonist	Victim
+PT_URW_TEST_494.txt	Shoigu	2150	2155	Antagonist	Victim
+PT_URW_TEST_502.txt	Rússia	110	115	Antagonist	Victim
+PT_URW_TEST_502.txt	Ucrânia	645	651	Antagonist	Victim
+PT_URW_TEST_502.txt	Rússia	1391	1396	Antagonist	Victim
+PT_URW_TEST_502.txt	Rússia	1592	1597	Antagonist	Victim
+PT_URW_TEST_502.txt	Forças Armadas da Ucrânia	1768	1792	Antagonist	Victim
+PT_URW_TEST_502.txt	Ucrânia	1825	1831	Antagonist	Victim
+PT_URW_TEST_502.txt	Federação da Rússia	2226	2244	Antagonist	Victim
+PT_URW_TEST_502.txt	Kyiv	2265	2268	Antagonist	Victim
+PT_URW_TEST_502.txt	Ucrânia	2488	2494	Antagonist	Victim
+PT_URW_TEST_502.txt	Ucrânia	2602	2608	Antagonist	Victim
+PT_URW_TEST_502.txt	Ocidente	2780	2787	Antagonist	Victim
+PT_URW_TEST_502.txt	Rússia	2827	2832	Antagonist	Victim
+PT_URW_TEST_483.txt	NATO	244	247	Antagonist	Victim
+PT_URW_TEST_483.txt	UE	1551	1552	Antagonist	Victim
+PT_URW_TEST_496.txt	Ocidente	194	201	Antagonist	Victim
+PT_URW_TEST_496.txt	Estados Unidos	365	378	Antagonist	Victim
+PT_URW_TEST_496.txt	Reino Unido	381	391	Antagonist	Victim
+PT_URW_TEST_496.txt	Canadá	394	399	Antagonist	Victim
+PT_URW_TEST_496.txt	Alemanha	402	409	Antagonist	Victim
+PT_URW_TEST_496.txt	França	412	417	Antagonist	Victim
+PT_URW_TEST_496.txt	Polónia	420	426	Antagonist	Victim
+PT_URW_TEST_496.txt	Áustria	429	435	Antagonist	Victim
+PT_URW_TEST_496.txt	Austrália	438	446	Antagonist	Victim
+PT_URW_TEST_496.txt	Bélgica	449	455	Antagonist	Victim
+PT_URW_TEST_496.txt	Bulgária	458	465	Antagonist	Victim
+PT_URW_TEST_496.txt	Grécia	468	473	Antagonist	Victim
+PT_URW_TEST_496.txt	Dinamarca	476	484	Antagonist	Victim
+PT_URW_TEST_496.txt	Espanha	487	493	Antagonist	Victim
+PT_URW_TEST_496.txt	Luxemburgo	496	505	Antagonist	Victim
+PT_URW_TEST_496.txt	Países Baixos	508	520	Antagonist	Victim
+PT_URW_TEST_496.txt	Noruega	523	529	Antagonist	Victim
+PT_URW_TEST_496.txt	Portugal	532	539	Antagonist	Victim
+PT_URW_TEST_496.txt	Roménia	542	548	Antagonist	Victim
+PT_URW_TEST_496.txt	Macedónia do Norte	551	568	Antagonist	Victim
+PT_URW_TEST_496.txt	Eslováquia	571	580	Antagonist	Victim
+PT_URW_TEST_496.txt	Eslovénia	583	591	Antagonist	Victim
+PT_URW_TEST_496.txt	Turquia	594	600	Antagonist	Victim
+PT_URW_TEST_496.txt	Finlândia	603	611	Antagonist	Victim
+PT_URW_TEST_496.txt	República Checa	614	628	Antagonist	Victim
+PT_URW_TEST_496.txt	Suécia	631	636	Antagonist	Victim
+PT_URW_TEST_496.txt	Donbass	813	819	Antagonist	Victim
+PT_URW_TEST_496.txt	Ocidente	1052	1059	Antagonist	Victim
+PT_URW_TEST_496.txt	Vladimir Putin	2119	2132	Antagonist	Victim
+PT_URW_TEST_496.txt	Ucrânia	2190	2196	Antagonist	Victim
+PT_URW_TEST_496.txt	Rússia	2216	2221	Antagonist	Victim
+PT_URW_TEST_470.txt	Ocidente	155	162	Antagonist	Victim
+PT_URW_TEST_470.txt	Rússia	182	187	Antagonist	Victim
+PT_CC_TEST_443.txt	Greta	2549	2553	Antagonist	Victim
+PT_URW_TEST_440.txt	Andrii Sybiha	1605	1617	Antagonist	Victim
+PT_CC_TEST_456.txt	Comissão Europeia	1243	1259	Antagonist	Victim
+PT_CC_TEST_456.txt	Von der Leyen	1273	1285	Antagonist	Victim
+PT_URW_TEST_479.txt	Vladimir Putin	3002	3015	Antagonist	Victim
+PT_URW_TEST_479.txt	Ucrânia	3062	3068	Antagonist	Victim
+PT_URW_TEST_479.txt	Rússia	3157	3162	Antagonist	Victim
+PT_URW_TEST_466.txt	Ucrânia	430	436	Antagonist	Victim
+PT_URW_TEST_466.txt	Ucrânia	562	568	Antagonist	Victim

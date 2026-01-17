@@ -1,0 +1,124 @@
+A5_CC_BG_10689.txt	па	107	108	Innocent	Forgotten
+A5_CC_BG_10689.txt	Китай	907	911	Protagonist	Virtuous
+A5_CC_BG_10689.txt	ЕС	4144	4145	Antagonist	Foreign Adversary
+A6_CC_BG_10457.txt	Грета Тунберг	125	137	Protagonist	Martyr
+A4_URW_BG_14024.txt	Запада	463	468	Innocent	Forgotten
+A4_URW_BG_14024.txt	Русия	1285	1289	Innocent	Forgotten
+A4_URW_BG_14024.txt	Борис Джонсън	2264	2276	Innocent	Scapegoat
+A4_URW_BG_14024.txt	БРИКС	2334	2338	Protagonist	Guardian
+A6_CC_BG_8481.txt	Ал Гор	1622	1627	Protagonist	Martyr
+A6_CC_BG_8481.txt	Джо Байдън	1630	1639	Protagonist	Underdog
+A6_CC_BG_8481.txt	Джон Кери	1642	1650	Innocent	Forgotten
+A6_CC_BG_8481.txt	Александрия Окасио-Кортес	1653	1677	Innocent	Exploited
+A6_CC_BG_8481.txt	Клаузър	4104	4110	Innocent	Scapegoat
+A8_CC_BG_10158.txt	Бил Гейтс	265	273	Protagonist	Rebel
+A4_URW_BG_14679.txt	САЩ	167	169	Innocent	Victim
+A4_URW_BG_14679.txt	Великобритания	173	186	Protagonist	Martyr
+A4_URW_BG_14679.txt	Западът	3068	3074	Innocent	Scapegoat
+A4_URW_BG_13741.txt	Володимир Зеленски	107	124	Antagonist	Traitor
+A4_URW_BG_13741.txt	Русия	318	322	Protagonist	Martyr
+A4_URW_BG_13741.txt	Украйна	1990	1996	Antagonist	Conspirator
+A4_URW_BG_13741.txt	Северна Корея	2258	2270	Protagonist	Rebel
+A4_URW_BG_2781.txt	Атлантическият алианс	576	596	Protagonist	Peacemaker
+A4_URW_BG_2781.txt	Западът	2199	2205	Antagonist	Terrorist
+A4_URW_BG_2781.txt	Западът	2825	2831	Antagonist	Instigator
+A4_URW_BG_2781.txt	Санду	2896	2900	Innocent	Scapegoat
+A4_URW_BG_14489.txt	Володимир Зеленски	2810	2827	Innocent	Forgotten
+A4_URW_BG_14721.txt	Запада	1410	1415	Antagonist	Conspirator
+A4_URW_BG_6378.txt	Байдън	515	520	Innocent	Victim
+A4_URW_BG_6378.txt	Европа	828	833	Innocent	Victim
+A4_URW_BG_6378.txt	Зеленски	2817	2824	Innocent	Exploited
+A4_URW_BG_14164.txt	Володимир Зеленски	249	266	Innocent	Forgotten
+A4_URW_BG_4398.txt	Западът	148	154	Protagonist	Virtuous
+A4_URW_BG_15605.txt	Украйна (ВСУ	227	238	Protagonist	Peacemaker
+A4_URW_BG_15605.txt	Зеленски	395	402	Protagonist	Martyr
+A4_URW_BG_14770.txt	Доналд Тръмп	94	105	Protagonist	Rebel
+A4_URW_BG_14770.txt	Тръмп	1200	1204	Antagonist	Corrupt
+A8_CC_BG_9241.txt	ЕС	3034	3035	Innocent	Victim
+A5_CC_BG_10852.txt	Райън Майерс	1344	1355	Protagonist	Peacemaker
+A5_CC_BG_10852.txt	EPA	1823	1825	Antagonist	Foreign Adversary
+A5_CC_BG_10852.txt	Тръмп	3065	3069	Innocent	Victim
+A4_URW_BG_14055.txt	Русия	250	254	Innocent	Forgotten
+A4_URW_BG_14055.txt	Китай	258	262	Innocent	Exploited
+A4_URW_BG_15410.txt	Тръмп	496	500	Innocent	Exploited
+A4_URW_BG_15410.txt	Турция	792	797	Protagonist	Rebel
+A4_URW_BG_15410.txt	Англосаксонците	1420	1434	Antagonist	Traitor
+A4_URW_BG_15410.txt	Турция	1762	1767	Innocent	Exploited
+A4_URW_BG_15410.txt	Владимир Путин	2767	2780	Innocent	Victim
+A4_URW_BG_4267.txt	НАТО	863	866	Protagonist	Martyr
+A4_URW_BG_5559.txt	Владимир Путин	146	159	Protagonist	Peacemaker
+A4_URW_BG_4639.txt	Доналд Тръмп	105	116	Antagonist	Traitor
+A4_URW_BG_4639.txt	Русия	823	827	Protagonist	Martyr
+A4_URW_BG_4639.txt	Путин	915	919	Innocent	Victim
+A4_URW_BG_4639.txt	Западът	1612	1618	Protagonist	Virtuous
+A4_URW_BG_4639.txt	САЩ	3335	3337	Antagonist	Saboteur
+A4_URW_BG_14866.txt	Байдън	332	337	Innocent	Scapegoat
+A4_URW_BG_14866.txt	Камала Харис	346	357	Protagonist	Peacemaker
+A8_CC_BG_9066.txt	Русия	221	225	Protagonist	Martyr
+A8_CC_BG_9475.txt	Джеф Безос	133	142	Innocent	Victim
+A4_URW_BG_15564.txt	Въоръжените сили (ВСУ	325	345	Innocent	Scapegoat
+A4_URW_BG_15564.txt	САЩ	656	658	Innocent	Scapegoat
+A4_URW_BG_13742.txt	САЩ	549	551	Antagonist	Foreign Adversary
+A4_URW_BG_13742.txt	Доналд Тръмп	1001	1012	Protagonist	Underdog
+A4_URW_BG_13742.txt	Джо Байдън	1095	1104	Antagonist	Conspirator
+A4_URW_BG_14793.txt	Тръмп	619	623	Protagonist	Guardian
+A4_URW_BG_14793.txt	Западът	994	1000	Protagonist	Virtuous
+A4_URW_BG_14793.txt	Запад	2349	2353	Protagonist	Virtuous
+A4_URW_BG_14793.txt	Русия	2382	2386	Antagonist	Terrorist
+A4_URW_BG_15017.txt	Володимир Зеленски	1377	1394	Protagonist	Rebel
+A4_URW_BG_4492.txt	Зеленски	3311	3318	Antagonist	Terrorist
+A4_URW_BG_4492.txt	Владимир Путин	3561	3574	Antagonist	Incompetent
+A5_CC_BG_8521.txt	Китай	2790	2794	Antagonist	Incompetent
+A5_CC_BG_8521.txt	Русия	2797	2801	Protagonist	Virtuous
+A5_CC_BG_8521.txt	САЩ	2805	2807	Innocent	Forgotten
+A8_CC_BG_8880.txt	Exxon Mobil	709	719	Innocent	Victim
+A8_CC_BG_8880.txt	Shell	722	726	Innocent	Victim
+A8_CC_BG_8880.txt	BP	729	730	Protagonist	Peacemaker
+A8_CC_BG_8880.txt	ConocoPhillips	733	746	Antagonist	Tyrant
+A8_CC_BG_8880.txt	Chevron	750	756	Antagonist	Instigator
+A4_URW_BG_14090.txt	Зеленски	2078	2085	Innocent	Victim
+A8_CC_BG_9422.txt	Питър Уедемс	298	309	Innocent	Exploited
+A8_CC_BG_9112.txt	Европа	1567	1572	Innocent	Forgotten
+A8_CC_BG_9312.txt	Световния икономически форум	1374	1401	Innocent	Victim
+A4_URW_BG_3138.txt	Брюксел	344	350	Innocent	Exploited
+A4_URW_BG_3138.txt	Вашингтон	354	362	Protagonist	Peacemaker
+A4_URW_BG_3138.txt	Румен Радев	483	493	Protagonist	Underdog
+A8_CC_BG_10002.txt	България	1664	1671	Innocent	Forgotten
+A8_CC_BG_10002.txt	Брюксел	1765	1771	Innocent	Victim
+A5_CC_BG_8629.txt	Кристиан Линднер	113	128	Antagonist	Instigator
+A4_URW_BG_14508.txt	Запада	438	443	Protagonist	Peacemaker
+A4_URW_BG_14508.txt	Владимир Путин	726	739	Antagonist	Foreign Adversary
+A4_URW_BG_14508.txt	Владимир Зеленски	1048	1064	Protagonist	Martyr
+A4_URW_BG_14508.txt	Анкара	1401	1406	Innocent	Forgotten
+A4_URW_BG_14508.txt	Турция	1888	1893	Protagonist	Virtuous
+A4_URW_BG_14508.txt	Владимир Зеленски	2203	2219	Antagonist	Conspirator
+A4_URW_BG_14508.txt	Русия	2649	2653	Innocent	Exploited
+A4_URW_BG_14974.txt	Вашингтон	618	626	Protagonist	Virtuous
+A4_URW_BG_14974.txt	ЕС	642	643	Antagonist	Incompetent
+A4_URW_BG_15623.txt	Володимир Зеленски	503	520	Protagonist	Peacemaker
+A4_URW_BG_15004.txt	Тръмп	984	988	Innocent	Scapegoat
+A4_URW_BG_15004.txt	Украйна	2471	2477	Protagonist	Underdog
+A4_URW_BG_15322.txt	Даниел Мартиндейл	164	180	Innocent	Exploited
+A4_URW_BG_15666.txt	Западът	153	159	Innocent	Victim
+A4_URW_BG_15666.txt	ВСУ	352	354	Antagonist	Deceiver
+A4_URW_BG_15666.txt	Зеленски	1727	1734	Innocent	Victim
+A4_URW_BG_15196.txt	Европа	129	134	Antagonist	Incompetent
+A4_URW_BG_5187.txt	Съединените щати	3026	3041	Antagonist	Conspirator
+A4_URW_BG_5187.txt	НАТО	3069	3072	Protagonist	Martyr
+A4_URW_BG_14786.txt	Москва	108	113	Protagonist	Peacemaker
+A4_URW_BG_14786.txt	Украйна	188	194	Protagonist	Underdog
+A4_URW_BG_13718.txt	Руската федерация	2737	2753	Innocent	Exploited
+A4_URW_BG_4123.txt	Западът	580	586	Innocent	Exploited
+A4_URW_BG_4123.txt	Украйна	2625	2631	Protagonist	Guardian
+A4_URW_BG_4123.txt	Западът	2798	2804	Innocent	Forgotten
+A4_URW_BG_4123.txt	Китай	3194	3198	Protagonist	Guardian
+A8_CC_BG_9189.txt	Юен Куок-юн	175	185	Protagonist	Peacemaker
+A4_URW_BG_14028.txt	Русия	869	873	Protagonist	Underdog
+A4_URW_BG_14028.txt	Доналд Тръмп	3226	3237	Protagonist	Peacemaker
+A4_URW_BG_14651.txt	САЩ	73	75	Innocent	Scapegoat
+A4_URW_BG_14651.txt	САЩ	2642	2644	Protagonist	Underdog
+A5_CC_BG_11003.txt	Европейската комисия	68	87	Protagonist	Virtuous
+A5_CC_BG_11003.txt	Урсула фон дер Лайен	359	378	Innocent	Scapegoat
+A5_CC_BG_11003.txt	Източна Европа	474	487	Protagonist	Rebel
+A5_CC_BG_11003.txt	Полша	527	531	Antagonist	Foreign Adversary
+A5_CC_BG_11003.txt	Унгария	535	541	Protagonist	Guardian

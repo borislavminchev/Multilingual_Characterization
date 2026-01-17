@@ -1,0 +1,297 @@
+PT_URW_TEST_489.txt	Rússia	246	251	Innocent	Forgotten
+PT_URW_TEST_489.txt	Vladimir Putin	1298	1311	Protagonist	Virtuous
+PT_URW_TEST_489.txt	Ucrânia	1369	1375	Antagonist	Foreign Adversary
+PT_URW_TEST_489.txt	Rússia	1395	1400	Protagonist	Martyr
+PT_URW_TEST_500.txt	Volodymyr Zelensky	1305	1322	Innocent	Forgotten
+PT_URW_TEST_500.txt	Kiev	1380	1383	Innocent	Forgotten
+PT_URW_TEST_500.txt	Zelensky	1535	1542	Innocent	Scapegoat
+PT_URW_TEST_500.txt	Zelensky	1729	1736	Protagonist	Guardian
+PT_URW_TEST_500.txt	Ucrânia	1998	2004	Protagonist	Martyr
+PT_URW_TEST_500.txt	Moscovo	2093	2099	Protagonist	Underdog
+PT_URW_TEST_500.txt	Kiev	2272	2275	Innocent	Forgotten
+PT_URW_TEST_497.txt	Rússia	1457	1462	Innocent	Exploited
+PT_CC_TEST_533.txt	Obama	1205	1209	Innocent	Scapegoat
+PT_URW_TEST_480.txt	Rússia	1313	1318	Protagonist	Rebel
+PT_URW_TEST_480.txt	Putin	2600	2604	Innocent	Victim
+PT_URW_TEST_480.txt	Ucrânia	2649	2655	Protagonist	Martyr
+PT_CC_TEST_444.txt	Volodymyr Zelensky	288	305	Innocent	Scapegoat
+PT_CC_TEST_444.txt	Rússia	1216	1221	Antagonist	Traitor
+PT_URW_TEST_472.txt	Vladimir Zelensky	1065	1081	Protagonist	Martyr
+PT_URW_TEST_472.txt	Vladimir Putin	2743	2756	Antagonist	Conspirator
+PT_URW_TEST_472.txt	Ucrânia	2802	2808	Protagonist	Rebel
+PT_URW_TEST_472.txt	Rússia	2876	2881	Protagonist	Peacemaker
+PT_CC_TEST_436.txt	Greta Thunberg	99	112	Antagonist	Terrorist
+PT_URW_TEST_509.txt	Ucrânia	192	198	Antagonist	Instigator
+PT_URW_TEST_509.txt	Andrei Turchak	430	443	Innocent	Scapegoat
+PT_URW_TEST_509.txt	Rússia	572	577	Innocent	Forgotten
+PT_URW_TEST_509.txt	Rússia	1796	1801	Antagonist	Conspirator
+PT_CC_TEST_454.txt	António Guterres	122	137	Innocent	Victim
+PT_CC_TEST_454.txt	Guterres	1659	1666	Innocent	Victim
+PT_URW_TEST_464.txt	Rússia	729	734	Innocent	Exploited
+PT_URW_TEST_464.txt	Vladimir Zelensky	783	799	Innocent	Forgotten
+PT_CC_TEST_525.txt	Al Gore	648	654	Protagonist	Virtuous
+PT_URW_TEST_490.txt	Rússia	295	300	Protagonist	Peacemaker
+PT_URW_TEST_490.txt	Kiev	359	362	Protagonist	Martyr
+PT_URW_TEST_490.txt	Igor Konashenkov	621	636	Protagonist	Rebel
+PT_URW_TEST_490.txt	Federação Russa	901	915	Antagonist	Corrupt
+PT_URW_TEST_490.txt	Ocidente	947	954	Innocent	Victim
+PT_URW_TEST_490.txt	Vladimir Putin	1399	1412	Protagonist	Peacemaker
+PT_URW_TEST_490.txt	Ucrânia	1458	1464	Antagonist	Foreign Adversary
+PT_URW_TEST_490.txt	Rússia	1532	1537	Innocent	Victim
+PT_URW_TEST_474.txt	União Europeia	497	510	Innocent	Forgotten
+PT_URW_TEST_474.txt	Ocidente	624	631	Innocent	Exploited
+PT_URW_TEST_474.txt	Rússia	1543	1548	Innocent	Exploited
+PT_URW_TEST_474.txt	Moscovo	1594	1600	Protagonist	Rebel
+PT_URW_TEST_474.txt	Ocidente	2014	2021	Antagonist	Traitor
+PT_URW_TEST_474.txt	Estados Unidos	2425	2438	Innocent	Exploited
+PT_URW_TEST_474.txt	União Europeia	2463	2476	Innocent	Victim
+PT_URW_TEST_474.txt	Washington	2514	2523	Protagonist	Martyr
+PT_URW_TEST_474.txt	Bruxelas	2527	2534	Protagonist	Peacemaker
+PT_URW_TEST_474.txt	Kiev	2952	2955	Antagonist	Traitor
+PT_URW_TEST_499.txt	EUA	240	242	Protagonist	Martyr
+PT_URW_TEST_499.txt	EUA	332	334	Innocent	Victim
+PT_URW_TEST_499.txt	Washington	707	716	Protagonist	Virtuous
+PT_URW_TEST_499.txt	Kiev	917	920	Antagonist	Saboteur
+PT_URW_TEST_499.txt	Estados Unidos	1052	1065	Innocent	Scapegoat
+PT_URW_TEST_499.txt	Federação Russa	1435	1449	Protagonist	Peacemaker
+PT_URW_TEST_499.txt	Ucrânia	1486	1492	Protagonist	Martyr
+PT_URW_TEST_510.txt	Ucrânia	432	438	Innocent	Victim
+PT_URW_TEST_510.txt	Rússia	1219	1224	Innocent	Scapegoat
+PT_URW_TEST_510.txt	Banco Central	1885	1897	Innocent	Scapegoat
+PT_URW_TEST_469.txt	RTP	1970	1972	Antagonist	Foreign Adversary
+PT_URW_TEST_469.txt	Público	1975	1981	Protagonist	Underdog
+PT_URW_TEST_469.txt	Expresso	1984	1991	Antagonist	Conspirator
+PT_URW_TEST_469.txt	Observador	1995	2004	Protagonist	Guardian
+PT_URW_TEST_469.txt	União Europeia	3055	3068	Protagonist	Virtuous
+PT_URW_TEST_462.txt	Kiev	188	191	Protagonist	Virtuous
+PT_URW_TEST_462.txt	Vassily Nebenzia	525	540	Antagonist	Terrorist
+PT_URW_TEST_462.txt	Ucrânia	631	637	Protagonist	Rebel
+PT_URW_TEST_462.txt	Kiev	973	976	Antagonist	Terrorist
+PT_URW_TEST_462.txt	Kiev	1157	1160	Antagonist	Incompetent
+PT_URW_TEST_462.txt	Ocidente	2797	2804	Antagonist	Incompetent
+PT_URW_TEST_492.txt	Ocidente	684	691	Protagonist	Virtuous
+PT_URW_TEST_492.txt	Putin	941	945	Innocent	Forgotten
+PT_URW_TEST_492.txt	Vladimir Putin	1302	1315	Innocent	Victim
+PT_URW_TEST_492.txt	Ucrânia	1355	1361	Innocent	Victim
+PT_URW_TEST_492.txt	Rússia	1381	1386	Protagonist	Peacemaker
+PT_URW_TEST_507.txt	Ucrânia	185	191	Antagonist	Tyrant
+PT_URW_TEST_507.txt	Moscovo	281	287	Antagonist	Instigator
+PT_URW_TEST_507.txt	Kiev	668	671	Innocent	Victim
+PT_URW_TEST_484.txt	Rússia	363	368	Innocent	Exploited
+PT_URW_TEST_484.txt	Estados Unidos	483	496	Innocent	Forgotten
+PT_URW_TEST_484.txt	Kremlin	1580	1586	Innocent	Victim
+PT_CC_TEST_512.txt	Climáximo»	310	319	Innocent	Exploited
+PT_CC_TEST_512.txt	RTP	501	503	Protagonist	Peacemaker
+PT_URW_TEST_476.txt	Kiev	833	836	Protagonist	Underdog
+PT_URW_TEST_476.txt	Rússia	1678	1683	Innocent	Forgotten
+PT_URW_TEST_476.txt	Ucrânia	2140	2146	Innocent	Victim
+PT_URW_TEST_476.txt	Ocidente	2291	2298	Antagonist	Instigator
+PT_URW_TEST_493.txt	Kremlin	579	585	Protagonist	Peacemaker
+PT_URW_TEST_493.txt	Governos ocidentais	1195	1213	Antagonist	Foreign Adversary
+PT_URW_TEST_493.txt	Rússia	1326	1331	Protagonist	Martyr
+PT_URW_TEST_493.txt	Ucrânia	1846	1852	Innocent	Forgotten
+PT_URW_TEST_493.txt	Vladimir Putin	2447	2460	Protagonist	Virtuous
+PT_URW_TEST_493.txt	Kremlin	2688	2694	Antagonist	Conspirator
+PT_URW_TEST_467.txt	NATO	2172	2175	Innocent	Exploited
+PT_URW_TEST_467.txt	Estados Unidos	2182	2195	Protagonist	Virtuous
+PT_CC_TEST_449.txt	Climáximo	151	159	Antagonist	Incompetent
+PT_CC_TEST_449.txt	Camargo	636	642	Protagonist	Peacemaker
+PT_CC_TEST_449.txt	João Camargo	937	948	Innocent	Scapegoat
+PT_CC_TEST_449.txt	Joana Louçã	1371	1381	Protagonist	Underdog
+PT_URW_TEST_465.txt	Agência Internacional de Energia Atómica	233	272	Innocent	Exploited
+PT_URW_TEST_478.txt	União Europeia	174	187	Innocent	Victim
+PT_URW_TEST_478.txt	Rússia	1334	1339	Antagonist	Deceiver
+PT_URW_TEST_478.txt	Moscovo	1385	1391	Innocent	Victim
+PT_URW_TEST_478.txt	Ocidente	1809	1816	Antagonist	Incompetent
+PT_URW_TEST_478.txt	Estados Unidos	2010	2023	Antagonist	Conspirator
+PT_URW_TEST_478.txt	União Europeia	2048	2061	Protagonist	Martyr
+PT_URW_TEST_478.txt	Washington	2486	2495	Protagonist	Peacemaker
+PT_URW_TEST_478.txt	Bruxelas	2499	2506	Protagonist	Underdog
+PT_URW_TEST_478.txt	Kiev	2881	2884	Innocent	Exploited
+PT_URW_TEST_495.txt	UE	1458	1459	Innocent	Exploited
+PT_URW_TEST_495.txt	Ucrânia	1506	1512	Protagonist	Guardian
+PT_URW_TEST_495.txt	Rússia	2250	2255	Innocent	Forgotten
+PT_URW_TEST_495.txt	Moscovo	2607	2613	Protagonist	Guardian
+PT_CC_TEST_455.txt	António Guterres	499	514	Protagonist	Peacemaker
+PT_URW_TEST_482.txt	Moscovo	698	704	Protagonist	Underdog
+PT_URW_TEST_482.txt	Rússia	1121	1126	Protagonist	Peacemaker
+PT_URW_TEST_482.txt	Kremlin	1890	1896	Innocent	Scapegoat
+PT_URW_TEST_482.txt	Dmitri Peskov	1899	1911	Protagonist	Underdog
+PT_CC_TEST_442.txt	António Costa e Silva	3911	3931	Protagonist	Virtuous
+PT_CC_TEST_438.txt	Google	215	220	Innocent	Scapegoat
+PT_CC_TEST_438.txt	Google	880	885	Protagonist	Rebel
+PT_URW_TEST_503.txt	Kremlin	220	226	Antagonist	Foreign Adversary
+PT_URW_TEST_503.txt	Pequim	505	510	Protagonist	Guardian
+PT_URW_TEST_503.txt	Ucrânia	836	842	Innocent	Scapegoat
+PT_URW_TEST_503.txt	China	1031	1035	Antagonist	Saboteur
+PT_URW_TEST_503.txt	Jen Psaki	1232	1240	Antagonist	Corrupt
+PT_CC_TEST_523.txt	Mme. Sandrine Dixson-Declève	991	1018	Innocent	Forgotten
+PT_CC_TEST_523.txt	Clube de Roma	1051	1063	Innocent	Forgotten
+PT_CC_TEST_523.txt	Clube de Roma	1782	1794	Protagonist	Rebel
+PT_CC_TEST_453.txt	Exxon Mobil	757	767	Innocent	Victim
+PT_CC_TEST_437.txt	Instituto George Marshall	1904	1928	Protagonist	Martyr
+PT_URW_TEST_471.txt	Moscovo	656	662	Protagonist	Martyr
+PT_URW_TEST_471.txt	Canadá	683	688	Innocent	Scapegoat
+PT_URW_TEST_471.txt	Ucrânia	906	912	Protagonist	Rebel
+PT_CC_TEST_526.txt	Bjorn Lomborg	895	907	Protagonist	Peacemaker
+PT_CC_TEST_526.txt	Times	2239	2243	Antagonist	Foreign Adversary
+PT_CC_TEST_526.txt	Times	2372	2376	Protagonist	Rebel
+PT_URW_TEST_501.txt	Estados Unidos	139	152	Innocent	Forgotten
+PT_URW_TEST_501.txt	Washington	307	316	Protagonist	Virtuous
+PT_URW_TEST_501.txt	Rússia	363	368	Innocent	Forgotten
+PT_URW_TEST_501.txt	Joe Biden	1040	1048	Protagonist	Martyr
+PT_URW_TEST_501.txt	Ocidente	1796	1803	Protagonist	Rebel
+PT_URW_TEST_501.txt	Estados Unidos	1850	1863	Antagonist	Corrupt
+PT_URW_TEST_501.txt	Donetsk	2313	2319	Protagonist	Rebel
+PT_URW_TEST_501.txt	Lugansk	2323	2329	Protagonist	Martyr
+PT_URW_TEST_501.txt	Kyiv	2355	2358	Antagonist	Instigator
+PT_URW_TEST_501.txt	Ocidente	2382	2389	Antagonist	Traitor
+PT_URW_TEST_501.txt	Rússia	2467	2472	Antagonist	Traitor
+PT_URW_TEST_501.txt	Vladimir Putin	3041	3054	Antagonist	Bigot
+PT_URW_TEST_501.txt	Ucrânia	3112	3118	Innocent	Scapegoat
+PT_URW_TEST_501.txt	Rússia	3138	3143	Protagonist	Martyr
+PT_URW_TEST_481.txt	Rússia	292	297	Antagonist	Foreign Adversary
+PT_URW_TEST_481.txt	Volodymyr Zelensky	959	976	Protagonist	Underdog
+PT_URW_TEST_498.txt	Vladimir Putin	100	113	Innocent	Forgotten
+PT_URW_TEST_498.txt	Moscovo	479	485	Innocent	Victim
+PT_URW_TEST_498.txt	Kyiv	541	544	Protagonist	Guardian
+PT_URW_TEST_498.txt	Putin	803	807	Innocent	Scapegoat
+PT_URW_TEST_498.txt	Putin	988	992	Innocent	Exploited
+PT_URW_TEST_498.txt	Rússia	1538	1543	Protagonist	Underdog
+PT_URW_TEST_498.txt	Vladimir Putin	1915	1928	Protagonist	Martyr
+PT_URW_TEST_498.txt	Ucrânia	1968	1974	Protagonist	Underdog
+PT_URW_TEST_498.txt	Rússia	1994	1999	Protagonist	Virtuous
+PT_CC_TEST_445.txt	Jair Bolsonaro	158	171	Protagonist	Rebel
+PT_CC_TEST_451.txt	Parlamento Europeu	22	39	Protagonist	Underdog
+PT_CC_TEST_451.txt	Comissão Europeia	77	93	Protagonist	Underdog
+PT_CC_TEST_451.txt	Parlamento Europeu	268	285	Innocent	Forgotten
+PT_CC_TEST_451.txt	Europa	916	921	Innocent	Forgotten
+PT_CC_TEST_451.txt	Parlamento Europeu	2428	2445	Antagonist	Deceiver
+PT_CC_TEST_451.txt	Comissão	2452	2459	Innocent	Victim
+PT_URW_TEST_473.txt	Rússia	2017	2022	Antagonist	Foreign Adversary
+PT_URW_TEST_511.txt	Rússia	253	258	Innocent	Victim
+PT_URW_TEST_511.txt	Vladimir Putin	1493	1506	Protagonist	Peacemaker
+PT_URW_TEST_511.txt	Ucrânia	1564	1570	Antagonist	Tyrant
+PT_URW_TEST_511.txt	Rússia	1590	1595	Innocent	Victim
+PT_URW_TEST_486.txt	Leste da Europa	770	784	Antagonist	Spy
+PT_URW_TEST_486.txt	EUA	838	840	Protagonist	Guardian
+PT_URW_TEST_486.txt	NATO	845	848	Antagonist	Terrorist
+PT_URW_TEST_486.txt	União Europeia	854	867	Innocent	Forgotten
+PT_URW_TEST_486.txt	Federação Russa	2416	2430	Protagonist	Underdog
+PT_URW_TEST_486.txt	República Popular da China	2436	2461	Protagonist	Underdog
+PT_URW_TEST_486.txt	EUA	3173	3175	Antagonist	Tyrant
+PT_URW_TEST_486.txt	Japão	3213	3217	Antagonist	Conspirator
+PT_URW_TEST_486.txt	Austrália	3223	3231	Protagonist	Peacemaker
+PT_URW_TEST_439.txt	Volodymyr Zelensky	340	357	Antagonist	Tyrant
+PT_URW_TEST_491.txt	Ocidente	128	135	Antagonist	Incompetent
+PT_URW_TEST_491.txt	Putin	443	447	Innocent	Victim
+PT_URW_TEST_491.txt	Ucrânia	461	467	Innocent	Forgotten
+PT_URW_TEST_491.txt	Moscovo	486	492	Innocent	Victim
+PT_URW_TEST_491.txt	Ucrânia	1658	1664	Innocent	Forgotten
+PT_URW_TEST_508.txt	Ucrânia	175	181	Protagonist	Peacemaker
+PT_URW_TEST_508.txt	Sergei Lavov	432	443	Protagonist	Guardian
+PT_URW_TEST_508.txt	Estados Unidos	1151	1164	Innocent	Exploited
+PT_URW_TEST_508.txt	NATO	1186	1189	Antagonist	Traitor
+PT_URW_TEST_508.txt	Rússia	1304	1309	Innocent	Exploited
+PT_URW_TEST_508.txt	Ocidente	1430	1437	Innocent	Victim
+PT_URW_TEST_508.txt	Zelensky	1466	1473	Protagonist	Virtuous
+PT_URW_TEST_508.txt	EUA	1568	1570	Innocent	Victim
+PT_URW_TEST_508.txt	NATO	1594	1597	Innocent	Scapegoat
+PT_URW_TEST_508.txt	ocidente	1920	1927	Antagonist	Instigator
+PT_URW_TEST_508.txt	Dmytro Kuleba	2268	2280	Protagonist	Virtuous
+PT_URW_TEST_508.txt	Rússia	2397	2402	Antagonist	Traitor
+PT_URW_TEST_506.txt	Ucrânia	106	112	Protagonist	Guardian
+PT_URW_TEST_506.txt	Governo ucraniano	383	399	Antagonist	Tyrant
+PT_URW_TEST_488.txt	Rússia	208	213	Innocent	Victim
+PT_URW_TEST_488.txt	Vladimir Putin	1953	1966	Protagonist	Virtuous
+PT_URW_TEST_488.txt	Ucrânia	2012	2018	Antagonist	Incompetent
+PT_URW_TEST_488.txt	Rússia	2086	2091	Innocent	Scapegoat
+PT_URW_TEST_475.txt	Kiev	269	272	Innocent	Forgotten
+PT_CC_TEST_532.txt	Michael Gove	2418	2429	Protagonist	Guardian
+PT_CC_TEST_514.txt	Universidade de Coimbra	535	557	Innocent	Exploited
+PT_URW_TEST_504.txt	Ocidente	622	629	Innocent	Forgotten
+PT_URW_TEST_504.txt	Putin	1966	1970	Antagonist	Terrorist
+PT_CC_TEST_513.txt	António Guterres	992	1007	Innocent	Exploited
+PT_CC_TEST_441.txt	União Europeia	60	73	Antagonist	Tyrant
+PT_CC_TEST_441.txt	Comissão Europeia	565	581	Protagonist	Peacemaker
+PT_CC_TEST_441.txt	UE	2365	2366	Antagonist	Instigator
+PT_URW_TEST_477.txt	Vladimir Putin	322	335	Antagonist	Foreign Adversary
+PT_URW_TEST_477.txt	Rússia	892	897	Innocent	Exploited
+PT_URW_TEST_477.txt	Moscovo	1156	1162	Innocent	Forgotten
+PT_URW_TEST_477.txt	Vladimir Putin	2397	2410	Antagonist	Incompetent
+PT_URW_TEST_477.txt	Ucrânia	2457	2463	Antagonist	Terrorist
+PT_URW_TEST_477.txt	Rússia	2552	2557	Innocent	Exploited
+PT_URW_TEST_485.txt	Ocidente	259	266	Protagonist	Martyr
+PT_URW_TEST_485.txt	União Soviética	730	744	Protagonist	Rebel
+PT_URW_TEST_485.txt	Alemanha	760	767	Protagonist	Martyr
+PT_URW_TEST_485.txt	Rússia	935	940	Innocent	Victim
+PT_URW_TEST_485.txt	União Soviética	1832	1846	Antagonist	Deceiver
+PT_URW_TEST_485.txt	China	2845	2849	Innocent	Exploited
+PT_URW_TEST_468.txt	NATO	260	263	Antagonist	Tyrant
+PT_URW_TEST_494.txt	Estados Unidos	202	215	Innocent	Forgotten
+PT_URW_TEST_494.txt	Ocidente	316	323	Antagonist	Instigator
+PT_URW_TEST_494.txt	Estados Unidos	542	555	Antagonist	Foreign Adversary
+PT_URW_TEST_494.txt	Moscovo	760	766	Protagonist	Rebel
+PT_URW_TEST_494.txt	Rússia	958	963	Antagonist	Traitor
+PT_URW_TEST_494.txt	Moscovo	1148	1154	Protagonist	Martyr
+PT_URW_TEST_494.txt	Pequim	1158	1163	Protagonist	Virtuous
+PT_URW_TEST_494.txt	EUA	1205	1207	Protagonist	Rebel
+PT_URW_TEST_494.txt	Rússia	1270	1275	Antagonist	Traitor
+PT_URW_TEST_494.txt	Organização do Tratado do Atlântico Norte	1313	1353	Protagonist	Peacemaker
+PT_URW_TEST_494.txt	Shoigu	2150	2155	Antagonist	Deceiver
+PT_URW_TEST_502.txt	Rússia	110	115	Innocent	Scapegoat
+PT_URW_TEST_502.txt	Ucrânia	645	651	Innocent	Victim
+PT_URW_TEST_502.txt	Rússia	1391	1396	Protagonist	Guardian
+PT_URW_TEST_502.txt	Rússia	1592	1597	Antagonist	Tyrant
+PT_URW_TEST_502.txt	Forças Armadas da Ucrânia	1768	1792	Innocent	Victim
+PT_URW_TEST_502.txt	Ucrânia	1825	1831	Protagonist	Guardian
+PT_URW_TEST_502.txt	Federação da Rússia	2226	2244	Innocent	Scapegoat
+PT_URW_TEST_502.txt	Kyiv	2265	2268	Antagonist	Bigot
+PT_URW_TEST_502.txt	Ucrânia	2488	2494	Antagonist	Saboteur
+PT_URW_TEST_502.txt	Ucrânia	2602	2608	Innocent	Forgotten
+PT_URW_TEST_502.txt	Ocidente	2780	2787	Antagonist	Terrorist
+PT_URW_TEST_502.txt	Rússia	2827	2832	Protagonist	Peacemaker
+PT_URW_TEST_483.txt	NATO	244	247	Protagonist	Virtuous
+PT_URW_TEST_483.txt	UE	1551	1552	Antagonist	Instigator
+PT_URW_TEST_496.txt	Ocidente	194	201	Innocent	Exploited
+PT_URW_TEST_496.txt	Estados Unidos	365	378	Antagonist	Saboteur
+PT_URW_TEST_496.txt	Reino Unido	381	391	Protagonist	Virtuous
+PT_URW_TEST_496.txt	Canadá	394	399	Antagonist	Terrorist
+PT_URW_TEST_496.txt	Alemanha	402	409	Antagonist	Deceiver
+PT_URW_TEST_496.txt	França	412	417	Protagonist	Virtuous
+PT_URW_TEST_496.txt	Polónia	420	426	Antagonist	Incompetent
+PT_URW_TEST_496.txt	Áustria	429	435	Antagonist	Deceiver
+PT_URW_TEST_496.txt	Austrália	438	446	Antagonist	Spy
+PT_URW_TEST_496.txt	Bélgica	449	455	Antagonist	Bigot
+PT_URW_TEST_496.txt	Bulgária	458	465	Antagonist	Incompetent
+PT_URW_TEST_496.txt	Grécia	468	473	Protagonist	Martyr
+PT_URW_TEST_496.txt	Dinamarca	476	484	Antagonist	Deceiver
+PT_URW_TEST_496.txt	Espanha	487	493	Antagonist	Deceiver
+PT_URW_TEST_496.txt	Luxemburgo	496	505	Innocent	Exploited
+PT_URW_TEST_496.txt	Países Baixos	508	520	Innocent	Victim
+PT_URW_TEST_496.txt	Noruega	523	529	Antagonist	Incompetent
+PT_URW_TEST_496.txt	Portugal	532	539	Protagonist	Peacemaker
+PT_URW_TEST_496.txt	Roménia	542	548	Antagonist	Foreign Adversary
+PT_URW_TEST_496.txt	Macedónia do Norte	551	568	Antagonist	Terrorist
+PT_URW_TEST_496.txt	Eslováquia	571	580	Innocent	Victim
+PT_URW_TEST_496.txt	Eslovénia	583	591	Antagonist	Corrupt
+PT_URW_TEST_496.txt	Turquia	594	600	Antagonist	Deceiver
+PT_URW_TEST_496.txt	Finlândia	603	611	Protagonist	Underdog
+PT_URW_TEST_496.txt	República Checa	614	628	Antagonist	Bigot
+PT_URW_TEST_496.txt	Suécia	631	636	Protagonist	Virtuous
+PT_URW_TEST_496.txt	Donbass	813	819	Protagonist	Peacemaker
+PT_URW_TEST_496.txt	Ocidente	1052	1059	Innocent	Victim
+PT_URW_TEST_496.txt	Vladimir Putin	2119	2132	Protagonist	Martyr
+PT_URW_TEST_496.txt	Ucrânia	2190	2196	Innocent	Victim
+PT_URW_TEST_496.txt	Rússia	2216	2221	Protagonist	Martyr
+PT_URW_TEST_470.txt	Ocidente	155	162	Protagonist	Guardian
+PT_URW_TEST_470.txt	Rússia	182	187	Protagonist	Martyr
+PT_CC_TEST_443.txt	Greta	2549	2553	Antagonist	Terrorist
+PT_URW_TEST_440.txt	Andrii Sybiha	1605	1617	Protagonist	Rebel
+PT_CC_TEST_456.txt	Comissão Europeia	1243	1259	Antagonist	Deceiver
+PT_CC_TEST_456.txt	Von der Leyen	1273	1285	Innocent	Exploited
+PT_URW_TEST_479.txt	Vladimir Putin	3002	3015	Innocent	Scapegoat
+PT_URW_TEST_479.txt	Ucrânia	3062	3068	Antagonist	Saboteur
+PT_URW_TEST_479.txt	Rússia	3157	3162	Protagonist	Martyr
+PT_URW_TEST_466.txt	Ucrânia	430	436	Innocent	Forgotten
+PT_URW_TEST_466.txt	Ucrânia	562	568	Protagonist	Rebel

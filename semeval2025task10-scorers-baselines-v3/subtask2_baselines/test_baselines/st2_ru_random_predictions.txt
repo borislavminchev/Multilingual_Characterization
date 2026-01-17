@@ -1,0 +1,60 @@
+RU-URW-1207.txt	CC: Climate change is beneficial	CC: Criticism of climate policies: Climate policies are ineffective;URW: Praise of Russia: Praise of Russian military might
+RU-URW-1232.txt	URW: Blaming the war on others rather than the invader	URW: Discrediting the West, Diplomacy: West is tired of Ukraine
+RU-URW-1292.txt	URW: Discrediting the West, Diplomacy	CC: Controversy about green technologies: Renewable energy is costly
+RU-URW-1186.txt	CC: Green policies are geopolitical instruments	URW: Discrediting Ukraine: Rewriting Ukraine’s history
+RU-URW-1195.txt	Other	CC: Questioning the measurements and science: Methodologies/metrics used are unreliable/faulty;CC: Criticism of climate policies: Climate policies have negative impact on the economy
+RU-URW-1224.txt	URW: Discrediting the West, Diplomacy	URW: Praise of Russia: Praise of Russian President Vladimir Putin
+RU-URW-1216.txt	CC: Controversy about green technologies	URW: Amplifying war-related fears: Other
+RU-URW-1194.txt	CC: Hidden plots by secret schemes of powerful groups	CC: Controversy about green technologies: Other;CC: Downplaying climate change: Other
+RU-URW-1233.txt	URW: Hidden plots by secret schemes of powerful groups	CC: Criticism of institutions and authorities: Criticism of the EU;URW: Praise of Russia: Russia has international support from a number of countries and people
+RU-URW-1225.txt	URW: Blaming the war on others rather than the invader	CC: Questioning the measurements and science: Scientific community is unreliable
+RU-URW-1231.txt	URW: Negative Consequences for the West	URW: Praise of Russia: Other
+RU-URW-1185.txt	URW: Amplifying war-related fears	URW: Discrediting the West, Diplomacy: The West does not care about Ukraine, only about its interests
+RU-URW-1193.txt	CC: Climate change is beneficial	CC: Criticism of climate movement: Climate movement is corrupt
+RU-URW-1208.txt	URW: Blaming the war on others rather than the invader	URW: Praise of Russia: Praise of Russian military might
+RU-URW-1234.txt	CC: Downplaying climate change	URW: Praise of Russia: Russian invasion has strong national support
+RU-URW-1217.txt	CC: Controversy about green technologies	URW: Distrust towards Media: Other;CC: Questioning the measurements and science: Data shows no temperature increase
+RU-URW-1230.txt	URW: Discrediting the West, Diplomacy	CC: Criticism of climate policies: Climate policies are ineffective
+RU-URW-1189.txt	URW: Discrediting Ukraine	URW: Praise of Russia: Praise of Russian President Vladimir Putin
+RU-URW-1200.txt	URW: Praise of Russia	URW: Discrediting the West, Diplomacy: Other;CC: Downplaying climate change: CO2 concentrations are too small to have an impact
+RU-URW-1221.txt	CC: Criticism of climate movement	URW: Russia is the Victim: The West is russophobic;CC: Green policies are geopolitical instruments: Green activities are a form of neo-colonialism
+RU-URW-1226.txt	CC: Questioning the measurements and science	CC: Amplifying Climate Fears: Earth will be uninhabitable soon
+RU-URW-1197.txt	URW: Blaming the war on others rather than the invader	CC: Criticism of institutions and authorities: Criticism of political organizations and figures;URW: Amplifying war-related fears: Russia will also attack other countries
+RU-URW-1239.txt	URW: Discrediting Ukraine	URW: Russia is the Victim: Russia actions in Ukraine are only self-defence
+RU-URW-1209.txt	URW: Hidden plots by secret schemes of powerful groups	CC: Criticism of climate movement: Climate movement is corrupt;CC: Green policies are geopolitical instruments: Green activities are a form of neo-colonialism
+RU-URW-1227.txt	URW: Hidden plots by secret schemes of powerful groups	CC: Downplaying climate change: Human activities do not impact climate change;URW: Russia is the Victim: Russia actions in Ukraine are only self-defence
+RU-URW-1311.txt	CC: Green policies are geopolitical instruments	CC: Downplaying climate change: Human activities do not impact climate change
+RU-URW-1201.txt	CC: Climate change is beneficial	CC: Downplaying climate change: Weather suggests the trend is global cooling;URW: Discrediting the West, Diplomacy: Diplomacy does/will not work
+RU-URW-1196.txt	URW: Praise of Russia	URW: Discrediting Ukraine: Ukraine is associated with nazism
+RU-URW-1220.txt	CC: Hidden plots by secret schemes of powerful groups	CC: Downplaying climate change: Weather suggests the trend is global cooling
+RU-URW-1214.txt	URW: Discrediting Ukraine	URW: Praise of Russia: Praise of Russian President Vladimir Putin
+RU-URW-1215.txt	URW: Hidden plots by secret schemes of powerful groups	URW: Russia is the Victim: UA is anti-RU extremists
+RU-URW-1228.txt	CC: Climate change is beneficial	CC: Downplaying climate change: Climate cycles are natural;URW: Speculating war outcomes: Russian army is collapsing
+RU-URW-1202.txt	URW: Discrediting the West, Diplomacy	CC: Amplifying Climate Fears: Whatever we do it is already too late;URW: Praise of Russia: Russia is a guarantor of peace and prosperity
+RU-URW-1325.txt	CC: Criticism of institutions and authorities	URW: Amplifying war-related fears: There is a real possibility that nuclear weapons will be employed
+RU-URW-1237.txt	CC: Climate change is beneficial	CC: Criticism of climate policies: Other;URW: Overpraising the West: NATO will destroy Russia
+RU-URW-1211.txt	CC: Questioning the measurements and science	CC: Controversy about green technologies: Renewable energy is costly;CC: Amplifying Climate Fears: Whatever we do it is already too late
+RU-URW-1317.txt	Other	URW: Discrediting Ukraine: Other;CC: Downplaying climate change: Ice is not melting
+RU-URW-1199.txt	URW: Amplifying war-related fears	CC: Amplifying Climate Fears: Doomsday scenarios for humans;URW: Praise of Russia: Praise of Russian President Vladimir Putin
+RU-URW-1210.txt	CC: Controversy about green technologies	URW: Overpraising the West: NATO will destroy Russia;URW: Distrust towards Media: Ukrainian media cannot be trusted
+RU-URW-1229.txt	URW: Hidden plots by secret schemes of powerful groups	URW: Discrediting Ukraine: Discrediting Ukrainian government and officials and policies
+RU-URW-1190.txt	URW: Hidden plots by secret schemes of powerful groups	URW: Discrediting Ukraine: Discrediting Ukrainian government and officials and policies;URW: Discrediting Ukraine: Rewriting Ukraine’s history
+RU-URW-1203.txt	CC: Criticism of institutions and authorities	URW: Discrediting the West, Diplomacy: The West is weak;URW: Blaming the war on others rather than the invader: Ukraine is the aggressor
+RU-URW-1198.txt	Other	URW: Discrediting the West, Diplomacy: The EU is divided
+RU-URW-1238.txt	CC: Criticism of climate movement	CC: Green policies are geopolitical instruments: Green activities are a form of neo-colonialism
+RU-URW-1295.txt	CC: Criticism of climate policies	URW: Blaming the war on others rather than the invader: Ukraine is the aggressor
+RU-URW-1204.txt	CC: Criticism of institutions and authorities	CC: Downplaying climate change: CO2 concentrations are too small to have an impact
+RU-URW-1302.txt	URW: Overpraising the West	CC: Downplaying climate change: Temperature increase does not have significant impact
+RU-URW-1222.txt	URW: Hidden plots by secret schemes of powerful groups	CC: Downplaying climate change: CO2 concentrations are too small to have an impact
+RU-URW-1235.txt	Other	CC: Controversy about green technologies: Other
+RU-URW-1188.txt	URW: Overpraising the West	CC: Criticism of climate movement: Other;URW: Discrediting the West, Diplomacy: The West is weak
+RU-URW-1192.txt	URW: Discrediting Ukraine	CC: Climate change is beneficial: CO2 is beneficial
+RU-URW-1205.txt	CC: Climate change is beneficial	URW: Speculating war outcomes: Ukrainian army is collapsing;URW: Speculating war outcomes: Russian army is collapsing
+RU-URW-1218.txt	CC: Criticism of climate movement	URW: Discrediting Ukraine: Ukraine is a hub for criminal activities
+RU-URW-1191.txt	CC: Green policies are geopolitical instruments	URW: Praise of Russia: Other
+RU-URW-1206.txt	URW: Hidden plots by secret schemes of powerful groups	URW: Discrediting the West, Diplomacy: Other
+RU-URW-1333.txt	CC: Questioning the measurements and science	CC: Criticism of climate movement: Climate movement is corrupt
+RU-URW-1236.txt	CC: Questioning the measurements and science	CC: Downplaying climate change: Other
+RU-URW-1223.txt	CC: Amplifying Climate Fears	URW: Discrediting the West, Diplomacy: West is tired of Ukraine;URW: Discrediting Ukraine: Ukraine is a hub for criminal activities
+RU-URW-1187.txt	CC: Criticism of climate movement	CC: Criticism of institutions and authorities: Criticism of the EU
+RU-URW-1219.txt	URW: Hidden plots by secret schemes of powerful groups	URW: Discrediting Ukraine: Other

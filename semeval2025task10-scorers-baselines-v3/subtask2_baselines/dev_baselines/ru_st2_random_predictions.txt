@@ -1,0 +1,32 @@
+RU-URW-1135.txt	URW: Hidden plots by secret schemes of powerful groups	URW: Amplifying war-related fears: NATO should/will directly intervene
+RU-URW-1089.txt	URW: Speculating war outcomes	URW: Negative Consequences for the West: Sanctions imposed by Western countries will backfire
+RU-URW-1093.txt	URW: Hidden plots by secret schemes of powerful groups	URW: Amplifying war-related fears: Other
+RU-URW-1118.txt	CC: Downplaying climate change	URW: Praise of Russia: Other
+RU-URW-1101.txt	Other	CC: Controversy about green technologies: Renewable energy is unreliable
+RU-URW-1032.txt	URW: Amplifying war-related fears	URW: Praise of Russia: Praise of Russian military might;URW: Negative Consequences for the West: The conflict will increase the Ukrainian refugee flows to Europe
+RU-URW-1004.txt	URW: Russia is the Victim	CC: Criticism of climate movement: Other
+RU-URW-1127.txt	URW: Discrediting Ukraine	URW: Discrediting the West, Diplomacy: West is tired of Ukraine
+RU-URW-1069.txt	CC: Downplaying climate change	CC: Green policies are geopolitical instruments: Other
+RU-URW-1023.txt	URW: Amplifying war-related fears	URW: Blaming the war on others rather than the invader: The West are the aggressors
+RU-URW-1053.txt	CC: Criticism of climate movement	CC: Downplaying climate change: Ice is not melting
+RU-URW-1061.txt	URW: Amplifying war-related fears	URW: Praise of Russia: Praise of Russian military might
+RU-URW-1102.txt	URW: Negative Consequences for the West	URW: Amplifying war-related fears: NATO should/will directly intervene
+RU-URW-1133.txt	URW: Praise of Russia	CC: Amplifying Climate Fears: Earth will be uninhabitable soon
+RU-URW-1120.txt	URW: Amplifying war-related fears	CC: Hidden plots by secret schemes of powerful groups: Climate agenda has hidden motives
+RU-URW-1014.txt	URW: Speculating war outcomes	CC: Downplaying climate change: Humans and nature will adapt to the changes
+RU-URW-1146.txt	Other	CC: Downplaying climate change: Human activities do not impact climate change;URW: Russia is the Victim: Russia actions in Ukraine are only self-defence
+RU-URW-1171.txt	CC: Hidden plots by secret schemes of powerful groups	URW: Discrediting Ukraine: Situation in Ukraine is hopeless
+RU-URW-1090.txt	CC: Criticism of climate movement	CC: Criticism of climate movement: Ad hominem attacks on key activists;URW: Distrust towards Media: Western media is an instrument of propaganda
+RU-URW-1184.txt	URW: Praise of Russia	CC: Criticism of institutions and authorities: Criticism of international entities
+RU-URW-1073.txt	URW: Amplifying war-related fears	CC: Controversy about green technologies: Renewable energy is dangerous
+RU-URW-1043.txt	URW: Speculating war outcomes	CC: Hidden plots by secret schemes of powerful groups: Other
+RU-URW-1168.txt	CC: Controversy about green technologies	URW: Overpraising the West: NATO will destroy Russia;CC: Downplaying climate change: Climate cycles are natural
+RU-URW-1110.txt	CC: Criticism of climate policies	URW: Praise of Russia: Praise of Russian President Vladimir Putin;URW: Praise of Russia: Praise of Russian military might
+RU-URW-1147.txt	URW: Negative Consequences for the West	URW: Overpraising the West: The West belongs in the right side of history
+RU-URW-1166.txt	CC: Questioning the measurements and science	CC: Questioning the measurements and science: Greenhouse effect/carbon dioxide do not drive climate change
+RU-URW-1077.txt	CC: Criticism of climate policies	CC: Criticism of institutions and authorities: Criticism of the EU
+RU-URW-1170.txt	URW: Amplifying war-related fears	CC: Amplifying Climate Fears: Amplifying existing fears of global warming
+RU-URW-1085.txt	URW: Overpraising the West	URW: Discrediting Ukraine: Discrediting Ukrainian nation and society
+RU-URW-1174.txt	CC: Controversy about green technologies	URW: Discrediting Ukraine: Ukraine is a hub for criminal activities
+RU-URW-1152.txt	CC: Hidden plots by secret schemes of powerful groups	URW: Negative Consequences for the West: The conflict will increase the Ukrainian refugee flows to Europe;CC: Criticism of climate movement: Climate movement is corrupt
+RU-URW-1139.txt	URW: Praise of Russia	CC: Climate change is beneficial: CO2 is beneficial;CC: Criticism of climate movement: Ad hominem attacks on key activists

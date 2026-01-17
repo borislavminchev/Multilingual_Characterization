@@ -1,0 +1,604 @@
+A9_BG_3970.txt	Европа	24	29	Antagonist
+A9_BG_3970.txt	НАТО	160	163	Antagonist
+A9_BG_4076.txt	Европа	50	55	Antagonist
+A9_BG_8427.txt	Путин	94	98	Antagonist
+A9_BG_3819.txt	Украйна	233	239	Antagonist
+A9_BG_3819.txt	Владимир Путин	40	53	Antagonist
+A9_BG_2961.txt	Володимир Зеленски	23	40	Protagonist
+A9_BG_2961.txt	Путин	86	90	Antagonist
+A9_BG_2828.txt	Вашингтон	47	55	Antagonist
+A9_BG_2828.txt	Брюксел	59	65	Antagonist
+BG_73.txt	Антониу Гутериш	187	201	Protagonist
+A9_BG_4093.txt	Демократическата партия	99	121	Antagonist
+A9_BG_4093.txt	Украйна	155	161	Antagonist
+A9_BG_3964.txt	Въоръжените сили на Украйна (ВСУ	186	217	Antagonist
+A9_BG_3964.txt	Луганск	223	229	Antagonist
+A9_BG_3921.txt	Западът	15	21	Antagonist
+A9_BG_3921.txt	Владимир Путин	169	182	Antagonist
+A9_BG_2663.txt	НАТО	75	78	Antagonist
+A9_BG_2663.txt	Запада	298	303	Antagonist
+BG_979.txt	Ал Гор	170	175	Antagonist
+BG_979.txt	Грета Тунберг	219	231	Antagonist
+BG_979.txt	Марк Баумър	224	234	Antagonist
+BG_950.txt	Швеция	2	7	Antagonist
+A9_BG_2569.txt	Украйна	63	69	Antagonist
+A9_BG_2569.txt	Русия	123	127	Antagonist
+A9_BG_2569.txt	Запада	218	223	Antagonist
+A9_BG_2569.txt	САЩ	227	229	Antagonist
+A9_BG_4039.txt	Белгия	0	5	Antagonist
+A9_BG_4039.txt	Дания	8	12	Antagonist
+A9_BG_4039.txt	Нидерландия	15	25	Antagonist
+A9_BG_4039.txt	Норвегия	29	36	Antagonist
+EN_UA_DEV_100012.txt	Washington	0	9	Antagonist
+EN_UA_DEV_100012.txt	Americans	50	58	Antagonist
+EN_CC_200053.txt	Rishi Sunak	25	35	Protagonist
+EN_CC_200040.txt	Extinction Rebellion	7	26	Antagonist
+EN_CC_200070.txt	Eric Garcetti	19	31	Protagonist
+EN_CC_200070.txt	Los Angeles	25	35	Antagonist
+EN_UA_DEV_100033.txt	Russia	25	30	Antagonist
+EN_UA_DEV_100033.txt	Kremlin propagandists	196	216	Antagonist
+EN_UA_DEV_100033.txt	Vladimir Soloviev	392	408	Antagonist
+EN_UA_DEV_100033.txt	Matveychev	69	78	Antagonist
+EN_CC_200036.txt	Al Gore	1	7	Antagonist
+EN_CC_200079.txt	Klaus Schwab	1	12	Protagonist
+EN_CC_200079.txt	World Economic Forum	16	35	Protagonist
+EN_CC_200079.txt	World Economic Forum	4	23	Antagonist
+EN_UA_DEV_100029.txt	Russia	1	6	Antagonist
+EN_UA_DEV_100029.txt	Ukraine	59	65	Antagonist
+EN_UA_DEV_20.txt	Biden	0	4	Antagonist
+EN_UA_DEV_20.txt	Putin	0	4	Antagonist
+EN_UA_DEV_20.txt	Ukrainian government	22	41	Antagonist
+EN_UA_DEV_20.txt	the US	161	166	Antagonist
+EN_UA_DEV_20.txt	Biden	89	93	Antagonist
+EN_CC_200033.txt	Greta Thunberg	18	31	Antagonist
+EN_CC_200033.txt	Thunberg	47	54	Antagonist
+EN_CC_200033.txt	COP	587	589	Antagonist
+EN_CC_200033.txt	Stuart Basden	9	21	Antagonist
+EN_CC_200071.txt	Biden's	176	182	Antagonist
+EN_CC_200046.txt	Democrats	27	35	Antagonist
+EN_UA_DEV_100026.txt	Germany	185	191	Antagonist
+EN_UA_DEV_100026.txt	Germany	20	26	Antagonist
+EN_UA_DEV_100026.txt	Alternative for Germany	142	164	Antagonist
+EN_UA_DEV_215.txt	Ukraine	51	57	Antagonist
+EN_CC_200054.txt	ECB	98	100	Antagonist
+EN_CC_200054.txt	Bank of England	68	82	Antagonist
+EN_UA_DEV_100013.txt	SBU	4	6	Antagonist
+EN_UA_DEV_100013.txt	Zelensky	102	109	Antagonist
+EN_UA_DEV_100013.txt	Bogdan	237	242	Antagonist
+EN_UA_DEV_100013.txt	Zaluzhny	0	7	Antagonist
+EN_UA_DEV_100013.txt	Zaluzhny	0	7	Antagonist
+EN_UA_DEV_100013.txt	Zaluzhny	18	25	Antagonist
+EN_UA_DEV_100013.txt	Stepan Bandera	315	328	Antagonist
+EN_UA_DEV_100013.txt	Roman Shukhevych	334	349	Antagonist
+EN_UA_DEV_100013.txt	British	257	263	Antagonist
+EN_UA_DEV_100013.txt	Britain	51	57	Antagonist
+EN_UA_DEV_100013.txt	Labour Party	71	82	Antagonist
+EN_CC_200077.txt	Biden	99	103	Antagonist
+EN_CC_200077.txt	China	47	51	Antagonist
+EN_CC_200034.txt	Just Stop Oil	123	135	Antagonist
+EN_CC_200034.txt	Just Stop Oil	31	43	Antagonist
+EN_UA_DEV_213.txt	US	5	6	Antagonist
+EN_UA_DEV_213.txt	European allies	16	30	Antagonist
+EN_UA_DEV_213.txt	Ukraine	39	45	Antagonist
+EN_UA_DEV_213.txt	Washington	47	56	Antagonist
+EN_UA_DEV_213.txt	Ukrainian	124	132	Antagonist
+EN_UA_DEV_213.txt	New York Times	178	191	Antagonist
+EN_UA_DEV_213.txt	Washington Post	197	211	Antagonist
+EN_UA_DEV_213.txt	Saddam Hussein	46	59	Antagonist
+EN_UA_DEV_213.txt	Russia	26	31	Antagonist
+EN_UA_DEV_213.txt	United States	499	511	Antagonist
+EN_UA_DEV_213.txt	NATO	176	179	Antagonist
+EN_UA_DEV_213.txt	NATO	39	42	Antagonist
+EN_UA_DEV_213.txt	United States	47	59	Antagonist
+EN_UA_DEV_213.txt	NATO	66	69	Antagonist
+EN_UA_DEV_213.txt	United States	354	366	Antagonist
+EN_UA_DEV_213.txt	Germany	372	378	Antagonist
+EN_UA_DEV_213.txt	Russia	0	5	Antagonist
+EN_UA_DEV_213.txt	United States	36	48	Antagonist
+EN_UA_DEV_213.txt	the United States	4	20	Antagonist
+EN_UA_DEV_213.txt	US media	4	11	Antagonist
+EN_CC_200047.txt	World Economic Forum	154	173	Antagonist
+EN_CC_200047.txt	Committee to Unleash Prosperity	31	61	Antagonist
+EN_CC_200047.txt	The College Fix	24	38	Antagonist
+EN_CC_200081.txt	Mairi Gougeon	124	136	Antagonist
+EN_CC_200081.txt	China	391	395	Antagonist
+EN_UA_DEV_214.txt	Ukraine	28	34	Antagonist
+EN_UA_DEV_214.txt	China	54	58	Antagonist
+EN_UA_DEV_214.txt	the West	70	77	Antagonist
+EN_UA_DEV_214.txt	the West	21	28	Antagonist
+EN_UA_DEV_214.txt	Joe Biden	47	55	Antagonist
+EN_UA_DEV_214.txt	Nato	0	3	Antagonist
+EN_CC_200064.txt	Restore Wetlands	178	193	Antagonist
+EN_CC_200035.txt	Gretchen Whitmer	6	21	Protagonist
+EN_CC_200069.txt	Oxford	0	5	Protagonist
+EN_CC_200069.txt	the UK	107	112	Antagonist
+EN_CC_200069.txt	Piers Corbyn	0	11	Protagonist
+EN_UA_DEV_100019.txt	Russia-	0	6	Antagonist
+EN_UA_DEV_100019.txt	Star Blizzard	79	91	Antagonist
+EN_UA_DEV_100002.txt	Zelensky	0	7	Antagonist
+EN_UA_DEV_100002.txt	Ukraine	15	21	Antagonist
+EN_UA_DEV_100002.txt	West	4	7	Antagonist
+EN_UA_DEV_100002.txt	NATO	150	153	Antagonist
+EN_UA_DEV_100002.txt	Russia	51	56	Antagonist
+HI_26.txt	मोदी	0	3	Protagonist
+HI_26.txt	भारत	54	57	Protagonist
+HI_26.txt	राष्ट्रपति वोलोदोमीर	11	30	Innocent
+HI_26.txt	रूस	85	87	Antagonist
+HI_26.txt	कीव	92	94	Innocent
+HI_26.txt	स्लोवियास्क	99	109	Innocent
+HI_26.txt	मोदी	85	88	Protagonist
+HI_26.txt	PM	116	117	Protagonist
+HI_26.txt	रूस	8	10	Antagonist
+HI_160.txt	यूक्रेन-	34	41	Protagonist
+HI_160.txt	जॉर्ज डब्ल्यू बुश	357	373	Protagonist
+HI_160.txt	जर्मनी	439	444	Antagonist
+HI_160.txt	फ्रांस	449	454	Antagonist
+HI_51.txt	रूस	62	64	Protagonist
+HI_51.txt	यूक्रेन	138	144	Protagonist
+HI_51.txt	स्विट्जरलैंड	160	171	Protagonist
+HI_51.txt	नई दिल्ली	16	24	Protagonist
+HI_51.txt	अमेरिका	27	33	Antagonist
+HI_51.txt	यूरोप	38	42	Antagonist
+HI_51.txt	रूस	33	35	Antagonist
+HI_51.txt	यूक्रेन	0	6	Innocent
+HI_51.txt	गाजा	219	222	Innocent
+HI_51.txt	अमेरिका	281	287	Antagonist
+HI_51.txt	यूरोप	292	296	Antagonist
+HI_51.txt	भारत	385	388	Antagonist
+HI_114.txt	अमेरिका	54	60	Antagonist
+HI_114.txt	फ्रांस	63	68	Antagonist
+HI_114.txt	रूस	32	34	Antagonist
+HI_114.txt	यूक्रेनी सैनिकों	83	98	Antagonist
+HI_114.txt	अमेरिका	161	167	Antagonist
+HI_114.txt	फ्रांस	172	177	Antagonist
+HI_114.txt	यूक्रेन	47	53	Antagonist
+HI_114.txt	रक्षा मंत्रालय	387	400	Antagonist
+HI_114.txt	इमैनुएल मैक्रॉन	156	170	Antagonist
+HI_114.txt	व्लादिमीर पुतिन	288	302	Antagonist
+HI_17.txt	शी चिनफिंग	38	47	Protagonist
+HI_17.txt	ओरबान	58	62	Protagonist
+HI_152.txt	किम जोंग	24	31	Protagonist
+HI_152.txt	रूस	110	112	Antagonist
+HI_152.txt	यूक्रेन	136	142	Antagonist
+HI_152.txt	साउथ कोरिया	220	230	Antagonist
+HI_152.txt	दक्षिण कोरिया	458	470	Antagonist
+HI_152.txt	किम योंग-ह्यून	488	501	Protagonist
+HI_152.txt	पुतिन	142	146	Antagonist
+HI_152.txt	नाटो	189	192	Antagonist
+HI_152.txt	पश्चिमी देशों	203	215	Antagonist
+HI_152.txt	रूस	16	18	Antagonist
+HI_152.txt	यूक्रेन	20	26	Antagonist
+HI_152.txt	राष्ट्रपति जेलेंस्की	388	407	Antagonist
+HI_152.txt	सैनिकों	213	219	Antagonist
+HI_152.txt	उत्तर कोरिया	8	19	Antagonist
+HI_152.txt	दोनेत्सक	128	135	Antagonist
+HI_152.txt	यूक्रेन	144	150	Antagonist
+HI_35.txt	द मॉस्को टाइम्स	42	56	Antagonist
+HI_35.txt	द मॉस्को टाइम्स	184	198	Antagonist
+HI_35.txt	द मॉस्को टाइम्स	129	143	Antagonist
+HI_35.txt	इवान गेर्शकोविच	148	162	Antagonist
+HI_76.txt	रूस	0	2	Protagonist
+HI_76.txt	अमेरिका	310	316	Antagonist
+HI_76.txt	रूसी सेना	120	128	Antagonist
+HI_76.txt	यूक्रेन	54	60	Protagonist
+HI_76.txt	यूक्रेनी सेना	111	123	Protagonist
+HI_76.txt	पुतिन प्रशासन	334	346	Antagonist
+HI_134.txt	34 राज्यों	251	260	Innocent
+HI_134.txt	केंद्र शासित प्रदेशों	264	284	Innocent
+HI_134.txt	भारत	47	50	Innocent
+HI_134.txt	डा. एंड्रयू परशिंग	0	17	Protagonist
+HI_134.txt	साइंस क्लाइमेट सेंटर	36	55	Protagonist
+HI_134.txt	क्लाइमेट सेंट्रल	300	315	Protagonist
+HI_71.txt	रूस	18	20	Protagonist
+HI_71.txt	रूस	18	20	Antagonist
+HI_71.txt	यूक्रेन	30	36	Antagonist
+HI_71.txt	रूस	0	2	Protagonist
+HI_71.txt	रूस	0	2	Protagonist
+HI_19.txt	रूस	0	2	Antagonist
+HI_19.txt	इवान गेर्शकोविच	71	85	Antagonist
+HI_19.txt	पॉल व्हेलन	112	121	Antagonist
+HI_19.txt	जो बाइडेन	103	111	Protagonist
+HI_19.txt	वादिम कसीकोव	57	68	Antagonist
+HI_139.txt	ब्राजील	147	153	Innocent
+HI_139.txt	दक्षिण अमेरिकी देश	163	180	Innocent
+HI_139.txt	भारत	102	105	Antagonist
+HI_139.txt	कई देश	112	117	Antagonist
+HI_139.txt	अपूर्व चंद्रा	322	334	Protagonist
+HI_139.txt	सुजाता सुनील	176	187	Protagonist
+HI_139.txt	यूएस सेंटर फॉर डिजीज कंट्रोल एंड प्रिवेंशन	27	68	Protagonist
+HI_126.txt	नरेंद्र मोदी	149	160	Protagonist
+HI_126.txt	पश्चिमी देश	387	397	Protagonist
+HI_126.txt	भारत	36	39	Protagonist
+HI_126.txt	यूक्रेन के राष्ट्रपति	213	233	Protagonist
+HI_126.txt	प्रधानमंत्री मोदी	158	174	Protagonist
+HI_126.txt	भारत	17	20	Protagonist
+HI_126.txt	चीन	177	179	Antagonist
+HI_151.txt	किंग जोंग	24	32	Antagonist
+HI_151.txt	यूक्रेन	279	285	Antagonist
+HI_151.txt	सोवियत संघ	80	89	Antagonist
+HI_151.txt	अमेरिका	50	56	Protagonist
+HI_125.txt	यूक्रेन	0	6	Protagonist
+HI_125.txt	वोलोदिमिर जेलेंस्की	22	40	Protagonist
+HI_125.txt	रूस	64	66	Protagonist
+HI_125.txt	जर्मनी	47	52	Antagonist
+HI_125.txt	जेलेंस्की	0	8	Protagonist
+HI_125.txt	जर्मनी	47	52	Antagonist
+HI_125.txt	यूक्रेन	298	304	Antagonist
+HI_97.txt	यूक्रेन	183	189	Antagonist
+HI_97.txt	जेलेंस्की	39	47	Protagonist
+HI_143.txt	महिलाओं	147	153	Protagonist
+HI_143.txt	दिव्यांगों	156	165	Protagonist
+HI_143.txt	मूल निवासियों	170	182	Protagonist
+HI_143.txt	चंद्रचूड	11	18	Protagonist
+HI_156.txt	रूस	0	2	Protagonist
+HI_156.txt	दिमित्री पेसकोव	230	244	Protagonist
+HI_156.txt	यूक्रेन	0	6	Antagonist
+HI_156.txt	राष्ट्रपति व्लादिमीर पुतिन	46	71	Protagonist
+HI_75.txt	प्रिंस सेबेस्टिन	41	56	Protagonist
+HI_75.txt	केंद्रीय जांच ब्यूरो	216	235	Antagonist
+HI_75.txt	विनीत सिल्वा और टीनू पानी आदिमा	337	367	Antagonist
+HI_75.txt	रूसी सेना	113	121	Antagonist
+HI_75.txt	भारतीय नागरिकों	235	249	Antagonist
+HI_75.txt	रूसी सैनिक	526	535	Antagonist
+HI_5.txt	G7	36	37	Protagonist
+HI_5.txt	ज़ेलेंस्की	39	48	Antagonist
+HI_5.txt	श्चिमी देशों	26	37	Protagonist
+HI_5.txt	यूक्रेन	42	48	Antagonist
+HI_5.txt	अमेरिका	114	120	Protagonist
+HI_5.txt	फ्रांस	319	324	Antagonist
+HI_5.txt	ब्रिटेन	329	335	Antagonist
+HI_5.txt	यूक्रेन	23	29	Antagonist
+HI_5.txt	व्लादिमीर ज़ेलेंस्की	56	75	Protagonist
+HI_5.txt	अमेरिका	71	77	Antagonist
+HI_5.txt	ज़ेलेंस्की	106	115	Antagonist
+HI_5.txt	पुतिन	16	20	Protagonist
+HI_5.txt	प्रधानमंत्री	0	11	Protagonist
+HI_10.txt	वोलोदिमिर जेलेंस्की	274	292	Protagonist
+HI_10.txt	मोदी	125	128	Protagonist
+HI_10.txt	पुतिन	328	332	Antagonist
+HI_10.txt	भारत	150	153	Protagonist
+HI_10.txt	भारत	150	153	Protagonist
+HI_154.txt	यूक्रेन	21	27	Antagonist
+HI_154.txt	रूस	44	46	Antagonist
+HI_154.txt	रूसियों	305	311	Antagonist
+HI_154.txt	अमेरिका	84	90	Antagonist
+HI_154.txt	नाटो	0	3	Antagonist
+HI_154.txt	यूक्रेन	171	177	Antagonist
+HI_154.txt	रूडोल्फ जी एडम	236	249	Protagonist
+HI_154.txt	भारत	288	291	Protagonist
+HI_28.txt	अमेरिका-	32	39	Antagonist
+HI_28.txt	रूस	40	42	Antagonist
+HI_28.txt	पत्रकारों	80	88	Antagonist
+HI_28.txt	वादिम क्रासिकोव	356	370	Antagonist
+HI_28.txt	बाइडेन	122	127	Antagonist
+HI_28.txt	पत्रकारों	259	267	Antagonist
+HI_28.txt	गेर्शकोविच	39	48	Protagonist
+HI_11.txt	नाटो	210	213	Antagonist
+HI_11.txt	उत्तर	250	254	Antagonist
+HI_11.txt	अमेरिका	275	281	Antagonist
+HI_11.txt	दक्षिण कोरिया	286	298	Antagonist
+HI_11.txt	हमास	64	67	Antagonist
+HI_11.txt	इजरायल	54	59	Antagonist
+HI_11.txt	भारत	13	16	Protagonist
+HI_11.txt	चीन	43	45	Antagonist
+HI_11.txt	पाकिस्तान	56	64	Antagonist
+HI_11.txt	रूस	0	2	Protagonist
+HI_11.txt	यूक्रेन	7	13	Antagonist
+HI_11.txt	नॉर्थ कोरिया	48	59	Protagonist
+HI_11.txt	तानाशाह	111	117	Antagonist
+HI_31.txt	नरेंद्र मोदी	217	228	Protagonist
+HI_31.txt	व्लादिमीर पुतिन	249	263	Protagonist
+HI_31.txt	उर्गेन तमांग	49	60	Protagonist
+HI_31.txt	रबि प्रधान	110	119	Protagonist
+HI_31.txt	तमांग	10	14	Protagonist
+HI_31.txt	एजेंटों	78	84	Antagonist
+HI_31.txt	मोदी	134	137	Protagonist
+HI_31.txt	रूसी	165	168	Protagonist
+HI_31.txt	भारत सरकार	20	29	Protagonist
+HI_31.txt	तमांग	0	4	Antagonist
+HI_31.txt	एजेंटों	120	126	Antagonist
+HI_31.txt	भारतीय नागरिकों	53	67	Innocent
+HI_107.txt	NATO	137	140	Antagonist
+HI_107.txt	रूस	17	19	Protagonist
+HI_107.txt	नाटो	186	189	Antagonist
+HI_159.txt	यूक्रेन	0	6	Innocent
+HI_159.txt	रूस	48	50	Protagonist
+HI_159.txt	कुर्स्क	140	146	Antagonist
+HI_159.txt	रूसी सेना	327	335	Antagonist
+HI_159.txt	सर्गिव्का	420	428	Innocent
+HI_159.txt	अवदीवका	146	152	Innocent
+HI_159.txt	खार्किव	287	293	Innocent
+HI_159.txt	पोक्रोव्स्क	75	85	Innocent
+HI_159.txt	यूक्रेन	10	16	Antagonist
+HI_159.txt	रूसी सेनाओं	166	176	Antagonist
+HI_159.txt	डोनेट्स्क	579	587	Innocent
+HI_159.txt	लुहान्स्क	711	719	Innocent
+HI_110.txt	रूस	1	3	Antagonist
+HI_110.txt	व्लादिमीर पुतिन	53	67	Protagonist
+HI_110.txt	अमेरिका	72	78	Antagonist
+HI_110.txt	ब्रिटेन	83	89	Antagonist
+HI_110.txt	यूक्रेनी सैनिकों	146	161	Innocent
+HI_110.txt	यूक्रेन	8	14	Antagonist
+HI_158.txt	पुतिन	35	39	Protagonist
+HI_158.txt	यूक्रेनी सेना	203	215	Antagonist
+HI_158.txt	कुर्स्क	250	256	Antagonist
+HI_158.txt	रूस	9	11	Antagonist
+HI_158.txt	यूक्रेन	51	57	Antagonist
+HI_158.txt	मॉस्को	0	5	Protagonist
+HI_158.txt	रक्षा मंत्रालय	111	124	Protagonist
+HI_158.txt	ओलेक्सांद्र सिरस्की	33	51	Protagonist
+HI_158.txt	कीव	63	65	Protagonist
+HI_158.txt	जेलेंस्की	171	179	Protagonist
+HI_158.txt	मॉस्को	296	301	Protagonist
+HI_158.txt	युद्ध	354	358	Protagonist
+HI_158.txt	एलेक्सी स्मिरनोव	37	52	Protagonist
+HI_158.txt	नागरिक	236	241	Innocent
+HI_158.txt	व्याचेस्लाव ग्लैडकोव	29	48	Protagonist
+HI_158.txt	बेलगोरोड	78	85	Innocent
+HI_158.txt	क्रास्नाया यारुगा	148	164	Antagonist
+HI_158.txt	यूक्रेनी सेना	175	187	Antagonist
+HI_158.txt	पुतिन	298	302	Antagonist
+HI_158.txt	राष्ट्रपति	0	9	Protagonist
+HI_158.txt	रूस	192	194	Antagonist
+HI_158.txt	कीव की सेना	196	206	Antagonist
+HI_158.txt	रूस	192	194	Antagonist
+HI_158.txt	मॉस्को	0	5	Protagonist
+HI_158.txt	कीव	10	12	Antagonist
+HI_158.txt	इहोर रोमानेंको	71	84	Protagonist
+HI_158.txt	यूक्रेन के लोगों	108	123	Protagonist
+HI_158.txt	चीन	409	411	Protagonist
+HI_158.txt	प्रवक्ता	12	19	Protagonist
+HI_158.txt	चीन	190	192	Protagonist
+HI_158.txt	नाटो सदस्यों	505	516	Antagonist
+HI_158.txt	बीजिंग	521	526	Antagonist
+HI_140.txt	डॉ. एमिली ग्रीनफ़ील्ड	0	20	Protagonist
+HI_38.txt	भारत	70	73	Protagonist
+HI_4.txt	जिनपिंग सरकार	97	109	Protagonist
+HI_4.txt	चीन	40	42	Protagonist
+HI_4.txt	अमेरिका	273	279	Protagonist
+HI_4.txt	पश्चिमी	284	290	Antagonist
+HI_4.txt	चीन	333	335	Antagonist
+HI_4.txt	चीन	333	335	Antagonist
+HI_4.txt	जिनपिंग सरकार	590	602	Protagonist
+HI_4.txt	चीन	333	335	Antagonist
+HI_4.txt	शी जिनपिंग	27	36	Protagonist
+HI_4.txt	चीन	0	2	Protagonist
+HI_4.txt	चीन	0	2	Protagonist
+HI_4.txt	चीन	0	2	Antagonist
+HI_4.txt	अमेरिका	26	32	Antagonist
+HI_4.txt	पश्चिमी देशों	37	49	Antagonist
+HI_4.txt	अमेरिका	26	32	Antagonist
+HI_4.txt	पश्चिमी देशों	37	49	Antagonist
+HI_95.txt	रूस	0	2	Protagonist
+HI_95.txt	नाटो	33	36	Antagonist
+HI_95.txt	यूक्रेन	38	44	Antagonist
+HI_95.txt	रूस	2	4	Protagonist
+HI_95.txt	हिजबुल्लाह	13	22	Antagonist
+HI_95.txt	इजरायल	27	32	Innocent
+HI_95.txt	रूस	28	30	Antagonist
+HI_95.txt	उत्तर कोरिया	0	11	Protagonist
+HI_12.txt	नरेन्द्र मोदी	13	25	Protagonist
+HI_12.txt	कार्ल नेहमर	221	231	Protagonist
+HI_12.txt	मोदी	5	8	Protagonist
+HI_12.txt	ऑस्ट्रिया	17	25	Protagonist
+HI_12.txt	भारत	30	33	Protagonist
+HI_12.txt	भारत	64	67	Protagonist
+HI_12.txt	भारत	64	67	Protagonist
+HI_12.txt	ऑस्ट्रिया	23	31	Protagonist
+HI_34.txt	पुतिन	0	4	Protagonist
+HI_34.txt	यूक्रेनी सेना	19	31	Antagonist
+HI_34.txt	यूक्रेन	28	34	Protagonist
+HI_34.txt	रूसी सेना	86	94	Antagonist
+HI_34.txt	यूक्रेन	35	41	Antagonist
+HI_34.txt	यूक्रेन	35	41	Antagonist
+HI_34.txt	यूक्रेन	35	41	Antagonist
+HI_34.txt	यूक्रेन	23	29	Antagonist
+HI_34.txt	अमेरिका	67	73	Protagonist
+HI_34.txt	यूक्रेन	23	29	Antagonist
+HI_34.txt	वलोडोमिर जेलेंस्की	204	221	Protagonist
+HI_34.txt	यूक्रेनी सेना	261	273	Antagonist
+HI_34.txt	यूक्रेन	18	24	Innocent
+HI_34.txt	रूस	13	15	Antagonist
+HI_34.txt	यूक्रेन	18	24	Innocent
+PT_203.txt	Pantanal	38	45	Innocent
+PT_203.txt	Valdelice Verón	112	126	Protagonist
+PT_203.txt	Guarani Kaiowá	137	150	Protagonist
+PT_208.txt	Caatinga	2	9	Innocent
+PT_208.txt	Rodrigo Agostinho	190	206	Protagonist
+PT_208.txt	Claudecy Oliveira Lemes	13	35	Antagonist
+PT_233.txt	Amazónia	538	545	Innocent
+PT_241.txt	Rússia	2	7	Protagonist
+PT_241.txt	União Europeia	107	120	Protagonist
+PT_259.txt	Maria Zakharova	59	73	Protagonist
+PT_259.txt	Volodymyr Zelensky	126	143	Protagonist
+PT_259.txt	Ucrânia	233	239	Antagonist
+PT_259.txt	Zelensky	91	98	Antagonist
+PT_259.txt	Zelensky	29	36	Antagonist
+PT_259.txt	Kiev	59	62	Antagonist
+PT_259.txt	Rússia	195	200	Protagonist
+PT_220.txt	Pantanal	182	189	Innocent
+PT_220.txt	Amazónia	2	9	Innocent
+PT_220.txt	Cerrado	94	100	Innocent
+PT_254.txt	Moscovo	31	37	Antagonist
+PT_254.txt	Anton Trofimov	279	292	Protagonist
+PT_211.txt	África Ocidental	188	203	Innocent
+PT_211.txt	Golfo Pérsico	210	222	Innocent
+PT_211.txt	Burkina Faso	232	243	Innocent
+PT_211.txt	Mali	246	249	Innocent
+PT_211.txt	Qatar	252	256	Innocent
+PT_211.txt	Aruba	259	263	Innocent
+PT_211.txt	Emirados Árabes Unidos	267	288	Innocent
+PT_211.txt	Índia	53	57	Innocent
+PT_211.txt	Nigéria	62	68	Innocent
+PT_211.txt	Indonésia	74	82	Innocent
+PT_237.txt	Rússia	2	7	Protagonist
+PT_237.txt	Ucrânia	160	166	Antagonist
+PT_237.txt	Washington	172	181	Antagonist
+PT_250.txt	Igor Sechin	51	61	Protagonist
+PT_224.txt	governo	46	52	Innocent
+PT_224.txt	Pantanal	233	240	Innocent
+PT_224.txt	Autoridade do Clima	148	166	Antagonist
+PT_224.txt	Foz do Amazonas	315	329	Innocent
+PT_224.txt	Governo Federal	33	47	Antagonist
+PT_228.txt	Marina Silva	24	35	Protagonist
+PT_228.txt	Pantanal	110	117	Innocent
+PT_228.txt	Amazónia	172	179	Innocent
+PT_253.txt	Ucrânia	118	124	Antagonist
+PT_253.txt	Kremlin	181	187	Antagonist
+PT_253.txt	von der Leyen	275	287	Antagonist
+PT_253.txt	Denys Shmyhal	157	169	Protagonist
+PT_253.txt	Dmitry Peskov	46	58	Protagonist
+PT_253.txt	Ucrânia	115	121	Antagonist
+PT_253.txt	Rússia	153	158	Antagonist
+PT_253.txt	Comissão Europeia	17	33	Protagonist
+PT_253.txt	Vladimir Putin	167	180	Antagonist
+PT_209.txt	Leonardo Boff	0	12	Protagonist
+PT_209.txt	Terra	17	21	Antagonist
+PT_202.txt	Túlio Gadêlha	58	70	Protagonist
+PT_202.txt	Caatinga	269	276	Innocent
+PT_202.txt	Marina Silva	86	97	Protagonist
+PT_232.txt	Goiás	164	168	Innocent
+PT_232.txt	Mato Grosso	171	181	Innocent
+PT_232.txt	Mato Grosso do Sul	184	201	Innocent
+PT_232.txt	Tocantins	204	212	Innocent
+PT_232.txt	Minas Gerais	215	226	Innocent
+PT_232.txt	Pará	229	232	Innocent
+PT_232.txt	Paraná	235	240	Innocent
+PT_232.txt	São Paulo	243	251	Innocent
+PT_232.txt	Rio de Janeiro	255	268	Innocent
+PT_232.txt	Cerrado	260	266	Innocent
+PT_232.txt	Floresta Amazónica	272	289	Innocent
+PT_245.txt	Federação Russa	131	145	Antagonist
+PT_245.txt	Ucrânia	188	194	Antagonist
+PT_245.txt	Kursk	266	270	Innocent
+PT_206.txt	Marina Silva	52	63	Protagonist
+PT_249.txt	Moscovo	76	82	Protagonist
+PT_249.txt	Kiev	237	240	Protagonist
+PT_249.txt	Subianto	193	200	Protagonist
+PT_249.txt	Rússia	3	8	Protagonist
+PT_249.txt	Ucrânia	172	178	Protagonist
+PT_249.txt	Mikhail Galuzin	70	84	Protagonist
+PT_249.txt	Zelensky	172	179	Antagonist
+PT_210.txt	Porto Alegre	19	30	Innocent
+PT_210.txt	Rio Grande do Sul	55	71	Innocent
+PT_230.txt	Brasil	21	26	Innocent
+PT_230.txt	São Paulo	146	154	Innocent
+PT_230.txt	Amazónia	202	209	Innocent
+PT_244.txt	Comité Organizador de Paris-2024	3	34	Protagonist
+PT_244.txt	Maria Zakharova	107	121	Protagonist
+PT_213.txt	Maceió	74	79	Innocent
+PT_213.txt	Braskem	26	32	Innocent
+PT_226.txt	Vale do Taquari	390	404	Innocent
+PT_226.txt	Rio de Janeiro	69	82	Innocent
+PT_239.txt	Dmitro Kuleba	49	61	Protagonist
+PT_239.txt	Rússia	163	168	Antagonist
+PT_239.txt	Moscovo	180	186	Antagonist
+PT_239.txt	China	3	7	Protagonist
+PT_239.txt	China	2	6	Protagonist
+PT_239.txt	Rússia	34	39	Antagonist
+PT_239.txt	Estados Unidos	71	84	Antagonist
+PT_239.txt	NATO	95	98	Antagonist
+PT_239.txt	Moscovo	152	158	Antagonist
+PT_239.txt	Volodimir Zelensky	39	56	Protagonist
+PT_234.txt	Ásia	293	296	Innocent
+PT_234.txt	Antártida	302	310	Innocent
+PT_234.txt	Amazónia	7	14	Innocent
+PT_207.txt	Zequinha Marinho	10	25	Protagonist
+PT_207.txt	Parlamento Europeu	179	196	Antagonist
+PT_217.txt	São Paulo	113	121	Innocent
+PT_217.txt	Rio de Janeiro	125	138	Innocent
+PT_204.txt	Papa Francisco	2	15	Protagonist
+PT_229.txt	Panamá	43	48	Innocent
+PT_229.txt	Vásquez	132	138	Protagonist
+PT_229.txt	El Niño	64	70	Innocent
+PT_225.txt	Rio Grande do Sul	3	19	Innocent
+PT_225.txt	Maranhão	2	9	Innocent
+PT_225.txt	Matopiba	205	212	Innocent
+PT_225.txt	Carlos Nobre	64	75	Protagonist
+PT_225.txt	Rio Grande do Sul	84	100	Antagonist
+RU-URW-1135.txt	Виктора Орбана	77	90	Protagonist
+RU-URW-1135.txt	Александр Шатилов	324	340	Protagonist
+RU-URW-1093.txt	Украинские боевики	1	18	Antagonist
+RU-URW-1118.txt	Россия	1	6	Protagonist
+RU-URW-1118.txt	Владимир Зеленский	24	41	Antagonist
+RU-URW-1118.txt	РФ	36	37	Protagonist
+RU-URW-1118.txt	Киев	79	82	Antagonist
+RU-URW-1101.txt	Киева	37	41	Antagonist
+RU-URW-1101.txt	Зеленского	216	225	Antagonist
+RU-URW-1032.txt	Владимир Зеленский	0	17	Protagonist
+RU-URW-1032.txt	Трамп	65	69	Antagonist
+RU-URW-1004.txt	Владимиру Зеленскому	0	19	Protagonist
+RU-URW-1004.txt	Виктор Орбан	208	219	Protagonist
+RU-URW-1004.txt	Будапешт	17	24	Protagonist
+RU-URW-1004.txt	Орбан	93	97	Protagonist
+RU-URW-1127.txt	осольство США	365	377	Antagonist
+RU-URW-1127.txt	Ермак	117	121	Antagonist
+RU-URW-1127.txt	Владимиром Путиным	38	55	Protagonist
+RU-URW-1069.txt	Российской Федерации	116	135	Protagonist
+RU-URW-1023.txt	Белоруссии	36	45	Antagonist
+RU-URW-1023.txt	Европа	372	377	Antagonist
+RU-URW-1023.txt	США	388	390	Antagonist
+RU-URW-1053.txt	Ле Пен	70	75	Protagonist
+RU-URW-1053.txt	России	155	160	Antagonist
+RU-URW-1053.txt	ЕС	281	282	Antagonist
+RU-URW-1061.txt	российских территорий	42	62	Innocent
+RU-URW-1061.txt	ВСУ	748	750	Antagonist
+RU-URW-1061.txt	Байдена	1216	1222	Innocent
+RU-URW-1102.txt	Россия	9	14	Protagonist
+RU-URW-1102.txt	ВСУ	63	65	Antagonist
+RU-URW-1102.txt	местных жителей	530	544	Antagonist
+RU-URW-1120.txt	США	52	54	Antagonist
+RU-URW-1120.txt	Донецка	132	138	Antagonist
+RU-URW-1120.txt	Россией	12	18	Antagonist
+RU-URW-1014.txt	Российские войска	0	16	Antagonist
+RU-URW-1014.txt	ВСУ	38	40	Antagonist
+RU-URW-1146.txt	Китая	85	89	Antagonist
+RU-URW-1146.txt	Белоруссии	113	122	Antagonist
+RU-URW-1146.txt	Польши	335	340	Antagonist
+RU-URW-1146.txt	Украиной	585	592	Antagonist
+RU-URW-1146.txt	Польшей	603	609	Antagonist
+RU-URW-1171.txt	Украине	173	179	Antagonist
+RU-URW-1171.txt	Госдуме	5	11	Antagonist
+RU-URW-1171.txt	США	131	133	Antagonist
+RU-URW-1171.txt	Великобритании	137	150	Antagonist
+RU-URW-1171.txt	ВСУ	247	249	Antagonist
+RU-URW-1171.txt	Франции	324	330	Antagonist
+RU-URW-1184.txt	БРИКС	27	31	Antagonist
+RU-URW-1073.txt	Трампа	87	92	Antagonist
+RU-URW-1073.txt	Орбану	195	200	Antagonist
+RU-URW-1073.txt	Ермак	396	400	Protagonist
+RU-URW-1073.txt	Америку	438	444	Antagonist
+RU-URW-1043.txt	ФСБ	0	2	Antagonist
+RU-URW-1043.txt	Главному управлению разведки Украины	152	187	Antagonist
+RU-URW-1043.txt	УФСБ	36	39	Antagonist
+RU-URW-1168.txt	ВСУ	149	151	Antagonist
+RU-URW-1168.txt	Марьяна Безуглая	259	274	Antagonist
+RU-URW-1168.txt	ВС РФ	628	632	Antagonist
+RU-URW-1168.txt	украинский генералитет	696	717	Antagonist
+RU-URW-1110.txt	Страны Запада	1	13	Antagonist
+RU-URW-1110.txt	Украине	52	58	Antagonist
+RU-URW-1166.txt	Путин	161	165	Antagonist
+RU-URW-1166.txt	Си Цзиньпин	873	883	Antagonist
+RU-URW-1166.txt	Виктор Орбан	1846	1857	Antagonist
+RU-URW-1077.txt	Россия	0	5	Protagonist
+RU-URW-1077.txt	Китай	9	13	Protagonist
+RU-URW-1077.txt	Александера Стубба	112	129	Protagonist
+RU-URW-1077.txt	Североатлантическому альянсу	28	55	Antagonist
+RU-URW-1170.txt	Владимир Зеленский	39	56	Protagonist
+RU-URW-1170.txt	Дональдом Туском	503	518	Protagonist
+RU-URW-1170.txt	Польша	1859	1864	Antagonist
+RU-URW-1085.txt	Юрия Трутнева	104	116	Protagonist
+RU-URW-1174.txt	Зеленского	171	180	Antagonist
+RU-URW-1174.txt	ОБСЕ	44	47	Antagonist
+RU-URW-1174.txt	Германии	160	167	Antagonist
+RU-URW-1174.txt	Франции	171	177	Antagonist
+RU-URW-1174.txt	Зеленский	0	8	Protagonist
+RU-URW-1152.txt	НАТО	8	11	Antagonist
+RU-URW-1152.txt	Китаем	85	90	Antagonist
+RU-URW-1152.txt	России	92	97	Antagonist
+RU-URW-1152.txt	США	132	134	Antagonist
+RU-URW-1139.txt	Запада	167	172	Antagonist
+RU-URW-1139.txt	России	292	297	Antagonist
+RU-URW-1139.txt	НАТО	278	281	Antagonist
+RU-URW-1139.txt	Зеленского	200	209	Antagonist
+RU-URW-1139.txt	Киеву	165	169	Antagonist

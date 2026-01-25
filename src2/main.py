@@ -48,6 +48,18 @@ def clalculate_class_weights(train_dataset, device):
     return torch.tensor(class_weights, dtype=torch.float32, device=device)        
 
 
+import ast
+from collections import Counter
+def compute_class_counts_from_df(df, label_col='labels', coarse_map=coarse_label2id):
+    cnt = Counter()
+    for raw in df[label_col].tolist():
+        labels = ast.literal_eval(raw) if isinstance(raw, str) else raw
+        coarse = labels[0]
+        cnt[coarse_map[coarse]] += 1
+    # return list ordered by class id
+    num_classes = len(coarse_map)
+    return [cnt.get(i, 0) for i in range(num_classes)]
+
 if __name__ == "__main__":
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -71,9 +83,15 @@ if __name__ == "__main__":
     val_dataloader = DataLoader(val_dataset, batch_size=8, shuffle=False, collate_fn=collate_fn_entity_framing)
     test_dataloader = DataLoader(test_dataset, batch_size=8, shuffle=False, collate_fn=collate_fn_entity_framing)
     
-    class_weights = clalculate_class_weights(train_dataset, device=device)
+    # class_weights = clalculate_class_weights(train_dataset, device=device)
+
+    class_counts = compute_class_counts_from_df(train_df)
     
-    classifier = CoarseRoleClassifier(model, tokenizer, device=device, class_weights=class_weights, num_unfrozen_layers=3)
+    classifier = CoarseRoleClassifier(model, tokenizer, 
+                                      device=device, 
+                                    #   class_weights=class_weights, 
+                                      class_counts=class_counts, 
+                                      num_unfrozen_layers=3)
 
     # for batch_idx, batch in enumerate(train_dataloader):
     #     input_ids = batch['input_ids'].to(device)
@@ -135,6 +153,8 @@ if __name__ == "__main__":
         logging_steps=50,
         logging_dir='./logs',
         load_best_model_at_end=True,
+        metric_for_best_model="f1",
+        greater_is_better=True,
         save_total_limit=2,
         remove_unused_columns=False,
     )

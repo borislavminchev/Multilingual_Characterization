@@ -17,7 +17,7 @@ class FocalLoss(nn.Module):
     
     Reference: https://arxiv.org/abs/1708.02002
     """
-    def __init__(self, alpha=None, gamma=2.0, reduction='mean', device='cpu'):
+    def __init__(self,samples_per_cls=None, beta=0.9999, alpha=None, gamma=2.0, reduction='mean', device='cpu'):
         super().__init__()
         self.gamma = gamma
         self.reduction = reduction
@@ -32,8 +32,25 @@ class FocalLoss(nn.Module):
             else:
                 # Scalar alpha - will be broadcasted
                 self.alpha = alpha
+        elif samples_per_cls is not None:
+            # Compute per-class alpha using effective number of samples
+            self.alpha = self.calculate_alpha(samples_per_cls, beta)
         else:
             self.alpha = None
+
+    def calculate_alpha(self, samples_per_cls, beta):
+        counts = torch.tensor(samples_per_cls, dtype=torch.float32, device=self.device)
+        if beta <= 0:
+            weights = torch.ones_like(counts)
+        else:
+            eff_num = 1.0 - torch.pow(beta, counts)
+            eff_num = torch.clamp(eff_num, min=1e-8)
+            weights = (1.0 - beta) / eff_num
+
+        # Normalize to sum to number of classes
+        weights = weights / (weights.mean() + 1e-12)
+
+        return weights
     
     def forward(self, inputs, targets):
         """
@@ -61,6 +78,112 @@ class FocalLoss(nn.Module):
             return focal_loss.sum()
         else:
             return focal_loss
+        
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from typing import Optional, Sequence
+
+class ClassBalancedCrossEntropy(nn.Module):
+    """
+    Class-balanced cross-entropy (Cui et al., CVPR 2019).
+
+    Weight per class: w_i = (1 - beta) / (1 - beta^{n_i}), where n_i is number of
+    samples for class i. Optionally normalized so that sum(w) == num_classes.
+
+    Args:
+        samples_per_cls: sequence of length C with sample counts for each class.
+                         If None, you can pass explicit class_weights at init or later.
+        class_weights: optional tensor/sequence (len C) of weights to use directly.
+        beta: float close to 1.0 (e.g., 0.9999). If beta==0 -> weights uniform.
+        reduction: 'mean' | 'sum' | 'none'
+        label_smoothing: optional float in [0,1), requires PyTorch supporting label_smoothing in F.cross_entropy.
+        device: device for internal tensors.
+        normalize: whether to normalize weights so that mean(weight) == 1 (or sum==C).
+    """
+    def __init__(
+        self,
+        samples_per_cls: Optional[Sequence[int]] = None,
+        class_weights: Optional[Sequence[float]] = None,
+        beta: float = 0.9999,
+        reduction: str = "mean",
+        label_smoothing: float = 0.0,
+        device: str = "cpu",
+        normalize: bool = True,
+    ):
+        super().__init__()
+        self.beta = float(beta)
+        self.reduction = reduction
+        self.label_smoothing = float(label_smoothing)
+        self.device = device
+        self.normalize = normalize
+
+        if class_weights is not None:
+            w = torch.tensor(class_weights, dtype=torch.float32, device=device)
+            self.register_buffer("_weight", w)
+        elif samples_per_cls is not None:
+            weights = self.calculate_weight(samples_per_cls)
+
+            self.register_buffer("_weight", weights)
+        else:
+            # will handle None at forward (no weighting)
+            self.register_buffer("_weight", None)
+
+    @property
+    def weight(self):
+        return self._weight
+    
+    def calculate_weight(self, samples_per_cls: Sequence[int]):
+        counts = torch.tensor(samples_per_cls, dtype=torch.float32, device=self.device)
+        if self.beta <= 0:
+            weights = torch.ones_like(counts)
+        else:
+            eff_num = 1.0 - torch.pow(self.beta, counts)
+            eff_num = torch.clamp(eff_num, min=1e-8)
+            weights = (1.0 - self.beta) / eff_num
+
+        if self.normalize:
+            weights = weights / (weights.mean() + 1e-12)
+
+        return weights
+
+    def forward(self, logits: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
+        """
+        Args:
+            logits: (N, C) raw logits
+            targets: (N,) long labels
+        Returns:
+            scalar loss (if reduction != 'none') or per-sample losses (if reduction == 'none')
+        """
+        if logits.dim() != 2:
+            raise ValueError("logits must be shape (N, C)")
+
+        if targets.dim() != 1:
+            targets = targets.view(-1)
+
+        # Use PyTorch's cross_entropy with weight and optional label smoothing
+        # Note: label_smoothing requires PyTorch >= 1.10 (most modern versions support it)
+        if self.weight is not None:
+            # ensure weight on same device and dtype
+            weight = self.weight.to(logits.device)
+        else:
+            weight = None
+
+        # F.cross_entropy handles reduction for us
+        # If label_smoothing unsupported in the installed torch, it will raise; then set to 0.0.
+        if self.label_smoothing > 0.0:
+            # Safe call: F.cross_entropy takes label_smoothing param in modern PyTorch
+            loss = F.cross_entropy(logits, targets, weight=weight, reduction="none", label_smoothing=self.label_smoothing)
+        else:
+            loss = F.cross_entropy(logits, targets, weight=weight, reduction="none")
+
+        if self.reduction == "mean":
+            return loss.mean()
+        elif self.reduction == "sum":
+            return loss.sum()
+        else:
+            return loss
+
 
 
 class SemanticSimilarityHead(nn.Module):
@@ -94,7 +217,7 @@ class SemanticSimilarityHead(nn.Module):
         self.projection = nn.Linear(input_dim, input_dim)
         
         # Optional: scaling factor for similarity scores
-        self.temperature = nn.Parameter(torch.tensor(10.0))
+        self.temperature = 15.0 #nn.Parameter(torch.tensor(10.0))
         
         logger.info(f"Initialized SemanticSimilarityHead with {self.num_classes} classes using {similarity_metric} similarity.")
 
@@ -159,7 +282,10 @@ def entity_span_pooling(
 
     
 class CoarseRoleClassifier(nn.Module):
-    def __init__(self, base_model, tokenizer, freeze_anchors=True, similarity_metric='cosine', device='cpu', num_unfrozen_layers=2, class_weights=None):
+    def __init__(self, base_model, tokenizer, freeze_anchors=True, similarity_metric='cosine', 
+                 device='cpu', num_unfrozen_layers=2,
+                #    class_weights=None, 
+                   class_counts=None):
         super().__init__()
         self.base_model = base_model
         self.tokenizer = tokenizer
@@ -187,14 +313,22 @@ class CoarseRoleClassifier(nn.Module):
         
         # Compute per-class alpha weights for Focal Loss
         # If class_weights provided, use inverse frequency weighting
-        if class_weights is not None:
-            alpha = torch.tensor(class_weights, dtype=torch.float32, device=device)
-        else:
-            # Default: equal weight per class (no class balancing)
-            num_classes = self.semantic_head.num_classes
-            alpha = torch.ones(num_classes, dtype=torch.float32, device=device)
+        # if class_weights is not None:
+        #     alpha = torch.tensor(class_weights, dtype=torch.float32, device=device)
+        # else:
+        #     # Default: equal weight per class (no class balancing)
+        #     num_classes = self.semantic_head.num_classes
+        #     alpha = torch.ones(num_classes, dtype=torch.float32, device=device)
         
-        self.loss_fn = FocalLoss(alpha=alpha, gamma=2.0, device=device)
+        self.loss_fn = FocalLoss(samples_per_cls=class_counts, beta=0.9999, gamma=2.0, reduction='sum', device=device)
+        # self.loss_fn = ClassBalancedCrossEntropy(
+        #     samples_per_cls=class_counts,   # e.g. computed once from the dataframe
+        #     beta=0.9999,
+        #     reduction='sum',
+        #     label_smoothing=0.0,
+        #     device=device,
+        #     normalize=True
+        # )
         self.to(device)
 
     def forward(self, input_ids, attention_mask, coarse_labels=None, **kwargs):

@@ -351,3 +351,280 @@ class CoarseRoleClassifier(nn.Module):
             loss=loss,
             logits=logits
         )
+
+
+class MultiLabelFocalLoss(nn.Module):
+    """
+    Multi-label Focal Loss for handling class imbalance in multi-label classification.
+    
+    Applies sigmoid to logits and computes binary focal loss for each label independently.
+    Supports masking to ignore certain labels in the loss computation (for hierarchical classification).
+    
+    Reference: https://arxiv.org/abs/1708.02002
+    """
+    def __init__(self, samples_per_cls=None, beta=0.9999, alpha=None, gamma=2.0, 
+                 reduction='mean', device='cpu'):
+        super().__init__()
+        self.gamma = gamma
+        self.reduction = reduction
+        self.device = device
+        
+        # alpha can be None (no class weighting), a scalar, or a tensor of per-class weights
+        if alpha is not None:
+            if isinstance(alpha, (list, tuple)):
+                self.alpha = torch.tensor(alpha, dtype=torch.float32, device=device)
+            elif isinstance(alpha, torch.Tensor):
+                self.alpha = alpha.to(device)
+            else:
+                self.alpha = alpha
+        elif samples_per_cls is not None:
+            self.alpha = self.calculate_alpha(samples_per_cls, beta)
+        else:
+            self.alpha = None
+    
+    def calculate_alpha(self, samples_per_cls, beta):
+        """Calculate class-balanced weights using effective number of samples."""
+        counts = torch.tensor(samples_per_cls, dtype=torch.float32, device=self.device)
+        # Handle zero counts by setting minimum to 1
+        counts = torch.clamp(counts, min=1)
+        
+        if beta <= 0:
+            weights = torch.ones_like(counts)
+        else:
+            eff_num = 1.0 - torch.pow(beta, counts)
+            eff_num = torch.clamp(eff_num, min=1e-8)
+            weights = (1.0 - beta) / eff_num
+        
+        # Normalize weights
+        weights = weights / (weights.mean() + 1e-12)
+        return weights
+    
+    def forward(self, logits, targets, mask=None):
+        """
+        Args:
+            logits: (N, C) raw logits for each class
+            targets: (N, C) binary targets (multi-hot encoding)
+            mask: (N, C) optional boolean mask - True for valid labels to include in loss
+        Returns:
+            Scalar loss value
+        """
+        # Apply sigmoid to get probabilities
+        probs = torch.sigmoid(logits)
+        
+        # Binary cross entropy components
+        # For positive samples: -log(p)
+        # For negative samples: -log(1-p)
+        bce_loss = F.binary_cross_entropy_with_logits(logits, targets.float(), reduction='none')
+        
+        # Focal weight: (1 - p_t)^gamma
+        # p_t = p for y=1, (1-p) for y=0
+        p_t = probs * targets + (1 - probs) * (1 - targets)
+        focal_weight = (1 - p_t) ** self.gamma
+        
+        focal_loss = focal_weight * bce_loss
+        
+        # Apply per-class alpha weighting if available
+        if self.alpha is not None:
+            # alpha is (C,), broadcast to (N, C)
+            alpha_weight = self.alpha.unsqueeze(0).expand_as(focal_loss)
+            focal_loss = alpha_weight * focal_loss
+        
+        # Apply mask if provided (for hierarchical classification)
+        if mask is not None:
+            # Only compute loss for valid labels
+            focal_loss = focal_loss * mask.float()
+            # Adjust for number of valid labels
+            valid_count = mask.float().sum()
+            if valid_count > 0:
+                if self.reduction == 'mean':
+                    return focal_loss.sum() / valid_count
+                elif self.reduction == 'sum':
+                    return focal_loss.sum()
+                else:
+                    return focal_loss
+        
+        if self.reduction == 'mean':
+            return focal_loss.mean()
+        elif self.reduction == 'sum':
+            return focal_loss.sum()
+        else:
+            return focal_loss
+
+
+class FineSemanticSimilarityHead(nn.Module):
+    """
+    Semantic Similarity Head for fine-grained multi-label classification.
+    
+    Uses ALL fine label anchors but supports masking based on coarse predictions
+    to ensure only valid fine labels are considered for each sample.
+    """
+    
+    def __init__(self, model, tokenizer, input_dim, freeze_anchors=True, 
+                 similarity_metric='cosine', device='cpu'):
+        super().__init__()
+        
+        self.taxonomy_manager = TaxonomyManager(model, tokenizer, device=device)
+        self.input_dim = input_dim
+        self.similarity_metric = similarity_metric
+        self.device = device
+        
+        # Get ALL fine label anchors
+        anchor_vectors_dict = self.taxonomy_manager.get_all_fine_anchors()
+        
+        # Order anchor vectors by fine_label2id to ensure consistent ordering
+        anchor_vectors_list = [
+            anchor_vectors_dict[label] 
+            for label in sorted(fine_label2id.keys(), key=lambda x: fine_label2id[x])
+        ]
+        self.num_classes = len(anchor_vectors_list)
+        
+        # Register anchor vectors (optionally frozen)
+        if freeze_anchors:
+            self.register_buffer('anchor_vectors', torch.tensor(anchor_vectors_list).detach())
+        else:
+            self.anchor_vectors = nn.Parameter(torch.tensor(anchor_vectors_list), requires_grad=True)
+        
+        # Projection layer to align entity embeddings with semantic space
+        self.projection = nn.Linear(input_dim, input_dim)
+        
+        # Temperature scaling for similarity scores
+        self.temperature = 15.0
+        
+        # Store coarse-to-fine mask for inference
+        self.register_buffer(
+            'coarse_to_fine_mask', 
+            self.taxonomy_manager.get_coarse_to_fine_mask(device=device)
+        )
+        
+        logger.info(f"Initialized FineSemanticSimilarityHead with {self.num_classes} fine classes.")
+    
+    def forward(self, entity_vectors, coarse_labels=None):
+        """
+        Args:
+            entity_vectors: (B, H) entity representations
+            coarse_labels: (B,) optional coarse label indices for masking
+        Returns:
+            logits: (B, num_fine_classes) similarity scores
+            mask: (B, num_fine_classes) boolean mask of valid fine labels
+        """
+        projected = self.projection(entity_vectors)
+        
+        if self.similarity_metric == 'cosine':
+            projected_norm = F.normalize(projected, p=2, dim=1)
+            anchors_norm = F.normalize(self.anchor_vectors, p=2, dim=1)
+            logits = torch.matmul(projected_norm, anchors_norm.t())
+            logits = logits * self.temperature
+        else:  # dot_product
+            logits = torch.matmul(projected, self.anchor_vectors.t())
+        
+        # Generate mask based on coarse labels
+        if coarse_labels is not None:
+            # coarse_labels: (B,) -> mask: (B, num_fine_classes)
+            mask = self.coarse_to_fine_mask[coarse_labels]
+        else:
+            # No mask - all labels valid
+            mask = torch.ones(
+                entity_vectors.size(0), self.num_classes, 
+                dtype=torch.bool, device=entity_vectors.device
+            )
+        
+        return logits, mask
+
+
+class FineRoleClassifier(nn.Module):
+    """
+    Unified Fine Role Classifier for multi-label classification.
+    
+    Uses a single model with all 22 fine label anchors.
+    Supports hierarchical masking based on coarse predictions.
+    """
+    
+    def __init__(self, base_model, tokenizer, freeze_anchors=True, similarity_metric='cosine',
+                 device='cpu', num_unfrozen_layers=2, class_counts=None, threshold=0.5):
+        super().__init__()
+        self.base_model = base_model
+        self.tokenizer = tokenizer
+        self.device = device
+        self.threshold = threshold
+        
+        # Freeze encoder layers except the last num_unfrozen_layers
+        total_layers = len(base_model.encoder.layer)
+        for idx, layer in enumerate(base_model.encoder.layer):
+            if idx < total_layers - num_unfrozen_layers:
+                for param in layer.parameters():
+                    param.requires_grad = False
+        
+        self.semantic_head = FineSemanticSimilarityHead(
+            model=base_model,
+            tokenizer=tokenizer,
+            input_dim=base_model.config.hidden_size,
+            freeze_anchors=freeze_anchors,
+            similarity_metric=similarity_metric,
+            device=device
+        )
+        
+        # Multi-label focal loss with optional class balancing
+        self.loss_fn = MultiLabelFocalLoss(
+            samples_per_cls=class_counts,
+            beta=0.9999,
+            gamma=2.0,
+            reduction='mean',
+            device=device
+        )
+        
+        self.to(device)
+    
+    def forward(self, input_ids, attention_mask, coarse_labels=None, fine_labels=None, **kwargs):
+        """
+        Args:
+            input_ids: (B, T) input token IDs
+            attention_mask: (B, T) attention mask
+            coarse_labels: (B,) coarse label indices (for masking)
+            fine_labels: (B, num_fine_classes) multi-hot fine label targets
+        Returns:
+            SequenceClassifierOutput with loss and logits
+        """
+        outputs = self.base_model(input_ids=input_ids, attention_mask=attention_mask)
+        
+        entity_vectors = entity_span_pooling(
+            hidden_states=outputs.last_hidden_state,
+            input_ids=input_ids,
+            entity_start_id=self.tokenizer.convert_tokens_to_ids(ENTITY_START_TOKEN),
+            entity_end_id=self.tokenizer.convert_tokens_to_ids(ENTITY_END_TOKEN)
+        )
+        
+        # Get logits and mask based on coarse labels
+        logits, mask = self.semantic_head(entity_vectors, coarse_labels)
+        
+        # Apply mask to logits for inference (set invalid to large negative)
+        masked_logits = logits.clone()
+        masked_logits[~mask] = -1e9
+        
+        loss = None
+        if fine_labels is not None:
+            # Compute loss only on valid (masked) labels
+            loss = self.loss_fn(logits, fine_labels, mask=mask)
+        
+        return SequenceClassifierOutput(
+            loss=loss,
+            logits=masked_logits  # Return masked logits for inference
+        )
+    
+    def predict(self, input_ids, attention_mask, coarse_labels):
+        """
+        Predict fine labels given coarse labels.
+        
+        Args:
+            input_ids: (B, T) input token IDs
+            attention_mask: (B, T) attention mask
+            coarse_labels: (B,) predicted coarse label indices
+        Returns:
+            predictions: (B, num_fine_classes) binary predictions
+            probabilities: (B, num_fine_classes) sigmoid probabilities (masked)
+        """
+        self.eval()
+        with torch.no_grad():
+            outputs = self.forward(input_ids, attention_mask, coarse_labels=coarse_labels)
+            probabilities = torch.sigmoid(outputs.logits)
+            predictions = (probabilities >= self.threshold).float()
+        return predictions, probabilities

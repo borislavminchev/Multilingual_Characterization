@@ -53,6 +53,25 @@ def compute_fine_class_counts(df, label_col='labels'):
     return [counts.get(i, 0) for i in range(NUM_FINE_LABELS)]
 
 
+def stable_sigmoid(x):
+    """Numerically stable sigmoid function."""
+    # For positive values, use standard sigmoid
+    # For negative values, use exp(x) / (1 + exp(x)) to avoid overflow
+    pos_mask = x >= 0
+    neg_mask = ~pos_mask
+    
+    result = np.zeros_like(x, dtype=np.float64)
+    
+    # For positive x: 1 / (1 + exp(-x))
+    result[pos_mask] = 1 / (1 + np.exp(-x[pos_mask]))
+    
+    # For negative x: exp(x) / (1 + exp(x))
+    exp_x = np.exp(x[neg_mask])
+    result[neg_mask] = exp_x / (1 + exp_x)
+    
+    return result
+
+
 def compute_multilabel_metrics(eval_pred):
     """
     Compute multi-label metrics for HuggingFace Trainer.
@@ -62,8 +81,17 @@ def compute_multilabel_metrics(eval_pred):
     """
     logits, labels = eval_pred
     
-    # Apply sigmoid and threshold
-    probs = 1 / (1 + np.exp(-logits))  # sigmoid
+    # Handle tuple labels (when multiple label columns are returned)
+    if isinstance(labels, tuple):
+        # fine_labels is the first element based on our collate function
+        labels = labels[0] if len(labels) > 0 else labels
+    
+    # Ensure labels is a numpy array
+    if not isinstance(labels, np.ndarray):
+        labels = np.array(labels)
+    
+    # Apply stable sigmoid and threshold
+    probs = stable_sigmoid(logits.astype(np.float64))
     predictions = (probs >= FINE_THRESHOLD).astype(int)
     labels = labels.astype(int)
     
@@ -101,9 +129,9 @@ class FineRoleTrainer(Trainer):
     
     def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None):
         """Override to handle our custom model outputs."""
-        # Extract labels
+        # Extract labels - keep copies for later
         fine_labels = inputs.pop('fine_labels', None)
-        coarse_labels = inputs.get('coarse_labels', None)
+        coarse_labels = inputs.pop('coarse_labels', None)
         
         # Forward pass
         outputs = model(
@@ -118,6 +146,36 @@ class FineRoleTrainer(Trainer):
         if return_outputs:
             return loss, outputs
         return loss
+    
+    def prediction_step(self, model, inputs, prediction_loss_only, ignore_keys=None):
+        """Override prediction step to properly return labels for metrics."""
+        # Extract labels before they're removed
+        fine_labels = inputs.get('fine_labels', None)
+        coarse_labels = inputs.get('coarse_labels', None)
+        
+        # Move inputs to device
+        inputs = self._prepare_inputs(inputs)
+        
+        with torch.no_grad():
+            # Forward pass
+            fine_labels_tensor = inputs.pop('fine_labels', None)
+            coarse_labels_tensor = inputs.pop('coarse_labels', None)
+            
+            outputs = model(
+                input_ids=inputs['input_ids'],
+                attention_mask=inputs['attention_mask'],
+                coarse_labels=coarse_labels_tensor,
+                fine_labels=fine_labels_tensor
+            )
+            
+            loss = outputs.loss
+            logits = outputs.logits
+        
+        if prediction_loss_only:
+            return (loss, None, None)
+        
+        # Return fine_labels as the labels for metrics computation
+        return (loss, logits, fine_labels_tensor)
 
 
 def main():

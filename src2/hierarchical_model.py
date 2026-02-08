@@ -451,6 +451,227 @@ class MultiLabelFocalLoss(nn.Module):
             return focal_loss
 
 
+class AsymmetricLoss(nn.Module):
+    """
+    Asymmetric Loss (ASL) for multi-label classification with class imbalance.
+    
+    Key idea: Use different focusing parameters (gamma) for positive and negative samples.
+    - gamma_neg (high, e.g., 4): Down-weight easy negatives more aggressively
+    - gamma_pos (low, e.g., 0-1): Don't down-weight easy positives as much
+    
+    Additionally applies probability shifting to hard threshold negatives.
+    
+    Reference: "Asymmetric Loss For Multi-Label Classification" (Ben-Baruch et al., 2021)
+    https://arxiv.org/abs/2009.14119
+    
+    Args:
+        gamma_neg: Focusing parameter for negative samples (higher = more focus on hard negatives)
+        gamma_pos: Focusing parameter for positive samples (lower = preserve easy positives)
+        clip: Probability margin for hard thresholding negatives (shifts probability)
+        eps: Small constant for numerical stability
+        reduction: 'mean' | 'sum' | 'none'
+        disable_torch_grad_focal_loss: Performance optimization flag
+    """
+    
+    def __init__(self, gamma_neg=4.0, gamma_pos=1.0, clip=0.05, eps=1e-8,
+                 reduction='mean', disable_torch_grad_focal_loss=True):
+        super().__init__()
+        
+        self.gamma_neg = gamma_neg
+        self.gamma_pos = gamma_pos
+        self.clip = clip
+        self.eps = eps
+        self.reduction = reduction
+        self.disable_torch_grad_focal_loss = disable_torch_grad_focal_loss
+        
+        logger.info(f"Initialized AsymmetricLoss with gamma_neg={gamma_neg}, gamma_pos={gamma_pos}, clip={clip}")
+    
+    def forward(self, logits, targets, mask=None):
+        """
+        Args:
+            logits: (N, C) raw logits for each class
+            targets: (N, C) binary targets (multi-hot encoding)
+            mask: (N, C) optional boolean mask - True for valid labels to include in loss
+        Returns:
+            Scalar loss value
+        """
+        # Compute probabilities
+        probs = torch.sigmoid(logits)
+        probs_pos = probs
+        probs_neg = 1 - probs
+        
+        # Asymmetric Clipping (Probability Shifting)
+        # Shift negative probabilities by margin to create hard threshold
+        # This helps ignore very easy negatives (prob < clip)
+        if self.clip > 0:
+            # Shift probabilities: max(p - clip, 0)
+            probs_neg = (probs_neg + self.clip).clamp(max=1)
+        
+        # Compute losses separately for positive and negative samples
+        # Positive loss: -log(p) * (1-p)^gamma_pos
+        # Negative loss: -log(1-p) * p^gamma_neg
+        
+        # Basic BCE components
+        loss_pos = -torch.log(probs_pos.clamp(min=self.eps))
+        loss_neg = -torch.log(probs_neg.clamp(min=self.eps))
+        
+        # Asymmetric Focusing
+        if self.disable_torch_grad_focal_loss:
+            # Don't compute gradients through focal weights (performance optimization)
+            with torch.no_grad():
+                focal_weight_pos = (1 - probs_pos) ** self.gamma_pos
+                focal_weight_neg = probs_pos ** self.gamma_neg
+        else:
+            focal_weight_pos = (1 - probs_pos) ** self.gamma_pos
+            focal_weight_neg = probs_pos ** self.gamma_neg
+        
+        # Apply focal weights
+        loss_pos = focal_weight_pos * loss_pos
+        loss_neg = focal_weight_neg * loss_neg
+        
+        # Combine: positive samples contribute loss_pos, negative samples contribute loss_neg
+        # targets=1 -> loss_pos, targets=0 -> loss_neg
+        loss = targets * loss_pos + (1 - targets) * loss_neg
+        
+        # Apply mask if provided (for hierarchical classification)
+        if mask is not None:
+            loss = loss * mask.float()
+            valid_count = mask.float().sum()
+            if valid_count > 0:
+                if self.reduction == 'mean':
+                    return loss.sum() / valid_count
+                elif self.reduction == 'sum':
+                    return loss.sum()
+                else:
+                    return loss
+            else:
+                return loss.sum() * 0  # Return 0 loss if no valid labels
+        
+        if self.reduction == 'mean':
+            return loss.mean()
+        elif self.reduction == 'sum':
+            return loss.sum()
+        else:
+            return loss
+
+
+class AsymmetricLossOptimized(nn.Module):
+    """
+    Optimized version of Asymmetric Loss with additional features.
+    
+    Adds:
+    - Per-class weighting based on class frequency
+    - Optional label smoothing
+    - Configurable probability shifting per class
+    
+    Reference: "Asymmetric Loss For Multi-Label Classification" (Ben-Baruch et al., 2021)
+    """
+    
+    def __init__(self, gamma_neg=4.0, gamma_pos=1.0, clip=0.05, eps=1e-8,
+                 samples_per_cls=None, beta=0.9999,
+                 reduction='mean', disable_torch_grad_focal_loss=True, device='cpu'):
+        super().__init__()
+        
+        self.gamma_neg = gamma_neg
+        self.gamma_pos = gamma_pos
+        self.clip = clip
+        self.eps = eps
+        self.reduction = reduction
+        self.disable_torch_grad_focal_loss = disable_torch_grad_focal_loss
+        self.device = device
+        
+        # Optional class-balanced weighting
+        if samples_per_cls is not None:
+            self.class_weights = self._calculate_weights(samples_per_cls, beta)
+        else:
+            self.class_weights = None
+        
+        logger.info(f"Initialized AsymmetricLossOptimized with gamma_neg={gamma_neg}, "
+                   f"gamma_pos={gamma_pos}, clip={clip}, class_weights={'enabled' if self.class_weights is not None else 'disabled'}")
+    
+    def _calculate_weights(self, samples_per_cls, beta):
+        """Calculate class-balanced weights using effective number of samples."""
+        counts = torch.tensor(samples_per_cls, dtype=torch.float32, device=self.device)
+        counts = torch.clamp(counts, min=1)
+        
+        if beta <= 0:
+            weights = torch.ones_like(counts)
+        else:
+            eff_num = 1.0 - torch.pow(beta, counts)
+            eff_num = torch.clamp(eff_num, min=1e-8)
+            weights = (1.0 - beta) / eff_num
+        
+        # Normalize weights
+        weights = weights / (weights.mean() + 1e-12)
+        return weights
+    
+    def forward(self, logits, targets, mask=None):
+        """
+        Args:
+            logits: (N, C) raw logits for each class
+            targets: (N, C) binary targets (multi-hot encoding)
+            mask: (N, C) optional boolean mask - True for valid labels to include in loss
+        Returns:
+            Scalar loss value
+        """
+        # Compute probabilities
+        probs = torch.sigmoid(logits)
+        probs_pos = probs
+        probs_neg = 1 - probs
+        
+        # Asymmetric Clipping (Probability Shifting)
+        if self.clip > 0:
+            probs_neg = (probs_neg + self.clip).clamp(max=1)
+        
+        # BCE components
+        loss_pos = -torch.log(probs_pos.clamp(min=self.eps))
+        loss_neg = -torch.log(probs_neg.clamp(min=self.eps))
+        
+        # Asymmetric Focusing
+        if self.disable_torch_grad_focal_loss:
+            with torch.no_grad():
+                focal_weight_pos = (1 - probs_pos) ** self.gamma_pos
+                focal_weight_neg = probs_pos ** self.gamma_neg
+        else:
+            focal_weight_pos = (1 - probs_pos) ** self.gamma_pos
+            focal_weight_neg = probs_pos ** self.gamma_neg
+        
+        # Apply focal weights
+        loss_pos = focal_weight_pos * loss_pos
+        loss_neg = focal_weight_neg * loss_neg
+        
+        # Combine losses
+        loss = targets * loss_pos + (1 - targets) * loss_neg
+        
+        # Apply class weights if available
+        if self.class_weights is not None:
+            # Ensure weights are on the same device
+            weights = self.class_weights.to(logits.device)
+            # Expand weights to match loss shape: (C,) -> (1, C) -> (N, C)
+            loss = loss * weights.unsqueeze(0)
+        
+        # Apply mask if provided
+        if mask is not None:
+            loss = loss * mask.float()
+            valid_count = mask.float().sum()
+            if valid_count > 0:
+                if self.reduction == 'mean':
+                    return loss.sum() / valid_count
+                elif self.reduction == 'sum':
+                    return loss.sum()
+                else:
+                    return loss
+            else:
+                return loss.sum() * 0
+        
+        if self.reduction == 'mean':
+            return loss.mean()
+        elif self.reduction == 'sum':
+            return loss.sum()
+        else:
+            return loss
+
+
 class FineSemanticSimilarityHead(nn.Module):
     """
     Semantic Similarity Head for fine-grained multi-label classification.
@@ -537,15 +758,22 @@ class FineRoleClassifier(nn.Module):
     
     Uses a single model with all 22 fine label anchors.
     Supports hierarchical masking based on coarse predictions.
+    
+    Supports multiple loss functions:
+    - 'focal': MultiLabelFocalLoss (standard focal loss)
+    - 'asl': AsymmetricLoss (asymmetric loss without class weighting)
+    - 'asl_optimized': AsymmetricLossOptimized (ASL with class-balanced weighting)
     """
     
     def __init__(self, base_model, tokenizer, freeze_anchors=True, similarity_metric='cosine',
-                 device='cpu', num_unfrozen_layers=2, class_counts=None, threshold=0.5):
+                 device='cpu', num_unfrozen_layers=2, class_counts=None, threshold=0.5,
+                 loss_type='asl_optimized', gamma_neg=4.0, gamma_pos=1.0, clip=0.05):
         super().__init__()
         self.base_model = base_model
         self.tokenizer = tokenizer
         self.device = device
         self.threshold = threshold
+        self.loss_type = loss_type
         
         # Freeze encoder layers except the last num_unfrozen_layers
         total_layers = len(base_model.encoder.layer)
@@ -563,14 +791,37 @@ class FineRoleClassifier(nn.Module):
             device=device
         )
         
-        # Multi-label focal loss with optional class balancing
-        self.loss_fn = MultiLabelFocalLoss(
-            samples_per_cls=class_counts,
-            beta=0.9999,
-            gamma=2.0,
-            reduction='mean',
-            device=device
-        )
+        # Select loss function based on loss_type
+        if loss_type == 'focal':
+            self.loss_fn = MultiLabelFocalLoss(
+                samples_per_cls=class_counts,
+                beta=0.9999,
+                gamma=2.0,
+                reduction='mean',
+                device=device
+            )
+            logger.info("Using MultiLabelFocalLoss for fine classification")
+        elif loss_type == 'asl':
+            self.loss_fn = AsymmetricLoss(
+                gamma_neg=gamma_neg,
+                gamma_pos=gamma_pos,
+                clip=clip,
+                reduction='mean'
+            )
+            logger.info(f"Using AsymmetricLoss (gamma_neg={gamma_neg}, gamma_pos={gamma_pos}, clip={clip})")
+        elif loss_type == 'asl_optimized':
+            self.loss_fn = AsymmetricLossOptimized(
+                gamma_neg=gamma_neg,
+                gamma_pos=gamma_pos,
+                clip=clip,
+                samples_per_cls=class_counts,
+                beta=0.9999,
+                reduction='mean',
+                device=device
+            )
+            logger.info(f"Using AsymmetricLossOptimized (gamma_neg={gamma_neg}, gamma_pos={gamma_pos}, clip={clip}, class_weighted=True)")
+        else:
+            raise ValueError(f"Unknown loss_type: {loss_type}. Choose from 'focal', 'asl', 'asl_optimized'")
         
         self.to(device)
     

@@ -71,6 +71,26 @@ FINE_GAP_RATIO = 0.5           # Relative threshold: ratio of max probability
 FINE_MIN_LABELS = 1            # Guarantee at least this many predictions
 
 # =============================================================================
+# ASYMMETRIC LOSS (ASL) PARAMETERS
+# =============================================================================
+# Loss type: 'focal', 'asl', or 'asl_optimized' (recommended)
+FINE_LOSS_TYPE = 'asl_optimized'
+
+# ASL hyperparameters (Ben-Baruch et al., 2021)
+# gamma_neg: Focusing parameter for negative samples (higher = more focus on hard negatives)
+#            Recommended: 4.0 for highly imbalanced datasets
+ASL_GAMMA_NEG = 4.0
+
+# gamma_pos: Focusing parameter for positive samples (lower = preserve easy positives)
+#            Recommended: 0.0-1.0 (don't down-weight easy positives)
+ASL_GAMMA_POS = 1.0
+
+# clip: Probability margin for hard thresholding negatives
+#       Shifts negative probabilities to ignore very easy negatives
+#       Recommended: 0.05 (5% margin)
+ASL_CLIP = 0.05
+
+# =============================================================================
 # TAXONOMY CONSTANTS
 # =============================================================================
 NUM_COARSE_LABELS = 3  # Protagonist, Antagonist, Innocent

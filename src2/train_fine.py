@@ -26,7 +26,8 @@ from config import (
     MODEL_NAME, MAX_LENGTH,
     FINE_NUM_EPOCHS, FINE_BATCH_SIZE, FINE_LEARNING_RATE,
     FINE_WARMUP_STEPS, FINE_NUM_UNFROZEN_LAYERS, FINE_THRESHOLD,
-    NUM_FINE_LABELS
+    NUM_FINE_LABELS,
+    FINE_LOSS_TYPE, ASL_GAMMA_NEG, ASL_GAMMA_POS, ASL_CLIP
 )
 from data_utils import ENTITY_START_TOKEN, ENTITY_END_TOKEN
 from datasets import (
@@ -234,13 +235,21 @@ def main():
     
     # Initialize classifier
     print("\n🏗️ Initializing FineRoleClassifier...")
+    print(f"   Loss type: {FINE_LOSS_TYPE}")
+    if FINE_LOSS_TYPE in ['asl', 'asl_optimized']:
+        print(f"   ASL params: gamma_neg={ASL_GAMMA_NEG}, gamma_pos={ASL_GAMMA_POS}, clip={ASL_CLIP}")
+    
     classifier = FineRoleClassifier(
         base_model=base_model,
         tokenizer=tokenizer,
         device=device,
         class_counts=fine_class_counts,
         num_unfrozen_layers=FINE_NUM_UNFROZEN_LAYERS,
-        threshold=FINE_THRESHOLD
+        threshold=FINE_THRESHOLD,
+        loss_type=FINE_LOSS_TYPE,
+        gamma_neg=ASL_GAMMA_NEG,
+        gamma_pos=ASL_GAMMA_POS,
+        clip=ASL_CLIP
     )
     
     # Training arguments

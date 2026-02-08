@@ -65,10 +65,11 @@ FINE_NUM_UNFROZEN_LAYERS = 3
 FINE_FOCAL_GAMMA = 2.0
 FINE_CLASS_BALANCE_BETA = 0.9999
 
-# Fine prediction parameters (hybrid threshold strategy)
-FINE_THRESHOLD = 0.3           # Lower threshold for multi-label classification
-FINE_GAP_RATIO = 0.5           # Relative threshold: ratio of max probability
+# Fine prediction parameters (smart threshold strategy)
+FINE_THRESHOLD = 0.5           # Primary threshold for multi-label classification
+FINE_GAP_RATIO = 0.7           # Adaptive threshold: ratio of top probability
 FINE_MIN_LABELS = 1            # Guarantee at least this many predictions
+FINE_MAX_LABELS = 3            # Cap maximum predictions per sample
 
 # =============================================================================
 # ASYMMETRIC LOSS (ASL) PARAMETERS
@@ -89,6 +90,11 @@ ASL_GAMMA_POS = 1.0
 #       Shifts negative probabilities to ignore very easy negatives
 #       Recommended: 0.05 (5% margin)
 ASL_CLIP = 0.05
+
+# entropy_weight: Regularization weight to encourage sharper predictions
+#                 Higher values = stronger push toward confident (peaky) predictions
+#                 Recommended: 0.1-0.3 for sparse multi-label classification
+ASL_ENTROPY_WEIGHT = 0.15
 
 # =============================================================================
 # TAXONOMY CONSTANTS

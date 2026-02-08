@@ -561,7 +561,7 @@ class AsymmetricLossOptimized(nn.Module):
     
     Adds:
     - Per-class weighting based on class frequency
-    - Optional label smoothing
+    - Entropy regularization to encourage sharp (peaky) predictions
     - Configurable probability shifting per class
     
     Reference: "Asymmetric Loss For Multi-Label Classification" (Ben-Baruch et al., 2021)
@@ -569,7 +569,8 @@ class AsymmetricLossOptimized(nn.Module):
     
     def __init__(self, gamma_neg=4.0, gamma_pos=1.0, clip=0.05, eps=1e-8,
                  samples_per_cls=None, beta=0.9999,
-                 reduction='mean', disable_torch_grad_focal_loss=True, device='cpu'):
+                 reduction='mean', disable_torch_grad_focal_loss=True, device='cpu',
+                 entropy_weight=0.1):
         super().__init__()
         
         self.gamma_neg = gamma_neg
@@ -579,6 +580,7 @@ class AsymmetricLossOptimized(nn.Module):
         self.reduction = reduction
         self.disable_torch_grad_focal_loss = disable_torch_grad_focal_loss
         self.device = device
+        self.entropy_weight = entropy_weight  # Weight for entropy regularization
         
         # Optional class-balanced weighting
         if samples_per_cls is not None:
@@ -587,7 +589,8 @@ class AsymmetricLossOptimized(nn.Module):
             self.class_weights = None
         
         logger.info(f"Initialized AsymmetricLossOptimized with gamma_neg={gamma_neg}, "
-                   f"gamma_pos={gamma_pos}, clip={clip}, class_weights={'enabled' if self.class_weights is not None else 'disabled'}")
+                   f"gamma_pos={gamma_pos}, clip={clip}, entropy_weight={entropy_weight}, "
+                   f"class_weights={'enabled' if self.class_weights is not None else 'disabled'}")
     
     def _calculate_weights(self, samples_per_cls, beta):
         """Calculate class-balanced weights using effective number of samples."""
@@ -604,6 +607,46 @@ class AsymmetricLossOptimized(nn.Module):
         # Normalize weights
         weights = weights / (weights.mean() + 1e-12)
         return weights
+    
+    def _compute_entropy_regularization(self, probs, mask=None):
+        """
+        Compute entropy of probability distribution per sample.
+        
+        Low entropy = sharp/peaky distribution (good - model is confident)
+        High entropy = uniform distribution (bad - model is uncertain)
+        
+        We want to MINIMIZE entropy to encourage confident predictions.
+        
+        Args:
+            probs: (N, C) sigmoid probabilities
+            mask: (N, C) optional boolean mask for valid labels
+        Returns:
+            Scalar entropy loss (higher = more uniform, lower = more peaky)
+        """
+        if mask is not None:
+            # Only compute entropy over valid labels
+            # Set invalid probs to 0.5 (neutral, won't affect entropy direction)
+            probs_masked = probs.clone()
+            probs_masked[~mask] = 0.5
+        else:
+            probs_masked = probs
+        
+        # Binary entropy for each position: -p*log(p) - (1-p)*log(1-p)
+        # This is maximized when p=0.5 (most uncertain)
+        # This is minimized when p=0 or p=1 (most confident)
+        p = probs_masked.clamp(min=self.eps, max=1-self.eps)
+        entropy = -p * torch.log(p) - (1 - p) * torch.log(1 - p)
+        
+        if mask is not None:
+            # Average entropy only over valid positions
+            entropy = entropy * mask.float()
+            valid_count = mask.float().sum()
+            if valid_count > 0:
+                return entropy.sum() / valid_count
+            else:
+                return entropy.sum() * 0
+        
+        return entropy.mean()
     
     def forward(self, logits, targets, mask=None):
         """
@@ -650,26 +693,34 @@ class AsymmetricLossOptimized(nn.Module):
             # Expand weights to match loss shape: (C,) -> (1, C) -> (N, C)
             loss = loss * weights.unsqueeze(0)
         
-        # Apply mask if provided
+        # Compute base loss
         if mask is not None:
             loss = loss * mask.float()
             valid_count = mask.float().sum()
             if valid_count > 0:
                 if self.reduction == 'mean':
-                    return loss.sum() / valid_count
+                    base_loss = loss.sum() / valid_count
                 elif self.reduction == 'sum':
-                    return loss.sum()
+                    base_loss = loss.sum()
                 else:
-                    return loss
+                    base_loss = loss
             else:
-                return loss.sum() * 0
-        
-        if self.reduction == 'mean':
-            return loss.mean()
-        elif self.reduction == 'sum':
-            return loss.sum()
+                base_loss = loss.sum() * 0
         else:
-            return loss
+            if self.reduction == 'mean':
+                base_loss = loss.mean()
+            elif self.reduction == 'sum':
+                base_loss = loss.sum()
+            else:
+                base_loss = loss
+        
+        # Add entropy regularization to encourage sharper predictions
+        if self.entropy_weight > 0:
+            entropy_loss = self._compute_entropy_regularization(probs, mask)
+            total_loss = base_loss + self.entropy_weight * entropy_loss
+            return total_loss
+        
+        return base_loss
 
 
 class FineSemanticSimilarityHead(nn.Module):
@@ -767,7 +818,8 @@ class FineRoleClassifier(nn.Module):
     
     def __init__(self, base_model, tokenizer, freeze_anchors=True, similarity_metric='cosine',
                  device='cpu', num_unfrozen_layers=2, class_counts=None, threshold=0.5,
-                 loss_type='asl_optimized', gamma_neg=4.0, gamma_pos=1.0, clip=0.05):
+                 loss_type='asl_optimized', gamma_neg=4.0, gamma_pos=1.0, clip=0.05,
+                 entropy_weight=0.1):
         super().__init__()
         self.base_model = base_model
         self.tokenizer = tokenizer
@@ -817,9 +869,10 @@ class FineRoleClassifier(nn.Module):
                 samples_per_cls=class_counts,
                 beta=0.9999,
                 reduction='mean',
-                device=device
+                device=device,
+                entropy_weight=entropy_weight
             )
-            logger.info(f"Using AsymmetricLossOptimized (gamma_neg={gamma_neg}, gamma_pos={gamma_pos}, clip={clip}, class_weighted=True)")
+            logger.info(f"Using AsymmetricLossOptimized (gamma_neg={gamma_neg}, gamma_pos={gamma_pos}, clip={clip}, entropy_weight={entropy_weight}, class_weighted=True)")
         else:
             raise ValueError(f"Unknown loss_type: {loss_type}. Choose from 'focal', 'asl', 'asl_optimized'")
         

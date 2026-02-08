@@ -28,7 +28,7 @@ from transformers import AutoModel, AutoTokenizer
 from config import (
     COARSE_PREDICTIONS_TEST, FINE_CHECKPOINT_DIR, COARSE_CHECKPOINT_DIR,
     FINAL_PREDICTIONS_PATH, MODEL_NAME, MAX_LENGTH, FINE_THRESHOLD,
-    FINE_GAP_RATIO, FINE_MIN_LABELS
+    FINE_GAP_RATIO, FINE_MIN_LABELS, FINE_MAX_LABELS
 )
 from data_utils import ENTITY_START_TOKEN, ENTITY_END_TOKEN
 from datasets import (
@@ -76,18 +76,25 @@ def load_fine_classifier(checkpoint_dir, tokenizer, device):
     return classifier
 
 
-def apply_hybrid_prediction(probs, coarse_label, taxonomy_manager, 
-                            threshold=0.3, gap_ratio=0.5, min_labels=1):
+def smart_prediction(probs, coarse_label, taxonomy_manager, 
+                     threshold=0.5, gap_ratio=0.7, min_labels=1, max_labels=2):
     """
-    Hybrid prediction strategy: threshold + relative fallback + guaranteed minimum.
+    Smart prediction strategy combining threshold, adaptive gap, and constraints.
+    
+    Strategy:
+    1. Get top probability among valid labels
+    2. Include labels above threshold OR within gap_ratio * top_prob
+    3. Cap at max_labels (keep highest probability ones)
+    4. Guarantee min_labels
     
     Args:
         probs: numpy array of shape (num_fine_labels,) - sigmoid probabilities
         coarse_label: int - coarse label ID for this sample
         taxonomy_manager: TaxonomyManager instance for getting valid fine labels
         threshold: float - primary threshold for predictions
-        gap_ratio: float - ratio of max probability for relative threshold
+        gap_ratio: float - adaptive threshold as ratio of top probability
         min_labels: int - minimum number of predictions to guarantee
+        max_labels: int - maximum number of predictions allowed
     
     Returns:
         predictions: numpy array of shape (num_fine_labels,) - binary predictions
@@ -101,46 +108,68 @@ def apply_hybrid_prediction(probs, coarse_label, taxonomy_manager,
     if len(valid_fine_indices) == 0:
         return predictions  # No valid fine labels for this coarse
     
-    # Create mask for valid labels
-    valid_mask = np.zeros(num_fine, dtype=bool)
-    valid_mask[valid_fine_indices] = True
+    # Sort valid indices by probability (descending)
+    sorted_valid = sorted(
+        [(probs[i], i) for i in valid_fine_indices], 
+        key=lambda x: x[0], 
+        reverse=True
+    )
     
-    # Get valid probabilities
-    valid_probs = probs.copy()
-    valid_probs[~valid_mask] = -np.inf
-    
-    # Step 1: Apply primary threshold
-    threshold_preds = (probs >= threshold) & valid_mask
-    
-    if threshold_preds.sum() > 0:
-        predictions = threshold_preds.astype(int)
+    if not sorted_valid:
         return predictions
     
-    # Step 2: Fallback to relative threshold
-    max_valid_prob = valid_probs[valid_mask].max() if valid_mask.sum() > 0 else 0
+    top_prob, top_idx = sorted_valid[0]
     
-    if max_valid_prob > 0:
-        relative_threshold = gap_ratio * max_valid_prob
-        relative_preds = (probs >= relative_threshold) & valid_mask
+    # Calculate adaptive threshold (based on top probability)
+    adaptive_threshold = gap_ratio * top_prob
+    
+    # Collect candidates: above threshold OR above adaptive threshold
+    # Priority: use the more restrictive one (higher threshold)
+    effective_threshold = max(threshold, adaptive_threshold)
+    
+    selected_indices = []
+    
+    # Always include top-1 if we need min_labels
+    # Then add others that pass the effective threshold
+    for prob, idx in sorted_valid:
+        if len(selected_indices) >= max_labels:
+            break  # Reached max_labels cap
         
-        if relative_preds.sum() > 0:
-            predictions = relative_preds.astype(int)
-            return predictions
+        if prob >= effective_threshold:
+            selected_indices.append(idx)
+        elif len(selected_indices) < min_labels:
+            # Fallback: include even if below threshold to guarantee min_labels
+            selected_indices.append(idx)
     
-    # Step 3: Guarantee minimum predictions (top-k)
-    # Sort valid indices by probability (descending)
-    valid_indices_sorted = sorted(valid_fine_indices, key=lambda x: probs[x], reverse=True)
+    # Ensure we have at least min_labels
+    if len(selected_indices) < min_labels:
+        for prob, idx in sorted_valid:
+            if idx not in selected_indices:
+                selected_indices.append(idx)
+                if len(selected_indices) >= min_labels:
+                    break
     
-    for idx in valid_indices_sorted[:min_labels]:
+    # Set predictions
+    for idx in selected_indices:
         predictions[idx] = 1
     
     return predictions
 
 
-def predict_fine_labels(classifier, dataloader, device, threshold=0.3,
-                        gap_ratio=0.5, min_labels=1):
+# Legacy function for backward compatibility
+def apply_hybrid_prediction(probs, coarse_label, taxonomy_manager, 
+                            threshold=0.5, gap_ratio=0.7, min_labels=1, max_labels=2):
     """
-    Generate fine label predictions for a dataloader using hybrid strategy.
+    Wrapper for smart_prediction for backward compatibility.
+    """
+    return smart_prediction(probs, coarse_label, taxonomy_manager, 
+                           threshold, gap_ratio, min_labels, max_labels)
+
+
+def predict_fine_labels(classifier, dataloader, device, threshold=0.5,
+                        gap_ratio=0.7, min_labels=1, max_labels=2):
+    """
+    Generate fine label predictions for a dataloader using smart prediction strategy.
     
     Returns:
         predictions: list of lists of fine label names
@@ -178,15 +207,16 @@ def predict_fine_labels(classifier, dataloader, device, threshold=0.3,
             
             all_probabilities.append(probs)
             
-            # Apply hybrid prediction for each sample
+            # Apply smart prediction for each sample
             for i in range(len(probs)):
-                preds = apply_hybrid_prediction(
+                preds = smart_prediction(
                     probs[i], 
                     coarse_labels_np[i],
                     taxonomy_manager,
                     threshold=threshold,
                     gap_ratio=gap_ratio,
-                    min_labels=min_labels
+                    min_labels=min_labels,
+                    max_labels=max_labels
                 )
                 
                 # Convert to label names
@@ -292,6 +322,8 @@ def main():
                         help='Relative threshold ratio for fallback prediction')
     parser.add_argument('--min_labels', type=int, default=FINE_MIN_LABELS,
                         help='Minimum number of fine labels to predict per sample')
+    parser.add_argument('--max_labels', type=int, default=FINE_MAX_LABELS,
+                        help='Maximum number of fine labels to predict per sample')
     parser.add_argument('--batch_size', type=int, default=8,
                         help='Batch size for inference')
     args = parser.parse_args()
@@ -351,12 +383,13 @@ def main():
     
     # Generate fine predictions
     print("\n🔮 Generating fine label predictions...")
-    print(f"   Hybrid strategy: threshold={args.threshold}, gap_ratio={args.gap_ratio}, min_labels={args.min_labels}")
+    print(f"   Smart strategy: threshold={args.threshold}, gap_ratio={args.gap_ratio}, min_labels={args.min_labels}, max_labels={args.max_labels}")
     fine_predictions, fine_probs = predict_fine_labels(
         fine_classifier, dataloader, device, 
         threshold=args.threshold,
         gap_ratio=args.gap_ratio,
-        min_labels=args.min_labels
+        min_labels=args.min_labels,
+        max_labels=args.max_labels
     )
     
     # Combine predictions

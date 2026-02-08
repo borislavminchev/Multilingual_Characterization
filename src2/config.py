@@ -64,7 +64,11 @@ FINE_WARMUP_STEPS = 50
 FINE_NUM_UNFROZEN_LAYERS = 3
 FINE_FOCAL_GAMMA = 2.0
 FINE_CLASS_BALANCE_BETA = 0.9999
-FINE_THRESHOLD = 0.5  # Threshold for multi-label classification
+
+# Fine prediction parameters (hybrid threshold strategy)
+FINE_THRESHOLD = 0.3           # Lower threshold for multi-label classification
+FINE_GAP_RATIO = 0.5           # Relative threshold: ratio of max probability
+FINE_MIN_LABELS = 1            # Guarantee at least this many predictions
 
 # =============================================================================
 # TAXONOMY CONSTANTS

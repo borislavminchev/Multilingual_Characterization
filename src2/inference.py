@@ -27,7 +27,8 @@ from transformers import AutoModel, AutoTokenizer
 
 from config import (
     COARSE_PREDICTIONS_TEST, FINE_CHECKPOINT_DIR, COARSE_CHECKPOINT_DIR,
-    FINAL_PREDICTIONS_PATH, MODEL_NAME, MAX_LENGTH, FINE_THRESHOLD
+    FINAL_PREDICTIONS_PATH, MODEL_NAME, MAX_LENGTH, FINE_THRESHOLD,
+    FINE_GAP_RATIO, FINE_MIN_LABELS
 )
 from data_utils import ENTITY_START_TOKEN, ENTITY_END_TOKEN
 from datasets import (
@@ -75,16 +76,87 @@ def load_fine_classifier(checkpoint_dir, tokenizer, device):
     return classifier
 
 
-def predict_fine_labels(classifier, dataloader, device, threshold=0.5):
+def apply_hybrid_prediction(probs, coarse_label, taxonomy_manager, 
+                            threshold=0.3, gap_ratio=0.5, min_labels=1):
     """
-    Generate fine label predictions for a dataloader.
+    Hybrid prediction strategy: threshold + relative fallback + guaranteed minimum.
+    
+    Args:
+        probs: numpy array of shape (num_fine_labels,) - sigmoid probabilities
+        coarse_label: int - coarse label ID for this sample
+        taxonomy_manager: TaxonomyManager instance for getting valid fine labels
+        threshold: float - primary threshold for predictions
+        gap_ratio: float - ratio of max probability for relative threshold
+        min_labels: int - minimum number of predictions to guarantee
+    
+    Returns:
+        predictions: numpy array of shape (num_fine_labels,) - binary predictions
+    """
+    num_fine = len(probs)
+    predictions = np.zeros(num_fine, dtype=int)
+    
+    # Get valid fine label indices for this coarse category
+    valid_fine_indices = taxonomy_manager.get_fine_indices_for_coarse(coarse_label)
+    
+    if len(valid_fine_indices) == 0:
+        return predictions  # No valid fine labels for this coarse
+    
+    # Create mask for valid labels
+    valid_mask = np.zeros(num_fine, dtype=bool)
+    valid_mask[valid_fine_indices] = True
+    
+    # Get valid probabilities
+    valid_probs = probs.copy()
+    valid_probs[~valid_mask] = -np.inf
+    
+    # Step 1: Apply primary threshold
+    threshold_preds = (probs >= threshold) & valid_mask
+    
+    if threshold_preds.sum() > 0:
+        predictions = threshold_preds.astype(int)
+        return predictions
+    
+    # Step 2: Fallback to relative threshold
+    max_valid_prob = valid_probs[valid_mask].max() if valid_mask.sum() > 0 else 0
+    
+    if max_valid_prob > 0:
+        relative_threshold = gap_ratio * max_valid_prob
+        relative_preds = (probs >= relative_threshold) & valid_mask
+        
+        if relative_preds.sum() > 0:
+            predictions = relative_preds.astype(int)
+            return predictions
+    
+    # Step 3: Guarantee minimum predictions (top-k)
+    # Sort valid indices by probability (descending)
+    valid_indices_sorted = sorted(valid_fine_indices, key=lambda x: probs[x], reverse=True)
+    
+    for idx in valid_indices_sorted[:min_labels]:
+        predictions[idx] = 1
+    
+    return predictions
+
+
+def predict_fine_labels(classifier, dataloader, device, threshold=0.3,
+                        gap_ratio=0.5, min_labels=1):
+    """
+    Generate fine label predictions for a dataloader using hybrid strategy.
     
     Returns:
         predictions: list of lists of fine label names
         probabilities: numpy array of shape (N, num_fine_labels)
     """
+    from taxonomy_manager import TaxonomyManager
+    
     all_predictions = []
     all_probabilities = []
+    
+    # Initialize taxonomy manager for coarse-to-fine mapping
+    taxonomy_manager = TaxonomyManager(
+        model=classifier.base_model,
+        tokenizer=classifier.tokenizer,
+        device=device
+    )
     
     classifier.eval()
     with torch.no_grad():
@@ -102,15 +174,25 @@ def predict_fine_labels(classifier, dataloader, device, threshold=0.5):
             
             # Apply sigmoid to masked logits
             probs = torch.sigmoid(outputs.logits).cpu().numpy()
-            preds = (probs >= threshold).astype(int)
+            coarse_labels_np = coarse_labels.cpu().numpy()
             
             all_probabilities.append(probs)
             
-            # Convert to label names
-            for i in range(len(preds)):
+            # Apply hybrid prediction for each sample
+            for i in range(len(probs)):
+                preds = apply_hybrid_prediction(
+                    probs[i], 
+                    coarse_labels_np[i],
+                    taxonomy_manager,
+                    threshold=threshold,
+                    gap_ratio=gap_ratio,
+                    min_labels=min_labels
+                )
+                
+                # Convert to label names
                 fine_labels = []
-                for j in range(len(preds[i])):
-                    if preds[i][j] == 1:
+                for j in range(len(preds)):
+                    if preds[j] == 1:
                         fine_labels.append(fine_id2label[j])
                 all_predictions.append(fine_labels)
     
@@ -206,6 +288,10 @@ def main():
                         help='Output CSV path for final predictions')
     parser.add_argument('--threshold', type=float, default=FINE_THRESHOLD,
                         help='Threshold for fine label prediction')
+    parser.add_argument('--gap_ratio', type=float, default=FINE_GAP_RATIO,
+                        help='Relative threshold ratio for fallback prediction')
+    parser.add_argument('--min_labels', type=int, default=FINE_MIN_LABELS,
+                        help='Minimum number of fine labels to predict per sample')
     parser.add_argument('--batch_size', type=int, default=8,
                         help='Batch size for inference')
     args = parser.parse_args()
@@ -265,8 +351,12 @@ def main():
     
     # Generate fine predictions
     print("\n🔮 Generating fine label predictions...")
+    print(f"   Hybrid strategy: threshold={args.threshold}, gap_ratio={args.gap_ratio}, min_labels={args.min_labels}")
     fine_predictions, fine_probs = predict_fine_labels(
-        fine_classifier, dataloader, device, threshold=args.threshold
+        fine_classifier, dataloader, device, 
+        threshold=args.threshold,
+        gap_ratio=args.gap_ratio,
+        min_labels=args.min_labels
     )
     
     # Combine predictions

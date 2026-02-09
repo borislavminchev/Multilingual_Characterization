@@ -372,7 +372,7 @@ def main():
         logging_steps=50,
         logging_dir=f'./logs/fine_{mode_str.lower().replace(" ", "_")}',
         load_best_model_at_end=True,
-        metric_for_best_model='micro_f1',
+        metric_for_best_model='sample_f1',  # Changed from micro_f1 to prevent all-zeros collapse
         greater_is_better=True,
         save_total_limit=2,
         remove_unused_columns=False,

@@ -79,12 +79,12 @@ FINE_LOSS_TYPE = 'asl_optimized'
 
 # ASL hyperparameters (Ben-Baruch et al., 2021)
 # gamma_neg: Focusing parameter for negative samples (higher = more focus on hard negatives)
-#            Recommended: 4.0 for highly imbalanced datasets
-ASL_GAMMA_NEG = 4.0
+#            Reduced from 4.0 to 2.0 to prevent model collapse to all-zeros
+ASL_GAMMA_NEG = 2.0
 
 # gamma_pos: Focusing parameter for positive samples (lower = preserve easy positives)
-#            Recommended: 0.0-1.0 (don't down-weight easy positives)
-ASL_GAMMA_POS = 1.0
+#            Set to 0.0 to NEVER down-weight positive samples (critical for sparse labels)
+ASL_GAMMA_POS = 0.0
 
 # clip: Probability margin for hard thresholding negatives
 #       Shifts negative probabilities to ignore very easy negatives

@@ -1,18 +1,18 @@
 """
-End-to-End Inference Pipeline
+End-to-End Inference Pipeline (with Soft Conditioning Support)
 
-This script performs hierarchical inference:
-1. Loads the coarse classifier and predicts coarse labels
-2. Loads the fine classifier and predicts fine labels (using coarse predictions as masks)
-3. Combines predictions into final output: [coarse, fine1, fine2, ...]
+This script performs hierarchical inference with two modes:
+1. Hard masking (legacy): Uses coarse labels to mask invalid fine labels
+2. Soft conditioning (new): Uses coarse probabilities for soft hierarchy conditioning
 
 Prerequisites:
     - Run train_coarse.py to train coarse classifier
     - Run train_fine.py to train fine classifier
 
 Usage:
-    python inference.py
-    python inference.py --input path/to/data.csv --output path/to/predictions.csv
+    python inference.py                    # Auto-detect mode from checkpoint
+    python inference.py --soft             # Force soft conditioning
+    python inference.py --hard             # Force hard masking
 """
 
 import os
@@ -28,31 +28,47 @@ from transformers import AutoModel, AutoTokenizer
 from config import (
     COARSE_PREDICTIONS_TEST, FINE_CHECKPOINT_DIR, COARSE_CHECKPOINT_DIR,
     FINAL_PREDICTIONS_PATH, MODEL_NAME, MAX_LENGTH, FINE_THRESHOLD,
-    FINE_GAP_RATIO, FINE_MIN_LABELS, FINE_MAX_LABELS
+    FINE_GAP_RATIO, FINE_MIN_LABELS, FINE_MAX_LABELS,
+    USE_SOFT_CONDITIONING, CARDINALITY_WEIGHT, TARGET_CARDINALITY,
+    NUM_COARSE_LABELS, NUM_FINE_LABELS
 )
 from data_utils import ENTITY_START_TOKEN, ENTITY_END_TOKEN
 from datasets import (
     FineRoleDataset, FineRoleInferenceDataset, collate_fn_fine_role, collate_fn_fine_inference,
+    SoftConditionedFineRoleDataset, SoftConditionedInferenceDataset, collate_fn_soft_conditioned,
     coarse_label2id, coarse_id2label, fine_label2id, fine_id2label
 )
-from hierarchical_model import FineRoleClassifier
+from hierarchical_model import FineRoleClassifier, SoftConditionedFineClassifier
 
 
-def load_fine_classifier(checkpoint_dir, tokenizer, device):
+def load_fine_classifier(checkpoint_dir, tokenizer, device, use_soft=False):
     """Load trained fine classifier from checkpoint."""
     print(f"🧠 Loading fine classifier from: {checkpoint_dir}")
     
     # Load base model
     base_model = AutoModel.from_pretrained(MODEL_NAME)
     base_model.resize_token_embeddings(len(tokenizer))
-    
-    # Initialize classifier structure
-    classifier = FineRoleClassifier(
-        base_model=base_model,
-        tokenizer=tokenizer,
-        device=device,
-        threshold=FINE_THRESHOLD
-    )
+    base_model.to(device)
+
+    # Initialize classifier based on mode
+    if use_soft:
+        classifier = SoftConditionedFineClassifier(
+            base_model=base_model,
+            tokenizer=tokenizer,
+            device=device,
+            threshold=FINE_THRESHOLD,
+            num_coarse=NUM_COARSE_LABELS,
+            num_fine=NUM_FINE_LABELS,
+            cardinality_weight=CARDINALITY_WEIGHT,
+            target_cardinality=TARGET_CARDINALITY
+        )
+    else:
+        classifier = FineRoleClassifier(
+            base_model=base_model,
+            tokenizer=tokenizer,
+            device=device,
+            threshold=FINE_THRESHOLD
+        )
     
     # Load trained weights
     checkpoint_path = os.path.join(checkpoint_dir, 'pytorch_model.bin')
@@ -79,13 +95,8 @@ def load_fine_classifier(checkpoint_dir, tokenizer, device):
 def smart_prediction(probs, coarse_label, taxonomy_manager, 
                      threshold=0.5, gap_ratio=0.7, min_labels=1, max_labels=2):
     """
-    Smart prediction strategy combining threshold, adaptive gap, and constraints.
-    
-    Strategy:
-    1. Get top probability among valid labels
-    2. Include labels above threshold OR within gap_ratio * top_prob
-    3. Cap at max_labels (keep highest probability ones)
-    4. Guarantee min_labels
+    Smart prediction strategy for HARD MASKING mode.
+    Uses coarse label to filter valid fine labels.
     
     Args:
         probs: numpy array of shape (num_fine_labels,) - sigmoid probabilities
@@ -106,7 +117,7 @@ def smart_prediction(probs, coarse_label, taxonomy_manager,
     valid_fine_indices = taxonomy_manager.get_fine_indices_for_coarse(coarse_label)
     
     if len(valid_fine_indices) == 0:
-        return predictions  # No valid fine labels for this coarse
+        return predictions
     
     # Sort valid indices by probability (descending)
     sorted_valid = sorted(
@@ -120,28 +131,22 @@ def smart_prediction(probs, coarse_label, taxonomy_manager,
     
     top_prob, top_idx = sorted_valid[0]
     
-    # Calculate adaptive threshold (based on top probability)
+    # Calculate adaptive threshold
     adaptive_threshold = gap_ratio * top_prob
-    
-    # Collect candidates: above threshold OR above adaptive threshold
-    # Priority: use the more restrictive one (higher threshold)
     effective_threshold = max(threshold, adaptive_threshold)
     
     selected_indices = []
     
-    # Always include top-1 if we need min_labels
-    # Then add others that pass the effective threshold
     for prob, idx in sorted_valid:
         if len(selected_indices) >= max_labels:
-            break  # Reached max_labels cap
+            break
         
         if prob >= effective_threshold:
             selected_indices.append(idx)
         elif len(selected_indices) < min_labels:
-            # Fallback: include even if below threshold to guarantee min_labels
             selected_indices.append(idx)
     
-    # Ensure we have at least min_labels
+    # Ensure min_labels
     if len(selected_indices) < min_labels:
         for prob, idx in sorted_valid:
             if idx not in selected_indices:
@@ -149,38 +154,81 @@ def smart_prediction(probs, coarse_label, taxonomy_manager,
                 if len(selected_indices) >= min_labels:
                     break
     
-    # Set predictions
     for idx in selected_indices:
         predictions[idx] = 1
     
     return predictions
 
 
-# Legacy function for backward compatibility
-def apply_hybrid_prediction(probs, coarse_label, taxonomy_manager, 
-                            threshold=0.5, gap_ratio=0.7, min_labels=1, max_labels=2):
+def soft_prediction(probs, threshold=0.5, gap_ratio=0.7, min_labels=1, max_labels=3):
     """
-    Wrapper for smart_prediction for backward compatibility.
-    """
-    return smart_prediction(probs, coarse_label, taxonomy_manager, 
-                           threshold, gap_ratio, min_labels, max_labels)
-
-
-def predict_fine_labels(classifier, dataloader, device, threshold=0.5,
-                        gap_ratio=0.7, min_labels=1, max_labels=2):
-    """
-    Generate fine label predictions for a dataloader using smart prediction strategy.
+    Smart prediction strategy for SOFT CONDITIONING mode.
+    No coarse-based filtering - the soft conditioning already handles hierarchy.
+    
+    Args:
+        probs: numpy array of shape (num_fine_labels,) - sigmoid probabilities
+        threshold: float - primary threshold for predictions
+        gap_ratio: float - adaptive threshold as ratio of top probability
+        min_labels: int - minimum number of predictions to guarantee
+        max_labels: int - maximum number of predictions allowed
     
     Returns:
-        predictions: list of lists of fine label names
-        probabilities: numpy array of shape (N, num_fine_labels)
+        predictions: numpy array of shape (num_fine_labels,) - binary predictions
+    """
+    num_fine = len(probs)
+    predictions = np.zeros(num_fine, dtype=int)
+    
+    # Sort all labels by probability
+    sorted_all = sorted(
+        [(probs[i], i) for i in range(num_fine)], 
+        key=lambda x: x[0], 
+        reverse=True
+    )
+    
+    if not sorted_all:
+        return predictions
+    
+    top_prob, top_idx = sorted_all[0]
+    
+    # Adaptive threshold
+    adaptive_threshold = gap_ratio * top_prob
+    effective_threshold = max(threshold, adaptive_threshold)
+    
+    selected_indices = []
+    
+    for prob, idx in sorted_all:
+        if len(selected_indices) >= max_labels:
+            break
+        
+        if prob >= effective_threshold:
+            selected_indices.append(idx)
+        elif len(selected_indices) < min_labels:
+            selected_indices.append(idx)
+    
+    # Ensure min_labels
+    if len(selected_indices) < min_labels:
+        for prob, idx in sorted_all:
+            if idx not in selected_indices:
+                selected_indices.append(idx)
+                if len(selected_indices) >= min_labels:
+                    break
+    
+    for idx in selected_indices:
+        predictions[idx] = 1
+    
+    return predictions
+
+
+def predict_fine_labels_hard(classifier, dataloader, device, threshold=0.5,
+                             gap_ratio=0.7, min_labels=1, max_labels=2):
+    """
+    Generate fine label predictions using HARD MASKING mode.
     """
     from taxonomy_manager import TaxonomyManager
     
     all_predictions = []
     all_probabilities = []
     
-    # Initialize taxonomy manager for coarse-to-fine mapping
     taxonomy_manager = TaxonomyManager(
         model=classifier.base_model,
         tokenizer=classifier.tokenizer,
@@ -189,25 +237,22 @@ def predict_fine_labels(classifier, dataloader, device, threshold=0.5,
     
     classifier.eval()
     with torch.no_grad():
-        for batch in tqdm(dataloader, desc="Predicting fine labels"):
+        for batch in tqdm(dataloader, desc="Predicting (hard masking)"):
             input_ids = batch['input_ids'].to(device)
             attention_mask = batch['attention_mask'].to(device)
             coarse_labels = batch['coarse_labels'].to(device)
             
-            # Get predictions
             outputs = classifier(
                 input_ids=input_ids,
                 attention_mask=attention_mask,
                 coarse_labels=coarse_labels
             )
             
-            # Apply sigmoid to masked logits
             probs = torch.sigmoid(outputs.logits).cpu().numpy()
             coarse_labels_np = coarse_labels.cpu().numpy()
             
             all_probabilities.append(probs)
             
-            # Apply smart prediction for each sample
             for i in range(len(probs)):
                 preds = smart_prediction(
                     probs[i], 
@@ -219,7 +264,51 @@ def predict_fine_labels(classifier, dataloader, device, threshold=0.5,
                     max_labels=max_labels
                 )
                 
-                # Convert to label names
+                fine_labels = []
+                for j in range(len(preds)):
+                    if preds[j] == 1:
+                        fine_labels.append(fine_id2label[j])
+                all_predictions.append(fine_labels)
+    
+    return all_predictions, np.vstack(all_probabilities)
+
+
+def predict_fine_labels_soft(classifier, dataloader, device, threshold=0.5,
+                             gap_ratio=0.7, min_labels=1, max_labels=3):
+    """
+    Generate fine label predictions using SOFT CONDITIONING mode.
+    """
+    all_predictions = []
+    all_probabilities = []
+    
+    classifier.eval()
+    with torch.no_grad():
+        for batch in tqdm(dataloader, desc="Predicting (soft conditioning)"):
+            input_ids = batch['input_ids'].to(device)
+            attention_mask = batch['attention_mask'].to(device)
+            coarse_probs = batch['coarse_probs'].to(device)
+            coarse_labels = batch['coarse_labels'].to(device)
+            
+            outputs = classifier(
+                input_ids=input_ids,
+                attention_mask=attention_mask,
+                coarse_probs=coarse_probs,
+                coarse_labels=coarse_labels  # Fallback
+            )
+            
+            probs = torch.sigmoid(outputs.logits).cpu().numpy()
+            
+            all_probabilities.append(probs)
+            
+            for i in range(len(probs)):
+                preds = soft_prediction(
+                    probs[i],
+                    threshold=threshold,
+                    gap_ratio=gap_ratio,
+                    min_labels=min_labels,
+                    max_labels=max_labels
+                )
+                
                 fine_labels = []
                 for j in range(len(preds)):
                     if preds[j] == 1:
@@ -232,8 +321,6 @@ def predict_fine_labels(classifier, dataloader, device, threshold=0.5,
 def combine_predictions(df, fine_predictions):
     """
     Combine coarse and fine predictions into final output format.
-    
-    Output format: [coarse_label, fine_label1, fine_label2, ...]
     """
     final_labels = []
     
@@ -241,7 +328,6 @@ def combine_predictions(df, fine_predictions):
         coarse_label = row['predicted_coarse']
         fine_labels = fine_predictions[idx]
         
-        # Combine: coarse first, then fine labels
         combined = [coarse_label] + fine_labels
         final_labels.append(combined)
     
@@ -259,7 +345,6 @@ def evaluate_predictions(df, final_predictions):
     print("\n📊 Evaluation Results:")
     print("-" * 50)
     
-    # Parse ground truth
     gt_coarse = []
     gt_fine = []
     pred_coarse = []
@@ -282,7 +367,7 @@ def evaluate_predictions(df, final_predictions):
     coarse_acc = coarse_correct / len(gt_coarse)
     print(f"Coarse Accuracy: {coarse_acc:.4f}")
     
-    # Fine-level metrics (per-sample)
+    # Fine-level metrics
     fine_f1_scores = []
     for gt_set, pred_set in zip(gt_fine, pred_fine):
         if len(gt_set) == 0 and len(pred_set) == 0:
@@ -299,7 +384,7 @@ def evaluate_predictions(df, final_predictions):
     avg_fine_f1 = np.mean(fine_f1_scores)
     print(f"Fine Role F1 (sample avg): {avg_fine_f1:.4f}")
     
-    # Exact match (both coarse and fine correct)
+    # Exact match
     exact_matches = sum(
         1 for i in range(len(gt_coarse))
         if gt_coarse[i] == pred_coarse[i] and gt_fine[i] == pred_fine[i]
@@ -307,7 +392,34 @@ def evaluate_predictions(df, final_predictions):
     exact_match_acc = exact_matches / len(gt_coarse)
     print(f"Exact Match Accuracy: {exact_match_acc:.4f}")
     
+    # Additional metrics
+    avg_pred_count = np.mean([len(preds) for preds in pred_fine])
+    avg_gt_count = np.mean([len(gt) for gt in gt_fine])
+    print(f"Avg Pred Labels/Sample: {avg_pred_count:.2f}")
+    print(f"Avg GT Labels/Sample: {avg_gt_count:.2f}")
+    
     print("-" * 50)
+
+
+def detect_training_mode(checkpoint_dir):
+    """
+    Detect training mode from checkpoint directory.
+    Returns 'soft', 'hard', or None if cannot detect.
+    """
+    mode_file = os.path.join(checkpoint_dir, 'training_mode.txt')
+    if os.path.exists(mode_file):
+        with open(mode_file, 'r') as f:
+            for line in f:
+                if line.startswith('mode='):
+                    return line.strip().split('=')[1]
+    
+    # Check directory name
+    if '_soft' in checkpoint_dir:
+        return 'soft'
+    elif '_hard' in checkpoint_dir:
+        return 'hard'
+    
+    return None
 
 
 def main():
@@ -316,6 +428,10 @@ def main():
                         help='Input CSV with coarse predictions')
     parser.add_argument('--output', type=str, default=FINAL_PREDICTIONS_PATH,
                         help='Output CSV path for final predictions')
+    parser.add_argument('--soft', action='store_true',
+                        help='Use soft conditioning mode')
+    parser.add_argument('--hard', action='store_true',
+                        help='Use hard masking mode')
     parser.add_argument('--threshold', type=float, default=FINE_THRESHOLD,
                         help='Threshold for fine label prediction')
     parser.add_argument('--gap_ratio', type=float, default=FINE_GAP_RATIO,
@@ -328,8 +444,33 @@ def main():
                         help='Batch size for inference')
     args = parser.parse_args()
     
+    # Determine mode
+    if args.soft:
+        use_soft = True
+    elif args.hard:
+        use_soft = False
+    else:
+        # Auto-detect from config or checkpoint
+        use_soft = USE_SOFT_CONDITIONING
+    
+    mode_str = "SOFT CONDITIONING" if use_soft else "HARD MASKING"
+    
+    # Determine checkpoint directory
+    checkpoint_dir = FINE_CHECKPOINT_DIR + ("_soft" if use_soft else "_hard")
+    
+    # Fallback to old directory if new one doesn't exist
+    if not os.path.exists(checkpoint_dir):
+        if os.path.exists(FINE_CHECKPOINT_DIR):
+            checkpoint_dir = FINE_CHECKPOINT_DIR
+            print(f"⚠️ Using legacy checkpoint: {checkpoint_dir}")
+            # Detect mode from legacy checkpoint
+            detected_mode = detect_training_mode(checkpoint_dir)
+            if detected_mode:
+                use_soft = (detected_mode == 'soft')
+                mode_str = "SOFT CONDITIONING" if use_soft else "HARD MASKING"
+    
     print("="*100)
-    print("HIERARCHICAL ENTITY ROLE CLASSIFICATION - INFERENCE")
+    print(f"HIERARCHICAL ENTITY ROLE CLASSIFICATION - INFERENCE ({mode_str})")
     print("="*100)
     
     # Check input exists
@@ -338,18 +479,23 @@ def main():
         print("\nPlease run train_coarse.py first to generate coarse predictions.")
         return
     
+    # Check checkpoint exists
+    if not os.path.exists(checkpoint_dir):
+        print(f"❌ Error: Checkpoint not found: {checkpoint_dir}")
+        print("\nPlease run train_fine.py first.")
+        return
+    
     # Set device
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     print(f"\n📱 Using device: {device}")
     
-    # Load data with coarse predictions
+    # Load data
     print(f"\n📂 Loading data from: {args.input}")
     df = pd.read_csv(args.input)
     print(f"   Total samples: {len(df)}")
     
     if 'predicted_coarse' not in df.columns:
         print("❌ Error: 'predicted_coarse' column not found!")
-        print("   Please run train_coarse.py first.")
         return
     
     # Initialize tokenizer
@@ -360,37 +506,52 @@ def main():
     })
     
     # Load fine classifier
-    fine_classifier = load_fine_classifier(FINE_CHECKPOINT_DIR, tokenizer, device)
+    fine_classifier = load_fine_classifier(checkpoint_dir, tokenizer, device, use_soft=use_soft)
     
     # Create dataset and dataloader
     print("\n📊 Creating inference dataset...")
-    
-    # Check if ground truth labels are available (for evaluation)
     has_labels = 'labels' in df.columns
     
-    if has_labels:
-        dataset = FineRoleDataset(df, tokenizer, max_length=MAX_LENGTH, use_predicted_coarse=True)
-        dataloader = DataLoader(
-            dataset, batch_size=args.batch_size, shuffle=False,
-            collate_fn=collate_fn_fine_role
-        )
+    if use_soft:
+        if has_labels:
+            dataset = SoftConditionedFineRoleDataset(df, tokenizer, max_length=MAX_LENGTH, use_predicted_coarse=True)
+        else:
+            dataset = SoftConditionedInferenceDataset(df, tokenizer, max_length=MAX_LENGTH)
+        collate_fn = collate_fn_soft_conditioned
     else:
-        dataset = FineRoleInferenceDataset(df, tokenizer, max_length=MAX_LENGTH)
-        dataloader = DataLoader(
-            dataset, batch_size=args.batch_size, shuffle=False,
-            collate_fn=collate_fn_fine_inference
-        )
+        if has_labels:
+            dataset = FineRoleDataset(df, tokenizer, max_length=MAX_LENGTH, use_predicted_coarse=True)
+        else:
+            dataset = FineRoleInferenceDataset(df, tokenizer, max_length=MAX_LENGTH)
+        collate_fn = collate_fn_fine_role if has_labels else collate_fn_fine_inference
+    
+    dataloader = DataLoader(
+        dataset, batch_size=args.batch_size, shuffle=False,
+        collate_fn=collate_fn
+    )
     
     # Generate fine predictions
     print("\n🔮 Generating fine label predictions...")
-    print(f"   Smart strategy: threshold={args.threshold}, gap_ratio={args.gap_ratio}, min_labels={args.min_labels}, max_labels={args.max_labels}")
-    fine_predictions, fine_probs = predict_fine_labels(
-        fine_classifier, dataloader, device, 
-        threshold=args.threshold,
-        gap_ratio=args.gap_ratio,
-        min_labels=args.min_labels,
-        max_labels=args.max_labels
-    )
+    print(f"   Mode: {mode_str}")
+    print(f"   Parameters: threshold={args.threshold}, gap_ratio={args.gap_ratio}, "
+          f"min_labels={args.min_labels}, max_labels={args.max_labels}")
+    
+    if use_soft:
+        fine_predictions, fine_probs = predict_fine_labels_soft(
+            fine_classifier, dataloader, device,
+            threshold=args.threshold,
+            gap_ratio=args.gap_ratio,
+            min_labels=args.min_labels,
+            max_labels=args.max_labels
+        )
+    else:
+        fine_predictions, fine_probs = predict_fine_labels_hard(
+            fine_classifier, dataloader, device,
+            threshold=args.threshold,
+            gap_ratio=args.gap_ratio,
+            min_labels=args.min_labels,
+            max_labels=args.max_labels
+        )
     
     # Combine predictions
     print("\n🔗 Combining coarse and fine predictions...")
@@ -400,10 +561,10 @@ def main():
     df['predicted_labels'] = [str(labels) for labels in final_predictions]
     df['predicted_fine_labels'] = [str(labels) for labels in fine_predictions]
     
-    # Add fine probabilities for each class
+    # Add fine probabilities
     for fine_name, fine_id in fine_label2id.items():
         safe_name = fine_name.lower().replace(' ', '_')
-        df[f'fine_proba_{safe_name}'] = fine_probs[:, fine_id]
+        df[f'fine_prob_{safe_name}'] = fine_probs[:, fine_id]
     
     # Save results
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
@@ -436,12 +597,12 @@ def main():
         for label, count in fine_counts.most_common(10):
             print(f"   {label}: {count}")
     
-    # Average number of fine labels per sample
+    # Average number of fine labels
     avg_fine = np.mean([len(labels) for labels in fine_predictions])
     print(f"\nAvg fine labels per sample: {avg_fine:.2f}")
     
     print("\n" + "="*100)
-    print("INFERENCE COMPLETE")
+    print(f"INFERENCE COMPLETE ({mode_str})")
     print("="*100)
 
 

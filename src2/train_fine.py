@@ -1,18 +1,22 @@
 """
-Train Fine Role Classifier (Unified with Masking)
+Train Fine Role Classifier (Unified with Soft Conditioning)
 
-This script trains the unified fine role classifier that predicts multi-label
-fine roles while respecting the hierarchical structure (masking based on coarse labels).
+This script trains the fine role classifier with two modes:
+1. Hard masking (legacy): Uses coarse labels to mask invalid fine labels
+2. Soft conditioning (new): Uses coarse probabilities for soft hierarchy prior
 
 Prerequisites:
-    - Run train_coarse.py first to generate coarse predictions
+    - Run train_coarse.py first to generate coarse predictions (with probabilities)
 
 Usage:
-    python train_fine.py
+    python train_fine.py                    # Uses mode from config (USE_SOFT_CONDITIONING)
+    python train_fine.py --soft             # Force soft conditioning
+    python train_fine.py --hard             # Force hard masking
 """
 
 import os
 import ast
+import argparse
 import numpy as np
 import pandas as pd
 import torch
@@ -26,15 +30,17 @@ from config import (
     MODEL_NAME, MAX_LENGTH,
     FINE_NUM_EPOCHS, FINE_BATCH_SIZE, FINE_LEARNING_RATE,
     FINE_WARMUP_STEPS, FINE_NUM_UNFROZEN_LAYERS, FINE_THRESHOLD,
-    NUM_FINE_LABELS,
-    FINE_LOSS_TYPE, ASL_GAMMA_NEG, ASL_GAMMA_POS, ASL_CLIP, ASL_ENTROPY_WEIGHT
+    NUM_FINE_LABELS, NUM_COARSE_LABELS,
+    FINE_LOSS_TYPE, ASL_GAMMA_NEG, ASL_GAMMA_POS, ASL_CLIP, ASL_ENTROPY_WEIGHT,
+    USE_SOFT_CONDITIONING, CARDINALITY_WEIGHT, TARGET_CARDINALITY
 )
 from data_utils import ENTITY_START_TOKEN, ENTITY_END_TOKEN
 from datasets import (
     FineRoleDataset, collate_fn_fine_role,
+    SoftConditionedFineRoleDataset, collate_fn_soft_conditioned,
     fine_label2id, fine_id2label, coarse_label2id
 )
-from hierarchical_model import FineRoleClassifier
+from hierarchical_model import FineRoleClassifier, SoftConditionedFineClassifier
 
 
 def compute_fine_class_counts(df, label_col='labels'):
@@ -56,17 +62,11 @@ def compute_fine_class_counts(df, label_col='labels'):
 
 def stable_sigmoid(x):
     """Numerically stable sigmoid function."""
-    # For positive values, use standard sigmoid
-    # For negative values, use exp(x) / (1 + exp(x)) to avoid overflow
     pos_mask = x >= 0
     neg_mask = ~pos_mask
     
     result = np.zeros_like(x, dtype=np.float64)
-    
-    # For positive x: 1 / (1 + exp(-x))
     result[pos_mask] = 1 / (1 + np.exp(-x[pos_mask]))
-    
-    # For negative x: exp(x) / (1 + exp(x))
     exp_x = np.exp(x[neg_mask])
     result[neg_mask] = exp_x / (1 + exp_x)
     
@@ -76,43 +76,35 @@ def stable_sigmoid(x):
 def compute_multilabel_metrics(eval_pred):
     """
     Compute multi-label metrics for HuggingFace Trainer.
-    
-    Note: This computes metrics over ALL fine labels. The masking is already
-    applied in the model's forward pass (logits for invalid labels are -inf).
     """
     logits, labels = eval_pred
     
-    # Handle tuple labels (when multiple label columns are returned)
     if isinstance(labels, tuple):
-        # fine_labels is the first element based on our collate function
         labels = labels[0] if len(labels) > 0 else labels
     
-    # Ensure labels is a numpy array
     if not isinstance(labels, np.ndarray):
         labels = np.array(labels)
     
-    # Apply stable sigmoid and threshold
     probs = stable_sigmoid(logits.astype(np.float64))
     predictions = (probs >= FINE_THRESHOLD).astype(int)
     labels = labels.astype(int)
     
-    # Flatten for micro-averaging (but only consider non-zero entries for proper evaluation)
-    # We compute both micro and macro F1
     micro_f1 = f1_score(labels.flatten(), predictions.flatten(), average='micro', zero_division=0)
     macro_f1 = f1_score(labels.flatten(), predictions.flatten(), average='macro', zero_division=0)
     
-    # Per-sample metrics (for samples with at least one positive label)
     sample_f1_scores = []
     for i in range(len(labels)):
-        if labels[i].sum() > 0:  # Only consider samples with positive labels
+        if labels[i].sum() > 0:
             sample_f1 = f1_score(labels[i], predictions[i], average='micro', zero_division=0)
             sample_f1_scores.append(sample_f1)
     
     avg_sample_f1 = np.mean(sample_f1_scores) if sample_f1_scores else 0.0
     
-    # Precision and recall
     micro_precision = precision_score(labels.flatten(), predictions.flatten(), average='micro', zero_division=0)
     micro_recall = recall_score(labels.flatten(), predictions.flatten(), average='micro', zero_division=0)
+    
+    # Additional metrics for soft conditioning
+    avg_predictions = predictions.sum(axis=1).mean()
     
     return {
         'micro_f1': micro_f1,
@@ -120,21 +112,19 @@ def compute_multilabel_metrics(eval_pred):
         'sample_f1': avg_sample_f1,
         'precision': micro_precision,
         'recall': micro_recall,
+        'avg_pred_count': avg_predictions,
     }
 
 
 class FineRoleTrainer(Trainer):
     """
-    Custom Trainer for FineRoleClassifier to handle multi-label evaluation properly.
+    Custom Trainer for FineRoleClassifier (hard masking mode).
     """
     
     def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None):
-        """Override to handle our custom model outputs."""
-        # Extract labels - keep copies for later
         fine_labels = inputs.pop('fine_labels', None)
         coarse_labels = inputs.pop('coarse_labels', None)
         
-        # Forward pass
         outputs = model(
             input_ids=inputs['input_ids'],
             attention_mask=inputs['attention_mask'],
@@ -149,16 +139,9 @@ class FineRoleTrainer(Trainer):
         return loss
     
     def prediction_step(self, model, inputs, prediction_loss_only, ignore_keys=None):
-        """Override prediction step to properly return labels for metrics."""
-        # Extract labels before they're removed
-        fine_labels = inputs.get('fine_labels', None)
-        coarse_labels = inputs.get('coarse_labels', None)
-        
-        # Move inputs to device
         inputs = self._prepare_inputs(inputs)
         
         with torch.no_grad():
-            # Forward pass
             fine_labels_tensor = inputs.pop('fine_labels', None)
             coarse_labels_tensor = inputs.pop('coarse_labels', None)
             
@@ -175,13 +158,78 @@ class FineRoleTrainer(Trainer):
         if prediction_loss_only:
             return (loss, None, None)
         
-        # Return fine_labels as the labels for metrics computation
+        return (loss, logits, fine_labels_tensor)
+
+
+class SoftConditionedTrainer(Trainer):
+    """
+    Custom Trainer for SoftConditionedFineClassifier (soft conditioning mode).
+    """
+    
+    def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None):
+        fine_labels = inputs.pop('fine_labels', None)
+        coarse_labels = inputs.pop('coarse_labels', None)
+        coarse_probs = inputs.pop('coarse_probs', None)
+        
+        outputs = model(
+            input_ids=inputs['input_ids'],
+            attention_mask=inputs['attention_mask'],
+            coarse_probs=coarse_probs,
+            coarse_labels=coarse_labels,  # Fallback if coarse_probs not available
+            fine_labels=fine_labels
+        )
+        
+        loss = outputs.loss
+        
+        if return_outputs:
+            return loss, outputs
+        return loss
+    
+    def prediction_step(self, model, inputs, prediction_loss_only, ignore_keys=None):
+        inputs = self._prepare_inputs(inputs)
+        
+        with torch.no_grad():
+            fine_labels_tensor = inputs.pop('fine_labels', None)
+            coarse_labels_tensor = inputs.pop('coarse_labels', None)
+            coarse_probs_tensor = inputs.pop('coarse_probs', None)
+            
+            outputs = model(
+                input_ids=inputs['input_ids'],
+                attention_mask=inputs['attention_mask'],
+                coarse_probs=coarse_probs_tensor,
+                coarse_labels=coarse_labels_tensor,
+                fine_labels=fine_labels_tensor
+            )
+            
+            loss = outputs.loss
+            logits = outputs.logits
+        
+        if prediction_loss_only:
+            return (loss, None, None)
+        
         return (loss, logits, fine_labels_tensor)
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Train Fine Role Classifier")
+    parser.add_argument('--soft', action='store_true', 
+                        help='Use soft conditioning (overrides config)')
+    parser.add_argument('--hard', action='store_true',
+                        help='Use hard masking (overrides config)')
+    args = parser.parse_args()
+    
+    # Determine mode
+    if args.soft:
+        use_soft = True
+    elif args.hard:
+        use_soft = False
+    else:
+        use_soft = USE_SOFT_CONDITIONING
+    
+    mode_str = "SOFT CONDITIONING" if use_soft else "HARD MASKING"
+    
     print("="*100)
-    print("FINE ROLE CLASSIFIER TRAINING (UNIFIED WITH MASKING)")
+    print(f"FINE ROLE CLASSIFIER TRAINING ({mode_str})")
     print("="*100)
     
     # Check if coarse predictions exist
@@ -207,6 +255,15 @@ def main():
         print("❌ Error: 'predicted_coarse' column not found in training data!")
         return
     
+    # Check for coarse probabilities (soft conditioning)
+    has_coarse_probs = 'coarse_probs' in train_df.columns or \
+                       all(col in train_df.columns for col in 
+                           ['coarse_prob_protagonist', 'coarse_prob_antagonist', 'coarse_prob_innocent'])
+    
+    if use_soft and not has_coarse_probs:
+        print("⚠️ Warning: Soft conditioning requested but coarse probabilities not found.")
+        print("   Will use one-hot encoding of coarse labels as fallback.")
+    
     # Initialize tokenizer
     print(f"\n🔤 Loading tokenizer: {MODEL_NAME}")
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
@@ -220,11 +277,30 @@ def main():
     base_model.resize_token_embeddings(len(tokenizer))
     base_model = base_model.to(device)
     
-    # Create datasets (using ground-truth coarse for training)
+    # Create datasets based on mode
     print("\n📊 Creating datasets...")
-    train_dataset = FineRoleDataset(train_df, tokenizer, max_length=MAX_LENGTH, use_predicted_coarse=False)
-    val_dataset = FineRoleDataset(val_df, tokenizer, max_length=MAX_LENGTH, use_predicted_coarse=False)
-    test_dataset = FineRoleDataset(test_df, tokenizer, max_length=MAX_LENGTH, use_predicted_coarse=False)
+    if use_soft:
+        train_dataset = SoftConditionedFineRoleDataset(
+            train_df, tokenizer, max_length=MAX_LENGTH, use_predicted_coarse=False
+        )
+        val_dataset = SoftConditionedFineRoleDataset(
+            val_df, tokenizer, max_length=MAX_LENGTH, use_predicted_coarse=False
+        )
+        test_dataset = SoftConditionedFineRoleDataset(
+            test_df, tokenizer, max_length=MAX_LENGTH, use_predicted_coarse=False
+        )
+        collate_fn = collate_fn_soft_conditioned
+    else:
+        train_dataset = FineRoleDataset(
+            train_df, tokenizer, max_length=MAX_LENGTH, use_predicted_coarse=False
+        )
+        val_dataset = FineRoleDataset(
+            val_df, tokenizer, max_length=MAX_LENGTH, use_predicted_coarse=False
+        )
+        test_dataset = FineRoleDataset(
+            test_df, tokenizer, max_length=MAX_LENGTH, use_predicted_coarse=False
+        )
+        collate_fn = collate_fn_fine_role
     
     # Compute fine class counts for class-balanced loss
     fine_class_counts = compute_fine_class_counts(train_df)
@@ -233,31 +309,59 @@ def main():
     for idx, count in sorted_counts[:10]:
         print(f"   {fine_id2label[idx]}: {count}")
     
-    # Initialize classifier
-    print("\n🏗️ Initializing FineRoleClassifier...")
+    # Initialize classifier based on mode
+    print("\n🏗️ Initializing classifier...")
+    print(f"   Mode: {mode_str}")
     print(f"   Loss type: {FINE_LOSS_TYPE}")
-    if FINE_LOSS_TYPE in ['asl', 'asl_optimized']:
-        print(f"   ASL params: gamma_neg={ASL_GAMMA_NEG}, gamma_pos={ASL_GAMMA_POS}, clip={ASL_CLIP}")
-        if FINE_LOSS_TYPE == 'asl_optimized':
-            print(f"   Entropy regularization: weight={ASL_ENTROPY_WEIGHT}")
     
-    classifier = FineRoleClassifier(
-        base_model=base_model,
-        tokenizer=tokenizer,
-        device=device,
-        class_counts=fine_class_counts,
-        num_unfrozen_layers=FINE_NUM_UNFROZEN_LAYERS,
-        threshold=FINE_THRESHOLD,
-        loss_type=FINE_LOSS_TYPE,
-        gamma_neg=ASL_GAMMA_NEG,
-        gamma_pos=ASL_GAMMA_POS,
-        clip=ASL_CLIP,
-        entropy_weight=ASL_ENTROPY_WEIGHT
-    )
+    if use_soft:
+        print(f"   Cardinality weight: {CARDINALITY_WEIGHT}")
+        print(f"   Target cardinality: {TARGET_CARDINALITY}")
+        
+        classifier = SoftConditionedFineClassifier(
+            base_model=base_model,
+            tokenizer=tokenizer,
+            device=device,
+            class_counts=fine_class_counts,
+            num_unfrozen_layers=FINE_NUM_UNFROZEN_LAYERS,
+            threshold=FINE_THRESHOLD,
+            loss_type=FINE_LOSS_TYPE,
+            gamma_neg=ASL_GAMMA_NEG,
+            gamma_pos=ASL_GAMMA_POS,
+            clip=ASL_CLIP,
+            entropy_weight=ASL_ENTROPY_WEIGHT,
+            cardinality_weight=CARDINALITY_WEIGHT,
+            target_cardinality=TARGET_CARDINALITY,
+            num_coarse=NUM_COARSE_LABELS,
+            num_fine=NUM_FINE_LABELS
+        )
+        TrainerClass = SoftConditionedTrainer
+    else:
+        if FINE_LOSS_TYPE in ['asl', 'asl_optimized']:
+            print(f"   ASL params: gamma_neg={ASL_GAMMA_NEG}, gamma_pos={ASL_GAMMA_POS}, clip={ASL_CLIP}")
+            if FINE_LOSS_TYPE == 'asl_optimized':
+                print(f"   Entropy regularization: weight={ASL_ENTROPY_WEIGHT}")
+        
+        classifier = FineRoleClassifier(
+            base_model=base_model,
+            tokenizer=tokenizer,
+            device=device,
+            class_counts=fine_class_counts,
+            num_unfrozen_layers=FINE_NUM_UNFROZEN_LAYERS,
+            threshold=FINE_THRESHOLD,
+            loss_type=FINE_LOSS_TYPE,
+            gamma_neg=ASL_GAMMA_NEG,
+            gamma_pos=ASL_GAMMA_POS,
+            clip=ASL_CLIP,
+            entropy_weight=ASL_ENTROPY_WEIGHT
+        )
+        TrainerClass = FineRoleTrainer
     
     # Training arguments
+    checkpoint_dir = FINE_CHECKPOINT_DIR + ("_soft" if use_soft else "_hard")
+    
     training_args = TrainingArguments(
-        output_dir=FINE_CHECKPOINT_DIR,
+        output_dir=checkpoint_dir,
         num_train_epochs=FINE_NUM_EPOCHS,
         per_device_train_batch_size=FINE_BATCH_SIZE,
         per_device_eval_batch_size=FINE_BATCH_SIZE,
@@ -266,7 +370,7 @@ def main():
         save_strategy='epoch',
         eval_strategy='epoch',
         logging_steps=50,
-        logging_dir='./logs/fine',
+        logging_dir=f'./logs/fine_{mode_str.lower().replace(" ", "_")}',
         load_best_model_at_end=True,
         metric_for_best_model='micro_f1',
         greater_is_better=True,
@@ -275,13 +379,13 @@ def main():
         report_to='none',
     )
     
-    # Create custom Trainer
-    trainer = FineRoleTrainer(
+    # Create trainer
+    trainer = TrainerClass(
         model=classifier,
         args=training_args,
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
-        data_collator=collate_fn_fine_role,
+        data_collator=collate_fn,
         compute_metrics=compute_multilabel_metrics,
     )
     
@@ -301,34 +405,50 @@ def main():
     print("EVALUATING ON VALIDATION SET")
     print(f"{'='*100}")
     val_results = trainer.evaluate(val_dataset, metric_key_prefix='val')
-    print(f"Val Micro-F1:  {val_results['val_micro_f1']:.4f}")
-    print(f"Val Macro-F1:  {val_results['val_macro_f1']:.4f}")
-    print(f"Val Sample-F1: {val_results['val_sample_f1']:.4f}")
-    print(f"Val Precision: {val_results['val_precision']:.4f}")
-    print(f"Val Recall:    {val_results['val_recall']:.4f}")
+    print(f"Val Micro-F1:     {val_results['val_micro_f1']:.4f}")
+    print(f"Val Macro-F1:     {val_results['val_macro_f1']:.4f}")
+    print(f"Val Sample-F1:    {val_results['val_sample_f1']:.4f}")
+    print(f"Val Precision:    {val_results['val_precision']:.4f}")
+    print(f"Val Recall:       {val_results['val_recall']:.4f}")
+    print(f"Val Avg Pred Cnt: {val_results['val_avg_pred_count']:.2f}")
     
     # Evaluate on test set
     print(f"\n{'='*100}")
     print("EVALUATING ON TEST SET")
     print(f"{'='*100}")
     test_results = trainer.evaluate(test_dataset, metric_key_prefix='test')
-    print(f"Test Micro-F1:  {test_results['test_micro_f1']:.4f}")
-    print(f"Test Macro-F1:  {test_results['test_macro_f1']:.4f}")
-    print(f"Test Sample-F1: {test_results['test_sample_f1']:.4f}")
-    print(f"Test Precision: {test_results['test_precision']:.4f}")
-    print(f"Test Recall:    {test_results['test_recall']:.4f}")
+    print(f"Test Micro-F1:     {test_results['test_micro_f1']:.4f}")
+    print(f"Test Macro-F1:     {test_results['test_macro_f1']:.4f}")
+    print(f"Test Sample-F1:    {test_results['test_sample_f1']:.4f}")
+    print(f"Test Precision:    {test_results['test_precision']:.4f}")
+    print(f"Test Recall:       {test_results['test_recall']:.4f}")
+    print(f"Test Avg Pred Cnt: {test_results['test_avg_pred_count']:.2f}")
     
     # Save final model
     print(f"\n{'='*100}")
     print("SAVING FINAL MODEL")
     print(f"{'='*100}")
-    trainer.save_model(FINE_CHECKPOINT_DIR)
-    print(f"✅ Model saved to: {FINE_CHECKPOINT_DIR}")
+    trainer.save_model(checkpoint_dir)
+    print(f"✅ Model saved to: {checkpoint_dir}")
+    
+    # Save mode indicator for inference
+    mode_file = os.path.join(checkpoint_dir, 'training_mode.txt')
+    with open(mode_file, 'w') as f:
+        f.write(f"mode={'soft' if use_soft else 'hard'}\n")
+        f.write(f"cardinality_weight={CARDINALITY_WEIGHT if use_soft else 'N/A'}\n")
+        f.write(f"target_cardinality={TARGET_CARDINALITY if use_soft else 'N/A'}\n")
+    print(f"✅ Training mode info saved to: {mode_file}")
     
     print(f"\n{'='*100}")
     print("FINE CLASSIFIER TRAINING COMPLETE")
     print(f"{'='*100}")
+    print(f"\nMode: {mode_str}")
+    print(f"Model saved to: {checkpoint_dir}")
     print("\nNext step: Run inference.py to generate final predictions")
+    if use_soft:
+        print("   Use: python inference.py --soft")
+    else:
+        print("   Use: python inference.py --hard")
 
 
 if __name__ == "__main__":

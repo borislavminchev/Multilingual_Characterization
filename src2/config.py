@@ -97,6 +97,21 @@ ASL_CLIP = 0.05
 ASL_ENTROPY_WEIGHT = 0.15
 
 # =============================================================================
+# SOFT HIERARCHY CONDITIONING PARAMETERS
+# =============================================================================
+# Enable soft conditioning (pass coarse probabilities to fine classifier)
+USE_SOFT_CONDITIONING = True
+
+# Cardinality regularization weight
+# Penalizes deviation from expected number of labels (1-3)
+# Higher values = stronger constraint on number of predictions
+CARDINALITY_WEIGHT = 0.3
+
+# Target cardinality (expected average number of fine labels)
+# Based on data distribution: most samples have 1-3 fine labels
+TARGET_CARDINALITY = 1.5
+
+# =============================================================================
 # TAXONOMY CONSTANTS
 # =============================================================================
 NUM_COARSE_LABELS = 3  # Protagonist, Antagonist, Innocent

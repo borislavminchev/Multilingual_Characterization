@@ -1,131 +1,131 @@
 [
     {
         "name": "Protagonist",
-        "description": "Primary actors framed as forces for good who drive the narrative toward positive change, justice, or protection of shared values. Protagonists are depicted as morally legitimate, necessary, and often heroic, whether through leadership, sacrifice, resistance, or perseverance. In political and climate change contexts, they are commonly positioned as the rightful agents of progress or moral authority.",
+        "description": "The main character in a play, film, or book; or an active supporter of a particular idea or policy.",
         "example": "Civil society leaders advocating for democratic reform, first responders protecting communities during emergencies, or climate activists mobilizing public action to reduce emissions and protect ecosystems.",
         "subtypes": [
             {
                 "name": "Guardian",
-                "description": "Heroes or guardians who protect values or communities, ensuring safety and upholding justice. They often take on roles such as law enforcement officers, soldiers, or community leaders (e.g., climate change advocacy community leaders).",
+                "description": "A person who protects or defends something; or a person who is legally responsible for the care of another.",
                 "example": "Police officers protecting citizens during a crisis, firefighters saving lives during a disaster, community leaders standing against crime or leaders standing up for action to address climate change."
             },
             {
                 "name": "Martyr",
-                "description": "Martyrs or saviors who sacrifice their well-being, or even their lives, for a greater good or cause. These individuals are often celebrated for their selflessness and dedication. This is mostly in politics, not in CC.",
+                "description": "A person who is killed or who suffers greatly because of their religious or political beliefs; or a person who suffers very much from an illness or problem.",
                 "example": "Civil rights leaders like Martin Luther King Jr., who was assassinated while fighting for equality, or journalists who risk their lives to report on corruption and injustice."
             },
             {
                 "name": "Peacemaker",
-                "description": "Individuals who advocate for harmony, working tirelessly to resolve conflicts and bring about peace. They often engage in diplomacy, negotiations, and mediation. This is mostly in politics, not in CC.",
+                "description": "A person, group, or nation that tries to make peace, especially by reconciling parties who disagree, quarrel, or fight.",
                 "example": "Nelson Mandela's efforts to reconcile South Africa post-apartheid, or diplomats working to broker peace deals between conflicting nations."
             },
             {
                 "name": "Rebel",
-                "description": "Rebels, revolutionaries, or freedom fighters who challenge the status quo and fight for significant change or liberation from oppression. They are often seen as champions of justice and freedom.",
+                "description": "A person who fights against the government of their country; or a person who opposes someone in authority within an organization or does not accept normal standards of behavior.",
                 "example": "Leaders of independence movements like Mahatma Gandhi in India, or modern-day activists fighting for democratic reforms in authoritarian regimes. In CC domain, this includes characters such as Greta Thunberg, or persons who chain themselves to trees to prevent deforestation."
             },
             {
                 "name": "Underdog",
-                "description": "Entities who are considered unlikely to succeed due to their disadvantaged position but strive against greater forces and obstacles. Their stories often inspire others.",
+                "description": "A person, team, or entity that is expected to lose a competition, fight, or struggle.",
                 "example": "Grassroots political candidates overcoming well-funded incumbents, or small nations standing up to larger, more powerful countries. In CC, this could include underfunded organizations framed as showing promise to make positive impact on climate change."
             },
             {
                 "name": "Virtuous",
-                "description": "Individuals portrayed as virtuous, righteous, or noble, who are seen as fair, just, and upholding high moral standards. They are often role models and figures of integrity.",
+                "description": "Having or showing high moral standards and good qualities; behaving in a very good and moral way.",
                 "example": "Judges known for their fairness, or politicians with a reputation for honesty and ethical behavior. In CC, this includes leaders standing up for environmental ethical values to protect planet Earth, or activists pushing for environmental sustainability."
             }
         ]
     },
     {
         "name": "Antagonist",
-        "description": "Actors portrayed as obstacles, threats, or sources of harm that oppose the protagonist's goals or undermine societal well-being. Antagonists are often framed as morally blameworthy, irresponsible, corrupt, or dangerous, and may represent systems, institutions, or individuals whose actions are depicted as causing injustice, conflict, or environmental damage.",
+        "description": "A person who strongly opposes somebody or something; an opponent or enemy of the main character.",
         "example": "Authoritarian governments suppressing dissent, corporations accused of prioritizing profit over public or environmental health, or political leaders denying or obstructing action on climate change.",
         "subtypes": [
             {
                 "name": "Instigator",
-                "description": "Individuals or groups initiating conflict, often seen as the primary cause of tension and discord. They may provoke violence or unrest.",
+                "description": "A person who causes something to happen, especially something bad or violent.",
                 "example": "Politicians using inflammatory rhetoric to incite violence, or groups instigating protests to destabilize governments. In CC, this could also include activists like Greta Thunberg or those chaining themselves to trees when framed as troublemakers or instigators of problems."
             },
             {
                 "name": "Conspirator",
-                "description": "Those involved in plots and secret plans, often working behind the scenes to undermine or deceive others. They engage in covert activities to achieve their goals.",
+                "description": "A person who takes part in a conspiracy (a secret plan by a group to do something harmful or illegal).",
                 "example": "Figures involved in political scandals or espionage, such as Watergate conspirators or modern cyber espionage cases. In CC, this could manifest as persons or organizations conspiring to bypass environmental regulations to turn a profit."
             },
             {
                 "name": "Tyrant",
-                "description": "Tyrants and corrupt officials who abuse their power, ruling unjustly and oppressing those under their control. They are often characterized by their authoritarian rule and exploitation.",
+                "description": "A person who has complete power over a country and uses it in a cruel and unfair way.",
                 "example": "Dictators like Kim Jong-un in North Korea, or corrupt officials embezzling public funds and suppressing dissent."
             },
             {
                 "name": "Foreign Adversary",
-                "description": "Entities from other nations or regions creating geopolitical tension and acting against the interests of another country. They are often depicted as threats to national security. This is mostly in politics, not in CC.",
+                "description": "A foreign government or non-government person engaged in a long-term pattern or serious instances of conduct significantly adverse to the national security of another country.",
                 "example": "Rival nations involved in espionage or military confrontations, such as the Cold War adversaries, or countries accused of election interference. In CC, this could include portrayals of countries refusing to adhere to CC policies, such as China being blamed for increased CO2 emissions."
             },
             {
                 "name": "Traitor",
-                "description": "Individuals who betray a cause or country, often seen as disloyal and treacherous. Their actions are viewed as a significant breach of trust. This is mostly in politics, not in CC.",
+                "description": "A person who is not loyal or true to a friend, country, cause, or belief.",
                 "example": "Whistleblowers revealing sensitive information for personal gain, or soldiers defecting to enemy forces. If portrayed positively, whistleblowers may instead fall under 'Virtuous'."
             },
             {
                 "name": "Spy",
-                "description": "Spies or double agents accused of espionage, gathering and transmitting sensitive information to a rival or enemy. They operate in secrecy and deception. This is mostly in politics, not in CC.",
+                "description": "A person who tries to get secret information about another country, organization, or person.",
                 "example": "Historical figures like Aldrich Ames, who spied for the Soviet Union, or contemporary cases of corporate espionage."
             },
             {
                 "name": "Saboteur",
-                "description": "Saboteurs who deliberately damage or obstruct systems, processes, or organizations to cause disruption or failure. They aim to weaken or destroy targets from within.",
+                "description": "A person who deliberately damages or destroys something to prevent an enemy or competitor from being successful.",
                 "example": "Insiders tampering with critical infrastructure, or activists sabotaging industrial operations."
             },
             {
                 "name": "Corrupt",
-                "description": "Individuals or entities that engage in unethical or illegal activities for personal gain, prioritizing profit or power over ethics. This includes corrupt politicians, business leaders, and officials.",
+                "description": "Willing to use power to do dishonest or illegal things in return for money or to get an advantage; or dishonest behavior.",
                 "example": "Companies involved in environmental pollution, executives engaged in massive financial fraud, or politicians accepting bribes and engaging in graft."
             },
             {
                 "name": "Incompetent",
-                "description": "Entities causing harm through ignorance, lack of skill, or incompetence. This includes people committing foolish acts or making poor decisions due to lack of understanding or expertise. Their actions, often unintentional, result in significant negative consequences.",
+                "description": "Not having the skill or ability to do something well or successfully.",
                 "example": "Leaders making reckless policy decisions without proper understanding, officials mishandling crisis responses, or managers whose poor judgment leads to organizational failures."
             },
             {
                 "name": "Terrorist",
-                "description": "Terrorists, mercenaries, insurgents, fanatics, or extremists engaging in violence and terror to further ideological ends, often targeting civilians. They are viewed as significant threats to peace and security. This is mostly in politics, not in CC.",
+                "description": "A person who uses violent action in order to achieve political aims or to force a government to act.",
                 "example": "Groups like ISIS or Al-Qaeda carrying out attacks, or lone-wolf terrorists committing acts of violence."
             },
             {
                 "name": "Deceiver",
-                "description": "Deceivers, manipulators, or propagandists who twist the truth, spread misinformation, and manipulate public perception for their own benefit. They undermine trust and truth.",
+                "description": "A person who deceives someone, often by telling lies or hiding the truth.",
                 "example": "Politicians spreading false information for political gain, or media outlets engaging in propaganda."
             },
             {
                 "name": "Bigot",
-                "description": "Individuals accused of hostility or discrimination against specific groups. This includes entities committing acts falling under racism, sexism, homophobia, antisemitism, Islamophobia, or any kind of hate speech. This is mostly in politics, not in CC.",
+                "description": "A person who has very strong, unreasonable beliefs or opinions about a group of people and will not listen to or accept the opinions of others.",
                 "example": ""
             }
         ]
     },
     {
         "name": "Innocent",
-        "description": "Individuals or groups depicted as passive, vulnerable, or unfairly affected by the actions of others, lacking power or agency to significantly influence outcomes. Innocents are often used to evoke empathy and moral urgency, serving as those who must be protected, defended, or whose suffering justifies action by protagonists.",
+        "description": "Not guilty of a crime; or harmless, naive, and lacking experience of life.",
         "example": "Civilians caught in armed conflict, marginalized communities disproportionately affected by pollution or climate disasters, or future generations framed as bearing the consequences of present-day political and environmental decisions.",
         "subtypes": [
             {
                 "name": "Forgotten",
-                "description": "Marginalized or overlooked groups who are often ignored by society and do not receive the attention or support they need. This includes refugees, who face systemic neglect and exclusion.",
+                "description": "No longer remembered or no longer considered important by society.",
                 "example": "Indigenous populations facing ongoing discrimination; homeless individuals struggling without adequate support; refugees fleeing conflict or persecution."
             },
             {
                 "name": "Exploited",
-                "description": "Individuals or groups used for others' gain, often without their consent and with significant detriment to their well-being. They are often victims of labor exploitation, trafficking, or economic manipulation.",
+                "description": "Used in an unfair way for someone else's advantage or profit.",
                 "example": "Workers in sweatshops; victims of human trafficking; communities suffering from corporate exploitation of natural resources."
             },
             {
                 "name": "Victim",
-                "description": "People cast as victims due to circumstances beyond their control, specifically in two categories: (1) victims of physical harm, including natural disasters, acts of war, terrorism, mugging, physical assault, etc., and (2) victims of economic harm, such as sanctions, blockades, and boycotts. Their experiences evoke sympathy and calls for justice, focusing on either physical or economic suffering.",
+                "description": "A person who has been attacked, injured, or killed as the result of a crime, a disease, or an accident.",
                 "example": "Victims of natural disasters, such as hurricanes or earthquakes; individuals affected by violent crimes; victims of economic blockades, sanctions, or boycotts."
             },
             {
                 "name": "Scapegoat",
-                "description": "Entities blamed unjustly for problems or failures, often to divert attention from the real causes or culprits. They are made to bear the brunt of criticism and punishment without just cause.",
+                "description": "A person who is blamed for something that someone else has done.",
                 "example": "Minority groups blamed for economic problems; political opponents accused of provoking national strife without evidence."
             }
         ]

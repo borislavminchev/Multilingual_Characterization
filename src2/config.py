@@ -40,17 +40,17 @@ FINAL_PREDICTIONS_PATH = os.path.join(PREDICTIONS_ROOT, "final_predictions.csv")
 # =============================================================================
 # MODEL CONFIGURATION
 # =============================================================================
-MODEL_NAME = "microsoft/deberta-v3-base"
+MODEL_NAME = "xlm-roberta-base"
 MAX_LENGTH = 512
 
 # =============================================================================
 # COARSE CLASSIFIER HYPERPARAMETERS
 # =============================================================================
 COARSE_NUM_EPOCHS = 8
-COARSE_BATCH_SIZE = 4
-COARSE_LEARNING_RATE = 5e-5
+COARSE_BATCH_SIZE = 6
+COARSE_LEARNING_RATE = 1e-4
 COARSE_WARMUP_STEPS = 100
-COARSE_NUM_UNFROZEN_LAYERS = 3
+COARSE_NUM_UNFROZEN_LAYERS = 5
 COARSE_FOCAL_GAMMA = 2.0
 COARSE_CLASS_BALANCE_BETA = 0.9999
 
@@ -58,15 +58,15 @@ COARSE_CLASS_BALANCE_BETA = 0.9999
 # FINE CLASSIFIER HYPERPARAMETERS
 # =============================================================================
 FINE_NUM_EPOCHS = 10
-FINE_BATCH_SIZE = 4
-FINE_LEARNING_RATE = 3e-5
+FINE_BATCH_SIZE = 6
+FINE_LEARNING_RATE = 8e-5
 FINE_WARMUP_STEPS = 50
-FINE_NUM_UNFROZEN_LAYERS = 3
+FINE_NUM_UNFROZEN_LAYERS = 6
 FINE_FOCAL_GAMMA = 2.0
 FINE_CLASS_BALANCE_BETA = 0.9999
 
 # Fine prediction parameters (smart threshold strategy)
-FINE_THRESHOLD = 0.5           # Primary threshold for multi-label classification
+FINE_THRESHOLD = 0.25           # Primary threshold for multi-label classification
 FINE_GAP_RATIO = 0.7           # Adaptive threshold: ratio of top probability
 FINE_MIN_LABELS = 1            # Guarantee at least this many predictions
 FINE_MAX_LABELS = 3            # Cap maximum predictions per sample

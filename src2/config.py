@@ -46,13 +46,15 @@ MAX_LENGTH = 512
 # =============================================================================
 # COARSE CLASSIFIER HYPERPARAMETERS
 # =============================================================================
-COARSE_NUM_EPOCHS = 8
-COARSE_BATCH_SIZE = 6
-COARSE_LEARNING_RATE = 1e-4
-COARSE_WARMUP_STEPS = 100
-COARSE_NUM_UNFROZEN_LAYERS = 5
-COARSE_FOCAL_GAMMA = 2.0
+COARSE_NUM_EPOCHS = 10              # Increased from 8 for better convergence
+COARSE_BATCH_SIZE = 8               # Increased from 6 for more stable gradients
+COARSE_LEARNING_RATE = 3e-5         # Reduced from 1e-4 for more stable fine-tuning
+COARSE_WARMUP_RATIO = 0.1           # Warmup ratio (10% of total steps)
+COARSE_NUM_UNFROZEN_LAYERS = 5      # Keep at 5 (per user request)
+COARSE_FOCAL_GAMMA = 1.5            # Slightly reduced from 2.0 for less aggressive focusing
 COARSE_CLASS_BALANCE_BETA = 0.9999
+COARSE_LABEL_SMOOTHING = 0.1        # New: label smoothing to prevent overconfidence
+COARSE_USE_CLS_HEAD = True          # New: use standard classification head (simpler, often better)
 
 # =============================================================================
 # FINE CLASSIFIER HYPERPARAMETERS

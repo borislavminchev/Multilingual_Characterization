@@ -254,15 +254,20 @@ class CoarseRoleClassifier(nn.Module):
     """
     Coarse Role Classifier for single-label classification (3 classes).
     
-    Uses semantic similarity with coarse label anchors.
+    Supports two modes:
+    1. use_cls_head=True: Standard classification head (simpler, often better)
+    2. use_cls_head=False: Semantic similarity with coarse label anchors (legacy)
     """
     
     def __init__(self, base_model, tokenizer, freeze_anchors=True, similarity_metric='cosine', 
-                 device='cpu', num_unfrozen_layers=2, class_counts=None):
+                 device='cpu', num_unfrozen_layers=2, class_counts=None, 
+                 use_cls_head=True, label_smoothing=0.0, focal_gamma=2.0, beta=0.9999):
         super().__init__()
         self.base_model = base_model
         self.tokenizer = tokenizer
         self.device = device
+        self.use_cls_head = use_cls_head
+        self.num_classes = 3  # Protagonist, Antagonist, Innocent
         
         # Freeze encoder layers
         total_layers = len(base_model.encoder.layer)
@@ -271,36 +276,69 @@ class CoarseRoleClassifier(nn.Module):
                 for param in layer.parameters():
                     param.requires_grad = False
         
-        self.semantic_head = SemanticSimilarityHead(
-            model=base_model,
-            tokenizer=tokenizer,
-            input_dim=base_model.config.hidden_size,
-            freeze_anchors=freeze_anchors,
-            similarity_metric=similarity_metric,
-            device=device
-        )
+        hidden_size = base_model.config.hidden_size
         
-        self.loss_fn = FocalLoss(
-            samples_per_cls=class_counts, 
-            beta=0.9999, 
-            gamma=2.0, 
-            reduction='sum', 
-            device=device
-        )
+        if use_cls_head:
+            # Standard classification head (simpler and often more effective)
+            self.classifier = nn.Sequential(
+                nn.Dropout(0.1),
+                nn.Linear(hidden_size, hidden_size),
+                nn.GELU(),
+                nn.LayerNorm(hidden_size),
+                nn.Dropout(0.1),
+                nn.Linear(hidden_size, self.num_classes)
+            )
+            logger.info("Using standard classification head for coarse classifier")
+        else:
+            # Semantic similarity head (legacy)
+            self.semantic_head = SemanticSimilarityHead(
+                model=base_model,
+                tokenizer=tokenizer,
+                input_dim=hidden_size,
+                freeze_anchors=freeze_anchors,
+                similarity_metric=similarity_metric,
+                device=device
+            )
+            logger.info("Using semantic similarity head for coarse classifier")
+        
+        # Loss function with optional label smoothing
+        if label_smoothing > 0:
+            # Use CrossEntropyLoss with label smoothing (simpler, often better)
+            self.loss_fn = nn.CrossEntropyLoss(label_smoothing=label_smoothing)
+            self.use_focal = False
+            logger.info(f"Using CrossEntropyLoss with label_smoothing={label_smoothing}")
+        else:
+            # Use FocalLoss for class imbalance
+            self.loss_fn = FocalLoss(
+                samples_per_cls=class_counts, 
+                beta=beta, 
+                gamma=focal_gamma, 
+                reduction='sum', 
+                device=device
+            )
+            self.use_focal = True
+            logger.info(f"Using FocalLoss with gamma={focal_gamma}, beta={beta}")
+        
         self.to(device)
 
     def forward(self, input_ids, attention_mask, coarse_labels=None, **kwargs):
         outputs = self.base_model(input_ids=input_ids, attention_mask=attention_mask)
         
+        # Get entity representation
         entity_vectors = entity_span_pooling(
             hidden_states=outputs.last_hidden_state,
             input_ids=input_ids,
             entity_start_id=self.tokenizer.convert_tokens_to_ids(ENTITY_START_TOKEN),
             entity_end_id=self.tokenizer.convert_tokens_to_ids(ENTITY_END_TOKEN)
         )
-
-        logits = self.semantic_head(entity_vectors)
         
+        # Compute logits
+        if self.use_cls_head:
+            logits = self.classifier(entity_vectors)
+        else:
+            logits = self.semantic_head(entity_vectors)
+        
+        # Compute loss
         loss = None
         if coarse_labels is not None:
             loss = self.loss_fn(logits, coarse_labels)

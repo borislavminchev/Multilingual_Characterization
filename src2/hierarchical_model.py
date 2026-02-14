@@ -26,12 +26,15 @@ from losses import (
 from classifiers import (
     # Utility functions
     entity_span_pooling,
+    multi_view_entity_pooling,
     # Heads
     SemanticSimilarityHead,
     FineSemanticSimilarityHead,
     HierarchyAffinityLayer,
+    MultiViewFusion,
     # Classifiers
     CoarseRoleClassifier,
+    MultiViewCoarseClassifier,
     FineRoleClassifier,
     SoftConditionedFineClassifier
 )
@@ -47,12 +50,15 @@ __all__ = [
     'CardinalityRegularizer',
     # Utility functions
     'entity_span_pooling',
+    'multi_view_entity_pooling',
     # Heads
     'SemanticSimilarityHead',
     'FineSemanticSimilarityHead',
     'HierarchyAffinityLayer',
+    'MultiViewFusion',
     # Classifiers
     'CoarseRoleClassifier',
+    'MultiViewCoarseClassifier',
     'FineRoleClassifier',
     'SoftConditionedFineClassifier',
 ]

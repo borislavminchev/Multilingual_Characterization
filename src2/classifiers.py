@@ -69,6 +69,186 @@ def entity_span_pooling(hidden_states, input_ids, entity_start_id, entity_end_id
     return torch.stack(pooled_outputs)
 
 
+def multi_view_entity_pooling(hidden_states, input_ids, entity_start_id, entity_end_id):
+    """
+    Multi-view entity representation pooling.
+    
+    Combines multiple representations of the entity for richer features:
+    1. Entity span mean pooling (semantic content of entity)
+    2. Entity start marker hidden state (left context boundary)
+    3. Entity end marker hidden state (right context boundary)
+    4. Entity span max pooling (salient features)
+    5. CLS token (global document context)
+    
+    Args:
+        hidden_states: (B, T, H) transformer hidden states
+        input_ids: (B, T) input token IDs
+        entity_start_id: Token ID for [ENTITY] marker
+        entity_end_id: Token ID for [/ENTITY] marker
+    Returns:
+        (B, 5*H) concatenated multi-view entity representations
+    """
+    batch_size, seq_len, hidden_dim = hidden_states.size()
+    
+    entity_span_means = []
+    entity_start_hiddens = []
+    entity_end_hiddens = []
+    entity_span_maxs = []
+    cls_tokens = []
+
+    for i in range(batch_size):
+        ids = input_ids[i]
+        cls_token = hidden_states[i, 0]  # [CLS] token
+        cls_tokens.append(cls_token)
+
+        start_positions = (ids == entity_start_id).nonzero(as_tuple=True)[0]
+        end_positions = (ids == entity_end_id).nonzero(as_tuple=True)[0]
+
+        # Fallback: no entity markers found - use CLS for all views
+        if len(start_positions) == 0 or len(end_positions) == 0:
+            entity_span_means.append(cls_token)
+            entity_start_hiddens.append(cls_token)
+            entity_end_hiddens.append(cls_token)
+            entity_span_maxs.append(cls_token)
+            continue
+
+        start_marker_pos = start_positions[0].item()
+        end_marker_pos = end_positions[0].item()
+        
+        # Entity span is between the markers (exclusive of markers)
+        entity_start = start_marker_pos + 1
+        entity_end = end_marker_pos
+
+        # Get marker hidden states
+        entity_start_hiddens.append(hidden_states[i, start_marker_pos])
+        entity_end_hiddens.append(hidden_states[i, end_marker_pos])
+
+        if entity_start >= entity_end:
+            # Empty entity span - use marker states
+            entity_span_means.append(hidden_states[i, start_marker_pos])
+            entity_span_maxs.append(hidden_states[i, start_marker_pos])
+            continue
+
+        span_embeddings = hidden_states[i, entity_start:entity_end]
+        
+        # Mean pooling
+        entity_span_means.append(span_embeddings.mean(dim=0))
+        
+        # Max pooling
+        entity_span_maxs.append(span_embeddings.max(dim=0)[0])
+
+    # Stack all views
+    entity_span_mean = torch.stack(entity_span_means)      # (B, H)
+    entity_start_hidden = torch.stack(entity_start_hiddens)  # (B, H)
+    entity_end_hidden = torch.stack(entity_end_hiddens)      # (B, H)
+    entity_span_max = torch.stack(entity_span_maxs)          # (B, H)
+    cls_token = torch.stack(cls_tokens)                      # (B, H)
+
+    # Concatenate all views: (B, 5*H)
+    multi_view = torch.cat([
+        entity_span_mean,
+        entity_start_hidden,
+        entity_end_hidden,
+        entity_span_max,
+        cls_token
+    ], dim=1)
+
+    return multi_view
+
+
+class MultiViewFusion(nn.Module):
+    """
+    Learnable fusion layer for multi-view entity representations.
+    
+    Takes concatenated multi-view representations and fuses them into
+    a single representation using attention-based or MLP-based fusion.
+    """
+    
+    def __init__(self, hidden_size, num_views=5, fusion_type='attention', dropout=0.1):
+        """
+        Args:
+            hidden_size: Hidden dimension of each view
+            num_views: Number of views being fused (default 5)
+            fusion_type: 'attention', 'mlp', or 'gated'
+            dropout: Dropout probability
+        """
+        super().__init__()
+        self.hidden_size = hidden_size
+        self.num_views = num_views
+        self.fusion_type = fusion_type
+        
+        if fusion_type == 'attention':
+            # Self-attention over views
+            self.view_attention = nn.Sequential(
+                nn.Linear(hidden_size, hidden_size // 2),
+                nn.Tanh(),
+                nn.Linear(hidden_size // 2, 1),
+            )
+            self.output_proj = nn.Sequential(
+                nn.LayerNorm(hidden_size),
+                nn.Dropout(dropout),
+            )
+        elif fusion_type == 'mlp':
+            # MLP fusion
+            self.fusion_mlp = nn.Sequential(
+                nn.Linear(hidden_size * num_views, hidden_size * 2),
+                nn.GELU(),
+                nn.Dropout(dropout),
+                nn.Linear(hidden_size * 2, hidden_size),
+                nn.LayerNorm(hidden_size),
+                nn.Dropout(dropout),
+            )
+        elif fusion_type == 'gated':
+            # Gated fusion with learnable gates per view
+            self.gates = nn.Sequential(
+                nn.Linear(hidden_size * num_views, num_views),
+                nn.Sigmoid(),
+            )
+            self.output_proj = nn.Sequential(
+                nn.LayerNorm(hidden_size),
+                nn.Dropout(dropout),
+            )
+        else:
+            raise ValueError(f"Unknown fusion_type: {fusion_type}")
+        
+        logger.info(f"Initialized MultiViewFusion with {fusion_type} fusion, {num_views} views")
+    
+    def forward(self, multi_view_repr):
+        """
+        Args:
+            multi_view_repr: (B, num_views * hidden_size) concatenated representations
+        Returns:
+            (B, hidden_size) fused representation
+        """
+        batch_size = multi_view_repr.size(0)
+        
+        if self.fusion_type == 'attention':
+            # Reshape to (B, num_views, hidden_size)
+            views = multi_view_repr.view(batch_size, self.num_views, self.hidden_size)
+            
+            # Compute attention weights (B, num_views, 1)
+            attn_scores = self.view_attention(views)
+            attn_weights = F.softmax(attn_scores, dim=1)
+            
+            # Weighted sum (B, hidden_size)
+            fused = (views * attn_weights).sum(dim=1)
+            return self.output_proj(fused)
+        
+        elif self.fusion_type == 'mlp':
+            return self.fusion_mlp(multi_view_repr)
+        
+        elif self.fusion_type == 'gated':
+            # Reshape to (B, num_views, hidden_size)
+            views = multi_view_repr.view(batch_size, self.num_views, self.hidden_size)
+            
+            # Compute gates (B, num_views)
+            gates = self.gates(multi_view_repr)
+            
+            # Apply gates and sum (B, hidden_size)
+            fused = (views * gates.unsqueeze(-1)).sum(dim=1)
+            return self.output_proj(fused)
+
+
 # =============================================================================
 # SEMANTIC SIMILARITY HEADS
 # =============================================================================
@@ -250,6 +430,116 @@ class HierarchyAffinityLayer(nn.Module):
 # CLASSIFIER MODELS
 # =============================================================================
 
+class MultiViewCoarseClassifier(nn.Module):
+    """
+    Multi-View Coarse Role Classifier for single-label classification (3 classes).
+    
+    Uses multiple views of the entity representation for richer features:
+    1. Entity span mean pooling (semantic content)
+    2. Entity start marker hidden state (left context boundary)
+    3. Entity end marker hidden state (right context boundary)
+    4. Entity span max pooling (salient features)
+    5. CLS token (global document context)
+    
+    These views are fused using attention, MLP, or gated fusion.
+    """
+    
+    def __init__(self, base_model, tokenizer, device='cpu', num_unfrozen_layers=4, 
+                 class_counts=None, label_smoothing=0.0, focal_gamma=2.0, beta=0.9999,
+                 fusion_type='attention', dropout=0.1):
+        """
+        Args:
+            base_model: Pre-trained transformer model
+            tokenizer: Tokenizer with entity markers
+            device: Device to run on
+            num_unfrozen_layers: Number of transformer layers to fine-tune (from top)
+            class_counts: List of sample counts per class for class-balanced loss
+            label_smoothing: Label smoothing factor (0 = no smoothing)
+            focal_gamma: Focusing parameter for focal loss
+            beta: Class balance beta for effective number of samples
+            fusion_type: How to fuse multi-view representations ('attention', 'mlp', 'gated')
+            dropout: Dropout probability
+        """
+        super().__init__()
+        self.base_model = base_model
+        self.tokenizer = tokenizer
+        self.device = device
+        self.num_classes = 3  # Protagonist, Antagonist, Innocent
+        self.num_views = 5    # Number of entity views
+        
+        # Freeze encoder layers (keep last num_unfrozen_layers trainable)
+        total_layers = len(base_model.encoder.layer)
+        for idx, layer in enumerate(base_model.encoder.layer):
+            if idx < total_layers - num_unfrozen_layers:
+                for param in layer.parameters():
+                    param.requires_grad = False
+        
+        logger.info(f"Frozen {total_layers - num_unfrozen_layers}/{total_layers} encoder layers")
+        
+        hidden_size = base_model.config.hidden_size
+        
+        # Multi-view fusion layer
+        self.fusion = MultiViewFusion(
+            hidden_size=hidden_size,
+            num_views=self.num_views,
+            fusion_type=fusion_type,
+            dropout=dropout
+        )
+        
+        # Classification head after fusion
+        self.classifier = nn.Sequential(
+            nn.Dropout(dropout),
+            nn.Linear(hidden_size, hidden_size),
+            nn.GELU(),
+            nn.LayerNorm(hidden_size),
+            nn.Dropout(dropout),
+            nn.Linear(hidden_size, self.num_classes)
+        )
+        
+        # Loss function with optional label smoothing
+        if label_smoothing > 0:
+            self.loss_fn = nn.CrossEntropyLoss(label_smoothing=label_smoothing)
+            self.use_focal = False
+            logger.info(f"Using CrossEntropyLoss with label_smoothing={label_smoothing}")
+        else:
+            self.loss_fn = FocalLoss(
+                samples_per_cls=class_counts, 
+                beta=beta, 
+                gamma=focal_gamma, 
+                reduction='mean',  # Use mean for better stability
+                device=device
+            )
+            self.use_focal = True
+            logger.info(f"Using FocalLoss with gamma={focal_gamma}, beta={beta}")
+        
+        logger.info(f"Initialized MultiViewCoarseClassifier with {fusion_type} fusion")
+        self.to(device)
+
+    def forward(self, input_ids, attention_mask, coarse_labels=None, **kwargs):
+        outputs = self.base_model(input_ids=input_ids, attention_mask=attention_mask)
+        
+        # Get multi-view entity representation (B, 5*H)
+        multi_view_repr = multi_view_entity_pooling(
+            hidden_states=outputs.last_hidden_state,
+            input_ids=input_ids,
+            entity_start_id=self.tokenizer.convert_tokens_to_ids(ENTITY_START_TOKEN),
+            entity_end_id=self.tokenizer.convert_tokens_to_ids(ENTITY_END_TOKEN)
+        )
+        
+        # Fuse views into single representation (B, H)
+        fused_repr = self.fusion(multi_view_repr)
+        
+        # Classify
+        logits = self.classifier(fused_repr)
+        
+        # Compute loss
+        loss = None
+        if coarse_labels is not None:
+            loss = self.loss_fn(logits, coarse_labels)
+        
+        return SequenceClassifierOutput(loss=loss, logits=logits)
+
+
 class CoarseRoleClassifier(nn.Module):
     """
     Coarse Role Classifier for single-label classification (3 classes).
@@ -257,6 +547,8 @@ class CoarseRoleClassifier(nn.Module):
     Supports two modes:
     1. use_cls_head=True: Standard classification head (simpler, often better)
     2. use_cls_head=False: Semantic similarity with coarse label anchors (legacy)
+    
+    NOTE: For better performance, consider using MultiViewCoarseClassifier instead.
     """
     
     def __init__(self, base_model, tokenizer, freeze_anchors=True, similarity_metric='cosine', 

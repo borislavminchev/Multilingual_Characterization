@@ -25,14 +25,15 @@ from config import (
     COARSE_NUM_EPOCHS, COARSE_BATCH_SIZE, COARSE_LEARNING_RATE,
     COARSE_WARMUP_RATIO, COARSE_NUM_UNFROZEN_LAYERS,
     COARSE_FOCAL_GAMMA, COARSE_CLASS_BALANCE_BETA,
-    COARSE_LABEL_SMOOTHING, COARSE_USE_CLS_HEAD
+    COARSE_LABEL_SMOOTHING, COARSE_USE_CLS_HEAD,
+    COARSE_USE_MULTI_VIEW, COARSE_FUSION_TYPE, COARSE_DROPOUT
 )
 from data_utils import ENTITY_START_TOKEN, ENTITY_END_TOKEN
 from datasets import (
     EntityFramingDataset, collate_fn_entity_framing,
     coarse_label2id, coarse_id2label
 )
-from hierarchical_model import CoarseRoleClassifier
+from hierarchical_model import CoarseRoleClassifier, MultiViewCoarseClassifier
 
 
 def compute_class_counts_from_df(df, label_col='labels', coarse_map=coarse_label2id):
@@ -156,24 +157,45 @@ def main():
     for class_name, class_id in coarse_label2id.items():
         print(f"   {class_name}: {class_counts[class_id]}")
     
-    # Initialize classifier with new parameters
-    print("\n🏗️ Initializing CoarseRoleClassifier...")
-    print(f"   Classification head: {'Standard MLP' if COARSE_USE_CLS_HEAD else 'Semantic Similarity'}")
-    print(f"   Label smoothing: {COARSE_LABEL_SMOOTHING}")
-    print(f"   Learning rate: {COARSE_LEARNING_RATE}")
-    print(f"   Unfrozen layers: {COARSE_NUM_UNFROZEN_LAYERS}")
-    
-    classifier = CoarseRoleClassifier(
-        base_model=base_model,
-        tokenizer=tokenizer,
-        device=device,
-        class_counts=class_counts,
-        num_unfrozen_layers=COARSE_NUM_UNFROZEN_LAYERS,
-        use_cls_head=COARSE_USE_CLS_HEAD,
-        label_smoothing=COARSE_LABEL_SMOOTHING,
-        focal_gamma=COARSE_FOCAL_GAMMA,
-        beta=COARSE_CLASS_BALANCE_BETA
-    )
+    # Initialize classifier based on configuration
+    if COARSE_USE_MULTI_VIEW:
+        print("\n🏗️ Initializing MultiViewCoarseClassifier...")
+        print(f"   Architecture: Multi-View with {COARSE_FUSION_TYPE} fusion")
+        print(f"   Dropout: {COARSE_DROPOUT}")
+        print(f"   Label smoothing: {COARSE_LABEL_SMOOTHING}")
+        print(f"   Learning rate: {COARSE_LEARNING_RATE}")
+        print(f"   Unfrozen layers: {COARSE_NUM_UNFROZEN_LAYERS}")
+        
+        classifier = MultiViewCoarseClassifier(
+            base_model=base_model,
+            tokenizer=tokenizer,
+            device=device,
+            num_unfrozen_layers=COARSE_NUM_UNFROZEN_LAYERS,
+            class_counts=class_counts,
+            label_smoothing=COARSE_LABEL_SMOOTHING,
+            focal_gamma=COARSE_FOCAL_GAMMA,
+            beta=COARSE_CLASS_BALANCE_BETA,
+            fusion_type=COARSE_FUSION_TYPE,
+            dropout=COARSE_DROPOUT
+        )
+    else:
+        print("\n🏗️ Initializing CoarseRoleClassifier (legacy)...")
+        print(f"   Classification head: {'Standard MLP' if COARSE_USE_CLS_HEAD else 'Semantic Similarity'}")
+        print(f"   Label smoothing: {COARSE_LABEL_SMOOTHING}")
+        print(f"   Learning rate: {COARSE_LEARNING_RATE}")
+        print(f"   Unfrozen layers: {COARSE_NUM_UNFROZEN_LAYERS}")
+        
+        classifier = CoarseRoleClassifier(
+            base_model=base_model,
+            tokenizer=tokenizer,
+            device=device,
+            class_counts=class_counts,
+            num_unfrozen_layers=COARSE_NUM_UNFROZEN_LAYERS,
+            use_cls_head=COARSE_USE_CLS_HEAD,
+            label_smoothing=COARSE_LABEL_SMOOTHING,
+            focal_gamma=COARSE_FOCAL_GAMMA,
+            beta=COARSE_CLASS_BALANCE_BETA
+        )
     
     # Training arguments with warmup ratio
     training_args = TrainingArguments(

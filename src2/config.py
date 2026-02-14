@@ -46,15 +46,25 @@ MAX_LENGTH = 512
 # =============================================================================
 # COARSE CLASSIFIER HYPERPARAMETERS
 # =============================================================================
-COARSE_NUM_EPOCHS = 10              # Increased from 8 for better convergence
-COARSE_BATCH_SIZE = 8               # Increased from 6 for more stable gradients
-COARSE_LEARNING_RATE = 3e-5         # Reduced from 1e-4 for more stable fine-tuning
+# Use multi-view classifier (recommended for better performance)
+COARSE_USE_MULTI_VIEW = True        # NEW: Use MultiViewCoarseClassifier
+
+# Multi-view specific parameters
+COARSE_FUSION_TYPE = 'attention'    # How to fuse multi-view: 'attention', 'mlp', or 'gated'
+COARSE_DROPOUT = 0.1                # Dropout rate for multi-view classifier
+
+# Training parameters
+COARSE_NUM_EPOCHS = 12              # More epochs for multi-view model
+COARSE_BATCH_SIZE = 6               # Slightly smaller due to more parameters
+COARSE_LEARNING_RATE = 2e-5         # Lower LR for multi-view (more parameters to stabilize)
 COARSE_WARMUP_RATIO = 0.1           # Warmup ratio (10% of total steps)
-COARSE_NUM_UNFROZEN_LAYERS = 5      # Keep at 5 (per user request)
-COARSE_FOCAL_GAMMA = 1.5            # Slightly reduced from 2.0 for less aggressive focusing
+COARSE_NUM_UNFROZEN_LAYERS = 4      # Fewer frozen layers for multi-view
+COARSE_FOCAL_GAMMA = 2.0            # Focal loss gamma
 COARSE_CLASS_BALANCE_BETA = 0.9999
-COARSE_LABEL_SMOOTHING = 0.1        # New: label smoothing to prevent overconfidence
-COARSE_USE_CLS_HEAD = True          # New: use standard classification head (simpler, often better)
+COARSE_LABEL_SMOOTHING = 0.0        # No label smoothing when using focal loss
+
+# Legacy parameters (for CoarseRoleClassifier when COARSE_USE_MULTI_VIEW=False)
+COARSE_USE_CLS_HEAD = True          # Use standard classification head (not semantic similarity)
 
 # =============================================================================
 # FINE CLASSIFIER HYPERPARAMETERS

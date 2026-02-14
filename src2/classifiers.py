@@ -77,7 +77,8 @@ class SemanticSimilarityHead(nn.Module):
     """Semantic similarity head for coarse-level classification."""
     
     def __init__(self, model, tokenizer, input_dim, parent_label=None, 
-                 freeze_anchors=True, similarity_metric='cosine', device='cpu'):
+                 freeze_anchors=True, similarity_metric='cosine', device='cpu',
+                 dropout=0.0):
         super().__init__()
         
         self.taxonomy_manager = TaxonomyManager(model, tokenizer, device=device)
@@ -103,10 +104,16 @@ class SemanticSimilarityHead(nn.Module):
         else:
             self.anchor_vectors = nn.Parameter(torch.tensor(anchor_vectors_list), requires_grad=True)
         
-        self.projection = nn.Linear(input_dim, input_dim)
+        # Projection with dropout for regularization
+        self.projection = nn.Sequential(
+            nn.Dropout(dropout),
+            nn.Linear(input_dim, input_dim),
+            nn.LayerNorm(input_dim),
+            nn.Dropout(dropout)
+        )
         self.temperature = 15.0
         
-        logger.info(f"Initialized SemanticSimilarityHead with {self.num_classes} classes")
+        logger.info(f"Initialized SemanticSimilarityHead with {self.num_classes} classes, dropout={dropout}")
 
     def forward(self, entity_vectors):
         projected = self.projection(entity_vectors)
@@ -258,7 +265,8 @@ class CoarseRoleClassifier(nn.Module):
     """
     
     def __init__(self, base_model, tokenizer, freeze_anchors=True, similarity_metric='cosine', 
-                 device='cpu', num_unfrozen_layers=2, class_counts=None):
+                 device='cpu', num_unfrozen_layers=2, class_counts=None, dropout=0.0,
+                 focal_gamma=2.0, beta=0.9999):
         super().__init__()
         self.base_model = base_model
         self.tokenizer = tokenizer
@@ -271,20 +279,23 @@ class CoarseRoleClassifier(nn.Module):
                 for param in layer.parameters():
                     param.requires_grad = False
         
+        logger.info(f"CoarseRoleClassifier: Frozen {total_layers - num_unfrozen_layers}/{total_layers} layers")
+        
         self.semantic_head = SemanticSimilarityHead(
             model=base_model,
             tokenizer=tokenizer,
             input_dim=base_model.config.hidden_size,
             freeze_anchors=freeze_anchors,
             similarity_metric=similarity_metric,
-            device=device
+            device=device,
+            dropout=dropout
         )
         
         self.loss_fn = FocalLoss(
             samples_per_cls=class_counts, 
-            beta=0.9999, 
-            gamma=2.0, 
-            reduction='sum', 
+            beta=beta, 
+            gamma=focal_gamma, 
+            reduction='mean',  # Changed from 'sum' to 'mean' for better stability
             device=device
         )
         self.to(device)

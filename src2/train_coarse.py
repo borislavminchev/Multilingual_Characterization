@@ -23,7 +23,8 @@ from config import (
     COARSE_PREDICTIONS_TRAIN, COARSE_PREDICTIONS_VAL, COARSE_PREDICTIONS_TEST,
     MODEL_NAME, MAX_LENGTH,
     COARSE_NUM_EPOCHS, COARSE_BATCH_SIZE, COARSE_LEARNING_RATE,
-    COARSE_WARMUP_STEPS, COARSE_NUM_UNFROZEN_LAYERS
+    COARSE_WARMUP_RATIO, COARSE_WEIGHT_DECAY, COARSE_NUM_UNFROZEN_LAYERS,
+    COARSE_DROPOUT, COARSE_FOCAL_GAMMA, COARSE_CLASS_BALANCE_BETA
 )
 from data_utils import ENTITY_START_TOKEN, ENTITY_END_TOKEN
 from datasets import (
@@ -154,24 +155,33 @@ def main():
     for class_name, class_id in coarse_label2id.items():
         print(f"   {class_name}: {class_counts[class_id]}")
     
-    # Initialize classifier
+    # Initialize classifier with anti-overfitting settings
     print("\n🏗️ Initializing CoarseRoleClassifier...")
+    print(f"   Learning rate: {COARSE_LEARNING_RATE}")
+    print(f"   Unfrozen layers: {COARSE_NUM_UNFROZEN_LAYERS}")
+    print(f"   Dropout: {COARSE_DROPOUT}")
+    print(f"   Weight decay: {COARSE_WEIGHT_DECAY}")
+    
     classifier = CoarseRoleClassifier(
         base_model=base_model,
         tokenizer=tokenizer,
         device=device,
         class_counts=class_counts,
-        num_unfrozen_layers=COARSE_NUM_UNFROZEN_LAYERS
+        num_unfrozen_layers=COARSE_NUM_UNFROZEN_LAYERS,
+        dropout=COARSE_DROPOUT,
+        focal_gamma=COARSE_FOCAL_GAMMA,
+        beta=COARSE_CLASS_BALANCE_BETA
     )
     
-    # Training arguments
+    # Training arguments with regularization
     training_args = TrainingArguments(
         output_dir=COARSE_CHECKPOINT_DIR,
         num_train_epochs=COARSE_NUM_EPOCHS,
         per_device_train_batch_size=COARSE_BATCH_SIZE,
         per_device_eval_batch_size=COARSE_BATCH_SIZE,
         learning_rate=COARSE_LEARNING_RATE,
-        warmup_steps=COARSE_WARMUP_STEPS,
+        warmup_ratio=COARSE_WARMUP_RATIO,      # Use ratio instead of fixed steps
+        weight_decay=COARSE_WEIGHT_DECAY,       # L2 regularization
         save_strategy='epoch',
         eval_strategy='epoch',
         logging_steps=50,

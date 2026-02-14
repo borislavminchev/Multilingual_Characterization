@@ -48,9 +48,11 @@ MAX_LENGTH = 512
 # =============================================================================
 COARSE_NUM_EPOCHS = 8
 COARSE_BATCH_SIZE = 6
-COARSE_LEARNING_RATE = 1e-4
-COARSE_WARMUP_STEPS = 100
-COARSE_NUM_UNFROZEN_LAYERS = 5
+COARSE_LEARNING_RATE = 2e-5          # Reduced from 1e-4 to prevent overfitting
+COARSE_WARMUP_RATIO = 0.1            # 10% warmup (instead of fixed steps)
+COARSE_WEIGHT_DECAY = 0.01           # L2 regularization
+COARSE_NUM_UNFROZEN_LAYERS = 2       # Reduced from 5 - freeze more layers
+COARSE_DROPOUT = 0.25                # Dropout in classification head
 COARSE_FOCAL_GAMMA = 2.0
 COARSE_CLASS_BALANCE_BETA = 0.9999
 

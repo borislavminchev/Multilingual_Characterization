@@ -40,20 +40,20 @@ FINAL_PREDICTIONS_PATH = os.path.join(PREDICTIONS_ROOT, "final_predictions.csv")
 # =============================================================================
 # MODEL CONFIGURATION
 # =============================================================================
-MODEL_NAME = "intfloat/multilingual-e5-base"
+MODEL_NAME = "xlm-roberta-base"  # Multilingual model to handle diverse languages in dataset
 MAX_LENGTH = 512
 
 # =============================================================================
 # COARSE CLASSIFIER HYPERPARAMETERS
 # =============================================================================
-COARSE_NUM_EPOCHS = 15
+COARSE_NUM_EPOCHS = 10
 COARSE_BATCH_SIZE = 9
 COARSE_LEARNING_RATE = 6e-5          # Reduced from 1e-4 to prevent overfitting
 COARSE_WARMUP_RATIO = 0.1            # 10% warmup (instead of fixed steps)
-COARSE_WEIGHT_DECAY = 0.01           # L2 regularization
-COARSE_NUM_UNFROZEN_LAYERS = 5       # Reduced from 5 - freeze more layers
-COARSE_DROPOUT = 0.25                # Dropout in classification head
-COARSE_FOCAL_GAMMA = 1.7
+COARSE_WEIGHT_DECAY = 0.0           # L2 regularization
+COARSE_NUM_UNFROZEN_LAYERS = 6       # Reduced from 5 - freeze more layers
+COARSE_DROPOUT = 0.0                # Dropout in classification head
+COARSE_FOCAL_GAMMA = 2.0
 COARSE_CLASS_BALANCE_BETA = 0.9999
 
 # =============================================================================

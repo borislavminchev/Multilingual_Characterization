@@ -32,7 +32,8 @@ from config import (
     FINE_WARMUP_STEPS, FINE_NUM_UNFROZEN_LAYERS, FINE_THRESHOLD,
     NUM_FINE_LABELS, NUM_COARSE_LABELS,
     FINE_LOSS_TYPE, ASL_GAMMA_NEG, ASL_GAMMA_POS, ASL_CLIP, ASL_ENTROPY_WEIGHT,
-    USE_SOFT_CONDITIONING, CARDINALITY_WEIGHT, TARGET_CARDINALITY
+    USE_SOFT_CONDITIONING, CARDINALITY_WEIGHT, TARGET_CARDINALITY,
+    FINE_HEAD_TYPE
 )
 from data_utils import ENTITY_START_TOKEN, ENTITY_END_TOKEN
 from datasets import (
@@ -337,6 +338,7 @@ def main():
         )
         TrainerClass = SoftConditionedTrainer
     else:
+        print(f"   Head type: {FINE_HEAD_TYPE}")
         if FINE_LOSS_TYPE in ['asl', 'asl_optimized']:
             print(f"   ASL params: gamma_neg={ASL_GAMMA_NEG}, gamma_pos={ASL_GAMMA_POS}, clip={ASL_CLIP}")
             if FINE_LOSS_TYPE == 'asl_optimized':
@@ -353,7 +355,8 @@ def main():
             gamma_neg=ASL_GAMMA_NEG,
             gamma_pos=ASL_GAMMA_POS,
             clip=ASL_CLIP,
-            entropy_weight=ASL_ENTROPY_WEIGHT
+            entropy_weight=ASL_ENTROPY_WEIGHT,
+            head_type=FINE_HEAD_TYPE
         )
         TrainerClass = FineRoleTrainer
     

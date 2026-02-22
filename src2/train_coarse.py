@@ -24,7 +24,8 @@ from config import (
     MODEL_NAME, MAX_LENGTH,
     COARSE_NUM_EPOCHS, COARSE_BATCH_SIZE, COARSE_LEARNING_RATE,
     COARSE_WARMUP_RATIO, COARSE_WEIGHT_DECAY, COARSE_NUM_UNFROZEN_LAYERS,
-    COARSE_DROPOUT, COARSE_FOCAL_GAMMA, COARSE_CLASS_BALANCE_BETA
+    COARSE_DROPOUT, COARSE_FOCAL_GAMMA, COARSE_CLASS_BALANCE_BETA,
+    COARSE_HEAD_TYPE, COARSE_LOSS_TYPE
 )
 from data_utils import ENTITY_START_TOKEN, ENTITY_END_TOKEN
 from datasets import (
@@ -157,6 +158,8 @@ def main():
     
     # Initialize classifier with anti-overfitting settings
     print("\n🏗️ Initializing CoarseRoleClassifier...")
+    print(f"   Head type: {COARSE_HEAD_TYPE}")
+    print(f"   Loss type: {COARSE_LOSS_TYPE}")
     print(f"   Learning rate: {COARSE_LEARNING_RATE}")
     print(f"   Unfrozen layers: {COARSE_NUM_UNFROZEN_LAYERS}")
     print(f"   Dropout: {COARSE_DROPOUT}")
@@ -170,7 +173,9 @@ def main():
         num_unfrozen_layers=COARSE_NUM_UNFROZEN_LAYERS,
         dropout=COARSE_DROPOUT,
         focal_gamma=COARSE_FOCAL_GAMMA,
-        beta=COARSE_CLASS_BALANCE_BETA
+        beta=COARSE_CLASS_BALANCE_BETA,
+        head_type=COARSE_HEAD_TYPE,
+        loss_type=COARSE_LOSS_TYPE
     )
     
     # Training arguments with regularization

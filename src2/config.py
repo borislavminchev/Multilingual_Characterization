@@ -56,6 +56,18 @@ COARSE_DROPOUT = 0.0                # Dropout in classification head
 COARSE_FOCAL_GAMMA = 2.0
 COARSE_CLASS_BALANCE_BETA = 0.9999
 
+# Classification head type: 'semantic' or 'mlp'
+# 'semantic': Uses label embeddings as anchors with cosine similarity
+# 'mlp': Simple linear classification head (baseline)
+COARSE_HEAD_TYPE = 'semantic'
+
+# Loss function type for coarse classifier: 'focal', 'ce', 'weighted_ce', 'cb_ce'
+# 'focal': Focal Loss (recommended for imbalanced classes)
+# 'ce': Standard Cross-Entropy Loss
+# 'weighted_ce': Cross-Entropy with inverse frequency weighting
+# 'cb_ce': Class-Balanced Cross-Entropy (Cui et al., CVPR 2019)
+COARSE_LOSS_TYPE = 'focal'
+
 # =============================================================================
 # FINE CLASSIFIER HYPERPARAMETERS
 # =============================================================================
@@ -66,6 +78,11 @@ FINE_WARMUP_STEPS = 50
 FINE_NUM_UNFROZEN_LAYERS = 6
 FINE_FOCAL_GAMMA = 2.0
 FINE_CLASS_BALANCE_BETA = 0.9999
+
+# Classification head type: 'semantic' or 'mlp'
+# 'semantic': Uses label embeddings as anchors with cosine similarity
+# 'mlp': Simple linear classification head (baseline)
+FINE_HEAD_TYPE = 'semantic'
 
 # Fine prediction parameters (smart threshold strategy)
 FINE_THRESHOLD = 0.25           # Primary threshold for multi-label classification

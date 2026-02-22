@@ -18,10 +18,11 @@ from datasets import coarse_label2id, fine_label2id, coarse_id2label, fine_id2la
 from transformers.modeling_outputs import SequenceClassifierOutput
 
 from losses import (
-    FocalLoss, MultiLabelFocalLoss, 
+    FocalLoss, ClassBalancedCrossEntropy, MultiLabelFocalLoss, 
     AsymmetricLoss, AsymmetricLossOptimized,
     CardinalityRegularizer
 )
+import torch.nn.functional as F
 
 logger = logging.getLogger(__name__)
 
@@ -67,6 +68,93 @@ def entity_span_pooling(hidden_states, input_ids, entity_start_id, entity_end_id
         pooled_outputs.append(span_embeddings.mean(dim=0))
 
     return torch.stack(pooled_outputs)
+
+
+# =============================================================================
+# MLP CLASSIFICATION HEADS
+# =============================================================================
+
+class MLPClassificationHead(nn.Module):
+    """
+    Simple MLP classification head (baseline for comparison with SemanticSimilarity).
+    
+    Architecture: Dropout → Linear → GELU → LayerNorm → Dropout → Linear
+    """
+    
+    def __init__(self, input_dim, num_classes, dropout=0.1, hidden_dim=None):
+        super().__init__()
+        self.input_dim = input_dim
+        self.num_classes = num_classes
+        hidden_dim = hidden_dim or input_dim
+        
+        self.classifier = nn.Sequential(
+            nn.Dropout(dropout),
+            nn.Linear(input_dim, hidden_dim),
+            nn.GELU(),
+            nn.LayerNorm(hidden_dim),
+            nn.Dropout(dropout),
+            nn.Linear(hidden_dim, num_classes)
+        )
+        
+        logger.info(f"Initialized MLPClassificationHead: input_dim={input_dim}, "
+                   f"hidden_dim={hidden_dim}, num_classes={num_classes}, dropout={dropout}")
+    
+    def forward(self, entity_vectors, **kwargs):
+        """Forward pass - kwargs ignored for compatibility with SemanticSimilarityHead."""
+        return self.classifier(entity_vectors)
+
+
+class MLPMultiLabelHead(nn.Module):
+    """
+    MLP head for multi-label classification with optional hierarchy masking.
+    
+    Compatible with FineSemanticSimilarityHead interface.
+    """
+    
+    def __init__(self, input_dim, num_classes, dropout=0.1, hidden_dim=None, 
+                 coarse_to_fine_mask=None, device='cpu'):
+        super().__init__()
+        self.input_dim = input_dim
+        self.num_classes = num_classes
+        self.device = device
+        hidden_dim = hidden_dim or input_dim
+        
+        self.classifier = nn.Sequential(
+            nn.Dropout(dropout),
+            nn.Linear(input_dim, hidden_dim),
+            nn.GELU(),
+            nn.LayerNorm(hidden_dim),
+            nn.Dropout(dropout),
+            nn.Linear(hidden_dim, num_classes)
+        )
+        
+        if coarse_to_fine_mask is not None:
+            self.register_buffer('coarse_to_fine_mask', coarse_to_fine_mask)
+        else:
+            self.coarse_to_fine_mask = None
+        
+        logger.info(f"Initialized MLPMultiLabelHead: input_dim={input_dim}, "
+                   f"num_classes={num_classes}, dropout={dropout}")
+    
+    def forward(self, entity_vectors, coarse_labels=None):
+        """
+        Forward pass with optional coarse-based masking.
+        
+        Returns:
+            logits: (B, num_classes)
+            mask: (B, num_classes) boolean mask for valid labels
+        """
+        logits = self.classifier(entity_vectors)
+        
+        if coarse_labels is not None and self.coarse_to_fine_mask is not None:
+            mask = self.coarse_to_fine_mask[coarse_labels]
+        else:
+            mask = torch.ones(
+                entity_vectors.size(0), self.num_classes,
+                dtype=torch.bool, device=entity_vectors.device
+            )
+        
+        return logits, mask
 
 
 # =============================================================================
@@ -261,16 +349,26 @@ class CoarseRoleClassifier(nn.Module):
     """
     Coarse Role Classifier for single-label classification (3 classes).
     
-    Uses semantic similarity with coarse label anchors.
+    Supports two head types:
+    - 'semantic': Uses label embeddings as anchors with cosine similarity
+    - 'mlp': Simple linear classification head (baseline)
+    
+    Supports multiple loss functions:
+    - 'focal': Focal Loss (recommended for imbalanced classes)
+    - 'ce': Standard Cross-Entropy Loss
+    - 'weighted_ce': Cross-Entropy with inverse frequency weighting  
+    - 'cb_ce': Class-Balanced Cross-Entropy (Cui et al., CVPR 2019)
     """
     
     def __init__(self, base_model, tokenizer, freeze_anchors=True, similarity_metric='cosine', 
                  device='cpu', num_unfrozen_layers=2, class_counts=None, dropout=0.0,
-                 focal_gamma=2.0, beta=0.9999):
+                 focal_gamma=2.0, beta=0.9999, head_type='semantic', loss_type='focal'):
         super().__init__()
         self.base_model = base_model
         self.tokenizer = tokenizer
         self.device = device
+        self.head_type = head_type
+        self.loss_type = loss_type
         
         # Freeze encoder layers
         total_layers = len(base_model.encoder.layer)
@@ -281,23 +379,65 @@ class CoarseRoleClassifier(nn.Module):
         
         logger.info(f"CoarseRoleClassifier: Frozen {total_layers - num_unfrozen_layers}/{total_layers} layers")
         
-        self.semantic_head = SemanticSimilarityHead(
-            model=base_model,
-            tokenizer=tokenizer,
-            input_dim=base_model.config.hidden_size,
-            freeze_anchors=freeze_anchors,
-            similarity_metric=similarity_metric,
-            device=device,
-            dropout=dropout
-        )
+        # Select classification head based on head_type
+        num_classes = len(coarse_label2id)
+        hidden_size = base_model.config.hidden_size
         
-        self.loss_fn = FocalLoss(
-            samples_per_cls=class_counts, 
-            beta=beta, 
-            gamma=focal_gamma, 
-            reduction='mean',  # Changed from 'sum' to 'mean' for better stability
-            device=device
-        )
+        if head_type == 'semantic':
+            self.classification_head = SemanticSimilarityHead(
+                model=base_model,
+                tokenizer=tokenizer,
+                input_dim=hidden_size,
+                freeze_anchors=freeze_anchors,
+                similarity_metric=similarity_metric,
+                device=device,
+                dropout=dropout
+            )
+            logger.info(f"CoarseRoleClassifier: Using SemanticSimilarityHead")
+        elif head_type == 'mlp':
+            self.classification_head = MLPClassificationHead(
+                input_dim=hidden_size,
+                num_classes=num_classes,
+                dropout=dropout
+            )
+            logger.info(f"CoarseRoleClassifier: Using MLPClassificationHead")
+        else:
+            raise ValueError(f"Unknown head_type: {head_type}. Choose 'semantic' or 'mlp'.")
+        
+        # Select loss function based on loss_type
+        if loss_type == 'focal':
+            self.loss_fn = FocalLoss(
+                samples_per_cls=class_counts, 
+                beta=beta, 
+                gamma=focal_gamma, 
+                reduction='mean',
+                device=device
+            )
+            logger.info(f"CoarseRoleClassifier: Using FocalLoss (gamma={focal_gamma})")
+        elif loss_type == 'ce':
+            self.loss_fn = nn.CrossEntropyLoss(reduction='mean')
+            logger.info(f"CoarseRoleClassifier: Using CrossEntropyLoss")
+        elif loss_type == 'weighted_ce':
+            # Compute inverse frequency weights
+            if class_counts is not None:
+                counts = torch.tensor(class_counts, dtype=torch.float32, device=device)
+                weights = 1.0 / (counts + 1e-8)
+                weights = weights / weights.sum() * len(weights)  # Normalize
+            else:
+                weights = None
+            self.loss_fn = nn.CrossEntropyLoss(weight=weights, reduction='mean')
+            logger.info(f"CoarseRoleClassifier: Using WeightedCrossEntropyLoss")
+        elif loss_type == 'cb_ce':
+            self.loss_fn = ClassBalancedCrossEntropy(
+                samples_per_cls=class_counts,
+                beta=beta,
+                reduction='mean',
+                device=device
+            )
+            logger.info(f"CoarseRoleClassifier: Using ClassBalancedCrossEntropy (beta={beta})")
+        else:
+            raise ValueError(f"Unknown loss_type: {loss_type}. Choose 'focal', 'ce', 'weighted_ce', or 'cb_ce'.")
+        
         self.to(device)
 
     def forward(self, input_ids, attention_mask, coarse_labels=None, **kwargs):
@@ -310,7 +450,7 @@ class CoarseRoleClassifier(nn.Module):
             entity_end_id=self.tokenizer.convert_tokens_to_ids(ENTITY_END_TOKEN)
         )
 
-        logits = self.semantic_head(entity_vectors)
+        logits = self.classification_head(entity_vectors)
         
         loss = None
         if coarse_labels is not None:
@@ -323,20 +463,22 @@ class FineRoleClassifier(nn.Module):
     """
     Fine Role Classifier for multi-label classification with hard masking.
     
-    Uses semantic similarity with fine label anchors and masks invalid
-    labels based on coarse predictions.
+    Supports two head types:
+    - 'semantic': Uses label embeddings as anchors with cosine similarity
+    - 'mlp': Simple linear classification head (baseline)
     """
     
     def __init__(self, base_model, tokenizer, freeze_anchors=True, similarity_metric='cosine',
                  device='cpu', num_unfrozen_layers=2, class_counts=None, threshold=0.5,
                  loss_type='asl_optimized', gamma_neg=4.0, gamma_pos=1.0, clip=0.05,
-                 entropy_weight=0.1):
+                 entropy_weight=0.1, head_type='semantic', dropout=0.1):
         super().__init__()
         self.base_model = base_model
         self.tokenizer = tokenizer
         self.device = device
         self.threshold = threshold
         self.loss_type = loss_type
+        self.head_type = head_type
         
         # Freeze encoder layers
         total_layers = len(base_model.encoder.layer)
@@ -345,14 +487,38 @@ class FineRoleClassifier(nn.Module):
                 for param in layer.parameters():
                     param.requires_grad = False
         
-        self.semantic_head = FineSemanticSimilarityHead(
-            model=base_model,
-            tokenizer=tokenizer,
-            input_dim=base_model.config.hidden_size,
-            freeze_anchors=freeze_anchors,
-            similarity_metric=similarity_metric,
-            device=device
-        )
+        logger.info(f"FineRoleClassifier: Frozen {total_layers - num_unfrozen_layers}/{total_layers} layers")
+        
+        # Select classification head based on head_type
+        num_classes = len(fine_label2id)
+        hidden_size = base_model.config.hidden_size
+        
+        if head_type == 'semantic':
+            self.classification_head = FineSemanticSimilarityHead(
+                model=base_model,
+                tokenizer=tokenizer,
+                input_dim=hidden_size,
+                freeze_anchors=freeze_anchors,
+                similarity_metric=similarity_metric,
+                device=device
+            )
+            logger.info(f"FineRoleClassifier: Using FineSemanticSimilarityHead")
+        elif head_type == 'mlp':
+            # Get coarse_to_fine_mask from TaxonomyManager for MLP head
+            from taxonomy_manager import TaxonomyManager
+            taxonomy_manager = TaxonomyManager(base_model, tokenizer, device=device)
+            coarse_to_fine_mask = taxonomy_manager.get_coarse_to_fine_mask(device=device)
+            
+            self.classification_head = MLPMultiLabelHead(
+                input_dim=hidden_size,
+                num_classes=num_classes,
+                dropout=dropout,
+                coarse_to_fine_mask=coarse_to_fine_mask,
+                device=device
+            )
+            logger.info(f"FineRoleClassifier: Using MLPMultiLabelHead")
+        else:
+            raise ValueError(f"Unknown head_type: {head_type}. Choose 'semantic' or 'mlp'.")
         
         # Select loss function
         if loss_type == 'focal':
@@ -373,7 +539,7 @@ class FineRoleClassifier(nn.Module):
         else:
             raise ValueError(f"Unknown loss_type: {loss_type}")
         
-        logger.info(f"Initialized FineRoleClassifier with {loss_type} loss")
+        logger.info(f"FineRoleClassifier: Using {loss_type} loss")
         self.to(device)
     
     def forward(self, input_ids, attention_mask, coarse_labels=None, fine_labels=None, **kwargs):
@@ -386,7 +552,7 @@ class FineRoleClassifier(nn.Module):
             entity_end_id=self.tokenizer.convert_tokens_to_ids(ENTITY_END_TOKEN)
         )
         
-        logits, mask = self.semantic_head(entity_vectors, coarse_labels)
+        logits, mask = self.classification_head(entity_vectors, coarse_labels)
         
         # Apply mask for inference
         masked_logits = logits.clone()

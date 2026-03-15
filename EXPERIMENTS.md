@@ -79,26 +79,26 @@ CARDINALITY_WEIGHT = 0.3
 
 | ID | Base Model | Coarse Head | Coarse Loss | Fine Head | Conditioning | Fine Loss | γ_neg | γ_pos | Clip | Card. | Coarse Val F1 | Coarse Test F1 | Fine Val μF1 | Fine Test μF1 | E2E Fine F1 | Exact Match | Status |
 |----|------------|-------------|-------------|-----------|--------------|-----------|-------|-------|------|-------|---------------|----------------|--------------|---------------|-------------|-------------|--------|
-| **E01** | xlm-roberta-base | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | **80.56%** | **78.41%** | **93.28%** | **92.69%** | **49.97%** | **40.73%** | ✅ Baseline |
+| **E01** | xlm-roberta-base (6+6 unfrozen) | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | **81.16%** | **79.61%** | **93.03%** | **92.50%** | **50.66%** | **37.09%** | ✅ Baseline |
 | E02 | xlm-roberta-large | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | | | | | | | ⬜ |
-| E03 | mbert-base | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | | | | | | | ⬜ |
-| E04 | xlm-roberta-base | **MLP** | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | | | | | | | ⬜ |
-| E05 | xlm-roberta-base | Semantic | Focal | **MLP** | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | | | | | | | ⬜ |
-| E06 | xlm-roberta-base | **MLP** | Focal | **MLP** | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | | | | | | | ⬜ |
+| E03 | microsoft/deberta-v3-base (3+3)| Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | 79.66% | 75.51% | 92.20% | 92.29% | 19.18% | 14.57% | ⬜ |
+| E04 | xlm-roberta-base | **MLP** | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | 82.83% | 80.74% | 94.03 | 93.91 | 32.34 | 29.30 | ⬜ |
+| E05 | xlm-roberta-base | Semantic | Focal | **MLP** | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | 82.75 | 79.12 | 92.72 | 92.35 | 49.90 | 38.74 | ⬜ |
+| E06 | xlm-roberta-base | **MLP** | Focal | **MLP** | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | 82.83% | 80.74% | 94.46% | 94.72% | 35.29% | 31.29% | ⬜ |
 | E07 | xlm-roberta-base | Semantic | Focal | Semantic | **Hard** | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.0 | | | | | | | ⬜ |
 | E08 | xlm-roberta-base | Semantic | Focal | Semantic | **None** | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.0 | | | | | | | ⬜ |
-| E09 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | **Focal** | - | - | - | 0.3 | | | | | | | ⬜ |
-| E10 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | **ASL** | 4.0 | 1.0 | 0.05 | 0.3 | | | | | | | ⬜ |
-| E11 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | ASL-Opt | **4.0** | **1.0** | 0.05 | 0.3 | | | | | | | ⬜ |
-| E12 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | **0.0** | 0.3 | | | | | | | ⬜ |
-| E13 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | **0.1** | 0.3 | | | | | | | ⬜ |
-| E14 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | **0.0** | | | | | | | ⬜ |
-| E15 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | **0.5** | | | | | | | ⬜ |
+| E09 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | **Focal** | - | - | - | 0.3 | 82.75 | 79.12 | 95.01 | 95.12 | 28.56 | 22.19| ⬜ |
+| E10 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | **ASL** | 2.0 | 1.0 | 0.05 | 0.3 | 82.75 | 79.12 | 94.66 | 93.78 | 51.63 | 42.38 | ⬜ |
+| E11 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | ASL-Opt | **4.0** | **1.0** | 0.05 | 0.3 | 81.24 | 80.61 | 92.62 | 92.46 | 32.36 | 25.99 | ⬜ |
+| E12 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | **0.0** | 0.3 | 81.23 | 81.04 | 93.49 | 93.21 | 51.43 | 38.91 | ⬜ |
+| E13 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | **0.1** | 0.3 | 81.23 | 81.04 | 94.78 | 94.81 | 20.17 |16.56 | ⬜ |
+| E14 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | **0.0** | 81.23 | 81.04 | 94.63 | 94.92 | 25.97 | 22.35 | ⬜ |
+| E15 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | **0.5** | 81.23 | 81.04 | 92.95 | 92.69 | 53.33 | 40.73 | ⬜ |
 | E16 | xlm-roberta-base + reg | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | | | | | | | ⬜ |
-| E17 | xlm-roberta-base | Semantic | **CE** | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | | | | | | | ⬜ |
-| E18 | xlm-roberta-base | Semantic | **W-CE** | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | | | | | | | ⬜ |
-| E19 | xlm-roberta-base | Semantic | **CB-CE** | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | | | | | | | ⬜ |
-| E20 | xlm-roberta-base | Semantic | Focal | Semantic | Soft | **BCE** | - | - | - | 0.3 | | | | | | | ⬜ |
+| E17 | xlm-roberta-base | Semantic | **CE** | Semantic | Soft | ASL | 2.0 | 0.0 | 0.05 | 0.3 | 82.13 | 78.05 | 94.73 | 93.94 | 50.29 | 41.06 | ⬜ |
+| E18 | xlm-roberta-base | Semantic | **W-CE** | Semantic | Soft | ASL | 2.0 | 0.0 | 0.05 | 0.3 | 81.76 | 81.19 | 94.76 | 94.08 | 50.44 | 41.06 | ⬜ |
+| E19 | xlm-roberta-base | Semantic | **CB-CE** | Semantic | Soft | ASL | 2.0 | 0.0 | 0.05 | 0.3 | 81.58 | 82.70 | 94.73 | 94.18 | 52.62 | 44.54 | ⬜ |
+| E20 | xlm-roberta-base | Semantic | **CB-CE** | Semantic | HARD | ASL | 2.0 | 0.0 | 0.05 | 0.3 | 81.58 | 82.70 | 67.13 | 67.86 | 31.13 | 0.00 | ⬜ |
 
 ---
 

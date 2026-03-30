@@ -224,10 +224,10 @@ def evaluate_hierarchical_predictions(df, pred_col='predicted_labels', gt_col='l
                                                  coarse_true=gt_coarse, 
                                                  coarse_pred=pred_coarse)
     
-    # Exact match (both coarse and all fine labels correct)
+    # Exact match (fine-grained labels match, as per official EMR definition)
     exact_matches = sum(
-        1 for i in range(len(gt_coarse))
-        if gt_coarse[i] == pred_coarse[i] and gt_fine[i] == pred_fine[i]
+        1 for i in range(len(gt_fine))
+        if gt_fine[i] == pred_fine[i]
     )
     results['exact_match_accuracy'] = exact_matches / len(gt_coarse)
     

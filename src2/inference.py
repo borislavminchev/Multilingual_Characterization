@@ -384,10 +384,10 @@ def evaluate_predictions(df, final_predictions):
     avg_fine_f1 = np.mean(fine_f1_scores)
     print(f"Fine Role F1 (sample avg): {avg_fine_f1:.4f}")
     
-    # Exact match
+    # Exact match (fine-grained labels only, as per official EMR definition)
     exact_matches = sum(
-        1 for i in range(len(gt_coarse))
-        if gt_coarse[i] == pred_coarse[i] and gt_fine[i] == pred_fine[i]
+        1 for i in range(len(gt_fine))
+        if gt_fine[i] == pred_fine[i]
     )
     exact_match_acc = exact_matches / len(gt_coarse)
     print(f"Exact Match Accuracy: {exact_match_acc:.4f}")

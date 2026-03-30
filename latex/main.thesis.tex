@@ -1,0 +1,159 @@
+\documentclass[12pt,a4paper]{report}
+
+% === Encoding & Language ===
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[bulgarian]{babel}
+
+% === Layout ===
+\usepackage[left=3cm, right=2cm, top=2.5cm, bottom=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+% === Graphics & Tables ===
+\usepackage{graphicx}
+\usepackage{booktabs}
+
+% === Hyperlinks ===
+\usepackage[hidelinks]{hyperref}
+
+% === Remove chapter numbering prefix from sections ===
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\huge\bfseries}{\chaptertitlename\ \thechapter}{20pt}{\Huge}
+
+\begin{document}
+
+% ============================================================
+%                        TITLE PAGE
+% ============================================================
+\begin{titlepage}
+\begin{center}
+
+% --- University header ---
+\begin{minipage}[c]{0.15\textwidth}
+    % NOTE: Place the SU logo file as images/su-logo.png
+    \includegraphics[width=\textwidth]{images/su-logo.png}
+\end{minipage}%
+\hfill
+\begin{minipage}[c]{0.75\textwidth}
+    \begin{center}
+    {\large \textbf{Софийски университет ,,Св. Кл. Охридски''}}\\[4pt]
+    {Факултет по математика и информатика}\\[4pt]
+    {\itshape Катедра ,,Софтуерни технологии''}
+    \end{center}
+\end{minipage}
+
+\vspace{1cm}
+\rule{\textwidth}{0.5pt}
+
+\vspace{1.5cm}
+
+% --- Title ---
+{\Huge \textbf{ДИПЛОМНА РАБОТА}}
+
+\vspace{0.8cm}
+
+{\large на тема}
+
+\vspace{0.5cm}
+
+{\LARGE \textbf{,,Моделиране на семантични роли и}}\\[6pt]
+{\LARGE \textbf{именувани обекти в новинарски текстове''}}
+
+\vspace{1.5cm}
+
+% --- Student info ---
+\begin{flushleft}
+\textit{Дипломант:} \textbf{Борислав Мартинов Минчев}\\[4pt]
+\textit{Факултетен номер:} \textbf{5MI3400508}\\[4pt]
+\textit{Специалност:} \textbf{Информатика}\\[4pt]
+\textit{Магистърска програма:} \textbf{Извличане на информация и откриване на знания}
+\end{flushleft}
+
+\vspace{1.2cm}
+
+% --- Advisor ---
+\begin{flushright}
+\textit{Научен ръководител:}\\[6pt]
+\textbf{Проф. д-р Иван Койчев, катедра ,,Софтуерни технологии'',}\\
+\textbf{ФМИ, СУ ,,Св. Климент Охридски''}
+
+\vspace{0.8cm}
+
+\textit{Консултант:}\\[6pt]
+\textbf{докт. Димитър Димитров, катедра ,,Софтуерни технологии'',}\\
+\textbf{ФМИ, СУ ,,Св. Климент Охридски''}
+\end{flushright}
+
+\vfill
+
+% --- Footer ---
+\rule{\textwidth}{0.5pt}\\[8pt]
+{\large София, 2026 г.}
+
+\end{center}
+\end{titlepage}
+
+% ============================================================
+%                    TABLE OF CONTENTS
+% ============================================================
+\pagenumbering{arabic}
+\tableofcontents
+\newpage
+
+% ============================================================
+%                        CHAPTERS
+% ============================================================
+
+\chapter{Увод}
+\section{Актуалност на проблема и мотивация}
+\section{Цел и задачи на дипломната работа}
+\section{Очаквани приноси}
+
+\chapter{Преглед на областта}
+\section{Основни понятия}
+\section{Подобни разработки и състезания}
+\subsection{SemEval 2025 Task 10}
+\subsection{Подходи за йерархична класификация на текст}
+\subsection{Подходи за многоетикетна класификация}
+\subsection{Сравнителен анализ и изводи}
+\section{Многоезични предварително обучени модели}
+\subsection{XLM-RoBERTa}
+\subsection{mBERT}
+\subsection{Сравняване на моделите}
+\section{Функции на загубата за дисбалансирани данни}
+\subsection{Focal Loss}
+\subsection{Class-Balanced Cross-Entropy}
+\subsection{Asymmetric Loss}
+
+\chapter{Набор от данни}
+\section{Таксономия на ролите}
+\section{Структура и формат}
+\section{Статистически анализ}
+\section{Предобработка и аугментация}
+
+\chapter{Предложен метод}
+\section{Обща архитектура на двустепенния класификатор}
+\section{Представяне на именуваната същност}
+\section{Класификация чрез семантично сходство}
+\section{Меко йерархично обуславяне}
+\section{Асиметрична загуба с ентропийна регуляризация}
+\section{Адаптивна стратегия за предсказване}
+
+\chapter{Експерименти}
+\section{Подготовка и настройка}
+\section{Отправна точка за сравнения}
+\section{Аблационни изследвания}
+\section{Резултати}
+\section{Резултати по отделни езици}
+\section{Анализ на разпространението на грешките}
+
+\chapter{Дискусия}
+
+\chapter{Заключение}
+
+\chapter*{Използвана литература}
+\addcontentsline{toc}{chapter}{Използвана литература}
+
+\end{document}

@@ -66,7 +66,7 @@ COARSE_HEAD_TYPE = 'semantic'
 # 'ce': Standard Cross-Entropy Loss
 # 'weighted_ce': Cross-Entropy with inverse frequency weighting
 # 'cb_ce': Class-Balanced Cross-Entropy (Cui et al., CVPR 2019)
-COARSE_LOSS_TYPE = 'focal'
+COARSE_LOSS_TYPE = 'cb_ce'
 
 # =============================================================================
 # FINE CLASSIFIER HYPERPARAMETERS
@@ -94,7 +94,7 @@ FINE_MAX_LABELS = 3            # Cap maximum predictions per sample
 # ASYMMETRIC LOSS (ASL) PARAMETERS
 # =============================================================================
 # Loss type: 'focal', 'asl', or 'asl_optimized' (recommended)
-FINE_LOSS_TYPE = 'asl_optimized'
+FINE_LOSS_TYPE = 'asl'
 
 # ASL hyperparameters (Ben-Baruch et al., 2021)
 # gamma_neg: Focusing parameter for negative samples (higher = more focus on hard negatives)

@@ -194,7 +194,7 @@ def main():
         load_best_model_at_end=True,
         metric_for_best_model='f1',
         greater_is_better=True,
-        save_total_limit=2,
+        save_total_limit=10,
         remove_unused_columns=False,
         report_to='none',  # Disable wandb/tensorboard
     )

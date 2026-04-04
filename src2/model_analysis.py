@@ -19,19 +19,38 @@ Checkpoints expected at project root:
 import os
 import json
 import re
+import ast
 import numpy as np
 import pandas as pd
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+from collections import Counter
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
 
 COARSE_CHECKPOINT_DIR = os.path.join(PROJECT_ROOT, "checkpoints", "coarse_classifier")
 FINE_CHECKPOINT_DIR = os.path.join(PROJECT_ROOT, "checkpoints", "fine_classifier_soft")
+PREDICTIONS_FILE = os.path.join(PROJECT_ROOT, "predictions", "final_predictions.csv")
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, "diagrams", "model")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+# Taxonomy labels ordered by coarse parent
+COARSE_LABELS = ["Protagonist", "Antagonist", "Innocent"]
+FINE_LABELS_BY_COARSE = {
+    "Protagonist": ["Guardian", "Martyr", "Peacemaker", "Rebel", "Underdog", "Virtuous"],
+    "Antagonist": ["Instigator", "Conspirator", "Tyrant", "Foreign Adversary", "Traitor",
+                    "Spy", "Saboteur", "Corrupt", "Incompetent", "Terrorist", "Deceiver", "Bigot"],
+    "Innocent": ["Forgotten", "Exploited", "Victim", "Scapegoat"],
+}
+FINE_LABELS_ORDERED = []
+for _c in COARSE_LABELS:
+    FINE_LABELS_ORDERED.extend(FINE_LABELS_BY_COARSE[_c])
+COARSE_FOR_FINE = {}
+for _c, _fines in FINE_LABELS_BY_COARSE.items():
+    for _f in _fines:
+        COARSE_FOR_FINE[_f] = _c
 
 
 # =============================================================================
@@ -92,7 +111,7 @@ def load_training_history(checkpoint_dir):
     return train_df, eval_df, state
 
 
-def ema_smooth(values, alpha=0.1):
+def ema_smooth(values, alpha=0.2):
     """Exponential moving average smoothing."""
     smoothed = []
     last = values[0]
@@ -150,6 +169,9 @@ def plot_b1_training_loss(coarse_train, fine_train):
             for ep, st in epoch_boundaries.items():
                 if ep > 0:
                     ax.axvline(x=st, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
+        # Clip y-axis to focus on actual training dynamics (exclude initial spike)
+        p99 = np.percentile(loss, 99)
+        ax.set_ylim(0, min(p99 * 1.3, loss.max()))
         ax.set_xlabel("Step", fontsize=11)
         ax.set_ylabel("Loss", fontsize=11)
         ax.set_title("Fine Classifier (Soft Conditioning)", fontsize=12, fontweight='bold')
@@ -411,6 +433,183 @@ def plot_b5_fine_precision_recall(fine_eval):
 
 
 # =============================================================================
+# B6. Coarse Classification Confusion Matrix
+# =============================================================================
+
+def load_predictions():
+    """Load final_predictions.csv and parse label columns."""
+    if not os.path.isfile(PREDICTIONS_FILE):
+        return None
+    df = pd.read_csv(PREDICTIONS_FILE)
+    if 'labels' not in df.columns or 'predicted_labels' not in df.columns:
+        return None
+
+    def safe_parse(val):
+        if isinstance(val, str):
+            return ast.literal_eval(val)
+        return val
+
+    df['labels_parsed'] = df['labels'].apply(safe_parse)
+    df['predicted_labels_parsed'] = df['predicted_labels'].apply(safe_parse)
+    df['gt_coarse'] = df['labels_parsed'].apply(lambda x: x[0])
+    df['gt_fine'] = df['labels_parsed'].apply(lambda x: set(x[1:]))
+    df['pred_coarse'] = df['predicted_labels_parsed'].apply(lambda x: x[0])
+    df['pred_fine'] = df['predicted_labels_parsed'].apply(lambda x: set(x[1:]))
+    return df
+
+
+def plot_b6_coarse_confusion(pred_df):
+    """3x3 confusion matrix for coarse classification."""
+    if pred_df is None:
+        print("  Skipping B6: no predictions file")
+        return
+
+    n = len(COARSE_LABELS)
+    label_to_idx = {l: i for i, l in enumerate(COARSE_LABELS)}
+    cm = np.zeros((n, n), dtype=int)
+
+    for _, row in pred_df.iterrows():
+        gt = row['gt_coarse']
+        pred = row['pred_coarse']
+        if gt in label_to_idx and pred in label_to_idx:
+            cm[label_to_idx[gt], label_to_idx[pred]] += 1
+
+    # Normalize per row (recall-based)
+    row_sums = cm.sum(axis=1, keepdims=True)
+    cm_pct = np.where(row_sums > 0, cm / row_sums * 100, 0)
+
+    fig, ax = plt.subplots(figsize=(8, 6.5))
+
+    # Plot with counts
+    im = ax.imshow(cm_pct, cmap='Blues', vmin=0, vmax=100)
+
+    # Annotate with count + percentage
+    for i in range(n):
+        for j in range(n):
+            count = cm[i, j]
+            pct = cm_pct[i, j]
+            color = 'white' if pct > 60 else 'black'
+            ax.text(j, i, f'{count}\n({pct:.1f}%)', ha='center', va='center',
+                    fontsize=12, fontweight='bold', color=color)
+
+    ax.set_xticks(range(n))
+    ax.set_yticks(range(n))
+    ax.set_xticklabels(COARSE_LABELS, fontsize=11)
+    ax.set_yticklabels(COARSE_LABELS, fontsize=11)
+    ax.set_xlabel("Predicted", fontsize=12)
+    ax.set_ylabel("Ground Truth", fontsize=12)
+
+    # Per-class accuracy on the side
+    for i in range(n):
+        acc = cm[i, i] / row_sums[i, 0] * 100 if row_sums[i, 0] > 0 else 0
+        ax.text(n + 0.15, i, f'{acc:.1f}%', ha='left', va='center',
+                fontsize=11, fontweight='bold', color='#1565C0')
+    ax.text(n + 0.15, -0.5, 'Recall', ha='left', va='center',
+            fontsize=10, fontstyle='italic', color='gray')
+
+    total_acc = np.trace(cm) / cm.sum() * 100
+    ax.set_title(f"Coarse Classification Confusion Matrix (Accuracy: {total_acc:.1f}%)",
+                 fontsize=14, fontweight='bold', pad=15)
+
+    cbar = fig.colorbar(im, ax=ax, shrink=0.8)
+    cbar.set_label('Row %', fontsize=10)
+
+    plt.tight_layout()
+    path = os.path.join(OUTPUT_DIR, "b6_coarse_confusion_matrix.png")
+    fig.savefig(path, dpi=150, bbox_inches='tight')
+    plt.close(fig)
+    print(f"  Saved: {path}")
+
+
+# =============================================================================
+# B7. Per Fine Label F1 Bar Chart
+# =============================================================================
+
+def plot_b7_per_label_f1(pred_df):
+    """Horizontal bar chart of F1 per fine label, grouped by coarse parent."""
+    if pred_df is None:
+        print("  Skipping B7: no predictions file")
+        return
+
+    # Compute TP, FP, FN per fine label
+    tp = Counter()
+    fp = Counter()
+    fn = Counter()
+
+    for _, row in pred_df.iterrows():
+        gt = row['gt_fine']
+        pred = row['pred_fine']
+        for label in gt & pred:
+            tp[label] += 1
+        for label in pred - gt:
+            fp[label] += 1
+        for label in gt - pred:
+            fn[label] += 1
+
+    # Compute per-label P, R, F1
+    results = []
+    for label in FINE_LABELS_ORDERED:
+        t = tp[label]
+        f_p = fp[label]
+        f_n = fn[label]
+        precision = t / (t + f_p) if (t + f_p) > 0 else 0
+        recall = t / (t + f_n) if (t + f_n) > 0 else 0
+        f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
+        support = t + f_n  # ground truth count
+        results.append({
+            'label': label, 'coarse': COARSE_FOR_FINE[label],
+            'precision': precision, 'recall': recall, 'f1': f1, 'support': support
+        })
+
+    res_df = pd.DataFrame(results)
+
+    fig, ax = plt.subplots(figsize=(12, 10))
+
+    colors_map = {'Protagonist': '#2196F3', 'Antagonist': '#F44336', 'Innocent': '#4CAF50'}
+    y_pos = np.arange(len(FINE_LABELS_ORDERED))
+    bar_colors = [colors_map[COARSE_FOR_FINE[l]] for l in FINE_LABELS_ORDERED]
+
+    bars = ax.barh(y_pos, res_df['f1'], color=bar_colors, edgecolor='white', alpha=0.85)
+
+    # Annotate with F1 value + support count
+    for i, row in res_df.iterrows():
+        f1_val = row['f1']
+        support = row['support']
+        x_text = f1_val + 0.01 if f1_val < 0.85 else f1_val - 0.01
+        ha = 'left' if f1_val < 0.85 else 'right'
+        color = 'black' if f1_val < 0.85 else 'white'
+        ax.text(x_text, i, f'{f1_val:.2f} (n={support})', ha=ha, va='center',
+                fontsize=9, fontweight='bold', color=color)
+
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(FINE_LABELS_ORDERED, fontsize=10)
+    ax.set_xlabel("F1 Score", fontsize=12)
+    ax.set_xlim(0, 1.05)
+    ax.invert_yaxis()
+    ax.grid(axis='x', alpha=0.3)
+
+    # Add coarse group separators
+    protagonist_end = len(FINE_LABELS_BY_COARSE["Protagonist"]) - 0.5
+    antagonist_end = protagonist_end + len(FINE_LABELS_BY_COARSE["Antagonist"])
+    for pos in [protagonist_end, antagonist_end]:
+        ax.axhline(y=pos, color='black', linewidth=1.5, linestyle='-')
+
+    # Coarse group labels on the right
+    from matplotlib.patches import Patch
+    legend_elements = [Patch(facecolor=colors_map[c], label=c) for c in COARSE_LABELS]
+    ax.legend(handles=legend_elements, fontsize=10, loc='lower right')
+
+    ax.set_title("Per Fine-Grained Label F1 Score (Validation Set)",
+                 fontsize=14, fontweight='bold', pad=15)
+
+    plt.tight_layout()
+    path = os.path.join(OUTPUT_DIR, "b7_per_label_f1.png")
+    fig.savefig(path, dpi=150, bbox_inches='tight')
+    plt.close(fig)
+    print(f"  Saved: {path}")
+
+
+# =============================================================================
 # MAIN
 # =============================================================================
 
@@ -420,7 +619,7 @@ def main():
     print("=" * 60)
 
     # Load coarse classifier history
-    print(f"\n[1/6] Loading coarse classifier history from {COARSE_CHECKPOINT_DIR}...")
+    print(f"\n[1/9] Loading coarse classifier history from {COARSE_CHECKPOINT_DIR}...")
     coarse_train, coarse_eval, coarse_state = load_training_history(COARSE_CHECKPOINT_DIR)
     if coarse_train is not None:
         print(f"  Found {len(coarse_train)} training logs, "
@@ -429,7 +628,7 @@ def main():
         print("  No coarse classifier checkpoints found")
 
     # Load fine classifier history
-    print(f"\n[2/6] Loading fine classifier history from {FINE_CHECKPOINT_DIR}...")
+    print(f"\n[2/9] Loading fine classifier history from {FINE_CHECKPOINT_DIR}...")
     fine_train, fine_eval, fine_state = load_training_history(FINE_CHECKPOINT_DIR)
     if fine_train is not None:
         print(f"  Found {len(fine_train)} training logs, "
@@ -438,26 +637,38 @@ def main():
         print("  No fine classifier checkpoints found")
 
     if coarse_train is None and fine_train is None:
-        print("\nNo checkpoint data found. Please ensure checkpoints exist at:")
-        print(f"  Coarse: {COARSE_CHECKPOINT_DIR}")
-        print(f"  Fine:   {FINE_CHECKPOINT_DIR}")
-        print("Each should contain checkpoint-<step>/trainer_state.json")
-        return
+        print("\nNo checkpoint data found. Skipping B1-B5.")
+        print(f"  Expected coarse: {COARSE_CHECKPOINT_DIR}")
+        print(f"  Expected fine:   {FINE_CHECKPOINT_DIR}")
+    else:
+        print(f"\n[3/9] B1: Training loss curves...")
+        plot_b1_training_loss(coarse_train, fine_train)
 
-    print(f"\n[3/6] B1: Training loss curves...")
-    plot_b1_training_loss(coarse_train, fine_train)
+        print(f"\n[4/9] B2: Evaluation metrics...")
+        plot_b2_eval_metrics(coarse_eval, fine_eval, coarse_state, fine_state)
 
-    print(f"\n[4/6] B2: Evaluation metrics...")
-    plot_b2_eval_metrics(coarse_eval, fine_eval, coarse_state, fine_state)
+        print(f"\n[5/9] B3: Learning rate schedule...")
+        plot_b3_learning_rate(coarse_train, fine_train)
 
-    print(f"\n[5/6] B3: Learning rate schedule...")
-    plot_b3_learning_rate(coarse_train, fine_train)
+        print(f"\n[6/9] B4: Gradient norm...")
+        plot_b4_gradient_norm(coarse_train, fine_train)
 
-    print(f"\n[6/6] B4: Gradient norm...")
-    plot_b4_gradient_norm(coarse_train, fine_train)
+        print(f"\n[7/9] B5: Fine precision/recall/cardinality...")
+        plot_b5_fine_precision_recall(fine_eval)
 
-    print(f"\n[7/6] B5: Fine precision/recall/cardinality...")
-    plot_b5_fine_precision_recall(fine_eval)
+    # Prediction-based diagrams (from final_predictions.csv)
+    print(f"\n[8/9] Loading predictions from {PREDICTIONS_FILE}...")
+    pred_df = load_predictions()
+    if pred_df is not None:
+        print(f"  Found {len(pred_df)} predictions with ground truth")
+    else:
+        print("  No predictions file found — skipping B6, B7")
+
+    print(f"\n[8/9] B6: Coarse confusion matrix...")
+    plot_b6_coarse_confusion(pred_df)
+
+    print(f"\n[9/9] B7: Per fine-label F1...")
+    plot_b7_per_label_f1(pred_df)
 
     print("\n" + "=" * 60)
     print(f" All diagrams saved to: {OUTPUT_DIR}")

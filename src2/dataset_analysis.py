@@ -400,14 +400,19 @@ def plot_a5_text_length(df):
 # =============================================================================
 
 def plot_a6_domain_breakdown(df):
-    """Stacked bar chart: domain proportions per language."""
-    lang_order = [l for l in ["EN", "BG", "HI", "PT", "RU"] if l in df['language'].unique()]
-    domains = ["Ukraine-Russia War", "Climate Change", "Unknown"]
+    """Stacked bar chart: domain proportions per language (only languages with domain info)."""
+    # Only include entities whose domain could be determined from doc_id
+    df_known = df[df['domain'] != 'Unknown'].copy()
 
-    cross = pd.crosstab(df['language'], df['domain'])
+    if df_known.empty:
+        print("  Skipping A6: no domain info found in any doc_id")
+        return
+
+    lang_order = [l for l in ["EN", "BG", "HI", "PT", "RU"] if l in df_known['language'].unique()]
+    domains = ["Ukraine-Russia War", "Climate Change"]
+
+    cross = pd.crosstab(df_known['language'], df_known['domain'])
     cross = cross.reindex(index=lang_order, columns=domains, fill_value=0)
-
-    # Drop columns with all zeros
     cross = cross.loc[:, cross.sum() > 0]
     present_domains = cross.columns.tolist()
 
@@ -415,16 +420,15 @@ def plot_a6_domain_breakdown(df):
 
     fig, ax = plt.subplots(figsize=(10, 6))
 
-    colors = {"Ukraine-Russia War": '#F44336', "Climate Change": '#4CAF50', "Unknown": '#9E9E9E'}
+    colors = {"Ukraine-Russia War": '#F44336', "Climate Change": '#4CAF50'}
     bottom = np.zeros(len(lang_order))
 
     for domain in present_domains:
         values = cross_pct[domain].values
         counts = cross[domain].values
-        bars = ax.bar([LANG_NAMES.get(l, l) for l in lang_order], values, bottom=bottom,
-                      label=domain, color=colors.get(domain, '#9E9E9E'), edgecolor='white')
+        ax.bar([LANG_NAMES.get(l, l) for l in lang_order], values, bottom=bottom,
+               label=domain, color=colors.get(domain, '#9E9E9E'), edgecolor='white')
 
-        # Add count annotations
         for i, (val, count) in enumerate(zip(values, counts)):
             if count > 0:
                 ax.text(i, bottom[i] + val / 2, f'{count}\n({val:.0f}%)',
@@ -432,9 +436,20 @@ def plot_a6_domain_breakdown(df):
 
         bottom += values
 
+    # Note which languages had no domain info
+    all_langs = set(df['language'].unique())
+    known_langs = set(df_known['language'].unique())
+    missing_langs = all_langs - known_langs
+    if missing_langs:
+        missing_names = [LANG_NAMES.get(l, l) for l in sorted(missing_langs)]
+        ax.text(0.5, -0.12,
+                f"Note: {', '.join(missing_names)} excluded — domain not encoded in doc_id",
+                ha='center', va='top', fontsize=9, fontstyle='italic', color='gray',
+                transform=ax.transAxes)
+
     ax.set_xlabel("Language", fontsize=12)
     ax.set_ylabel("Percentage (%)", fontsize=12)
-    ax.set_title("Domain Distribution by Language", fontsize=14, fontweight='bold')
+    ax.set_title("Domain Distribution by Language (where annotated)", fontsize=14, fontweight='bold')
     ax.legend(fontsize=11, loc='upper right')
     ax.set_ylim(0, 110)
     ax.grid(axis='y', alpha=0.3)

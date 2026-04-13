@@ -1,0 +1,460 @@
+"""
+Streamlit Demo — SemEval-2025 Task 10 ST1: Entity Framing
+
+Interactive UI for hierarchical entity role classification.
+Loads trained coarse + fine classifiers and demonstrates the pipeline.
+
+Usage:
+    cd src2 && streamlit run demo.py
+"""
+
+import os
+import re
+import json
+import numpy as np
+import torch
+import streamlit as st
+import matplotlib.pyplot as plt
+from transformers import AutoModel, AutoTokenizer
+
+from config import (
+    MODEL_NAME, MAX_LENGTH,
+    COARSE_CHECKPOINT_DIR, FINE_CHECKPOINT_DIR,
+    FINE_THRESHOLD, FINE_GAP_RATIO, FINE_MIN_LABELS, FINE_MAX_LABELS,
+    USE_SOFT_CONDITIONING, CARDINALITY_WEIGHT, TARGET_CARDINALITY,
+    NUM_COARSE_LABELS, NUM_FINE_LABELS,
+    COARSE_HEAD_TYPE, COARSE_LOSS_TYPE
+)
+from data_utils import ENTITY_START_TOKEN, ENTITY_END_TOKEN
+from datasets import (
+    coarse_label2id, coarse_id2label, fine_label2id, fine_id2label
+)
+from hierarchical_model import CoarseRoleClassifier, SoftConditionedFineClassifier, FineRoleClassifier
+from inference import load_fine_classifier, soft_prediction, smart_prediction
+from taxonomy_manager import TaxonomyManager
+
+# ─────────────────────────────────────────────
+# Constants
+# ─────────────────────────────────────────────
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+
+COARSE_LABELS = ["Protagonist", "Antagonist", "Innocent"]
+COARSE_COLORS = {"Protagonist": "#2196F3", "Antagonist": "#F44336", "Innocent": "#4CAF50"}
+
+FINE_LABELS_BY_COARSE = {
+    "Protagonist": ["Guardian", "Martyr", "Peacemaker", "Rebel", "Underdog", "Virtuous"],
+    "Antagonist": ["Instigator", "Conspirator", "Tyrant", "Foreign Adversary", "Traitor",
+                    "Spy", "Saboteur", "Corrupt", "Incompetent", "Terrorist", "Deceiver", "Bigot"],
+    "Innocent": ["Forgotten", "Exploited", "Victim", "Scapegoat"],
+}
+
+COARSE_FOR_FINE = {}
+for _c, _fines in FINE_LABELS_BY_COARSE.items():
+    for _f in _fines:
+        COARSE_FOR_FINE[_f] = _c
+
+EXAMPLES = [
+    {
+        "name": "EN - Bill Gates (Antagonist)",
+        "text": "Bill Gates has been accused of using his foundation to push vaccine mandates globally, enriching pharmaceutical companies he has invested in. Critics say his influence over the WHO gives him outsized power over public health decisions.",
+        "mention": "Bill Gates",
+    },
+    {
+        "name": "EN - Greta Thunberg (Protagonist)",
+        "text": "Greta Thunberg continued her climate activism, leading a massive protest in Stockholm demanding immediate government action on reducing carbon emissions. Her movement has inspired millions of young people worldwide.",
+        "mention": "Greta Thunberg",
+    },
+    {
+        "name": "EN - Ukraine (Innocent)",
+        "text": "Ukraine continues to suffer devastating losses as the conflict enters another year. Civilian infrastructure has been repeatedly targeted, leaving millions without heat and electricity during the harsh winter months.",
+        "mention": "Ukraine",
+    },
+    {
+        "name": "BG - Русия (Antagonist)",
+        "text": "Русия продължава да нарушава международното право с агресията си срещу Украйна. Западните държави наложиха нови санкции срещу Москва след поредните ракетни удари по цивилна инфраструктура.",
+        "mention": "Русия",
+    },
+    {
+        "name": "RU - Трамп (Protagonist/Peacemaker)",
+        "text": "Трамп заявил что готов выступить посредником в урегулировании конфликта между Россией и Украиной. Он предложил провести переговоры на высшем уровне для достижения мирного соглашения.",
+        "mention": "Трамп",
+    },
+]
+
+
+# ─────────────────────────────────────────────
+# Model Loading
+# ─────────────────────────────────────────────
+
+def find_last_checkpoint(checkpoint_dir):
+    """Find the checkpoint with the highest step number."""
+    if not os.path.isdir(checkpoint_dir):
+        return None
+    checkpoints = []
+    for name in os.listdir(checkpoint_dir):
+        m = re.match(r'checkpoint-(\d+)$', name)
+        if m and os.path.isdir(os.path.join(checkpoint_dir, name)):
+            checkpoints.append((int(m.group(1)), name))
+    if not checkpoints:
+        return None
+    checkpoints.sort(key=lambda x: x[0])
+    return os.path.join(checkpoint_dir, checkpoints[-1][1])
+
+
+def load_model_weights(model, checkpoint_dir):
+    """Load weights from pytorch_model.bin or model.safetensors."""
+    ckpt = find_last_checkpoint(checkpoint_dir)
+    if ckpt is None:
+        return False
+
+    bin_path = os.path.join(ckpt, 'pytorch_model.bin')
+    st_path = os.path.join(ckpt, 'model.safetensors')
+
+    if os.path.exists(bin_path):
+        state_dict = torch.load(bin_path, map_location='cpu')
+        model.load_state_dict(state_dict)
+        return True
+    elif os.path.exists(st_path):
+        from safetensors.torch import load_file
+        state_dict = load_file(st_path)
+        model.load_state_dict(state_dict)
+        return True
+    return False
+
+
+@st.cache_resource
+def load_models():
+    """Load tokenizer, coarse classifier, and fine classifier."""
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+    # Tokenizer
+    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
+    tokenizer.add_special_tokens({
+        'additional_special_tokens': [ENTITY_START_TOKEN, ENTITY_END_TOKEN]
+    })
+
+    # Coarse classifier
+    coarse_base = AutoModel.from_pretrained(MODEL_NAME)
+    coarse_base.resize_token_embeddings(len(tokenizer))
+    coarse_model = CoarseRoleClassifier(
+        base_model=coarse_base,
+        tokenizer=tokenizer,
+        device=device,
+        head_type=COARSE_HEAD_TYPE,
+        loss_type=COARSE_LOSS_TYPE,
+    )
+    coarse_loaded = load_model_weights(coarse_model, COARSE_CHECKPOINT_DIR)
+    coarse_model.to(device)
+    coarse_model.eval()
+
+    # Fine classifier
+    fine_checkpoint_dir = FINE_CHECKPOINT_DIR + ("_soft" if USE_SOFT_CONDITIONING else "_hard")
+    fine_ckpt = find_last_checkpoint(fine_checkpoint_dir)
+
+    fine_base = AutoModel.from_pretrained(MODEL_NAME)
+    fine_base.resize_token_embeddings(len(tokenizer))
+
+    if USE_SOFT_CONDITIONING:
+        fine_model = SoftConditionedFineClassifier(
+            base_model=fine_base,
+            tokenizer=tokenizer,
+            device=device,
+            threshold=FINE_THRESHOLD,
+            num_coarse=NUM_COARSE_LABELS,
+            num_fine=NUM_FINE_LABELS,
+            cardinality_weight=CARDINALITY_WEIGHT,
+            target_cardinality=TARGET_CARDINALITY,
+        )
+    else:
+        fine_model = FineRoleClassifier(
+            base_model=fine_base,
+            tokenizer=tokenizer,
+            device=device,
+            threshold=FINE_THRESHOLD,
+        )
+
+    fine_loaded = load_model_weights(fine_model, fine_checkpoint_dir)
+    fine_model.to(device)
+    fine_model.eval()
+
+    # Taxonomy manager (for hard masking fallback)
+    taxonomy_mgr = TaxonomyManager(coarse_base, tokenizer, device)
+
+    return tokenizer, coarse_model, fine_model, taxonomy_mgr, device, coarse_loaded, fine_loaded
+
+
+# ─────────────────────────────────────────────
+# Prediction
+# ─────────────────────────────────────────────
+
+def predict(text, mention, start, end, tokenizer, coarse_model, fine_model, taxonomy_mgr, device):
+    """Run hierarchical coarse → fine prediction."""
+    # Mark entity in text
+    marked_text = (
+        f"{text[:start]} {ENTITY_START_TOKEN} {text[start:end]} {ENTITY_END_TOKEN} {text[end:]}"
+    )
+
+    # Tokenize
+    encoding = tokenizer(
+        marked_text, truncation=True, padding='max_length',
+        max_length=MAX_LENGTH, return_tensors='pt'
+    )
+    input_ids = encoding['input_ids'].to(device)
+    attention_mask = encoding['attention_mask'].to(device)
+
+    with torch.no_grad():
+        # Coarse prediction
+        coarse_out = coarse_model(input_ids, attention_mask)
+        coarse_logits = coarse_out.logits[0]
+        coarse_probs = torch.softmax(coarse_logits, dim=-1).cpu().numpy()
+        coarse_id = int(coarse_probs.argmax())
+        coarse_label = coarse_id2label[coarse_id]
+
+        # Fine prediction
+        if USE_SOFT_CONDITIONING:
+            coarse_probs_tensor = torch.tensor(coarse_probs, dtype=torch.float32).unsqueeze(0).to(device)
+            fine_out = fine_model(
+                input_ids, attention_mask,
+                coarse_probs=coarse_probs_tensor,
+                coarse_labels=torch.tensor([coarse_id]).to(device),
+            )
+            fine_logits = fine_out.logits[0]
+            fine_probs = torch.sigmoid(fine_logits).cpu().numpy()
+            predictions = soft_prediction(
+                fine_probs,
+                threshold=FINE_THRESHOLD, gap_ratio=FINE_GAP_RATIO,
+                min_labels=FINE_MIN_LABELS, max_labels=FINE_MAX_LABELS,
+            )
+        else:
+            fine_out = fine_model(
+                input_ids, attention_mask,
+                coarse_labels=torch.tensor([coarse_id]).to(device),
+            )
+            fine_logits = fine_out.logits[0]
+            fine_probs = torch.sigmoid(fine_logits).cpu().numpy()
+            predictions = smart_prediction(
+                fine_probs, coarse_id, taxonomy_mgr,
+                threshold=FINE_THRESHOLD, gap_ratio=FINE_GAP_RATIO,
+                min_labels=FINE_MIN_LABELS, max_labels=FINE_MAX_LABELS,
+            )
+
+    selected_fine = [fine_id2label[i] for i in range(NUM_FINE_LABELS) if predictions[i] == 1]
+
+    return {
+        'coarse_label': coarse_label,
+        'coarse_probs': {coarse_id2label[i]: float(coarse_probs[i]) for i in range(NUM_COARSE_LABELS)},
+        'fine_labels': selected_fine,
+        'fine_probs': {fine_id2label[i]: float(fine_probs[i]) for i in range(NUM_FINE_LABELS)},
+        'predictions': predictions,
+    }
+
+
+# ─────────────────────────────────────────────
+# Visualization
+# ─────────────────────────────────────────────
+
+def plot_coarse_probs(probs):
+    """Horizontal bar chart for coarse probabilities."""
+    fig, ax = plt.subplots(figsize=(6, 2))
+    labels = list(probs.keys())
+    values = list(probs.values())
+    colors = [COARSE_COLORS[l] for l in labels]
+    bars = ax.barh(labels, values, color=colors, edgecolor='white', height=0.6)
+    for bar, val in zip(bars, values):
+        ax.text(bar.get_width() + 0.01, bar.get_y() + bar.get_height() / 2,
+                f'{val:.1%}', va='center', fontsize=11, fontweight='bold')
+    ax.set_xlim(0, 1.15)
+    ax.set_xlabel('Probability')
+    ax.invert_yaxis()
+    ax.grid(axis='x', alpha=0.3)
+    plt.tight_layout()
+    return fig
+
+
+def plot_fine_probs(fine_probs, predictions, threshold):
+    """Horizontal bar chart for fine-grained probabilities."""
+    # Order by coarse group
+    ordered_labels = []
+    for c in COARSE_LABELS:
+        ordered_labels.extend(FINE_LABELS_BY_COARSE[c])
+
+    fig, ax = plt.subplots(figsize=(8, 8))
+    y_pos = np.arange(len(ordered_labels))
+    values = [fine_probs.get(l, 0) for l in ordered_labels]
+    selected = [l in [fine_id2label[i] for i, p in enumerate(predictions) if p == 1] for l in ordered_labels]
+    colors = []
+    for i, l in enumerate(ordered_labels):
+        c = COARSE_FOR_FINE[l]
+        base_color = COARSE_COLORS[c]
+        colors.append(base_color if selected[i] else '#E0E0E0')
+
+    bars = ax.barh(y_pos, values, color=colors, edgecolor='white', height=0.7)
+
+    for i, (bar, val, sel) in enumerate(zip(bars, values, selected)):
+        if val > 0.02:
+            ax.text(bar.get_width() + 0.01, bar.get_y() + bar.get_height() / 2,
+                    f'{val:.2f}', va='center', fontsize=9,
+                    fontweight='bold' if sel else 'normal',
+                    color='black' if sel else 'gray')
+
+    # Threshold line
+    ax.axvline(x=threshold, color='red', linestyle='--', linewidth=1, alpha=0.6, label=f'Threshold={threshold}')
+
+    # Group separators
+    prot_end = len(FINE_LABELS_BY_COARSE["Protagonist"]) - 0.5
+    ant_end = prot_end + len(FINE_LABELS_BY_COARSE["Antagonist"])
+    for pos in [prot_end, ant_end]:
+        ax.axhline(y=pos, color='black', linewidth=1)
+
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(ordered_labels, fontsize=9)
+    ax.set_xlim(0, 1.05)
+    ax.set_xlabel('Probability (sigmoid)')
+    ax.invert_yaxis()
+    ax.grid(axis='x', alpha=0.3)
+    ax.legend(fontsize=9, loc='lower right')
+    plt.tight_layout()
+    return fig
+
+
+# ─────────────────────────────────────────────
+# Streamlit App
+# ─────────────────────────────────────────────
+
+def main():
+    st.set_page_config(page_title="Entity Framing Demo", layout="wide")
+
+    st.title("SemEval-2025 Task 10 ST1 -- Entity Framing")
+    st.caption("Hierarchical multi-label classification of entity roles in news articles")
+
+    # Sidebar: taxonomy reference
+    with st.sidebar:
+        st.header("Label Taxonomy")
+        for coarse in COARSE_LABELS:
+            color = COARSE_COLORS[coarse]
+            st.markdown(f"**:{color[1:]}[{coarse}]**" if False else f"**{coarse}**")
+            for fine in FINE_LABELS_BY_COARSE[coarse]:
+                st.markdown(f"&nbsp;&nbsp;&nbsp;&nbsp;- {fine}")
+            st.markdown("---")
+
+        st.header("Configuration")
+        st.text(f"Model: {MODEL_NAME}")
+        st.text(f"Mode: {'Soft Conditioning' if USE_SOFT_CONDITIONING else 'Hard Masking'}")
+        st.text(f"Threshold: {FINE_THRESHOLD}")
+        st.text(f"Gap ratio: {FINE_GAP_RATIO}")
+        st.text(f"Min/Max labels: {FINE_MIN_LABELS}/{FINE_MAX_LABELS}")
+
+    # Load models
+    with st.spinner("Loading models (this may take a minute on first run)..."):
+        tokenizer, coarse_model, fine_model, taxonomy_mgr, device, coarse_ok, fine_ok = load_models()
+
+    if not coarse_ok or not fine_ok:
+        st.warning(
+            "Some model checkpoints not found. Predictions will use random weights.\n\n"
+            f"- Coarse: {'Loaded' if coarse_ok else 'NOT FOUND at ' + COARSE_CHECKPOINT_DIR}\n"
+            f"- Fine: {'Loaded' if fine_ok else 'NOT FOUND'}\n\n"
+            "Please ensure checkpoint directories contain trained model files."
+        )
+
+    st.markdown(f"**Device:** `{device}` &nbsp;|&nbsp; "
+                f"**Coarse model:** {'Ready' if coarse_ok else 'Missing'} &nbsp;|&nbsp; "
+                f"**Fine model:** {'Ready' if fine_ok else 'Missing'}")
+
+    st.markdown("---")
+
+    # Example selector
+    example_names = ["Custom input"] + [e["name"] for e in EXAMPLES]
+    selected_example = st.selectbox("Load example:", example_names)
+
+    if selected_example != "Custom input":
+        ex = EXAMPLES[example_names.index(selected_example) - 1]
+        default_text = ex["text"]
+        default_mention = ex["mention"]
+    else:
+        default_text = ""
+        default_mention = ""
+
+    # Input
+    col_input, col_entity = st.columns([3, 1])
+    with col_input:
+        text = st.text_area("Article text:", value=default_text, height=180)
+    with col_entity:
+        mention = st.text_input("Entity mention:", value=default_mention)
+        auto_detect = st.checkbox("Auto-detect position", value=True)
+
+        if auto_detect and mention and mention in text:
+            start = text.index(mention)
+            end = start + len(mention)
+            st.text(f"Position: [{start}, {end})")
+        else:
+            c1, c2 = st.columns(2)
+            with c1:
+                start = st.number_input("Start:", min_value=0, value=0)
+            with c2:
+                end = st.number_input("End:", min_value=0, value=0)
+
+    # Show highlighted text
+    if text and mention and mention in text:
+        s = text.index(mention)
+        highlighted = (
+            text[:s]
+            + f"**:red[\\[{mention}\\]]**"
+            + text[s + len(mention):]
+        )
+        st.markdown(highlighted)
+
+    # Classify button
+    if st.button("Classify", type="primary", disabled=not (text and mention and end > start)):
+        with st.spinner("Running inference..."):
+            result = predict(text, mention, start, end,
+                             tokenizer, coarse_model, fine_model, taxonomy_mgr, device)
+
+        # Results
+        st.markdown("---")
+        st.subheader("Results")
+
+        # Coarse
+        col_coarse, col_fine = st.columns([1, 2])
+
+        with col_coarse:
+            st.markdown("### Coarse Role")
+            coarse_label = result['coarse_label']
+            coarse_conf = result['coarse_probs'][coarse_label]
+            st.markdown(
+                f"<h2 style='color:{COARSE_COLORS[coarse_label]}'>{coarse_label} ({coarse_conf:.1%})</h2>",
+                unsafe_allow_html=True,
+            )
+            fig_coarse = plot_coarse_probs(result['coarse_probs'])
+            st.pyplot(fig_coarse)
+            plt.close(fig_coarse)
+
+        with col_fine:
+            st.markdown("### Fine-Grained Roles")
+            # Selected labels as chips
+            for fl in result['fine_labels']:
+                prob = result['fine_probs'][fl]
+                color = COARSE_COLORS[COARSE_FOR_FINE[fl]]
+                st.markdown(
+                    f"<span style='background-color:{color};color:white;padding:4px 12px;"
+                    f"border-radius:16px;margin:2px;display:inline-block;font-weight:bold'>"
+                    f"{fl} ({prob:.2f})</span>",
+                    unsafe_allow_html=True,
+                )
+
+            fig_fine = plot_fine_probs(result['fine_probs'], result['predictions'], FINE_THRESHOLD)
+            st.pyplot(fig_fine)
+            plt.close(fig_fine)
+
+        # Raw probabilities expander
+        with st.expander("Show raw probabilities"):
+            st.json({
+                'coarse_probabilities': result['coarse_probs'],
+                'fine_probabilities': result['fine_probs'],
+                'selected_fine_labels': result['fine_labels'],
+            })
+
+
+if __name__ == "__main__":
+    main()

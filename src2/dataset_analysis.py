@@ -123,7 +123,7 @@ def load_all_data():
 # =============================================================================
 
 def plot_a1_cooccurrence(df):
-    """Three separate co-occurrence matrices, one per coarse category."""
+    """Three separate co-occurrence heatmaps, one PNG per coarse category."""
     n = len(FINE_LABELS_ORDERED)
     label_to_idx = {label: i for i, label in enumerate(FINE_LABELS_ORDERED)}
     cooccurrence = np.zeros((n, n), dtype=int)
@@ -132,7 +132,7 @@ def plot_a1_cooccurrence(df):
         for label in fine_set:
             if label in label_to_idx:
                 idx = label_to_idx[label]
-                cooccurrence[idx, idx] += 1  # diagonal = total count
+                cooccurrence[idx, idx] += 1
 
         for l1, l2 in itertools.combinations(fine_set, 2):
             if l1 in label_to_idx and l2 in label_to_idx:
@@ -140,40 +140,40 @@ def plot_a1_cooccurrence(df):
                 cooccurrence[i, j] += 1
                 cooccurrence[j, i] += 1
 
-    # Split into per-coarse sub-matrices
     coarse_colors = {
         "Protagonist": "YlGn",
         "Antagonist": "YlOrRd",
         "Innocent": "PuBu",
     }
 
-    fig, axes = plt.subplots(1, 3, figsize=(20, 6),
-                             gridspec_kw={'width_ratios': [6, 12, 4]})
-
     offset = 0
-    for ax, coarse in zip(axes, COARSE_LABELS):
+    for coarse in COARSE_LABELS:
         labels = FINE_LABELS_BY_COARSE[coarse]
         size = len(labels)
         sub = cooccurrence[offset:offset + size, offset:offset + size]
         mask = sub == 0
 
+        scale = max(6, size * 0.9)
+        fig, ax = plt.subplots(figsize=(scale, scale))
+
         sns.heatmap(sub, xticklabels=labels, yticklabels=labels,
                     annot=True, fmt='d', cmap=coarse_colors[coarse], mask=mask,
                     linewidths=0.5, linecolor='white', ax=ax,
-                    cbar=False, square=True)
+                    cbar=True, square=True,
+                    annot_kws={"fontsize": 11})
 
-        ax.set_title(coarse, fontsize=13, fontweight='bold', pad=10)
-        ax.tick_params(axis='x', rotation=45, labelsize=9)
-        ax.tick_params(axis='y', rotation=0, labelsize=9)
+        ax.set_title(f"{coarse} — Fine Label Co-occurrence",
+                     fontsize=14, fontweight='bold', pad=12)
+        ax.tick_params(axis='x', rotation=45, labelsize=10)
+        ax.tick_params(axis='y', rotation=0, labelsize=10)
+
+        plt.tight_layout()
+        fname = f"a1_{coarse.lower()}_cooccurrence.png"
+        path = os.path.join(OUTPUT_DIR, fname)
+        fig.savefig(path, dpi=150, bbox_inches='tight')
+        plt.close(fig)
+        print(f"  Saved: {path}")
         offset += size
-
-    fig.suptitle("Fine-Grained Label Co-occurrence by Coarse Category",
-                 fontsize=14, fontweight='bold', y=1.02)
-    plt.tight_layout()
-    path = os.path.join(OUTPUT_DIR, "a1_fine_label_cooccurrence.png")
-    fig.savefig(path, dpi=150, bbox_inches='tight')
-    plt.close(fig)
-    print(f"  Saved: {path}")
 
 
 # =============================================================================

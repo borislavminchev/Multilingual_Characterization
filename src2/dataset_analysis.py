@@ -123,7 +123,7 @@ def load_all_data():
 # =============================================================================
 
 def plot_a1_cooccurrence(df):
-    """22x22 co-occurrence matrix of fine labels, grouped by coarse parent."""
+    """Three separate co-occurrence matrices, one per coarse category."""
     n = len(FINE_LABELS_ORDERED)
     label_to_idx = {label: i for i, label in enumerate(FINE_LABELS_ORDERED)}
     cooccurrence = np.zeros((n, n), dtype=int)
@@ -140,36 +140,35 @@ def plot_a1_cooccurrence(df):
                 cooccurrence[i, j] += 1
                 cooccurrence[j, i] += 1
 
-    fig, ax = plt.subplots(figsize=(16, 13))
+    # Split into per-coarse sub-matrices
+    coarse_colors = {
+        "Protagonist": "YlGn",
+        "Antagonist": "YlOrRd",
+        "Innocent": "PuBu",
+    }
 
-    # Mask zeros for cleaner visualization
-    mask = cooccurrence == 0
+    fig, axes = plt.subplots(1, 3, figsize=(20, 6),
+                             gridspec_kw={'width_ratios': [6, 12, 4]})
 
-    sns.heatmap(cooccurrence, xticklabels=FINE_LABELS_ORDERED, yticklabels=FINE_LABELS_ORDERED,
-                annot=True, fmt='d', cmap='YlOrRd', mask=mask,
-                linewidths=0.5, linecolor='white', ax=ax,
-                cbar_kws={'label': 'Co-occurrence Count'})
+    offset = 0
+    for ax, coarse in zip(axes, COARSE_LABELS):
+        labels = FINE_LABELS_BY_COARSE[coarse]
+        size = len(labels)
+        sub = cooccurrence[offset:offset + size, offset:offset + size]
+        mask = sub == 0
 
-    # Add coarse group separators
-    protagonist_end = len(FINE_LABELS_BY_COARSE["Protagonist"])
-    antagonist_end = protagonist_end + len(FINE_LABELS_BY_COARSE["Antagonist"])
+        sns.heatmap(sub, xticklabels=labels, yticklabels=labels,
+                    annot=True, fmt='d', cmap=coarse_colors[coarse], mask=mask,
+                    linewidths=0.5, linecolor='white', ax=ax,
+                    cbar=False, square=True)
 
-    for pos in [protagonist_end, antagonist_end]:
-        ax.axhline(y=pos, color='black', linewidth=2)
-        ax.axvline(x=pos, color='black', linewidth=2)
+        ax.set_title(coarse, fontsize=13, fontweight='bold', pad=10)
+        ax.tick_params(axis='x', rotation=45, labelsize=9)
+        ax.tick_params(axis='y', rotation=0, labelsize=9)
+        offset += size
 
-    # Add coarse group labels on the side
-    ax.text(-0.5, protagonist_end / 2, "Protagonist", ha='right', va='center',
-            fontsize=10, fontweight='bold', rotation=90, transform=ax.get_yaxis_transform())
-    ax.text(-0.5, (protagonist_end + antagonist_end) / 2, "Antagonist", ha='right', va='center',
-            fontsize=10, fontweight='bold', rotation=90, transform=ax.get_yaxis_transform())
-    ax.text(-0.5, (antagonist_end + n) / 2, "Innocent", ha='right', va='center',
-            fontsize=10, fontweight='bold', rotation=90, transform=ax.get_yaxis_transform())
-
-    ax.set_title("Fine-Grained Label Co-occurrence Matrix", fontsize=14, fontweight='bold', pad=15)
-    ax.tick_params(axis='x', rotation=45)
-    ax.tick_params(axis='y', rotation=0)
-
+    fig.suptitle("Fine-Grained Label Co-occurrence by Coarse Category",
+                 fontsize=14, fontweight='bold', y=1.02)
     plt.tight_layout()
     path = os.path.join(OUTPUT_DIR, "a1_fine_label_cooccurrence.png")
     fig.savefig(path, dpi=150, bbox_inches='tight')

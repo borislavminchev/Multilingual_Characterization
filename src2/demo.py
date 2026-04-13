@@ -114,12 +114,14 @@ def load_model_weights(model, checkpoint_dir):
 
     if os.path.exists(bin_path):
         state_dict = torch.load(bin_path, map_location='cpu')
-        model.load_state_dict(state_dict)
+        # Use strict=False to ignore loss_fn weights that shouldn't be loaded
+        model.load_state_dict(state_dict, strict=False)
         return True
     elif os.path.exists(st_path):
         from safetensors.torch import load_file
         state_dict = load_file(st_path)
-        model.load_state_dict(state_dict)
+        # Use strict=False to ignore loss_fn weights that shouldn't be loaded
+        model.load_state_dict(state_dict, strict=False)
         return True
     return False
 

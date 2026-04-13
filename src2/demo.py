@@ -135,9 +135,11 @@ def load_models():
         'additional_special_tokens': [ENTITY_START_TOKEN, ENTITY_END_TOKEN]
     })
 
-    # Coarse classifier
+    # Coarse classifier — move base model to device BEFORE passing to constructor,
+    # because TaxonomyManager runs inference during __init__
     coarse_base = AutoModel.from_pretrained(MODEL_NAME)
     coarse_base.resize_token_embeddings(len(tokenizer))
+    coarse_base.to(device)
     coarse_model = CoarseRoleClassifier(
         base_model=coarse_base,
         tokenizer=tokenizer,
@@ -151,10 +153,10 @@ def load_models():
 
     # Fine classifier
     fine_checkpoint_dir = FINE_CHECKPOINT_DIR + ("_soft" if USE_SOFT_CONDITIONING else "_hard")
-    fine_ckpt = find_last_checkpoint(fine_checkpoint_dir)
 
     fine_base = AutoModel.from_pretrained(MODEL_NAME)
     fine_base.resize_token_embeddings(len(tokenizer))
+    fine_base.to(device)
 
     if USE_SOFT_CONDITIONING:
         fine_model = SoftConditionedFineClassifier(

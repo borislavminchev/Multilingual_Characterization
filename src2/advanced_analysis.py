@@ -52,7 +52,16 @@ def d5_per_language_f1():
     if has_baseline:
         df_base = pd.read_csv(BASELINE_PREDICTIONS)
         df_base['language'] = df_base['doc_id'].apply(extract_language)
-        df_base['true_coarse'] = df_base['labels'].apply(get_true_coarse)
+        # Baseline uses 'label' (singular) instead of 'labels' (plural)
+        if 'label' in df_base.columns:
+            df_base['true_coarse'] = df_base['label']
+            df_base['predicted_coarse'] = df_base['predicted_label']
+        elif 'labels' in df_base.columns:
+            df_base['true_coarse'] = df_base['labels'].apply(get_true_coarse)
+            if 'predicted_label' in df_base.columns:
+                df_base['predicted_coarse'] = df_base['predicted_label']
+        else:
+            has_baseline = False
 
     languages = [lang for lang in LANG_ORDER if lang in df['language'].unique()]
     adv_f1s = []

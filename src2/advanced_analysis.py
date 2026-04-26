@@ -33,8 +33,11 @@ LANG_ORDER = ["BG", "EN", "HI", "PT", "RU"]
 
 
 def extract_language(doc_id: str) -> str:
-    m = re.search(r'_([A-Z]{2})_', doc_id)
-    return m.group(1) if m else "UNK"
+    name = doc_id.replace('.txt', '')
+    if name.startswith('A9_'):
+        name = name[3:]
+    lang = name.split('_')[0].split('-')[0]
+    return lang if lang in ('BG', 'EN', 'HI', 'PT', 'RU') else "UNK"
 
 
 def get_true_coarse(labels_str: str) -> str:
@@ -51,8 +54,8 @@ def d5_per_language_f1():
     has_baseline = os.path.exists(BASELINE_PREDICTIONS)
     if has_baseline:
         df_base = pd.read_csv(BASELINE_PREDICTIONS)
-        df_base['language'] = df_base['doc_id'].apply(extract_language)
-        # Baseline uses 'label' (singular) instead of 'labels' (plural)
+        if 'language' not in df_base.columns:
+            df_base['language'] = df_base['doc_id'].apply(extract_language)
         if 'label' in df_base.columns:
             df_base['true_coarse'] = df_base['label']
             df_base['predicted_coarse'] = df_base['predicted_label']

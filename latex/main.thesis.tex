@@ -16,6 +16,7 @@
 \usepackage{booktabs}
 \usepackage{subcaption}
 \usepackage{multirow}
+\usepackage{float}
 \graphicspath{{../diagrams/}{images/}}
 
 % === Math ===
@@ -230,9 +231,10 @@ LTG & XLM-RoBERTa & --- & --- \\
 \textbf{Нашият (напреднал)} & XLM-RoBERTa-base & \textbf{82,70} & \textbf{52,62} \\
 \bottomrule
 \end{tabular}
-\end{table}
 
-\textit{Забележка:} Стойностите на BERTastic (78,48\%) представляват accuracy за основната роля само за хинди от официалното тестово множество. Нашата стойност (82,70\%) е претеглен F1 за 5~езика, оценен на валидационното множество на организаторите. GateNLP и Irapuarani не са включени в таблицата, тъй като участват в подзадача~2 (Narrative Classification).
+\vspace{0.3em}
+\small\textit{Забележка:} Стойностите на BERTastic (78,48\%) представляват accuracy за основната роля само за хинди от официалното тестово множество. Нашата стойност (82,70\%) е претеглен F1 за 5~езика, оценен на валидационното множество на организаторите. GateNLP и Irapuarani не са включени в таблицата, тъй като участват в подзадача~2 (Narrative Classification).
+\end{table}
 
 Забележителна тенденция е, че подходите, базирани на големи езикови модели (LLM), доминират в общото класиране, но фино настроените по-малки модели (напр.\ XLM-RoBERTa) постигат конкурентни резултати при по-ниски изчислителни разходи.
 
@@ -343,7 +345,7 @@ Ben-Baruch et al.\ \cite{benbaruch2021asl} предлагат асиметрич
 
 \section{Таксономия на ролите}
 
-Таксономията се състои от три основни роли и 22~детайлни роли, разпределени неравномерно (таблица~\ref{tab:taxonomy}).
+Таксономията се състои от три основни роли и 22~детайлни роли, разпределени неравномерно (таблица~\ref{tab:taxonomy}). Забелязва се силна асиметрия: категория Antagonist съдържа 12~детайлни роли~--- два пъти повече от Protagonist и три пъти повече от Innocent. Това отразява по-богатото разнообразие от негативни наративни рамки в новинарските текстове и създава допълнително предизвикателство за класификацията.
 
 \begin{table}[htbp]
 \centering
@@ -384,8 +386,6 @@ Ben-Baruch et al.\ \cite{benbaruch2021asl} предлагат асиметрич
 \bottomrule
 \end{tabular}
 \end{table}
-
-Забелязва се силна асиметрия: категория Antagonist съдържа 12~детайлни роли~--- два пъти повече от Protagonist и три пъти повече от Innocent. Това отразява по-богатото разнообразие от негативни наративни рамки в новинарските текстове и създава допълнително предизвикателство за класификацията.
 
 
 \section{Структура на данните и статистически анализ}
@@ -567,7 +567,7 @@ Ben-Baruch et al.\ \cite{benbaruch2021asl} предлагат асиметрич
 
 Таблица~\ref{tab:baseline_hyperparams} обобщава хиперпараметрите, използвани при обучението на базовия класификатор.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Хиперпараметри за обучение на базовия класификатор.}
 \label{tab:baseline_hyperparams}
@@ -608,7 +608,7 @@ Ben-Baruch et al.\ \cite{benbaruch2021asl} предлагат асиметрич
 
 Таблица~\ref{tab:baseline_results} представя общите метрики за производителност на базовия модел върху тестовото множество.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Общи резултати на базовия класификатор.}
 \label{tab:baseline_results}
@@ -630,7 +630,7 @@ Ben-Baruch et al.\ \cite{benbaruch2021asl} предлагат асиметрич
 
 Таблица~\ref{tab:baseline_per_class} представя детайлни метрики за всеки клас, а фигура~\ref{fig:per_class} ги визуализира.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Метрики по класове на базовия модел.}
 \label{tab:baseline_per_class}
@@ -794,7 +794,7 @@ Innocent    & 147 &  79 & 0,899 & 0,483 & 0,628 \\
 
 Хиперпараметрите за обучение са представени в таблица~\ref{tab:coarse_hyperparams}.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Хиперпараметри за обучение на класификатора за грубо ниво.}
 \label{tab:coarse_hyperparams}
@@ -950,7 +950,7 @@ Innocent    & 147 &  79 & 0,899 & 0,483 & 0,628 \\
 
 Таблица~\ref{tab:fine_hyperparams} обобщава хиперпараметрите на класификатора за фино ниво.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Хиперпараметри за обучение на класификатора за фино ниво.}
 \label{tab:fine_hyperparams}
@@ -1096,7 +1096,7 @@ Innocent    & 147 &  79 & 0,899 & 0,483 & 0,628 \\
 
 Крайната оценка комбинира предсказанията на двата класификатора. Резултатите за най-добрата конфигурация (E19) са представени в таблица~\ref{tab:e2e_results}.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Крайни резултати на предложената система (E19).}
 \label{tab:e2e_results}
@@ -1119,7 +1119,7 @@ E2E Fine F1 & 52,62\% \\
 
 Таблица~\ref{tab:baseline_vs_advanced} обобщава подобренията на предложената система спрямо базовия модел от глава~\ref{ch:baseline}.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Сравнение: базов модел (глава~\ref{ch:baseline}) срещу предложена система (E19).}
 \label{tab:baseline_vs_advanced}
@@ -1147,7 +1147,7 @@ Exact Match & --- & \textbf{44,54\%} \\
 
 Таблица~\ref{tab:semeval_comparison} сравнява нашите резултати с водещите системи от SemEval-2025 Task~10, подзадача~1.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Сравнение с водещи системи от SemEval-2025 Task~10.}
 \label{tab:semeval_comparison}
@@ -1162,9 +1162,10 @@ LTG \cite{ronningstad2025ltg} & XLM-RoBERTa & --- & --- \\
 \textbf{Предложена система (E19)} & XLM-RoBERTa-base & \textbf{82,70} & \textbf{52,62} \\
 \bottomrule
 \end{tabular}
-\end{table}
 
-\textit{Забележка:} Стойностите на BERTastic представляват accuracy за хинди от официалното тестово множество. Нашата система е оценена с претеглен F1 за 5~езика на валидационното множество. Директното сравнение е ориентировъчно поради различията в метриките и данните.
+\vspace{0.3em}
+\small\textit{Забележка:} Стойностите на BERTastic представляват accuracy за хинди от официалното тестово множество. Нашата система е оценена с претеглен F1 за 5~езика на валидационното множество. Директното сравнение е ориентировъчно поради различията в метриките и данните.
+\end{table}
 
 Нашата система, базирана изцяло на XLM-RoBERTa-base (278M параметъра), постига конкурентни резултати спрямо BERTastic, който използва допълнително промптиране на GPT-4o. Това демонстрира, че внимателно проектирана архитектура с балансирани загуби и йерархично обуславяне може да конкурира значително по-големи модели.
 
@@ -1193,7 +1194,7 @@ LTG \cite{ronningstad2025ltg} & XLM-RoBERTa & --- & --- \\
 
 Таблица~\ref{tab:ablation_head} сравнява четири комбинации от класификационни глави за грубо и фино ниво.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Аблация на типа класификационна глава.}
 \label{tab:ablation_head}
@@ -1216,7 +1217,7 @@ MLP & MLP & 80,74 & 35,29 & 31,29 \\
 
 Таблица~\ref{tab:ablation_coarse_loss} сравнява четири функции на загубата за класификатора на грубо ниво.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Аблация на функцията на загубата за грубо ниво.}
 \label{tab:ablation_coarse_loss}
@@ -1239,7 +1240,7 @@ CB-CE дава най-добри резултати по всички три м�
 
 Таблица~\ref{tab:ablation_fine_loss} сравнява различни конфигурации на функцията на загубата за финия класификатор.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Аблация на функцията на загубата за фино ниво.}
 \label{tab:ablation_fine_loss}
@@ -1262,7 +1263,7 @@ ASL & $\gamma^-=4{,}0$, $\gamma^+=1{,}0$ & 92,46 & 32,36 & 25,99 \\
 
 Таблица~\ref{tab:ablation_cardinality} изследва влиянието на теглото $\lambda_{\text{card}}$.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Аблация на регуларизацията на кардиналността.}
 \label{tab:ablation_cardinality}
@@ -1284,7 +1285,7 @@ $\lambda_{\text{card}}$ & \textbf{Fine $\mu$F1 (\%)} & \textbf{E2E F1 (\%)} & \t
 
 Таблица~\ref{tab:ablation_conditioning} сравнява мекото и твърдото обуславяне при идентична конфигурация (CB-CE за грубо ниво, ASL за фино).
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Меко срещу твърдо йерархично обуславяне.}
 \label{tab:ablation_conditioning}

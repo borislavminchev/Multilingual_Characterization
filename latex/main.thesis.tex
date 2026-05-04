@@ -216,8 +216,7 @@ SemEval-2025 Task~10 \cite{piskorski2025semeval} е споделена зада�
   \item \textbf{adithjrajeev} \cite{rajeev2025adithjrajeev}~--- използва последователно обучение с резюмета, центрирани около обекта.
 \end{itemize}
 
-\begin{table}[htbp]
-\centering
+\begin{table}[H]
 \caption{Сравнение на водещи системи в SemEval-2025 Task 10, подзадача~1.}
 \label{tab:semeval_systems}
 \begin{tabular}{llcc}
@@ -347,7 +346,7 @@ Ben-Baruch et al.\ \cite{benbaruch2021asl} предлагат асиметрич
 
 Таксономията се състои от три основни роли и 22~детайлни роли, разпределени неравномерно (таблица~\ref{tab:taxonomy}). Забелязва се силна асиметрия: категория Antagonist съдържа 12~детайлни роли~--- два пъти повече от Protagonist и три пъти повече от Innocent. Това отразява по-богатото разнообразие от негативни наративни рамки в новинарските текстове и създава допълнително предизвикателство за класификацията.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Таксономия на ролите: 3 основни и 22 детайлни.}
 \label{tab:taxonomy}
@@ -396,7 +395,7 @@ Ben-Baruch et al.\ \cite{benbaruch2021asl} предлагат асиметрич
 
 На фигура~\ref{fig:coarse_by_lang} е представено разпределението на трите основни роли по езици. Наблюдава се ясен дисбаланс: ролята Antagonist доминира във всички езици, следвана от Protagonist, докато Innocent е най-рядко срещаната категория. Този дисбаланс е по-изразен за хинди и португалски.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.85\textwidth]{dataset/a2_coarse_distribution_by_language.png}
   \caption{Разпределение на основните роли по езици.}
@@ -405,7 +404,7 @@ Ben-Baruch et al.\ \cite{benbaruch2021asl} предлагат асиметрич
 
 Фигура~\ref{fig:cardinality} показва разпределението на броя детайлни етикети, присвоени на всяко споменаване на обект. Повечето обекти имат 1--2~етикета, като средната кардиналност е приблизително 1,5. Тази стойност е от значение за проектирането на системата~--- тя мотивира използването на регуларизация на кардиналността с целева стойност 1,5 (секция~\ref{sec:cardinality_reg}).
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.85\textwidth]{dataset/a3_cardinality_distribution.png}
   \caption{Разпределение на броя детайлни етикети на обект.}
@@ -414,21 +413,21 @@ Ben-Baruch et al.\ \cite{benbaruch2021asl} предлагат асиметрич
 
 Матриците на съвместно появяване на детайлните етикети (фигури~\ref{fig:cooc_protagonist}--\ref{fig:cooc_innocent}) показват, че съвместно срещащите се двойки са предимно в рамките на една и съща основна категория. При Protagonist (фигура~\ref{fig:cooc_protagonist}) \textit{Guardian} е най-честата роля (937~примера), като се комбинира най-често с \textit{Virtuous} (116) и \textit{Rebel} (61). При Antagonist (фигура~\ref{fig:cooc_antagonist}) доминира \textit{Foreign Adversary} (946), а най-честата двойка е \textit{Instigator}~+ \textit{Foreign Adversary} (64). При Innocent (фигура~\ref{fig:cooc_innocent}) категорията \textit{Victim} е силно доминираща (1080), като често се комбинира с \textit{Exploited} (41). Междукатегорийните комбинации са редки, което подкрепя валидността на йерархичния подход.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.75\textwidth]{dataset/a1_protagonist_cooccurrence.png}
   \caption{Съвместно появяване на детайлните етикети в категория Protagonist.}
   \label{fig:cooc_protagonist}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.95\textwidth]{dataset/a1_antagonist_cooccurrence.png}
   \caption{Съвместно появяване на детайлните етикети в категория Antagonist.}
   \label{fig:cooc_antagonist}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.75\textwidth]{dataset/a1_innocent_cooccurrence.png}
   \caption{Съвместно появяване на детайлните етикети в категория Innocent.}
@@ -437,7 +436,7 @@ Ben-Baruch et al.\ \cite{benbaruch2021asl} предлагат асиметрич
 
 Фигура~\ref{fig:role_diversity} представя анализ на консистентността на ролите за обекти, споменати повече от веднъж. От 559~обекта с множество споменавания само 22,7\% (127~обекта) получават една и съща роля при всяко споменаване. Останалите обекти получават различни роли в различни контексти~--- например ,,Русия'' е споменат в 315~случая с 30~различни комбинации от роли. Това подчертава силната контекстна зависимост на задачата.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.95\textwidth]{dataset/a4_entity_role_diversity.png}
   \caption{Анализ на консистентността на ролите: (а) разпределение на броя различни набори от роли за обекти с множество споменавания; (б) 15-те най-разнообразни обекти.}
@@ -446,7 +445,7 @@ Ben-Baruch et al.\ \cite{benbaruch2021asl} предлагат асиметрич
 
 Фигура~\ref{fig:text_length} представя разпределението на дължината на текстовете по езици. Наблюдава се значителна вариация~--- някои документи са много дълги и надхвърлят максималната дължина от 512~токена, използвана при токенизацията, което налага стратегии за отрязване (truncation).
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.85\textwidth]{dataset/a5_text_length_distribution.png}
   \caption{Разпределение на дължината на текстовете по езици.}
@@ -455,7 +454,7 @@ Ben-Baruch et al.\ \cite{benbaruch2021asl} предлагат асиметрич
 
 Фигура~\ref{fig:domain} показва разпределението по тематични области за езиците, за които тази информация е налична. Трябва да се отбележи, че идентификаторите на документите за хинди и частично за португалски не съдържат маркери за домейн, поради което тези езици не са включени в диаграмата.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.85\textwidth]{dataset/a6_domain_breakdown.png}
   \caption{Разпределение по тематични области за езиците с налична информация.}
@@ -597,7 +596,7 @@ Ben-Baruch et al.\ \cite{benbaruch2021asl} предлагат асиметрич
 
 Фигура~\ref{fig:train_loss} показва кривите на обучителната и валидационната загуба. Обучителната загуба намалява устойчиво от~1,1 до~0,7 в рамките на 5~епохи. Валидационната загуба конвергира след 3-тата епоха. Разликата между двете криви показва умерено пренастройване, но без значително разминаване.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.95\textwidth]{baseline/c1_baseline_training_loss.png}
   \caption{Криви на обучителната и валидационната загуба на базовия модел.}
@@ -645,7 +644,7 @@ Innocent    & 147 &  79 & 0,899 & 0,483 & 0,628 \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.85\textwidth]{baseline/c4_baseline_per_class_metrics.png}
   \caption{Precision, Recall и F1 по класове за базовия модел.}
@@ -658,7 +657,7 @@ Innocent    & 147 &  79 & 0,899 & 0,483 & 0,628 \\
 
 Матрицата на объркване (фигура~\ref{fig:confusion}) дава пълна картина на грешките.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{baseline/c2_baseline_confusion_matrix.png}
   \caption{Матрица на объркване за базовия класификатор (604~примера).}
@@ -671,7 +670,7 @@ Innocent    & 147 &  79 & 0,899 & 0,483 & 0,628 \\
 
 Фигура~\ref{fig:baseline_lang_f1} представя производителността по езици.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.85\textwidth]{baseline/c3_baseline_per_language_f1.png}
   \caption{Претеглен F1 по езици за базовия модел.}
@@ -713,7 +712,7 @@ Innocent    & 147 &  79 & 0,899 & 0,483 & 0,628 \\
 
 Фигура~\ref{fig:system_arch} илюстрира общия поток на системата.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.95\textwidth]{model/d1_system_architecture.png}
   \caption{Обща архитектура на предложената двустепенна система.}
@@ -1034,7 +1033,7 @@ Innocent    & 147 &  79 & 0,899 & 0,483 & 0,628 \\
 
 Фигура~\ref{fig:adv_train_loss} показва кривите на загубата при обучение за двата класификатора. Загубата на грубия класификатор намалява от~0,96 до~0,78, а тази на финия~--- от~0,14 до~0,01.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.95\textwidth]{model/b1_training_loss.png}
   \caption{Криви на загубата при обучение на грубия и финия класификатор.}
@@ -1045,7 +1044,7 @@ Innocent    & 147 &  79 & 0,899 & 0,483 & 0,628 \\
 
 Фигура~\ref{fig:adv_eval_metrics} показва еволюцията на метриките по епохи. Грубият класификатор конвергира около 8-мата епоха (Accuracy и F1 $\sim$0,82), а финият показва стабилно Micro-F1 $>$0,93 от първата епоха.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.95\textwidth]{model/b2_eval_metrics.png}
   \caption{Метрики при валидация по епохи за двата класификатора.}
@@ -1056,7 +1055,7 @@ Innocent    & 147 &  79 & 0,899 & 0,483 & 0,628 \\
 
 Фигура~\ref{fig:adv_confusion} показва матрицата на объркване за напредналия класификатор за грубо ниво. Спрямо базовия модел (фигура~\ref{fig:confusion}), системата значително подобрява разпознаването на Innocent (76,2\% Recall срещу 48,3\%) и намалява фалшивите Antagonist предсказания.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.7\textwidth]{model/b6_coarse_confusion_matrix.png}
   \caption{Матрица на объркване за напредналия класификатор за грубо ниво (604~примера).}
@@ -1072,7 +1071,7 @@ Innocent    & 147 &  79 & 0,899 & 0,483 & 0,628 \\
 
 Фигура~\ref{fig:fine_calibration} показва еволюцията на Precision, Recall, Sample-F1 и средния брой предсказани етикети по епохи. Средният брой предсказания конвергира от~1,0 към~1,5, което съвпада с целевата кардиналност.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.95\textwidth]{model/b5_fine_precision_recall_cardinality.png}
   \caption{Precision, Recall, F1 и среден брой предсказания по епохи за финия класификатор.}
@@ -1083,7 +1082,7 @@ Innocent    & 147 &  79 & 0,899 & 0,483 & 0,628 \\
 
 Фигура~\ref{fig:fine_per_label} визуализира E2E F1 за всеки от 22-те детайлни етикета. Наблюдава се съществена вариация~--- етикетите с повече примери (Victim: 0,82, Peacemaker: 0,68, Foreign Adversary: 0,59) се класифицират значително по-добре от редките (Traitor: 0,00, Forgotten: 0,00, Saboteur: 0,09).
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.95\textwidth]{model/b7_per_label_f1.png}
   \caption{E2E F1 по детайлни етикети (тестово множество).}
@@ -1148,7 +1147,6 @@ Exact Match & --- & \textbf{44,54\%} \\
 Таблица~\ref{tab:semeval_comparison} сравнява нашите резултати с водещите системи от SemEval-2025 Task~10, подзадача~1.
 
 \begin{table}[H]
-\centering
 \caption{Сравнение с водещи системи от SemEval-2025 Task~10.}
 \label{tab:semeval_comparison}
 \begin{tabular}{llcc}
@@ -1174,7 +1172,7 @@ LTG \cite{ronningstad2025ltg} & XLM-RoBERTa & --- & --- \\
 
 Фигура~\ref{fig:adv_lang_f1} представя претегления F1 по езици за напредналия класификатор за грубо ниво в сравнение с базовия модел.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.85\textwidth]{model/d5_advanced_per_language_f1.png}
   \caption{Претеглен F1 по езици за напредналия класификатор за грубо ниво.}

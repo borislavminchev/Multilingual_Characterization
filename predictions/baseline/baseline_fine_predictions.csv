@@ -1,605 +1,605 @@
 doc_id,mention,start,end,language,label,true_fine_labels,predicted_fine_labels
-A9_BG_3970.txt,Европа,24,29,BG,Antagonist,['Instigator'],[]
-A9_BG_3970.txt,НАТО,160,163,BG,Antagonist,['Conspirator'],[]
-A9_BG_4076.txt,Европа,50,55,BG,Innocent,['Exploited'],[]
-A9_BG_8427.txt,Путин,94,98,BG,Antagonist,['Tyrant'],[]
-A9_BG_3819.txt,Украйна,233,239,BG,Protagonist,['Martyr'],[]
-A9_BG_3819.txt,Владимир Путин,40,53,BG,Antagonist,['Conspirator'],[]
-A9_BG_2961.txt,Володимир Зеленски,23,40,BG,Protagonist,['Guardian'],[]
-A9_BG_2961.txt,Путин,86,90,BG,Antagonist,['Terrorist'],[]
-A9_BG_2828.txt,Вашингтон,47,55,BG,Antagonist,"['Foreign Adversary', 'Deceiver']",[]
-A9_BG_2828.txt,Брюксел,59,65,BG,Antagonist,"['Foreign Adversary', 'Deceiver']",[]
-BG_73.txt,Антониу Гутериш,187,201,BG,Protagonist,['Virtuous'],[]
-A9_BG_4093.txt,Демократическата партия,99,121,BG,Antagonist,['Foreign Adversary'],[]
-A9_BG_4093.txt,Украйна,155,161,BG,Antagonist,['Corrupt'],[]
-A9_BG_3964.txt,Въоръжените сили на Украйна (ВСУ,186,217,BG,Antagonist,['Terrorist'],[]
-A9_BG_3964.txt,Луганск,223,229,BG,Innocent,['Victim'],[]
-A9_BG_3921.txt,Западът,15,21,BG,Antagonist,['Conspirator'],[]
-A9_BG_3921.txt,Владимир Путин,169,182,BG,Protagonist,['Guardian'],[]
-A9_BG_2663.txt,НАТО,75,78,BG,Antagonist,"['Instigator', 'Foreign Adversary']",[]
-A9_BG_2663.txt,Запада,298,303,BG,Antagonist,['Foreign Adversary'],[]
-BG_979.txt,Ал Гор,170,175,BG,Antagonist,['Incompetent'],[]
-BG_979.txt,Грета Тунберг,219,231,BG,Antagonist,['Incompetent'],[]
-BG_979.txt,Марк Баумър,224,234,BG,Antagonist,['Incompetent'],[]
-BG_950.txt,Швеция,2,7,BG,Antagonist,['Incompetent'],[]
-A9_BG_2569.txt,Украйна,63,69,BG,Antagonist,['Tyrant'],[]
-A9_BG_2569.txt,Русия,123,127,BG,Innocent,['Victim'],[]
-A9_BG_2569.txt,Запада,218,223,BG,Antagonist,['Foreign Adversary'],[]
-A9_BG_2569.txt,САЩ,227,229,BG,Antagonist,['Foreign Adversary'],[]
-A9_BG_4039.txt,Белгия,0,5,BG,Protagonist,['Virtuous'],[]
-A9_BG_4039.txt,Дания,8,12,BG,Protagonist,['Virtuous'],[]
-A9_BG_4039.txt,Нидерландия,15,25,BG,Protagonist,['Virtuous'],[]
-A9_BG_4039.txt,Норвегия,29,36,BG,Protagonist,['Virtuous'],[]
-EN_UA_DEV_100012.txt,Washington,0,9,EN,Antagonist,['Corrupt'],[]
-EN_UA_DEV_100012.txt,Americans,50,58,EN,Antagonist,['Corrupt'],[]
-EN_CC_200053.txt,Rishi Sunak,25,35,EN,Antagonist,['Deceiver'],[]
-EN_CC_200040.txt,Extinction Rebellion,7,26,EN,Antagonist,['Terrorist'],[]
-EN_CC_200070.txt,Eric Garcetti,19,31,EN,Antagonist,"['Deceiver', 'Corrupt']",[]
-EN_CC_200070.txt,Los Angeles,25,35,EN,Innocent,['Forgotten'],[]
-EN_UA_DEV_100033.txt,Russia,25,30,EN,Antagonist,['Incompetent'],[]
-EN_UA_DEV_100033.txt,Kremlin propagandists,196,216,EN,Antagonist,['Deceiver'],[]
-EN_UA_DEV_100033.txt,Vladimir Soloviev,392,408,EN,Antagonist,['Bigot'],[]
-EN_UA_DEV_100033.txt,Matveychev,69,78,EN,Antagonist,['Bigot'],[]
-EN_CC_200036.txt,Al Gore,1,7,EN,Antagonist,"['Bigot', 'Deceiver']",[]
-EN_CC_200079.txt,Klaus Schwab,1,12,EN,Antagonist,['Tyrant'],[]
-EN_CC_200079.txt,World Economic Forum,16,35,EN,Antagonist,['Tyrant'],[]
-EN_CC_200079.txt,World Economic Forum,4,23,EN,Antagonist,['Conspirator'],[]
-EN_UA_DEV_100029.txt,Russia,1,6,EN,Antagonist,['Incompetent'],[]
-EN_UA_DEV_100029.txt,Ukraine,59,65,EN,Protagonist,['Virtuous'],[]
-EN_UA_DEV_20.txt,Biden,0,4,EN,Antagonist,['Deceiver'],[]
-EN_UA_DEV_20.txt,Putin,0,4,EN,Protagonist,['Peacemaker'],[]
-EN_UA_DEV_20.txt,Ukrainian government,22,41,EN,Antagonist,['Incompetent'],[]
-EN_UA_DEV_20.txt,the US,161,166,EN,Antagonist,['Instigator'],[]
-EN_UA_DEV_20.txt,Biden,89,93,EN,Antagonist,['Incompetent'],[]
-EN_CC_200033.txt,Greta Thunberg,18,31,EN,Antagonist,['Terrorist'],[]
-EN_CC_200033.txt,Thunberg,47,54,EN,Antagonist,['Bigot'],[]
-EN_CC_200033.txt,COP,587,589,EN,Antagonist,"['Deceiver', 'Corrupt']",[]
-EN_CC_200033.txt,Stuart Basden,9,21,EN,Antagonist,['Instigator'],[]
-EN_CC_200071.txt,Biden's,176,182,EN,Antagonist,['Corrupt'],[]
-EN_CC_200046.txt,Democrats,27,35,EN,Antagonist,['Incompetent'],[]
-EN_UA_DEV_100026.txt,Germany,185,191,EN,Antagonist,['Incompetent'],[]
-EN_UA_DEV_100026.txt,Germany,20,26,EN,Antagonist,['Incompetent'],[]
-EN_UA_DEV_100026.txt,Alternative for Germany,142,164,EN,Protagonist,['Rebel'],[]
-EN_UA_DEV_215.txt,Ukraine,51,57,EN,Antagonist,['Corrupt'],[]
-EN_CC_200054.txt,ECB,98,100,EN,Antagonist,['Conspirator'],[]
-EN_CC_200054.txt,Bank of England,68,82,EN,Antagonist,['Tyrant'],[]
-EN_UA_DEV_100013.txt,SBU,4,6,EN,Antagonist,"['Conspirator', 'Deceiver']",[]
-EN_UA_DEV_100013.txt,Zelensky,102,109,EN,Antagonist,['Tyrant'],[]
-EN_UA_DEV_100013.txt,Bogdan,237,242,EN,Innocent,['Scapegoat'],[]
-EN_UA_DEV_100013.txt,Zaluzhny,0,7,EN,Antagonist,['Instigator'],[]
-EN_UA_DEV_100013.txt,Zaluzhny,0,7,EN,Antagonist,['Incompetent'],[]
-EN_UA_DEV_100013.txt,Zaluzhny,18,25,EN,Antagonist,['Bigot'],[]
-EN_UA_DEV_100013.txt,Stepan Bandera,315,328,EN,Antagonist,['Instigator'],[]
-EN_UA_DEV_100013.txt,Roman Shukhevych,334,349,EN,Antagonist,['Instigator'],[]
-EN_UA_DEV_100013.txt,British,257,263,EN,Antagonist,['Foreign Adversary'],[]
-EN_UA_DEV_100013.txt,Britain,51,57,EN,Antagonist,"['Conspirator', 'Spy']",[]
-EN_UA_DEV_100013.txt,Labour Party,71,82,EN,Antagonist,['Traitor'],[]
-EN_CC_200077.txt,Biden,99,103,EN,Antagonist,['Tyrant'],[]
-EN_CC_200077.txt,China,47,51,EN,Antagonist,['Foreign Adversary'],[]
-EN_CC_200034.txt,Just Stop Oil,123,135,EN,Antagonist,['Deceiver'],[]
-EN_CC_200034.txt,Just Stop Oil,31,43,EN,Antagonist,['Bigot'],[]
-EN_UA_DEV_213.txt,US,5,6,EN,Antagonist,['Instigator'],[]
-EN_UA_DEV_213.txt,European allies,16,30,EN,Antagonist,['Instigator'],[]
-EN_UA_DEV_213.txt,Ukraine,39,45,EN,Innocent,['Exploited'],[]
-EN_UA_DEV_213.txt,Washington,47,56,EN,Antagonist,['Deceiver'],[]
-EN_UA_DEV_213.txt,Ukrainian,124,132,EN,Antagonist,['Conspirator'],[]
-EN_UA_DEV_213.txt,New York Times,178,191,EN,Antagonist,['Deceiver'],[]
-EN_UA_DEV_213.txt,Washington Post,197,211,EN,Antagonist,['Deceiver'],[]
-EN_UA_DEV_213.txt,Saddam Hussein,46,59,EN,Innocent,['Victim'],[]
-EN_UA_DEV_213.txt,Russia,26,31,EN,Innocent,['Scapegoat'],[]
-EN_UA_DEV_213.txt,United States,499,511,EN,Antagonist,['Instigator'],[]
-EN_UA_DEV_213.txt,NATO,176,179,EN,Antagonist,['Instigator'],[]
-EN_UA_DEV_213.txt,NATO,39,42,EN,Antagonist,['Tyrant'],[]
-EN_UA_DEV_213.txt,United States,47,59,EN,Antagonist,['Tyrant'],[]
-EN_UA_DEV_213.txt,NATO,66,69,EN,Antagonist,['Tyrant'],[]
-EN_UA_DEV_213.txt,United States,354,366,EN,Antagonist,['Conspirator'],[]
-EN_UA_DEV_213.txt,Germany,372,378,EN,Antagonist,['Conspirator'],[]
-EN_UA_DEV_213.txt,Russia,0,5,EN,Innocent,['Victim'],[]
-EN_UA_DEV_213.txt,United States,36,48,EN,Antagonist,['Instigator'],[]
-EN_UA_DEV_213.txt,the United States,4,20,EN,Antagonist,['Incompetent'],[]
-EN_UA_DEV_213.txt,US media,4,11,EN,Antagonist,['Deceiver'],[]
-EN_CC_200047.txt,World Economic Forum,154,173,EN,Antagonist,['Tyrant'],[]
-EN_CC_200047.txt,Committee to Unleash Prosperity,31,61,EN,Protagonist,['Guardian'],[]
-EN_CC_200047.txt,The College Fix,24,38,EN,Protagonist,['Guardian'],[]
-EN_CC_200081.txt,Mairi Gougeon,124,136,EN,Antagonist,['Corrupt'],[]
-EN_CC_200081.txt,China,391,395,EN,Antagonist,['Foreign Adversary'],[]
-EN_UA_DEV_214.txt,Ukraine,28,34,EN,Innocent,['Exploited'],[]
-EN_UA_DEV_214.txt,China,54,58,EN,Innocent,['Scapegoat'],[]
-EN_UA_DEV_214.txt,the West,70,77,EN,Antagonist,['Instigator'],[]
-EN_UA_DEV_214.txt,the West,21,28,EN,Antagonist,['Incompetent'],[]
-EN_UA_DEV_214.txt,Joe Biden,47,55,EN,Antagonist,['Incompetent'],[]
-EN_UA_DEV_214.txt,Nato,0,3,EN,Antagonist,['Incompetent'],[]
-EN_CC_200064.txt,Restore Wetlands,178,193,EN,Antagonist,['Terrorist'],[]
-EN_CC_200035.txt,Gretchen Whitmer,6,21,EN,Antagonist,"['Incompetent', 'Corrupt']",[]
-EN_CC_200069.txt,Oxford,0,5,EN,Protagonist,['Rebel'],[]
-EN_CC_200069.txt,the UK,107,112,EN,Protagonist,['Rebel'],[]
-EN_CC_200069.txt,Piers Corbyn,0,11,EN,Protagonist,['Rebel'],[]
-EN_UA_DEV_100019.txt,Russia-,0,6,EN,Antagonist,"['Saboteur', 'Foreign Adversary']",[]
-EN_UA_DEV_100019.txt,Star Blizzard,79,91,EN,Antagonist,['Spy'],[]
-EN_UA_DEV_100002.txt,Zelensky,0,7,EN,Antagonist,"['Corrupt', 'Tyrant']",[]
-EN_UA_DEV_100002.txt,Ukraine,15,21,EN,Innocent,['Exploited'],[]
-EN_UA_DEV_100002.txt,West,4,7,EN,Antagonist,['Conspirator'],[]
-EN_UA_DEV_100002.txt,NATO,150,153,EN,Antagonist,"['Conspirator', 'Foreign Adversary']",[]
-EN_UA_DEV_100002.txt,Russia,51,56,EN,Protagonist,['Guardian'],[]
-HI_26.txt,मोदी,0,3,HI,Protagonist,['Guardian'],[]
-HI_26.txt,भारत,54,57,HI,Protagonist,['Peacemaker'],[]
-HI_26.txt,राष्ट्रपति वोलोदोमीर,11,30,HI,Antagonist,['Foreign Adversary'],[]
-HI_26.txt,रूस,85,87,HI,Antagonist,['Instigator'],[]
-HI_26.txt,कीव,92,94,HI,Innocent,['Victim'],[]
-HI_26.txt,स्लोवियास्क,99,109,HI,Innocent,['Victim'],[]
-HI_26.txt,मोदी,85,88,HI,Protagonist,['Peacemaker'],[]
-HI_26.txt,PM,116,117,HI,Protagonist,['Guardian'],[]
-HI_26.txt,रूस,8,10,HI,Innocent,['Forgotten'],[]
-HI_160.txt,यूक्रेन-,34,41,HI,Innocent,['Victim'],[]
-HI_160.txt,जॉर्ज डब्ल्यू बुश,357,373,HI,Protagonist,['Virtuous'],[]
-HI_160.txt,जर्मनी,439,444,HI,Antagonist,['Foreign Adversary'],[]
-HI_160.txt,फ्रांस,449,454,HI,Antagonist,['Foreign Adversary'],[]
-HI_51.txt,रूस,62,64,HI,Antagonist,['Tyrant'],[]
-HI_51.txt,यूक्रेन,138,144,HI,Innocent,['Victim'],[]
-HI_51.txt,स्विट्जरलैंड,160,171,HI,Protagonist,['Peacemaker'],[]
-HI_51.txt,नई दिल्ली,16,24,HI,Protagonist,['Virtuous'],[]
-HI_51.txt,अमेरिका,27,33,HI,Antagonist,['Foreign Adversary'],[]
-HI_51.txt,यूरोप,38,42,HI,Antagonist,['Foreign Adversary'],[]
-HI_51.txt,रूस,33,35,HI,Antagonist,['Instigator'],[]
-HI_51.txt,यूक्रेन,0,6,HI,Innocent,['Victim'],[]
-HI_51.txt,गाजा,219,222,HI,Innocent,['Forgotten'],[]
-HI_51.txt,अमेरिका,281,287,HI,Antagonist,['Bigot'],[]
-HI_51.txt,यूरोप,292,296,HI,Antagonist,['Bigot'],[]
-HI_51.txt,भारत,385,388,HI,Protagonist,['Virtuous'],[]
-HI_114.txt,अमेरिका,54,60,HI,Antagonist,['Foreign Adversary'],[]
-HI_114.txt,फ्रांस,63,68,HI,Antagonist,['Foreign Adversary'],[]
-HI_114.txt,रूस,32,34,HI,Antagonist,['Tyrant'],[]
-HI_114.txt,यूक्रेनी सैनिकों,83,98,HI,Innocent,['Victim'],[]
-HI_114.txt,अमेरिका,161,167,HI,Protagonist,['Guardian'],[]
-HI_114.txt,फ्रांस,172,177,HI,Protagonist,['Guardian'],[]
-HI_114.txt,यूक्रेन,47,53,HI,Protagonist,"['Guardian', 'Underdog']",[]
-HI_114.txt,रक्षा मंत्रालय,387,400,HI,Protagonist,['Guardian'],[]
-HI_114.txt,इमैनुएल मैक्रॉन,156,170,HI,Protagonist,['Guardian'],[]
-HI_114.txt,व्लादिमीर पुतिन,288,302,HI,Antagonist,['Tyrant'],[]
-HI_17.txt,शी चिनफिंग,38,47,HI,Protagonist,['Peacemaker'],[]
-HI_17.txt,ओरबान,58,62,HI,Antagonist,"['Incompetent', 'Deceiver', 'Traitor']",[]
-HI_152.txt,किम जोंग,24,31,HI,Antagonist,['Tyrant'],[]
-HI_152.txt,रूस,110,112,HI,Antagonist,['Bigot'],[]
-HI_152.txt,यूक्रेन,136,142,HI,Innocent,['Scapegoat'],[]
-HI_152.txt,साउथ कोरिया,220,230,HI,Antagonist,['Foreign Adversary'],[]
-HI_152.txt,दक्षिण कोरिया,458,470,HI,Protagonist,"['Virtuous', 'Guardian']",[]
-HI_152.txt,किम योंग-ह्यून,488,501,HI,Protagonist,['Guardian'],[]
-HI_152.txt,पुतिन,142,146,HI,Antagonist,['Terrorist'],[]
-HI_152.txt,नाटो,189,192,HI,Antagonist,['Foreign Adversary'],[]
-HI_152.txt,पश्चिमी देशों,203,215,HI,Antagonist,['Foreign Adversary'],[]
-HI_152.txt,रूस,16,18,HI,Protagonist,['Rebel'],[]
-HI_152.txt,यूक्रेन,20,26,HI,Protagonist,['Underdog'],[]
-HI_152.txt,राष्ट्रपति जेलेंस्की,388,407,HI,Protagonist,['Underdog'],[]
-HI_152.txt,सैनिकों,213,219,HI,Innocent,['Victim'],[]
-HI_152.txt,उत्तर कोरिया,8,19,HI,Antagonist,"['Foreign Adversary', 'Deceiver']",[]
-HI_152.txt,दोनेत्सक,128,135,HI,Innocent,['Victim'],[]
-HI_152.txt,यूक्रेन,144,150,HI,Protagonist,['Underdog'],[]
-HI_35.txt,द मॉस्को टाइम्स,42,56,HI,Antagonist,['Traitor'],[]
-HI_35.txt,द मॉस्को टाइम्स,184,198,HI,Antagonist,['Saboteur'],[]
-HI_35.txt,द मॉस्को टाइम्स,129,143,HI,Antagonist,['Spy'],[]
-HI_35.txt,इवान गेर्शकोविच,148,162,HI,Antagonist,['Spy'],[]
-HI_76.txt,रूस,0,2,HI,Antagonist,['Tyrant'],[]
-HI_76.txt,अमेरिका,310,316,HI,Antagonist,['Foreign Adversary'],[]
-HI_76.txt,रूसी सेना,120,128,HI,Antagonist,['Tyrant'],[]
-HI_76.txt,यूक्रेन,54,60,HI,Protagonist,['Underdog'],[]
-HI_76.txt,यूक्रेनी सेना,111,123,HI,Protagonist,['Underdog'],[]
-HI_76.txt,पुतिन प्रशासन,334,346,HI,Antagonist,['Tyrant'],[]
-HI_134.txt,34 राज्यों,251,260,HI,Innocent,['Victim'],[]
-HI_134.txt,केंद्र शासित प्रदेशों,264,284,HI,Innocent,['Victim'],[]
-HI_134.txt,भारत,47,50,HI,Innocent,['Victim'],[]
-HI_134.txt,डा. एंड्रयू परशिंग,0,17,HI,Protagonist,['Guardian'],[]
-HI_134.txt,साइंस क्लाइमेट सेंटर,36,55,HI,Protagonist,['Guardian'],[]
-HI_134.txt,क्लाइमेट सेंट्रल,300,315,HI,Protagonist,['Virtuous'],[]
-HI_71.txt,रूस,18,20,HI,Protagonist,['Guardian'],[]
-HI_71.txt,रूस,18,20,HI,Protagonist,['Virtuous'],[]
-HI_71.txt,यूक्रेन,30,36,HI,Antagonist,['Terrorist'],[]
-HI_71.txt,रूस,0,2,HI,Protagonist,['Peacemaker'],[]
-HI_71.txt,रूस,0,2,HI,Innocent,['Victim'],[]
-HI_19.txt,रूस,0,2,HI,Protagonist,['Virtuous'],[]
-HI_19.txt,इवान गेर्शकोविच,71,85,HI,Innocent,['Victim'],[]
-HI_19.txt,पॉल व्हेलन,112,121,HI,Innocent,['Victim'],[]
-HI_19.txt,जो बाइडेन,103,111,HI,Protagonist,['Guardian'],[]
-HI_19.txt,वादिम कसीकोव,57,68,HI,Antagonist,"['Terrorist', 'Spy']",[]
-HI_139.txt,ब्राजील,147,153,HI,Innocent,['Victim'],[]
-HI_139.txt,दक्षिण अमेरिकी देश,163,180,HI,Innocent,['Victim'],[]
-HI_139.txt,भारत,102,105,HI,Antagonist,['Deceiver'],[]
-HI_139.txt,कई देश,112,117,HI,Antagonist,['Deceiver'],[]
-HI_139.txt,अपूर्व चंद्रा,322,334,HI,Protagonist,['Guardian'],[]
-HI_139.txt,सुजाता सुनील,176,187,HI,Protagonist,['Guardian'],[]
-HI_139.txt,यूएस सेंटर फॉर डिजीज कंट्रोल एंड प्रिवेंशन,27,68,HI,Protagonist,['Guardian'],[]
-HI_126.txt,नरेंद्र मोदी,149,160,HI,Protagonist,"['Virtuous', 'Guardian']",[]
-HI_126.txt,पश्चिमी देश,387,397,HI,Antagonist,['Foreign Adversary'],[]
-HI_126.txt,भारत,36,39,HI,Protagonist,['Rebel'],[]
-HI_126.txt,यूक्रेन के राष्ट्रपति,213,233,HI,Antagonist,['Foreign Adversary'],[]
-HI_126.txt,प्रधानमंत्री मोदी,158,174,HI,Protagonist,['Virtuous'],[]
-HI_126.txt,भारत,17,20,HI,Protagonist,"['Virtuous', 'Guardian']",[]
-HI_126.txt,चीन,177,179,HI,Antagonist,['Foreign Adversary'],[]
-HI_151.txt,किंग जोंग,24,32,HI,Antagonist,['Tyrant'],[]
-HI_151.txt,यूक्रेन,279,285,HI,Innocent,['Victim'],[]
-HI_151.txt,सोवियत संघ,80,89,HI,Protagonist,['Peacemaker'],[]
-HI_151.txt,अमेरिका,50,56,HI,Antagonist,['Foreign Adversary'],[]
-HI_125.txt,यूक्रेन,0,6,HI,Innocent,['Victim'],[]
-HI_125.txt,वोलोदिमिर जेलेंस्की,22,40,HI,Protagonist,"['Guardian', 'Underdog']",[]
-HI_125.txt,रूस,64,66,HI,Antagonist,['Tyrant'],[]
-HI_125.txt,जर्मनी,47,52,HI,Antagonist,['Foreign Adversary'],[]
-HI_125.txt,जेलेंस्की,0,8,HI,Protagonist,['Virtuous'],[]
-HI_125.txt,जर्मनी,47,52,HI,Antagonist,['Corrupt'],[]
-HI_125.txt,यूक्रेन,298,304,HI,Innocent,['Forgotten'],[]
-HI_97.txt,यूक्रेन,183,189,HI,Innocent,['Victim'],[]
-HI_97.txt,जेलेंस्की,39,47,HI,Protagonist,['Peacemaker'],[]
-HI_143.txt,महिलाओं,147,153,HI,Innocent,['Victim'],[]
-HI_143.txt,दिव्यांगों,156,165,HI,Innocent,['Victim'],[]
-HI_143.txt,मूल निवासियों,170,182,HI,Innocent,['Victim'],[]
-HI_143.txt,चंद्रचूड,11,18,HI,Protagonist,['Virtuous'],[]
-HI_156.txt,रूस,0,2,HI,Protagonist,['Guardian'],[]
-HI_156.txt,दिमित्री पेसकोव,230,244,HI,Protagonist,['Guardian'],[]
-HI_156.txt,यूक्रेन,0,6,HI,Antagonist,['Foreign Adversary'],[]
-HI_156.txt,राष्ट्रपति व्लादिमीर पुतिन,46,71,HI,Protagonist,"['Rebel', 'Guardian']",[]
-HI_75.txt,प्रिंस सेबेस्टिन,41,56,HI,Innocent,"['Exploited', 'Victim']",[]
-HI_75.txt,केंद्रीय जांच ब्यूरो,216,235,HI,Protagonist,['Guardian'],[]
-HI_75.txt,विनीत सिल्वा और टीनू पानी आदिमा,337,367,HI,Innocent,"['Exploited', 'Victim']",[]
-HI_75.txt,रूसी सेना,113,121,HI,Antagonist,['Corrupt'],[]
-HI_75.txt,भारतीय नागरिकों,235,249,HI,Innocent,"['Exploited', 'Victim']",[]
-HI_75.txt,रूसी सैनिक,526,535,HI,Protagonist,['Martyr'],[]
-HI_5.txt,G7,36,37,HI,Protagonist,['Guardian'],[]
-HI_5.txt,ज़ेलेंस्की,39,48,HI,Innocent,['Victim'],[]
-HI_5.txt,श्चिमी देशों,26,37,HI,Protagonist,['Guardian'],[]
-HI_5.txt,यूक्रेन,42,48,HI,Innocent,['Victim'],[]
-HI_5.txt,अमेरिका,114,120,HI,Protagonist,['Guardian'],[]
-HI_5.txt,फ्रांस,319,324,HI,Protagonist,['Guardian'],[]
-HI_5.txt,ब्रिटेन,329,335,HI,Protagonist,['Guardian'],[]
-HI_5.txt,यूक्रेन,23,29,HI,Innocent,['Forgotten'],[]
-HI_5.txt,व्लादिमीर ज़ेलेंस्की,56,75,HI,Protagonist,['Virtuous'],[]
-HI_5.txt,अमेरिका,71,77,HI,Protagonist,['Guardian'],[]
-HI_5.txt,ज़ेलेंस्की,106,115,HI,Innocent,['Forgotten'],[]
-HI_5.txt,पुतिन,16,20,HI,Protagonist,['Guardian'],[]
-HI_5.txt,प्रधानमंत्री,0,11,HI,Protagonist,['Peacemaker'],[]
-HI_10.txt,वोलोदिमिर जेलेंस्की,274,292,HI,Innocent,['Forgotten'],[]
-HI_10.txt,मोदी,125,128,HI,Antagonist,['Deceiver'],[]
-HI_10.txt,पुतिन,328,332,HI,Antagonist,['Foreign Adversary'],[]
-HI_10.txt,भारत,150,153,HI,Antagonist,['Traitor'],[]
-HI_10.txt,भारत,150,153,HI,Protagonist,['Peacemaker'],[]
-HI_154.txt,यूक्रेन,21,27,HI,Innocent,['Victim'],[]
-HI_154.txt,रूस,44,46,HI,Antagonist,['Instigator'],[]
-HI_154.txt,रूसियों,305,311,HI,Antagonist,['Foreign Adversary'],[]
-HI_154.txt,अमेरिका,84,90,HI,Antagonist,['Foreign Adversary'],[]
-HI_154.txt,नाटो,0,3,HI,Antagonist,['Foreign Adversary'],[]
-HI_154.txt,यूक्रेन,171,177,HI,Innocent,['Victim'],[]
-HI_154.txt,रूडोल्फ जी एडम,236,249,HI,Protagonist,['Guardian'],[]
-HI_154.txt,भारत,288,291,HI,Protagonist,['Guardian'],[]
-HI_28.txt,अमेरिका-,32,39,HI,Antagonist,['Foreign Adversary'],[]
-HI_28.txt,रूस,40,42,HI,Antagonist,['Foreign Adversary'],[]
-HI_28.txt,पत्रकारों,80,88,HI,Innocent,['Exploited'],[]
-HI_28.txt,वादिम क्रासिकोव,356,370,HI,Antagonist,['Terrorist'],[]
-HI_28.txt,बाइडेन,122,127,HI,Protagonist,['Guardian'],[]
-HI_28.txt,पत्रकारों,259,267,HI,Innocent,['Exploited'],[]
-HI_28.txt,गेर्शकोविच,39,48,HI,Innocent,['Scapegoat'],[]
-HI_11.txt,नाटो,210,213,HI,Antagonist,['Instigator'],[]
-HI_11.txt,उत्तर,250,254,HI,Antagonist,['Terrorist'],[]
-HI_11.txt,अमेरिका,275,281,HI,Innocent,['Victim'],[]
-HI_11.txt,दक्षिण कोरिया,286,298,HI,Innocent,['Victim'],[]
-HI_11.txt,हमास,64,67,HI,Antagonist,['Terrorist'],[]
-HI_11.txt,इजरायल,54,59,HI,Protagonist,['Rebel'],[]
-HI_11.txt,भारत,13,16,HI,Protagonist,['Guardian'],[]
-HI_11.txt,चीन,43,45,HI,Antagonist,['Foreign Adversary'],[]
-HI_11.txt,पाकिस्तान,56,64,HI,Antagonist,['Foreign Adversary'],[]
-HI_11.txt,रूस,0,2,HI,Antagonist,['Instigator'],[]
-HI_11.txt,यूक्रेन,7,13,HI,Innocent,['Victim'],[]
-HI_11.txt,नॉर्थ कोरिया,48,59,HI,Innocent,['Victim'],[]
-HI_11.txt,तानाशाह,111,117,HI,Antagonist,['Tyrant'],[]
-HI_31.txt,नरेंद्र मोदी,217,228,HI,Protagonist,['Guardian'],[]
-HI_31.txt,व्लादिमीर पुतिन,249,263,HI,Protagonist,['Virtuous'],[]
-HI_31.txt,उर्गेन तमांग,49,60,HI,Innocent,"['Exploited', 'Scapegoat', 'Victim']",[]
-HI_31.txt,रबि प्रधान,110,119,HI,Protagonist,['Virtuous'],[]
-HI_31.txt,तमांग,10,14,HI,Innocent,['Exploited'],[]
-HI_31.txt,एजेंटों,78,84,HI,Antagonist,['Deceiver'],[]
-HI_31.txt,मोदी,134,137,HI,Protagonist,['Guardian'],[]
-HI_31.txt,रूसी,165,168,HI,Protagonist,['Virtuous'],[]
-HI_31.txt,भारत सरकार,20,29,HI,Protagonist,['Guardian'],[]
-HI_31.txt,तमांग,0,4,HI,Innocent,['Exploited'],[]
-HI_31.txt,एजेंटों,120,126,HI,Antagonist,['Deceiver'],[]
-HI_31.txt,भारतीय नागरिकों,53,67,HI,Innocent,['Victim'],[]
-HI_107.txt,NATO,137,140,HI,Antagonist,['Foreign Adversary'],[]
-HI_107.txt,रूस,17,19,HI,Protagonist,['Rebel'],[]
-HI_107.txt,नाटो,186,189,HI,Antagonist,['Foreign Adversary'],[]
-HI_159.txt,यूक्रेन,0,6,HI,Antagonist,['Foreign Adversary'],[]
-HI_159.txt,रूस,48,50,HI,Protagonist,['Rebel'],[]
-HI_159.txt,कुर्स्क,140,146,HI,Innocent,['Victim'],[]
-HI_159.txt,रूसी सेना,327,335,HI,Protagonist,"['Rebel', 'Guardian']",[]
-HI_159.txt,सर्गिव्का,420,428,HI,Innocent,['Victim'],[]
-HI_159.txt,अवदीवका,146,152,HI,Innocent,['Victim'],[]
-HI_159.txt,खार्किव,287,293,HI,Innocent,['Victim'],[]
-HI_159.txt,पोक्रोव्स्क,75,85,HI,Innocent,['Victim'],[]
-HI_159.txt,यूक्रेन,10,16,HI,Antagonist,['Foreign Adversary'],[]
-HI_159.txt,रूसी सेनाओं,166,176,HI,Protagonist,['Rebel'],[]
-HI_159.txt,डोनेट्स्क,579,587,HI,Innocent,['Victim'],[]
-HI_159.txt,लुहान्स्क,711,719,HI,Innocent,['Victim'],[]
-HI_110.txt,रूस,1,3,HI,Antagonist,['Tyrant'],[]
-HI_110.txt,व्लादिमीर पुतिन,53,67,HI,Protagonist,['Guardian'],[]
-HI_110.txt,अमेरिका,72,78,HI,Antagonist,['Foreign Adversary'],[]
-HI_110.txt,ब्रिटेन,83,89,HI,Antagonist,['Foreign Adversary'],[]
-HI_110.txt,यूक्रेनी सैनिकों,146,161,HI,Protagonist,['Martyr'],[]
-HI_110.txt,यूक्रेन,8,14,HI,Protagonist,['Rebel'],[]
-HI_158.txt,पुतिन,35,39,HI,Protagonist,['Rebel'],[]
-HI_158.txt,यूक्रेनी सेना,203,215,HI,Antagonist,"['Foreign Adversary', 'Tyrant']",[]
-HI_158.txt,कुर्स्क,250,256,HI,Innocent,['Victim'],[]
-HI_158.txt,रूस,9,11,HI,Antagonist,"['Instigator', 'Tyrant']",[]
-HI_158.txt,यूक्रेन,51,57,HI,Protagonist,['Underdog'],[]
-HI_158.txt,मॉस्को,0,5,HI,Protagonist,['Guardian'],[]
-HI_158.txt,रक्षा मंत्रालय,111,124,HI,Protagonist,['Guardian'],[]
-HI_158.txt,ओलेक्सांद्र सिरस्की,33,51,HI,Protagonist,"['Guardian', 'Underdog']",[]
-HI_158.txt,कीव,63,65,HI,Protagonist,"['Rebel', 'Underdog']",[]
-HI_158.txt,जेलेंस्की,171,179,HI,Protagonist,"['Guardian', 'Underdog']",[]
-HI_158.txt,मॉस्को,296,301,HI,Antagonist,['Instigator'],[]
-HI_158.txt,युद्ध,354,358,HI,Antagonist,['Foreign Adversary'],[]
-HI_158.txt,एलेक्सी स्मिरनोव,37,52,HI,Protagonist,['Guardian'],[]
-HI_158.txt,नागरिक,236,241,HI,Innocent,['Victim'],[]
-HI_158.txt,व्याचेस्लाव ग्लैडकोव,29,48,HI,Protagonist,['Guardian'],[]
-HI_158.txt,बेलगोरोड,78,85,HI,Innocent,['Victim'],[]
-HI_158.txt,क्रास्नाया यारुगा,148,164,HI,Innocent,['Victim'],[]
-HI_158.txt,यूक्रेनी सेना,175,187,HI,Antagonist,"['Foreign Adversary', 'Tyrant']",[]
-HI_158.txt,पुतिन,298,302,HI,Protagonist,['Guardian'],[]
-HI_158.txt,राष्ट्रपति,0,9,HI,Protagonist,"['Rebel', 'Guardian']",[]
-HI_158.txt,रूस,192,194,HI,Antagonist,['Deceiver'],[]
-HI_158.txt,कीव की सेना,196,206,HI,Innocent,['Victim'],[]
-HI_158.txt,रूस,192,194,HI,Antagonist,['Deceiver'],[]
-HI_158.txt,मॉस्को,0,5,HI,Antagonist,['Deceiver'],[]
-HI_158.txt,कीव,10,12,HI,Antagonist,['Deceiver'],[]
-HI_158.txt,इहोर रोमानेंको,71,84,HI,Protagonist,['Guardian'],[]
-HI_158.txt,यूक्रेन के लोगों,108,123,HI,Innocent,"['Exploited', 'Victim']",[]
-HI_158.txt,चीन,409,411,HI,Protagonist,['Peacemaker'],[]
-HI_158.txt,प्रवक्ता,12,19,HI,Protagonist,"['Peacemaker', 'Guardian']",[]
-HI_158.txt,चीन,190,192,HI,Antagonist,['Deceiver'],[]
-HI_158.txt,नाटो सदस्यों,505,516,HI,Protagonist,['Guardian'],[]
-HI_158.txt,बीजिंग,521,526,HI,Antagonist,"['Foreign Adversary', 'Deceiver']",[]
-HI_140.txt,डॉ. एमिली ग्रीनफ़ील्ड,0,20,HI,Protagonist,"['Virtuous', 'Guardian']",[]
-HI_38.txt,भारत,70,73,HI,Protagonist,['Peacemaker'],[]
-HI_4.txt,जिनपिंग सरकार,97,109,HI,Protagonist,['Virtuous'],[]
-HI_4.txt,चीन,40,42,HI,Protagonist,['Peacemaker'],[]
-HI_4.txt,अमेरिका,273,279,HI,Protagonist,['Guardian'],[]
-HI_4.txt,पश्चिमी,284,290,HI,Protagonist,['Guardian'],[]
-HI_4.txt,चीन,333,335,HI,Protagonist,['Guardian'],[]
-HI_4.txt,चीन,333,335,HI,Protagonist,['Virtuous'],[]
-HI_4.txt,जिनपिंग सरकार,590,602,HI,Protagonist,['Virtuous'],[]
-HI_4.txt,चीन,333,335,HI,Antagonist,['Deceiver'],[]
-HI_4.txt,शी जिनपिंग,27,36,HI,Protagonist,['Virtuous'],[]
-HI_4.txt,चीन,0,2,HI,Protagonist,"['Peacemaker', 'Virtuous']",[]
-HI_4.txt,चीन,0,2,HI,Antagonist,['Foreign Adversary'],[]
-HI_4.txt,चीन,0,2,HI,Protagonist,['Virtuous'],[]
-HI_4.txt,अमेरिका,26,32,HI,Antagonist,['Bigot'],[]
-HI_4.txt,पश्चिमी देशों,37,49,HI,Antagonist,['Bigot'],[]
-HI_4.txt,अमेरिका,26,32,HI,Antagonist,['Saboteur'],[]
-HI_4.txt,पश्चिमी देशों,37,49,HI,Antagonist,['Saboteur'],[]
-HI_95.txt,रूस,0,2,HI,Protagonist,['Rebel'],[]
-HI_95.txt,नाटो,33,36,HI,Antagonist,['Foreign Adversary'],[]
-HI_95.txt,यूक्रेन,38,44,HI,Innocent,['Victim'],[]
-HI_95.txt,रूस,2,4,HI,Antagonist,['Conspirator'],[]
-HI_95.txt,हिजबुल्लाह,13,22,HI,Antagonist,['Saboteur'],[]
-HI_95.txt,इजरायल,27,32,HI,Innocent,['Victim'],[]
-HI_95.txt,रूस,28,30,HI,Antagonist,['Conspirator'],[]
-HI_95.txt,उत्तर कोरिया,0,11,HI,Antagonist,['Foreign Adversary'],[]
-HI_12.txt,नरेन्द्र मोदी,13,25,HI,Protagonist,['Peacemaker'],[]
-HI_12.txt,कार्ल नेहमर,221,231,HI,Protagonist,['Peacemaker'],[]
-HI_12.txt,मोदी,5,8,HI,Protagonist,['Peacemaker'],[]
-HI_12.txt,ऑस्ट्रिया,17,25,HI,Protagonist,['Peacemaker'],[]
-HI_12.txt,भारत,30,33,HI,Protagonist,['Peacemaker'],[]
-HI_12.txt,भारत,64,67,HI,Protagonist,['Virtuous'],[]
-HI_12.txt,भारत,64,67,HI,Protagonist,['Peacemaker'],[]
-HI_12.txt,ऑस्ट्रिया,23,31,HI,Protagonist,['Peacemaker'],[]
-HI_34.txt,पुतिन,0,4,HI,Antagonist,['Tyrant'],[]
-HI_34.txt,यूक्रेनी सेना,19,31,HI,Protagonist,['Underdog'],[]
-HI_34.txt,यूक्रेन,28,34,HI,Protagonist,['Underdog'],[]
-HI_34.txt,रूसी सेना,86,94,HI,Antagonist,['Terrorist'],[]
-HI_34.txt,यूक्रेन,35,41,HI,Innocent,['Victim'],[]
-HI_34.txt,यूक्रेन,35,41,HI,Protagonist,['Underdog'],[]
-HI_34.txt,यूक्रेन,35,41,HI,Protagonist,['Guardian'],[]
-HI_34.txt,यूक्रेन,23,29,HI,Innocent,['Forgotten'],[]
-HI_34.txt,अमेरिका,67,73,HI,Antagonist,['Deceiver'],[]
-HI_34.txt,यूक्रेन,23,29,HI,Innocent,['Forgotten'],[]
-HI_34.txt,वलोडोमिर जेलेंस्की,204,221,HI,Innocent,['Victim'],[]
-HI_34.txt,यूक्रेनी सेना,261,273,HI,Protagonist,['Underdog'],[]
-HI_34.txt,यूक्रेन,18,24,HI,Innocent,['Victim'],[]
-HI_34.txt,रूस,13,15,HI,Antagonist,['Tyrant'],[]
-HI_34.txt,यूक्रेन,18,24,HI,Protagonist,['Rebel'],[]
-PT_203.txt,Pantanal,38,45,PT,Innocent,['Victim'],[]
-PT_203.txt,Valdelice Verón,112,126,PT,Innocent,['Victim'],[]
-PT_203.txt,Guarani Kaiowá,137,150,PT,Innocent,['Victim'],[]
-PT_208.txt,Caatinga,2,9,PT,Innocent,"['Victim', 'Forgotten']",[]
-PT_208.txt,Rodrigo Agostinho,190,206,PT,Protagonist,['Guardian'],[]
-PT_208.txt,Claudecy Oliveira Lemes,13,35,PT,Antagonist,['Corrupt'],[]
-PT_233.txt,Amazónia,538,545,PT,Innocent,['Victim'],[]
-PT_241.txt,Rússia,2,7,PT,Protagonist,['Guardian'],[]
-PT_241.txt,União Europeia,107,120,PT,Antagonist,['Corrupt'],[]
-PT_259.txt,Maria Zakharova,59,73,PT,Protagonist,['Guardian'],[]
-PT_259.txt,Volodymyr Zelensky,126,143,PT,Antagonist,['Deceiver'],[]
-PT_259.txt,Ucrânia,233,239,PT,Innocent,['Exploited'],[]
-PT_259.txt,Zelensky,91,98,PT,Antagonist,"['Terrorist', 'Tyrant']",[]
-PT_259.txt,Zelensky,29,36,PT,Antagonist,"['Conspirator', 'Deceiver']",[]
-PT_259.txt,Kiev,59,62,PT,Antagonist,['Deceiver'],[]
-PT_259.txt,Rússia,195,200,PT,Antagonist,['Foreign Adversary'],[]
-PT_220.txt,Pantanal,182,189,PT,Innocent,['Victim'],[]
-PT_220.txt,Amazónia,2,9,PT,Innocent,['Victim'],[]
-PT_220.txt,Cerrado,94,100,PT,Innocent,['Victim'],[]
-PT_254.txt,Moscovo,31,37,PT,Antagonist,['Foreign Adversary'],[]
-PT_254.txt,Anton Trofimov,279,292,PT,Protagonist,['Guardian'],[]
-PT_211.txt,África Ocidental,188,203,PT,Innocent,['Victim'],[]
-PT_211.txt,Golfo Pérsico,210,222,PT,Innocent,['Victim'],[]
-PT_211.txt,Burkina Faso,232,243,PT,Innocent,['Victim'],[]
-PT_211.txt,Mali,246,249,PT,Innocent,['Victim'],[]
-PT_211.txt,Qatar,252,256,PT,Innocent,['Victim'],[]
-PT_211.txt,Aruba,259,263,PT,Innocent,['Victim'],[]
-PT_211.txt,Emirados Árabes Unidos,267,288,PT,Innocent,['Victim'],[]
-PT_211.txt,Índia,53,57,PT,Innocent,['Victim'],[]
-PT_211.txt,Nigéria,62,68,PT,Innocent,['Victim'],[]
-PT_211.txt,Indonésia,74,82,PT,Innocent,['Victim'],[]
-PT_237.txt,Rússia,2,7,PT,Protagonist,['Peacemaker'],[]
-PT_237.txt,Ucrânia,160,166,PT,Antagonist,['Foreign Adversary'],[]
-PT_237.txt,Washington,172,181,PT,Antagonist,['Foreign Adversary'],[]
-PT_250.txt,Igor Sechin,51,61,PT,Protagonist,['Guardian'],[]
-PT_224.txt,governo,46,52,PT,Antagonist,['Incompetent'],[]
-PT_224.txt,Pantanal,233,240,PT,Innocent,['Victim'],[]
-PT_224.txt,Autoridade do Clima,148,166,PT,Antagonist,['Incompetent'],[]
-PT_224.txt,Foz do Amazonas,315,329,PT,Innocent,['Exploited'],[]
-PT_224.txt,Governo Federal,33,47,PT,Antagonist,['Incompetent'],[]
-PT_228.txt,Marina Silva,24,35,PT,Protagonist,['Guardian'],[]
-PT_228.txt,Pantanal,110,117,PT,Innocent,['Victim'],[]
-PT_228.txt,Amazónia,172,179,PT,Innocent,['Victim'],[]
-PT_253.txt,Ucrânia,118,124,PT,Innocent,['Victim'],[]
-PT_253.txt,Kremlin,181,187,PT,Antagonist,['Foreign Adversary'],[]
-PT_253.txt,von der Leyen,275,287,PT,Protagonist,['Guardian'],[]
-PT_253.txt,Denys Shmyhal,157,169,PT,Protagonist,['Virtuous'],[]
-PT_253.txt,Dmitry Peskov,46,58,PT,Protagonist,['Virtuous'],[]
-PT_253.txt,Ucrânia,115,121,PT,Antagonist,['Foreign Adversary'],[]
-PT_253.txt,Rússia,153,158,PT,Innocent,['Exploited'],[]
-PT_253.txt,Comissão Europeia,17,33,PT,Antagonist,['Instigator'],[]
-PT_253.txt,Vladimir Putin,167,180,PT,Protagonist,['Guardian'],[]
-PT_209.txt,Leonardo Boff,0,12,PT,Protagonist,['Guardian'],[]
-PT_209.txt,Terra,17,21,PT,Innocent,['Victim'],[]
-PT_202.txt,Túlio Gadêlha,58,70,PT,Protagonist,['Guardian'],[]
-PT_202.txt,Caatinga,269,276,PT,Innocent,['Victim'],[]
-PT_202.txt,Marina Silva,86,97,PT,Protagonist,['Guardian'],[]
-PT_232.txt,Goiás,164,168,PT,Innocent,['Victim'],[]
-PT_232.txt,Mato Grosso,171,181,PT,Innocent,['Victim'],[]
-PT_232.txt,Mato Grosso do Sul,184,201,PT,Innocent,['Victim'],[]
-PT_232.txt,Tocantins,204,212,PT,Innocent,['Victim'],[]
-PT_232.txt,Minas Gerais,215,226,PT,Innocent,['Victim'],[]
-PT_232.txt,Pará,229,232,PT,Innocent,['Victim'],[]
-PT_232.txt,Paraná,235,240,PT,Innocent,['Victim'],[]
-PT_232.txt,São Paulo,243,251,PT,Innocent,['Victim'],[]
-PT_232.txt,Rio de Janeiro,255,268,PT,Innocent,['Victim'],[]
-PT_232.txt,Cerrado,260,266,PT,Innocent,['Victim'],[]
-PT_232.txt,Floresta Amazónica,272,289,PT,Innocent,['Victim'],[]
-PT_245.txt,Federação Russa,131,145,PT,Antagonist,"['Foreign Adversary', 'Tyrant']",[]
-PT_245.txt,Ucrânia,188,194,PT,Innocent,['Victim'],[]
-PT_245.txt,Kursk,266,270,PT,Innocent,['Victim'],[]
-PT_206.txt,Marina Silva,52,63,PT,Protagonist,['Guardian'],[]
-PT_249.txt,Moscovo,76,82,PT,Protagonist,['Peacemaker'],[]
-PT_249.txt,Kiev,237,240,PT,Antagonist,['Foreign Adversary'],[]
-PT_249.txt,Subianto,193,200,PT,Protagonist,['Peacemaker'],[]
-PT_249.txt,Rússia,3,8,PT,Protagonist,['Peacemaker'],[]
-PT_249.txt,Ucrânia,172,178,PT,Antagonist,['Foreign Adversary'],[]
-PT_249.txt,Mikhail Galuzin,70,84,PT,Protagonist,['Guardian'],[]
-PT_249.txt,Zelensky,172,179,PT,Antagonist,['Foreign Adversary'],[]
-PT_210.txt,Porto Alegre,19,30,PT,Innocent,['Victim'],[]
-PT_210.txt,Rio Grande do Sul,55,71,PT,Innocent,['Victim'],[]
-PT_230.txt,Brasil,21,26,PT,Innocent,['Victim'],[]
-PT_230.txt,São Paulo,146,154,PT,Innocent,['Victim'],[]
-PT_230.txt,Amazónia,202,209,PT,Innocent,['Victim'],[]
-PT_244.txt,Comité Organizador de Paris-2024,3,34,PT,Antagonist,['Conspirator'],[]
-PT_244.txt,Maria Zakharova,107,121,PT,Protagonist,['Virtuous'],[]
-PT_213.txt,Maceió,74,79,PT,Innocent,"['Exploited', 'Victim']",[]
-PT_213.txt,Braskem,26,32,PT,Antagonist,['Corrupt'],[]
-PT_226.txt,Vale do Taquari,390,404,PT,Innocent,['Victim'],[]
-PT_226.txt,Rio de Janeiro,69,82,PT,Innocent,['Victim'],[]
-PT_239.txt,Dmitro Kuleba,49,61,PT,Protagonist,['Peacemaker'],[]
-PT_239.txt,Rússia,163,168,PT,Antagonist,['Foreign Adversary'],[]
-PT_239.txt,Moscovo,180,186,PT,Antagonist,['Foreign Adversary'],[]
-PT_239.txt,China,3,7,PT,Protagonist,['Peacemaker'],[]
-PT_239.txt,China,2,6,PT,Protagonist,['Rebel'],[]
-PT_239.txt,Rússia,34,39,PT,Protagonist,['Rebel'],[]
-PT_239.txt,Estados Unidos,71,84,PT,Antagonist,['Foreign Adversary'],[]
-PT_239.txt,NATO,95,98,PT,Antagonist,['Tyrant'],[]
-PT_239.txt,Moscovo,152,158,PT,Innocent,"['Victim', 'Forgotten']",[]
-PT_239.txt,Volodimir Zelensky,39,56,PT,Protagonist,['Peacemaker'],[]
-PT_234.txt,Ásia,293,296,PT,Innocent,['Victim'],[]
-PT_234.txt,Antártida,302,310,PT,Innocent,['Victim'],[]
-PT_234.txt,Amazónia,7,14,PT,Innocent,['Victim'],[]
-PT_207.txt,Zequinha Marinho,10,25,PT,Protagonist,['Guardian'],[]
-PT_207.txt,Parlamento Europeu,179,196,PT,Antagonist,['Saboteur'],[]
-PT_217.txt,São Paulo,113,121,PT,Innocent,['Victim'],[]
-PT_217.txt,Rio de Janeiro,125,138,PT,Innocent,['Victim'],[]
-PT_204.txt,Papa Francisco,2,15,PT,Protagonist,['Virtuous'],[]
-PT_229.txt,Panamá,43,48,PT,Innocent,['Victim'],[]
-PT_229.txt,Vásquez,132,138,PT,Protagonist,"['Virtuous', 'Guardian']",[]
-PT_229.txt,El Niño,64,70,PT,Antagonist,['Saboteur'],[]
-PT_225.txt,Rio Grande do Sul,3,19,PT,Innocent,['Victim'],[]
-PT_225.txt,Maranhão,2,9,PT,Innocent,['Victim'],[]
-PT_225.txt,Matopiba,205,212,PT,Innocent,['Victim'],[]
-PT_225.txt,Carlos Nobre,64,75,PT,Protagonist,['Guardian'],[]
-PT_225.txt,Rio Grande do Sul,84,100,PT,Innocent,"['Exploited', 'Victim']",[]
-RU-URW-1135.txt,Виктора Орбана,77,90,RU,Antagonist,['Traitor'],[]
-RU-URW-1135.txt,Александр Шатилов,324,340,RU,Protagonist,['Virtuous'],[]
-RU-URW-1093.txt,Украинские боевики,1,18,RU,Antagonist,['Terrorist'],[]
-RU-URW-1118.txt,Россия,1,6,RU,Protagonist,['Peacemaker'],[]
-RU-URW-1118.txt,Владимир Зеленский,24,41,RU,Antagonist,['Tyrant'],[]
-RU-URW-1118.txt,РФ,36,37,RU,Protagonist,['Peacemaker'],[]
-RU-URW-1118.txt,Киев,79,82,RU,Antagonist,['Instigator'],[]
-RU-URW-1101.txt,Киева,37,41,RU,Antagonist,['Terrorist'],[]
-RU-URW-1101.txt,Зеленского,216,225,RU,Antagonist,['Deceiver'],[]
-RU-URW-1032.txt,Владимир Зеленский,0,17,RU,Antagonist,['Instigator'],[]
-RU-URW-1032.txt,Трамп,65,69,RU,Protagonist,['Peacemaker'],[]
-RU-URW-1004.txt,Владимиру Зеленскому,0,19,RU,Antagonist,"['Instigator', 'Tyrant']",[]
-RU-URW-1004.txt,Виктор Орбан,208,219,RU,Protagonist,['Peacemaker'],[]
-RU-URW-1004.txt,Будапешт,17,24,RU,Protagonist,['Peacemaker'],[]
-RU-URW-1004.txt,Орбан,93,97,RU,Protagonist,['Virtuous'],[]
-RU-URW-1127.txt,осольство США,365,377,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1127.txt,Ермак,117,121,RU,Antagonist,['Deceiver'],[]
-RU-URW-1127.txt,Владимиром Путиным,38,55,RU,Protagonist,['Virtuous'],[]
-RU-URW-1069.txt,Российской Федерации,116,135,RU,Protagonist,['Guardian'],[]
-RU-URW-1023.txt,Белоруссии,36,45,RU,Innocent,['Victim'],[]
-RU-URW-1023.txt,Европа,372,377,RU,Innocent,['Exploited'],[]
-RU-URW-1023.txt,США,388,390,RU,Innocent,['Exploited'],[]
-RU-URW-1053.txt,Ле Пен,70,75,RU,Protagonist,['Peacemaker'],[]
-RU-URW-1053.txt,России,155,160,RU,Innocent,['Scapegoat'],[]
-RU-URW-1053.txt,ЕС,281,282,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1061.txt,российских территорий,42,62,RU,Innocent,['Victim'],[]
-RU-URW-1061.txt,ВСУ,748,750,RU,Antagonist,['Terrorist'],[]
-RU-URW-1061.txt,Байдена,1216,1222,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1102.txt,Россия,9,14,RU,Protagonist,['Guardian'],[]
-RU-URW-1102.txt,ВСУ,63,65,RU,Antagonist,['Terrorist'],[]
-RU-URW-1102.txt,местных жителей,530,544,RU,Innocent,['Victim'],[]
-RU-URW-1120.txt,США,52,54,RU,Antagonist,"['Conspirator', 'Foreign Adversary']",[]
-RU-URW-1120.txt,Донецка,132,138,RU,Innocent,['Victim'],[]
-RU-URW-1120.txt,Россией,12,18,RU,Innocent,['Victim'],[]
-RU-URW-1014.txt,Российские войска,0,16,RU,Protagonist,['Guardian'],[]
-RU-URW-1014.txt,ВСУ,38,40,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1146.txt,Китая,85,89,RU,Protagonist,['Guardian'],[]
-RU-URW-1146.txt,Белоруссии,113,122,RU,Protagonist,['Guardian'],[]
-RU-URW-1146.txt,Польши,335,340,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1146.txt,Украиной,585,592,RU,Antagonist,['Instigator'],[]
-RU-URW-1146.txt,Польшей,603,609,RU,Antagonist,['Instigator'],[]
-RU-URW-1171.txt,Украине,173,179,RU,Antagonist,['Terrorist'],[]
-RU-URW-1171.txt,Госдуме,5,11,RU,Protagonist,['Guardian'],[]
-RU-URW-1171.txt,США,131,133,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1171.txt,Великобритании,137,150,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1171.txt,ВСУ,247,249,RU,Antagonist,['Terrorist'],[]
-RU-URW-1171.txt,Франции,324,330,RU,Antagonist,['Conspirator'],[]
-RU-URW-1184.txt,БРИКС,27,31,RU,Protagonist,['Rebel'],[]
-RU-URW-1073.txt,Трампа,87,92,RU,Protagonist,['Peacemaker'],[]
-RU-URW-1073.txt,Орбану,195,200,RU,Protagonist,['Peacemaker'],[]
-RU-URW-1073.txt,Ермак,396,400,RU,Antagonist,"['Instigator', 'Traitor']",[]
-RU-URW-1073.txt,Америку,438,444,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1043.txt,ФСБ,0,2,RU,Protagonist,['Guardian'],[]
-RU-URW-1043.txt,Главному управлению разведки Украины,152,187,RU,Antagonist,['Spy'],[]
-RU-URW-1043.txt,УФСБ,36,39,RU,Protagonist,['Guardian'],[]
-RU-URW-1168.txt,ВСУ,149,151,RU,Antagonist,['Incompetent'],[]
-RU-URW-1168.txt,Марьяна Безуглая,259,274,RU,Antagonist,['Incompetent'],[]
-RU-URW-1168.txt,ВС РФ,628,632,RU,Protagonist,['Virtuous'],[]
-RU-URW-1168.txt,украинский генералитет,696,717,RU,Antagonist,['Incompetent'],[]
-RU-URW-1110.txt,Страны Запада,1,13,RU,Antagonist,['Corrupt'],[]
-RU-URW-1110.txt,Украине,52,58,RU,Antagonist,['Corrupt'],[]
-RU-URW-1166.txt,Путин,161,165,RU,Protagonist,['Virtuous'],[]
-RU-URW-1166.txt,Си Цзиньпин,873,883,RU,Protagonist,['Virtuous'],[]
-RU-URW-1166.txt,Виктор Орбан,1846,1857,RU,Protagonist,['Peacemaker'],[]
-RU-URW-1077.txt,Россия,0,5,RU,Protagonist,['Peacemaker'],[]
-RU-URW-1077.txt,Китай,9,13,RU,Protagonist,['Peacemaker'],[]
-RU-URW-1077.txt,Александера Стубба,112,129,RU,Antagonist,['Incompetent'],[]
-RU-URW-1077.txt,Североатлантическому альянсу,28,55,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1170.txt,Владимир Зеленский,39,56,RU,Antagonist,['Traitor'],[]
-RU-URW-1170.txt,Дональдом Туском,503,518,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1170.txt,Польша,1859,1864,RU,Antagonist,['Instigator'],[]
-RU-URW-1085.txt,Юрия Трутнева,104,116,RU,Protagonist,['Virtuous'],[]
-RU-URW-1174.txt,Зеленского,171,180,RU,Antagonist,['Incompetent'],[]
-RU-URW-1174.txt,ОБСЕ,44,47,RU,Antagonist,['Incompetent'],[]
-RU-URW-1174.txt,Германии,160,167,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1174.txt,Франции,171,177,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1174.txt,Зеленский,0,8,RU,Antagonist,['Tyrant'],[]
-RU-URW-1152.txt,НАТО,8,11,RU,Protagonist,['Guardian'],[]
-RU-URW-1152.txt,Китаем,85,90,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1152.txt,России,92,97,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1152.txt,США,132,134,RU,Antagonist,['Conspirator'],[]
-RU-URW-1139.txt,Запада,167,172,RU,Antagonist,['Conspirator'],[]
-RU-URW-1139.txt,России,292,297,RU,Innocent,['Victim'],[]
-RU-URW-1139.txt,НАТО,278,281,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1139.txt,Зеленского,200,209,RU,Antagonist,['Foreign Adversary'],[]
-RU-URW-1139.txt,Киеву,165,169,RU,Antagonist,['Instigator'],[]
+A9_BG_3970.txt,Европа,24,29,BG,Antagonist,['Instigator'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Corrupt', 'Incompetent', 'Exploited', 'Victim']"
+A9_BG_3970.txt,НАТО,160,163,BG,Antagonist,['Conspirator'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited']"
+A9_BG_4076.txt,Европа,50,55,BG,Innocent,['Exploited'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited']"
+A9_BG_8427.txt,Путин,94,98,BG,Antagonist,['Tyrant'],"['Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Victim']"
+A9_BG_3819.txt,Украйна,233,239,BG,Protagonist,['Martyr'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Exploited', 'Victim']"
+A9_BG_3819.txt,Владимир Путин,40,53,BG,Antagonist,['Conspirator'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+A9_BG_2961.txt,Володимир Зеленски,23,40,BG,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Victim']"
+A9_BG_2961.txt,Путин,86,90,BG,Antagonist,['Terrorist'],"['Martyr', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Exploited', 'Victim']"
+A9_BG_2828.txt,Вашингтон,47,55,BG,Antagonist,"['Foreign Adversary', 'Deceiver']","['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Scapegoat']"
+A9_BG_2828.txt,Брюксел,59,65,BG,Antagonist,"['Foreign Adversary', 'Deceiver']","['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Scapegoat']"
+BG_73.txt,Антониу Гутериш,187,201,BG,Protagonist,['Virtuous'],"['Guardian', 'Rebel', 'Virtuous', 'Victim']"
+A9_BG_4093.txt,Демократическата партия,99,121,BG,Antagonist,['Foreign Adversary'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Exploited', 'Victim', 'Scapegoat']"
+A9_BG_4093.txt,Украйна,155,161,BG,Antagonist,['Corrupt'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+A9_BG_3964.txt,Въоръжените сили на Украйна (ВСУ,186,217,BG,Antagonist,['Terrorist'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Exploited', 'Victim']"
+A9_BG_3964.txt,Луганск,223,229,BG,Innocent,['Victim'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Exploited', 'Victim']"
+A9_BG_3921.txt,Западът,15,21,BG,Antagonist,['Conspirator'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Corrupt', 'Incompetent', 'Exploited', 'Victim']"
+A9_BG_3921.txt,Владимир Путин,169,182,BG,Protagonist,['Guardian'],"['Peacemaker', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Corrupt', 'Incompetent', 'Exploited', 'Victim']"
+A9_BG_2663.txt,НАТО,75,78,BG,Antagonist,"['Instigator', 'Foreign Adversary']","['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Victim']"
+A9_BG_2663.txt,Запада,298,303,BG,Antagonist,['Foreign Adversary'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Victim']"
+BG_979.txt,Ал Гор,170,175,BG,Antagonist,['Incompetent'],"['Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Exploited', 'Victim']"
+BG_979.txt,Грета Тунберг,219,231,BG,Antagonist,['Incompetent'],"['Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited', 'Victim']"
+BG_979.txt,Марк Баумър,224,234,BG,Antagonist,['Incompetent'],"['Martyr', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Exploited', 'Victim']"
+BG_950.txt,Швеция,2,7,BG,Antagonist,['Incompetent'],"['Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Exploited', 'Victim']"
+A9_BG_2569.txt,Украйна,63,69,BG,Antagonist,['Tyrant'],"['Peacemaker', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Corrupt', 'Incompetent', 'Terrorist', 'Bigot', 'Exploited', 'Victim']"
+A9_BG_2569.txt,Русия,123,127,BG,Innocent,['Victim'],"['Peacemaker', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Victim']"
+A9_BG_2569.txt,Запада,218,223,BG,Antagonist,['Foreign Adversary'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Exploited', 'Victim', 'Scapegoat']"
+A9_BG_2569.txt,САЩ,227,229,BG,Antagonist,['Foreign Adversary'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Exploited', 'Victim', 'Scapegoat']"
+A9_BG_4039.txt,Белгия,0,5,BG,Protagonist,['Virtuous'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent']"
+A9_BG_4039.txt,Дания,8,12,BG,Protagonist,['Virtuous'],"['Guardian', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Victim']"
+A9_BG_4039.txt,Нидерландия,15,25,BG,Protagonist,['Virtuous'],"['Guardian', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Victim']"
+A9_BG_4039.txt,Норвегия,29,36,BG,Protagonist,['Virtuous'],"['Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Victim']"
+EN_UA_DEV_100012.txt,Washington,0,9,EN,Antagonist,['Corrupt'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+EN_UA_DEV_100012.txt,Americans,50,58,EN,Antagonist,['Corrupt'],"['Martyr', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited', 'Victim', 'Scapegoat']"
+EN_CC_200053.txt,Rishi Sunak,25,35,EN,Antagonist,['Deceiver'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+EN_CC_200040.txt,Extinction Rebellion,7,26,EN,Antagonist,['Terrorist'],"['Rebel', 'Instigator', 'Conspirator', 'Tyrant', 'Saboteur', 'Corrupt', 'Terrorist', 'Deceiver', 'Bigot', 'Victim', 'Scapegoat']"
+EN_CC_200070.txt,Eric Garcetti,19,31,EN,Antagonist,"['Deceiver', 'Corrupt']","['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Deceiver']"
+EN_CC_200070.txt,Los Angeles,25,35,EN,Innocent,['Forgotten'],"['Martyr', 'Rebel', 'Virtuous', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited', 'Victim']"
+EN_UA_DEV_100033.txt,Russia,25,30,EN,Antagonist,['Incompetent'],"['Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Victim']"
+EN_UA_DEV_100033.txt,Kremlin propagandists,196,216,EN,Antagonist,['Deceiver'],"['Underdog', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver', 'Exploited']"
+EN_UA_DEV_100033.txt,Vladimir Soloviev,392,408,EN,Antagonist,['Bigot'],"['Guardian', 'Martyr', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Exploited', 'Victim', 'Scapegoat']"
+EN_UA_DEV_100033.txt,Matveychev,69,78,EN,Antagonist,['Bigot'],"['Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited']"
+EN_CC_200036.txt,Al Gore,1,7,EN,Antagonist,"['Bigot', 'Deceiver']","['Guardian', 'Rebel', 'Instigator', 'Conspirator', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver']"
+EN_CC_200079.txt,Klaus Schwab,1,12,EN,Antagonist,['Tyrant'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+EN_CC_200079.txt,World Economic Forum,16,35,EN,Antagonist,['Tyrant'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+EN_CC_200079.txt,World Economic Forum,4,23,EN,Antagonist,['Conspirator'],"['Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+EN_UA_DEV_100029.txt,Russia,1,6,EN,Antagonist,['Incompetent'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Corrupt', 'Incompetent', 'Deceiver']"
+EN_UA_DEV_100029.txt,Ukraine,59,65,EN,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent']"
+EN_UA_DEV_20.txt,Biden,0,4,EN,Antagonist,['Deceiver'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Incompetent', 'Deceiver']"
+EN_UA_DEV_20.txt,Putin,0,4,EN,Protagonist,['Peacemaker'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Victim']"
+EN_UA_DEV_20.txt,Ukrainian government,22,41,EN,Antagonist,['Incompetent'],"['Martyr', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Forgotten', 'Exploited', 'Victim']"
+EN_UA_DEV_20.txt,the US,161,166,EN,Antagonist,['Instigator'],"['Guardian', 'Rebel', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Deceiver']"
+EN_UA_DEV_20.txt,Biden,89,93,EN,Antagonist,['Incompetent'],"['Peacemaker', 'Rebel', 'Underdog', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+EN_CC_200033.txt,Greta Thunberg,18,31,EN,Antagonist,['Terrorist'],"['Guardian', 'Martyr', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+EN_CC_200033.txt,Thunberg,47,54,EN,Antagonist,['Bigot'],"['Guardian', 'Martyr', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Exploited']"
+EN_CC_200033.txt,COP,587,589,EN,Antagonist,"['Deceiver', 'Corrupt']","['Rebel', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited']"
+EN_CC_200033.txt,Stuart Basden,9,21,EN,Antagonist,['Instigator'],"['Guardian', 'Martyr', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot']"
+EN_CC_200071.txt,Biden's,176,182,EN,Antagonist,['Corrupt'],"['Rebel', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+EN_CC_200046.txt,Democrats,27,35,EN,Antagonist,['Incompetent'],"['Rebel', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited', 'Victim']"
+EN_UA_DEV_100026.txt,Germany,185,191,EN,Antagonist,['Incompetent'],"['Virtuous', 'Instigator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Exploited', 'Victim']"
+EN_UA_DEV_100026.txt,Germany,20,26,EN,Antagonist,['Incompetent'],"['Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited']"
+EN_UA_DEV_100026.txt,Alternative for Germany,142,164,EN,Protagonist,['Rebel'],"['Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Victim']"
+EN_UA_DEV_215.txt,Ukraine,51,57,EN,Antagonist,['Corrupt'],"['Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+EN_CC_200054.txt,ECB,98,100,EN,Antagonist,['Conspirator'],"['Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited']"
+EN_CC_200054.txt,Bank of England,68,82,EN,Antagonist,['Tyrant'],"['Rebel', 'Virtuous', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited']"
+EN_UA_DEV_100013.txt,SBU,4,6,EN,Antagonist,"['Conspirator', 'Deceiver']","['Martyr', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Terrorist', 'Deceiver', 'Bigot', 'Victim', 'Scapegoat']"
+EN_UA_DEV_100013.txt,Zelensky,102,109,EN,Antagonist,['Tyrant'],"['Martyr', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Terrorist', 'Bigot', 'Exploited', 'Victim', 'Scapegoat']"
+EN_UA_DEV_100013.txt,Bogdan,237,242,EN,Innocent,['Scapegoat'],"['Martyr', 'Rebel', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Exploited', 'Victim', 'Scapegoat']"
+EN_UA_DEV_100013.txt,Zaluzhny,0,7,EN,Antagonist,['Instigator'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver']"
+EN_UA_DEV_100013.txt,Zaluzhny,0,7,EN,Antagonist,['Incompetent'],"['Guardian', 'Martyr', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Incompetent', 'Terrorist', 'Exploited', 'Victim']"
+EN_UA_DEV_100013.txt,Zaluzhny,18,25,EN,Antagonist,['Bigot'],"['Guardian', 'Martyr', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Spy', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Exploited', 'Scapegoat']"
+EN_UA_DEV_100013.txt,Stepan Bandera,315,328,EN,Antagonist,['Instigator'],"['Martyr', 'Rebel', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Exploited', 'Victim', 'Scapegoat']"
+EN_UA_DEV_100013.txt,Roman Shukhevych,334,349,EN,Antagonist,['Instigator'],"['Guardian', 'Martyr', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Exploited', 'Victim', 'Scapegoat']"
+EN_UA_DEV_100013.txt,British,257,263,EN,Antagonist,['Foreign Adversary'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited']"
+EN_UA_DEV_100013.txt,Britain,51,57,EN,Antagonist,"['Conspirator', 'Spy']","['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited', 'Scapegoat']"
+EN_UA_DEV_100013.txt,Labour Party,71,82,EN,Antagonist,['Traitor'],"['Martyr', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+EN_CC_200077.txt,Biden,99,103,EN,Antagonist,['Tyrant'],"['Rebel', 'Virtuous', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited']"
+EN_CC_200077.txt,China,47,51,EN,Antagonist,['Foreign Adversary'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+EN_CC_200034.txt,Just Stop Oil,123,135,EN,Antagonist,['Deceiver'],"['Rebel', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited', 'Scapegoat']"
+EN_CC_200034.txt,Just Stop Oil,31,43,EN,Antagonist,['Bigot'],"['Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+EN_UA_DEV_213.txt,US,5,6,EN,Antagonist,['Instigator'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Deceiver']"
+EN_UA_DEV_213.txt,European allies,16,30,EN,Antagonist,['Instigator'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Deceiver']"
+EN_UA_DEV_213.txt,Ukraine,39,45,EN,Innocent,['Exploited'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Victim']"
+EN_UA_DEV_213.txt,Washington,47,56,EN,Antagonist,['Deceiver'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Scapegoat']"
+EN_UA_DEV_213.txt,Ukrainian,124,132,EN,Antagonist,['Conspirator'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Scapegoat']"
+EN_UA_DEV_213.txt,New York Times,178,191,EN,Antagonist,['Deceiver'],"['Instigator', 'Conspirator', 'Tyrant', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Scapegoat']"
+EN_UA_DEV_213.txt,Washington Post,197,211,EN,Antagonist,['Deceiver'],"['Instigator', 'Conspirator', 'Tyrant', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Scapegoat']"
+EN_UA_DEV_213.txt,Saddam Hussein,46,59,EN,Innocent,['Victim'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Terrorist', 'Deceiver', 'Scapegoat']"
+EN_UA_DEV_213.txt,Russia,26,31,EN,Innocent,['Scapegoat'],"['Peacemaker', 'Underdog', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+EN_UA_DEV_213.txt,United States,499,511,EN,Antagonist,['Instigator'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Deceiver', 'Scapegoat']"
+EN_UA_DEV_213.txt,NATO,176,179,EN,Antagonist,['Instigator'],"['Peacemaker', 'Underdog', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+EN_UA_DEV_213.txt,NATO,39,42,EN,Antagonist,['Tyrant'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Scapegoat']"
+EN_UA_DEV_213.txt,United States,47,59,EN,Antagonist,['Tyrant'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Victim', 'Scapegoat']"
+EN_UA_DEV_213.txt,NATO,66,69,EN,Antagonist,['Tyrant'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Scapegoat']"
+EN_UA_DEV_213.txt,United States,354,366,EN,Antagonist,['Conspirator'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Scapegoat']"
+EN_UA_DEV_213.txt,Germany,372,378,EN,Antagonist,['Conspirator'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Scapegoat']"
+EN_UA_DEV_213.txt,Russia,0,5,EN,Innocent,['Victim'],"['Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Victim']"
+EN_UA_DEV_213.txt,United States,36,48,EN,Antagonist,['Instigator'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Scapegoat']"
+EN_UA_DEV_213.txt,the United States,4,20,EN,Antagonist,['Incompetent'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Forgotten']"
+EN_UA_DEV_213.txt,US media,4,11,EN,Antagonist,['Deceiver'],"['Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver']"
+EN_CC_200047.txt,World Economic Forum,154,173,EN,Antagonist,['Tyrant'],"['Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited', 'Scapegoat']"
+EN_CC_200047.txt,Committee to Unleash Prosperity,31,61,EN,Protagonist,['Guardian'],"['Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+EN_CC_200047.txt,The College Fix,24,38,EN,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Virtuous', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+EN_CC_200081.txt,Mairi Gougeon,124,136,EN,Antagonist,['Corrupt'],"['Rebel', 'Virtuous', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+EN_CC_200081.txt,China,391,395,EN,Antagonist,['Foreign Adversary'],"['Tyrant', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Victim']"
+EN_UA_DEV_214.txt,Ukraine,28,34,EN,Innocent,['Exploited'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Victim']"
+EN_UA_DEV_214.txt,China,54,58,EN,Innocent,['Scapegoat'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Scapegoat']"
+EN_UA_DEV_214.txt,the West,70,77,EN,Antagonist,['Instigator'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Scapegoat']"
+EN_UA_DEV_214.txt,the West,21,28,EN,Antagonist,['Incompetent'],"['Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Scapegoat']"
+EN_UA_DEV_214.txt,Joe Biden,47,55,EN,Antagonist,['Incompetent'],"['Martyr', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Scapegoat']"
+EN_UA_DEV_214.txt,Nato,0,3,EN,Antagonist,['Incompetent'],"['Rebel', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited']"
+EN_CC_200064.txt,Restore Wetlands,178,193,EN,Antagonist,['Terrorist'],"['Guardian', 'Martyr', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Terrorist', 'Deceiver', 'Bigot']"
+EN_CC_200035.txt,Gretchen Whitmer,6,21,EN,Antagonist,"['Incompetent', 'Corrupt']","['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Tyrant', 'Incompetent', 'Deceiver']"
+EN_CC_200069.txt,Oxford,0,5,EN,Protagonist,['Rebel'],"['Guardian', 'Rebel', 'Virtuous', 'Instigator', 'Tyrant', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+EN_CC_200069.txt,the UK,107,112,EN,Protagonist,['Rebel'],"['Martyr', 'Rebel', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Exploited', 'Victim']"
+EN_CC_200069.txt,Piers Corbyn,0,11,EN,Protagonist,['Rebel'],"['Guardian', 'Rebel', 'Virtuous', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+EN_UA_DEV_100019.txt,Russia-,0,6,EN,Antagonist,"['Saboteur', 'Foreign Adversary']","['Guardian', 'Rebel', 'Instigator', 'Conspirator', 'Tyrant', 'Saboteur', 'Corrupt', 'Terrorist', 'Deceiver', 'Scapegoat']"
+EN_UA_DEV_100019.txt,Star Blizzard,79,91,EN,Antagonist,['Spy'],"['Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Terrorist', 'Deceiver', 'Victim', 'Scapegoat']"
+EN_UA_DEV_100002.txt,Zelensky,0,7,EN,Antagonist,"['Corrupt', 'Tyrant']","['Guardian', 'Martyr', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Traitor', 'Incompetent', 'Deceiver']"
+EN_UA_DEV_100002.txt,Ukraine,15,21,EN,Innocent,['Exploited'],"['Martyr', 'Rebel', 'Underdog', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Corrupt', 'Incompetent', 'Exploited', 'Victim']"
+EN_UA_DEV_100002.txt,West,4,7,EN,Antagonist,['Conspirator'],"['Peacemaker', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Incompetent', 'Exploited', 'Victim']"
+EN_UA_DEV_100002.txt,NATO,150,153,EN,Antagonist,"['Conspirator', 'Foreign Adversary']","['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim']"
+EN_UA_DEV_100002.txt,Russia,51,56,EN,Protagonist,['Guardian'],"['Underdog', 'Instigator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited']"
+HI_26.txt,मोदी,0,3,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous']"
+HI_26.txt,भारत,54,57,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary', 'Deceiver']"
+HI_26.txt,राष्ट्रपति वोलोदोमीर,11,30,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Victim']"
+HI_26.txt,रूस,85,87,HI,Antagonist,['Instigator'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Terrorist', 'Victim']"
+HI_26.txt,कीव,92,94,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Terrorist', 'Victim']"
+HI_26.txt,स्लोवियास्क,99,109,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Terrorist', 'Victim']"
+HI_26.txt,मोदी,85,88,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary']"
+HI_26.txt,PM,116,117,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous']"
+HI_26.txt,रूस,8,10,HI,Innocent,['Forgotten'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+HI_160.txt,यूक्रेन-,34,41,HI,Innocent,['Victim'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Foreign Adversary']"
+HI_160.txt,जॉर्ज डब्ल्यू बुश,357,373,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Foreign Adversary']"
+HI_160.txt,जर्मनी,439,444,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+HI_160.txt,फ्रांस,449,454,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+HI_51.txt,रूस,62,64,HI,Antagonist,['Tyrant'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Foreign Adversary']"
+HI_51.txt,यूक्रेन,138,144,HI,Innocent,['Victim'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Foreign Adversary']"
+HI_51.txt,स्विट्जरलैंड,160,171,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+HI_51.txt,नई दिल्ली,16,24,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous']"
+HI_51.txt,अमेरिका,27,33,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Virtuous', 'Foreign Adversary', 'Incompetent', 'Exploited', 'Victim']"
+HI_51.txt,यूरोप,38,42,HI,Antagonist,['Foreign Adversary'],"['Peacemaker', 'Virtuous', 'Foreign Adversary', 'Exploited', 'Victim']"
+HI_51.txt,रूस,33,35,HI,Antagonist,['Instigator'],"['Guardian', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Exploited', 'Victim']"
+HI_51.txt,यूक्रेन,0,6,HI,Innocent,['Victim'],"['Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Exploited', 'Victim']"
+HI_51.txt,गाजा,219,222,HI,Innocent,['Forgotten'],"['Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Exploited', 'Victim']"
+HI_51.txt,अमेरिका,281,287,HI,Antagonist,['Bigot'],"['Guardian', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Exploited', 'Victim']"
+HI_51.txt,यूरोप,292,296,HI,Antagonist,['Bigot'],"['Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Exploited', 'Victim']"
+HI_51.txt,भारत,385,388,HI,Protagonist,['Virtuous'],"['Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Exploited', 'Victim']"
+HI_114.txt,अमेरिका,54,60,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_114.txt,फ्रांस,63,68,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent']"
+HI_114.txt,रूस,32,34,HI,Antagonist,['Tyrant'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Deceiver']"
+HI_114.txt,यूक्रेनी सैनिकों,83,98,HI,Innocent,['Victim'],"['Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_114.txt,अमेरिका,161,167,HI,Protagonist,['Guardian'],"['Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Deceiver', 'Victim']"
+HI_114.txt,फ्रांस,172,177,HI,Protagonist,['Guardian'],"['Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver', 'Exploited', 'Victim']"
+HI_114.txt,यूक्रेन,47,53,HI,Protagonist,"['Guardian', 'Underdog']","['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Exploited', 'Victim']"
+HI_114.txt,रक्षा मंत्रालय,387,400,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver', 'Victim']"
+HI_114.txt,इमैनुएल मैक्रॉन,156,170,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+HI_114.txt,व्लादिमीर पुतिन,288,302,HI,Antagonist,['Tyrant'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Deceiver']"
+HI_17.txt,शी चिनफिंग,38,47,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary']"
+HI_17.txt,ओरबान,58,62,HI,Antagonist,"['Incompetent', 'Deceiver', 'Traitor']","['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent']"
+HI_152.txt,किम जोंग,24,31,HI,Antagonist,['Tyrant'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary']"
+HI_152.txt,रूस,110,112,HI,Antagonist,['Bigot'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_152.txt,यूक्रेन,136,142,HI,Innocent,['Scapegoat'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_152.txt,साउथ कोरिया,220,230,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_152.txt,दक्षिण कोरिया,458,470,HI,Protagonist,"['Virtuous', 'Guardian']","['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_152.txt,किम योंग-ह्यून,488,501,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Tyrant', 'Foreign Adversary']"
+HI_152.txt,पुतिन,142,146,HI,Antagonist,['Terrorist'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_152.txt,नाटो,189,192,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_152.txt,पश्चिमी देशों,203,215,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_152.txt,रूस,16,18,HI,Protagonist,['Rebel'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_152.txt,यूक्रेन,20,26,HI,Protagonist,['Underdog'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_152.txt,राष्ट्रपति जेलेंस्की,388,407,HI,Protagonist,['Underdog'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_152.txt,सैनिकों,213,219,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Deceiver', 'Victim']"
+HI_152.txt,उत्तर कोरिया,8,19,HI,Antagonist,"['Foreign Adversary', 'Deceiver']","['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Deceiver']"
+HI_152.txt,दोनेत्सक,128,135,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Victim']"
+HI_152.txt,यूक्रेन,144,150,HI,Protagonist,['Underdog'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_35.txt,द मॉस्को टाइम्स,42,56,HI,Antagonist,['Traitor'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Tyrant', 'Deceiver']"
+HI_35.txt,द मॉस्को टाइम्स,184,198,HI,Antagonist,['Saboteur'],"['Guardian', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Scapegoat']"
+HI_35.txt,द मॉस्को टाइम्स,129,143,HI,Antagonist,['Spy'],"['Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+HI_35.txt,इवान गेर्शकोविच,148,162,HI,Antagonist,['Spy'],"['Guardian', 'Martyr', 'Rebel', 'Instigator', 'Conspirator', 'Tyrant', 'Spy', 'Saboteur', 'Corrupt', 'Terrorist', 'Deceiver', 'Bigot', 'Exploited', 'Victim', 'Scapegoat']"
+HI_76.txt,रूस,0,2,HI,Antagonist,['Tyrant'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Tyrant', 'Victim']"
+HI_76.txt,अमेरिका,310,316,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Exploited', 'Victim']"
+HI_76.txt,रूसी सेना,120,128,HI,Antagonist,['Tyrant'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Victim']"
+HI_76.txt,यूक्रेन,54,60,HI,Protagonist,['Underdog'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Victim']"
+HI_76.txt,यूक्रेनी सेना,111,123,HI,Protagonist,['Underdog'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+HI_76.txt,पुतिन प्रशासन,334,346,HI,Antagonist,['Tyrant'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Deceiver']"
+HI_134.txt,34 राज्यों,251,260,HI,Innocent,['Victim'],"['Guardian', 'Virtuous', 'Victim']"
+HI_134.txt,केंद्र शासित प्रदेशों,264,284,HI,Innocent,['Victim'],"['Guardian', 'Virtuous', 'Victim']"
+HI_134.txt,भारत,47,50,HI,Innocent,['Victim'],"['Guardian', 'Virtuous', 'Victim']"
+HI_134.txt,डा. एंड्रयू परशिंग,0,17,HI,Protagonist,['Guardian'],"['Guardian', 'Virtuous', 'Victim']"
+HI_134.txt,साइंस क्लाइमेट सेंटर,36,55,HI,Protagonist,['Guardian'],"['Guardian', 'Virtuous', 'Victim']"
+HI_134.txt,क्लाइमेट सेंट्रल,300,315,HI,Protagonist,['Virtuous'],"['Guardian', 'Virtuous', 'Victim']"
+HI_71.txt,रूस,18,20,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_71.txt,रूस,18,20,HI,Protagonist,['Virtuous'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited']"
+HI_71.txt,यूक्रेन,30,36,HI,Antagonist,['Terrorist'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver', 'Exploited']"
+HI_71.txt,रूस,0,2,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Tyrant', 'Foreign Adversary', 'Deceiver']"
+HI_71.txt,रूस,0,2,HI,Innocent,['Victim'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Deceiver']"
+HI_19.txt,रूस,0,2,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Spy', 'Saboteur', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+HI_19.txt,इवान गेर्शकोविच,71,85,HI,Innocent,['Victim'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Conspirator', 'Foreign Adversary', 'Spy', 'Saboteur', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+HI_19.txt,पॉल व्हेलन,112,121,HI,Innocent,['Victim'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Conspirator', 'Foreign Adversary', 'Spy', 'Saboteur', 'Corrupt', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+HI_19.txt,जो बाइडेन,103,111,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Virtuous', 'Conspirator', 'Tyrant', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Scapegoat']"
+HI_19.txt,वादिम कसीकोव,57,68,HI,Antagonist,"['Terrorist', 'Spy']","['Guardian', 'Martyr', 'Rebel', 'Instigator', 'Tyrant', 'Spy', 'Terrorist', 'Exploited', 'Victim', 'Scapegoat']"
+HI_139.txt,ब्राजील,147,153,HI,Innocent,['Victim'],"['Guardian', 'Victim']"
+HI_139.txt,दक्षिण अमेरिकी देश,163,180,HI,Innocent,['Victim'],"['Guardian', 'Victim']"
+HI_139.txt,भारत,102,105,HI,Antagonist,['Deceiver'],"['Guardian', 'Virtuous', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Victim']"
+HI_139.txt,कई देश,112,117,HI,Antagonist,['Deceiver'],"['Guardian', 'Virtuous', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Victim']"
+HI_139.txt,अपूर्व चंद्रा,322,334,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Virtuous', 'Deceiver', 'Victim']"
+HI_139.txt,सुजाता सुनील,176,187,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Virtuous', 'Victim']"
+HI_139.txt,यूएस सेंटर फॉर डिजीज कंट्रोल एंड प्रिवेंशन,27,68,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Virtuous', 'Victim']"
+HI_126.txt,नरेंद्र मोदी,149,160,HI,Protagonist,"['Virtuous', 'Guardian']","['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary', 'Exploited']"
+HI_126.txt,पश्चिमी देश,387,397,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Virtuous', 'Foreign Adversary']"
+HI_126.txt,भारत,36,39,HI,Protagonist,['Rebel'],"['Guardian', 'Peacemaker', 'Virtuous', 'Foreign Adversary']"
+HI_126.txt,यूक्रेन के राष्ट्रपति,213,233,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary', 'Incompetent', 'Deceiver', 'Exploited']"
+HI_126.txt,प्रधानमंत्री मोदी,158,174,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+HI_126.txt,भारत,17,20,HI,Protagonist,"['Virtuous', 'Guardian']","['Guardian', 'Peacemaker', 'Virtuous', 'Foreign Adversary', 'Incompetent', 'Deceiver', 'Exploited']"
+HI_126.txt,चीन,177,179,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Victim']"
+HI_151.txt,किंग जोंग,24,32,HI,Antagonist,['Tyrant'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_151.txt,यूक्रेन,279,285,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+HI_151.txt,सोवियत संघ,80,89,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary', 'Deceiver', 'Exploited', 'Victim']"
+HI_151.txt,अमेरिका,50,56,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary']"
+HI_125.txt,यूक्रेन,0,6,HI,Innocent,['Victim'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_125.txt,वोलोदिमिर जेलेंस्की,22,40,HI,Protagonist,"['Guardian', 'Underdog']","['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_125.txt,रूस,64,66,HI,Antagonist,['Tyrant'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_125.txt,जर्मनी,47,52,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_125.txt,जेलेंस्की,0,8,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Tyrant', 'Foreign Adversary']"
+HI_125.txt,जर्मनी,47,52,HI,Antagonist,['Corrupt'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_125.txt,यूक्रेन,298,304,HI,Innocent,['Forgotten'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_97.txt,यूक्रेन,183,189,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_97.txt,जेलेंस्की,39,47,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_143.txt,महिलाओं,147,153,HI,Innocent,['Victim'],"['Guardian', 'Virtuous', 'Victim']"
+HI_143.txt,दिव्यांगों,156,165,HI,Innocent,['Victim'],"['Guardian', 'Virtuous', 'Victim']"
+HI_143.txt,मूल निवासियों,170,182,HI,Innocent,['Victim'],"['Guardian', 'Virtuous', 'Victim']"
+HI_143.txt,चंद्रचूड,11,18,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous']"
+HI_156.txt,रूस,0,2,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_156.txt,दिमित्री पेसकोव,230,244,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_156.txt,यूक्रेन,0,6,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_156.txt,राष्ट्रपति व्लादिमीर पुतिन,46,71,HI,Protagonist,"['Rebel', 'Guardian']","['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_75.txt,प्रिंस सेबेस्टिन,41,56,HI,Innocent,"['Exploited', 'Victim']","['Guardian', 'Martyr', 'Virtuous', 'Terrorist', 'Exploited', 'Victim']"
+HI_75.txt,केंद्रीय जांच ब्यूरो,216,235,HI,Protagonist,['Guardian'],"['Guardian', 'Conspirator', 'Spy', 'Saboteur', 'Corrupt', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+HI_75.txt,विनीत सिल्वा और टीनू पानी आदिमा,337,367,HI,Innocent,"['Exploited', 'Victim']","['Guardian', 'Martyr', 'Conspirator', 'Spy', 'Saboteur', 'Corrupt', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+HI_75.txt,रूसी सेना,113,121,HI,Antagonist,['Corrupt'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Spy', 'Saboteur', 'Corrupt', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+HI_75.txt,भारतीय नागरिकों,235,249,HI,Innocent,"['Exploited', 'Victim']","['Conspirator', 'Spy', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+HI_75.txt,रूसी सैनिक,526,535,HI,Protagonist,['Martyr'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Exploited', 'Victim']"
+HI_5.txt,G7,36,37,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_5.txt,ज़ेलेंस्की,39,48,HI,Innocent,['Victim'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_5.txt,श्चिमी देशों,26,37,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_5.txt,यूक्रेन,42,48,HI,Innocent,['Victim'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_5.txt,अमेरिका,114,120,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_5.txt,फ्रांस,319,324,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Victim']"
+HI_5.txt,ब्रिटेन,329,335,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_5.txt,यूक्रेन,23,29,HI,Innocent,['Forgotten'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_5.txt,व्लादिमीर ज़ेलेंस्की,56,75,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Tyrant', 'Foreign Adversary']"
+HI_5.txt,अमेरिका,71,77,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_5.txt,ज़ेलेंस्की,106,115,HI,Innocent,['Forgotten'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_5.txt,पुतिन,16,20,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_5.txt,प्रधानमंत्री,0,11,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary']"
+HI_10.txt,वोलोदिमिर जेलेंस्की,274,292,HI,Innocent,['Forgotten'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary']"
+HI_10.txt,मोदी,125,128,HI,Antagonist,['Deceiver'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary', 'Victim']"
+HI_10.txt,पुतिन,328,332,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary', 'Victim']"
+HI_10.txt,भारत,150,153,HI,Antagonist,['Traitor'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+HI_10.txt,भारत,150,153,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+HI_154.txt,यूक्रेन,21,27,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Exploited', 'Victim']"
+HI_154.txt,रूस,44,46,HI,Antagonist,['Instigator'],"['Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Exploited', 'Victim']"
+HI_154.txt,रूसियों,305,311,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Exploited', 'Victim']"
+HI_154.txt,अमेरिका,84,90,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_154.txt,नाटो,0,3,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_154.txt,यूक्रेन,171,177,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_154.txt,रूडोल्फ जी एडम,236,249,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Virtuous', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver']"
+HI_154.txt,भारत,288,291,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+HI_28.txt,अमेरिका-,32,39,HI,Antagonist,['Foreign Adversary'],"['Virtuous', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+HI_28.txt,रूस,40,42,HI,Antagonist,['Foreign Adversary'],"['Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+HI_28.txt,पत्रकारों,80,88,HI,Innocent,['Exploited'],"['Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+HI_28.txt,वादिम क्रासिकोव,356,370,HI,Antagonist,['Terrorist'],"['Guardian', 'Martyr', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Spy', 'Saboteur', 'Corrupt', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+HI_28.txt,बाइडेन,122,127,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Virtuous', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+HI_28.txt,पत्रकारों,259,267,HI,Innocent,['Exploited'],"['Rebel', 'Virtuous', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+HI_28.txt,गेर्शकोविच,39,48,HI,Innocent,['Scapegoat'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Spy', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+HI_11.txt,नाटो,210,213,HI,Antagonist,['Instigator'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Terrorist', 'Deceiver', 'Victim']"
+HI_11.txt,उत्तर,250,254,HI,Antagonist,['Terrorist'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_11.txt,अमेरिका,275,281,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Terrorist', 'Victim']"
+HI_11.txt,दक्षिण कोरिया,286,298,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Terrorist', 'Deceiver', 'Victim']"
+HI_11.txt,हमास,64,67,HI,Antagonist,['Terrorist'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Terrorist', 'Victim']"
+HI_11.txt,इजरायल,54,59,HI,Protagonist,['Rebel'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Terrorist', 'Victim']"
+HI_11.txt,भारत,13,16,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Victim']"
+HI_11.txt,चीन,43,45,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Victim']"
+HI_11.txt,पाकिस्तान,56,64,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Victim']"
+HI_11.txt,रूस,0,2,HI,Antagonist,['Instigator'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_11.txt,यूक्रेन,7,13,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_11.txt,नॉर्थ कोरिया,48,59,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_11.txt,तानाशाह,111,117,HI,Antagonist,['Tyrant'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_31.txt,नरेंद्र मोदी,217,228,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Victim']"
+HI_31.txt,व्लादिमीर पुतिन,249,263,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Terrorist', 'Victim']"
+HI_31.txt,उर्गेन तमांग,49,60,HI,Innocent,"['Exploited', 'Scapegoat', 'Victim']","['Guardian', 'Martyr', 'Rebel', 'Underdog', 'Virtuous', 'Tyrant', 'Traitor', 'Incompetent', 'Deceiver', 'Forgotten', 'Exploited', 'Victim']"
+HI_31.txt,रबि प्रधान,110,119,HI,Protagonist,['Virtuous'],"['Guardian', 'Rebel', 'Virtuous', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+HI_31.txt,तमांग,10,14,HI,Innocent,['Exploited'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Deceiver']"
+HI_31.txt,एजेंटों,78,84,HI,Antagonist,['Deceiver'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+HI_31.txt,मोदी,134,137,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Bigot', 'Forgotten', 'Exploited']"
+HI_31.txt,रूसी,165,168,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Virtuous', 'Forgotten', 'Exploited', 'Victim']"
+HI_31.txt,भारत सरकार,20,29,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Deceiver', 'Bigot', 'Forgotten']"
+HI_31.txt,तमांग,0,4,HI,Innocent,['Exploited'],"['Martyr', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Spy', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+HI_31.txt,एजेंटों,120,126,HI,Antagonist,['Deceiver'],"['Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Spy', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+HI_31.txt,भारतीय नागरिकों,53,67,HI,Innocent,['Victim'],"['Martyr', 'Instigator', 'Tyrant', 'Corrupt', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+HI_107.txt,NATO,137,140,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_107.txt,रूस,17,19,HI,Protagonist,['Rebel'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_107.txt,नाटो,186,189,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_159.txt,यूक्रेन,0,6,HI,Antagonist,['Foreign Adversary'],"['Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Exploited', 'Victim']"
+HI_159.txt,रूस,48,50,HI,Protagonist,['Rebel'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Deceiver', 'Victim']"
+HI_159.txt,कुर्स्क,140,146,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_159.txt,रूसी सेना,327,335,HI,Protagonist,"['Rebel', 'Guardian']","['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_159.txt,सर्गिव्का,420,428,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_159.txt,अवदीवका,146,152,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_159.txt,खार्किव,287,293,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_159.txt,पोक्रोव्स्क,75,85,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_159.txt,यूक्रेन,10,16,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_159.txt,रूसी सेनाओं,166,176,HI,Protagonist,['Rebel'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_159.txt,डोनेट्स्क,579,587,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_159.txt,लुहान्स्क,711,719,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_110.txt,रूस,1,3,HI,Antagonist,['Tyrant'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_110.txt,व्लादिमीर पुतिन,53,67,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_110.txt,अमेरिका,72,78,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_110.txt,ब्रिटेन,83,89,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_110.txt,यूक्रेनी सैनिकों,146,161,HI,Protagonist,['Martyr'],"['Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Exploited', 'Victim']"
+HI_110.txt,यूक्रेन,8,14,HI,Protagonist,['Rebel'],"['Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,पुतिन,35,39,HI,Protagonist,['Rebel'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,यूक्रेनी सेना,203,215,HI,Antagonist,"['Foreign Adversary', 'Tyrant']","['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,कुर्स्क,250,256,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,रूस,9,11,HI,Antagonist,"['Instigator', 'Tyrant']","['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,यूक्रेन,51,57,HI,Protagonist,['Underdog'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,मॉस्को,0,5,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,रक्षा मंत्रालय,111,124,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,ओलेक्सांद्र सिरस्की,33,51,HI,Protagonist,"['Guardian', 'Underdog']","['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,कीव,63,65,HI,Protagonist,"['Rebel', 'Underdog']","['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,जेलेंस्की,171,179,HI,Protagonist,"['Guardian', 'Underdog']","['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,मॉस्को,296,301,HI,Antagonist,['Instigator'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,युद्ध,354,358,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,एलेक्सी स्मिरनोव,37,52,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Tyrant', 'Victim']"
+HI_158.txt,नागरिक,236,241,HI,Innocent,['Victim'],"['Instigator', 'Tyrant', 'Terrorist', 'Exploited', 'Victim']"
+HI_158.txt,व्याचेस्लाव ग्लैडकोव,29,48,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,बेलगोरोड,78,85,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Terrorist', 'Victim']"
+HI_158.txt,क्रास्नाया यारुगा,148,164,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Terrorist', 'Victim']"
+HI_158.txt,यूक्रेनी सेना,175,187,HI,Antagonist,"['Foreign Adversary', 'Tyrant']","['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Terrorist', 'Victim']"
+HI_158.txt,पुतिन,298,302,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,राष्ट्रपति,0,9,HI,Protagonist,"['Rebel', 'Guardian']","['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Terrorist', 'Deceiver']"
+HI_158.txt,रूस,192,194,HI,Antagonist,['Deceiver'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Terrorist', 'Deceiver']"
+HI_158.txt,कीव की सेना,196,206,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Terrorist', 'Deceiver']"
+HI_158.txt,रूस,192,194,HI,Antagonist,['Deceiver'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Terrorist', 'Deceiver']"
+HI_158.txt,मॉस्को,0,5,HI,Antagonist,['Deceiver'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Terrorist', 'Deceiver']"
+HI_158.txt,कीव,10,12,HI,Antagonist,['Deceiver'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver']"
+HI_158.txt,इहोर रोमानेंको,71,84,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_158.txt,यूक्रेन के लोगों,108,123,HI,Innocent,"['Exploited', 'Victim']","['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Victim']"
+HI_158.txt,चीन,409,411,HI,Protagonist,['Peacemaker'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_158.txt,प्रवक्ता,12,19,HI,Protagonist,"['Peacemaker', 'Guardian']","['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+HI_158.txt,चीन,190,192,HI,Antagonist,['Deceiver'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+HI_158.txt,नाटो सदस्यों,505,516,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+HI_158.txt,बीजिंग,521,526,HI,Antagonist,"['Foreign Adversary', 'Deceiver']","['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+HI_140.txt,डॉ. एमिली ग्रीनफ़ील्ड,0,20,HI,Protagonist,"['Virtuous', 'Guardian']","['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Deceiver']"
+HI_38.txt,भारत,70,73,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary']"
+HI_4.txt,जिनपिंग सरकार,97,109,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary']"
+HI_4.txt,चीन,40,42,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary']"
+HI_4.txt,अमेरिका,273,279,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Foreign Adversary']"
+HI_4.txt,पश्चिमी,284,290,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_4.txt,चीन,333,335,HI,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_4.txt,चीन,333,335,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_4.txt,जिनपिंग सरकार,590,602,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Tyrant', 'Foreign Adversary']"
+HI_4.txt,चीन,333,335,HI,Antagonist,['Deceiver'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_4.txt,शी जिनपिंग,27,36,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary']"
+HI_4.txt,चीन,0,2,HI,Protagonist,"['Peacemaker', 'Virtuous']","['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Foreign Adversary', 'Deceiver']"
+HI_4.txt,चीन,0,2,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Foreign Adversary', 'Deceiver']"
+HI_4.txt,चीन,0,2,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Deceiver']"
+HI_4.txt,अमेरिका,26,32,HI,Antagonist,['Bigot'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_4.txt,पश्चिमी देशों,37,49,HI,Antagonist,['Bigot'],"['Rebel', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_4.txt,अमेरिका,26,32,HI,Antagonist,['Saboteur'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_4.txt,पश्चिमी देशों,37,49,HI,Antagonist,['Saboteur'],"['Rebel', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_95.txt,रूस,0,2,HI,Protagonist,['Rebel'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_95.txt,नाटो,33,36,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_95.txt,यूक्रेन,38,44,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_95.txt,रूस,2,4,HI,Antagonist,['Conspirator'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_95.txt,हिजबुल्लाह,13,22,HI,Antagonist,['Saboteur'],"['Guardian', 'Rebel', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Terrorist', 'Victim']"
+HI_95.txt,इजरायल,27,32,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Terrorist', 'Victim']"
+HI_95.txt,रूस,28,30,HI,Antagonist,['Conspirator'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+HI_95.txt,उत्तर कोरिया,0,11,HI,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_12.txt,नरेन्द्र मोदी,13,25,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous']"
+HI_12.txt,कार्ल नेहमर,221,231,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous']"
+HI_12.txt,मोदी,5,8,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous']"
+HI_12.txt,ऑस्ट्रिया,17,25,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Virtuous', 'Foreign Adversary', 'Forgotten', 'Victim']"
+HI_12.txt,भारत,30,33,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Virtuous', 'Foreign Adversary', 'Forgotten', 'Victim']"
+HI_12.txt,भारत,64,67,HI,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Virtuous', 'Foreign Adversary']"
+HI_12.txt,भारत,64,67,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Virtuous', 'Foreign Adversary']"
+HI_12.txt,ऑस्ट्रिया,23,31,HI,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Virtuous', 'Foreign Adversary']"
+HI_34.txt,पुतिन,0,4,HI,Antagonist,['Tyrant'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_34.txt,यूक्रेनी सेना,19,31,HI,Protagonist,['Underdog'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_34.txt,यूक्रेन,28,34,HI,Protagonist,['Underdog'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_34.txt,रूसी सेना,86,94,HI,Antagonist,['Terrorist'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_34.txt,यूक्रेन,35,41,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_34.txt,यूक्रेन,35,41,HI,Protagonist,['Underdog'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_34.txt,यूक्रेन,35,41,HI,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_34.txt,यूक्रेन,23,29,HI,Innocent,['Forgotten'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_34.txt,अमेरिका,67,73,HI,Antagonist,['Deceiver'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_34.txt,यूक्रेन,23,29,HI,Innocent,['Forgotten'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_34.txt,वलोडोमिर जेलेंस्की,204,221,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+HI_34.txt,यूक्रेनी सेना,261,273,HI,Protagonist,['Underdog'],"['Guardian', 'Rebel', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_34.txt,यूक्रेन,18,24,HI,Innocent,['Victim'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_34.txt,रूस,13,15,HI,Antagonist,['Tyrant'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+HI_34.txt,यूक्रेन,18,24,HI,Protagonist,['Rebel'],"['Guardian', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+PT_203.txt,Pantanal,38,45,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_203.txt,Valdelice Verón,112,126,PT,Innocent,['Victim'],"['Guardian', 'Rebel', 'Virtuous', 'Victim']"
+PT_203.txt,Guarani Kaiowá,137,150,PT,Innocent,['Victim'],"['Guardian', 'Virtuous', 'Victim']"
+PT_208.txt,Caatinga,2,9,PT,Innocent,"['Victim', 'Forgotten']","['Guardian', 'Virtuous', 'Victim']"
+PT_208.txt,Rodrigo Agostinho,190,206,PT,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Virtuous', 'Deceiver', 'Victim']"
+PT_208.txt,Claudecy Oliveira Lemes,13,35,PT,Antagonist,['Corrupt'],"['Guardian', 'Rebel', 'Virtuous', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot']"
+PT_233.txt,Amazónia,538,545,PT,Innocent,['Victim'],"['Exploited', 'Victim']"
+PT_241.txt,Rússia,2,7,PT,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Underdog', 'Virtuous', 'Instigator', 'Tyrant', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot']"
+PT_241.txt,União Europeia,107,120,PT,Antagonist,['Corrupt'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Incompetent']"
+PT_259.txt,Maria Zakharova,59,73,PT,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Deceiver']"
+PT_259.txt,Volodymyr Zelensky,126,143,PT,Antagonist,['Deceiver'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Deceiver']"
+PT_259.txt,Ucrânia,233,239,PT,Innocent,['Exploited'],"['Martyr', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Exploited', 'Victim', 'Scapegoat']"
+PT_259.txt,Zelensky,91,98,PT,Antagonist,"['Terrorist', 'Tyrant']","['Martyr', 'Rebel', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Victim']"
+PT_259.txt,Zelensky,29,36,PT,Antagonist,"['Conspirator', 'Deceiver']","['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot']"
+PT_259.txt,Kiev,59,62,PT,Antagonist,['Deceiver'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Bigot', 'Exploited', 'Victim', 'Scapegoat']"
+PT_259.txt,Rússia,195,200,PT,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+PT_220.txt,Pantanal,182,189,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_220.txt,Amazónia,2,9,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_220.txt,Cerrado,94,100,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_254.txt,Moscovo,31,37,PT,Antagonist,['Foreign Adversary'],"['Guardian', 'Rebel', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Terrorist', 'Deceiver', 'Scapegoat']"
+PT_254.txt,Anton Trofimov,279,292,PT,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Virtuous', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+PT_211.txt,África Ocidental,188,203,PT,Innocent,['Victim'],['Victim']
+PT_211.txt,Golfo Pérsico,210,222,PT,Innocent,['Victim'],['Victim']
+PT_211.txt,Burkina Faso,232,243,PT,Innocent,['Victim'],['Victim']
+PT_211.txt,Mali,246,249,PT,Innocent,['Victim'],['Victim']
+PT_211.txt,Qatar,252,256,PT,Innocent,['Victim'],['Victim']
+PT_211.txt,Aruba,259,263,PT,Innocent,['Victim'],['Victim']
+PT_211.txt,Emirados Árabes Unidos,267,288,PT,Innocent,['Victim'],['Victim']
+PT_211.txt,Índia,53,57,PT,Innocent,['Victim'],['Victim']
+PT_211.txt,Nigéria,62,68,PT,Innocent,['Victim'],['Victim']
+PT_211.txt,Indonésia,74,82,PT,Innocent,['Victim'],['Victim']
+PT_237.txt,Rússia,2,7,PT,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+PT_237.txt,Ucrânia,160,166,PT,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent']"
+PT_237.txt,Washington,172,181,PT,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent']"
+PT_250.txt,Igor Sechin,51,61,PT,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous']"
+PT_224.txt,governo,46,52,PT,Antagonist,['Incompetent'],"['Guardian', 'Virtuous', 'Corrupt', 'Incompetent', 'Deceiver', 'Victim']"
+PT_224.txt,Pantanal,233,240,PT,Innocent,['Victim'],"['Guardian', 'Corrupt', 'Deceiver', 'Victim']"
+PT_224.txt,Autoridade do Clima,148,166,PT,Antagonist,['Incompetent'],"['Guardian', 'Rebel', 'Virtuous', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+PT_224.txt,Foz do Amazonas,315,329,PT,Innocent,['Exploited'],"['Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Victim']"
+PT_224.txt,Governo Federal,33,47,PT,Antagonist,['Incompetent'],"['Guardian', 'Virtuous', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver']"
+PT_228.txt,Marina Silva,24,35,PT,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Virtuous', 'Victim']"
+PT_228.txt,Pantanal,110,117,PT,Innocent,['Victim'],"['Guardian', 'Virtuous', 'Victim']"
+PT_228.txt,Amazónia,172,179,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_253.txt,Ucrânia,118,124,PT,Innocent,['Victim'],"['Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Corrupt', 'Incompetent', 'Bigot', 'Exploited', 'Victim']"
+PT_253.txt,Kremlin,181,187,PT,Antagonist,['Foreign Adversary'],"['Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited', 'Victim']"
+PT_253.txt,von der Leyen,275,287,PT,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited']"
+PT_253.txt,Denys Shmyhal,157,169,PT,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+PT_253.txt,Dmitry Peskov,46,58,PT,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Saboteur', 'Deceiver']"
+PT_253.txt,Ucrânia,115,121,PT,Antagonist,['Foreign Adversary'],"['Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Victim']"
+PT_253.txt,Rússia,153,158,PT,Innocent,['Exploited'],"['Guardian', 'Peacemaker', 'Instigator', 'Foreign Adversary', 'Saboteur']"
+PT_253.txt,Comissão Europeia,17,33,PT,Antagonist,['Instigator'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary', 'Corrupt', 'Incompetent', 'Deceiver']"
+PT_253.txt,Vladimir Putin,167,180,PT,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+PT_209.txt,Leonardo Boff,0,12,PT,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous']"
+PT_209.txt,Terra,17,21,PT,Innocent,['Victim'],"['Virtuous', 'Tyrant', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited', 'Victim']"
+PT_202.txt,Túlio Gadêlha,58,70,PT,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Virtuous', 'Victim']"
+PT_202.txt,Caatinga,269,276,PT,Innocent,['Victim'],"['Guardian', 'Virtuous', 'Victim']"
+PT_202.txt,Marina Silva,86,97,PT,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Victim']"
+PT_232.txt,Goiás,164,168,PT,Innocent,['Victim'],"['Guardian', 'Virtuous', 'Victim']"
+PT_232.txt,Mato Grosso,171,181,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_232.txt,Mato Grosso do Sul,184,201,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_232.txt,Tocantins,204,212,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_232.txt,Minas Gerais,215,226,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_232.txt,Pará,229,232,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_232.txt,Paraná,235,240,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_232.txt,São Paulo,243,251,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_232.txt,Rio de Janeiro,255,268,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_232.txt,Cerrado,260,266,PT,Innocent,['Victim'],['Victim']
+PT_232.txt,Floresta Amazónica,272,289,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_245.txt,Federação Russa,131,145,PT,Antagonist,"['Foreign Adversary', 'Tyrant']","['Guardian', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+PT_245.txt,Ucrânia,188,194,PT,Innocent,['Victim'],"['Guardian', 'Underdog', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Victim']"
+PT_245.txt,Kursk,266,270,PT,Innocent,['Victim'],"['Guardian', 'Instigator', 'Foreign Adversary', 'Terrorist', 'Victim']"
+PT_206.txt,Marina Silva,52,63,PT,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Victim']"
+PT_249.txt,Moscovo,76,82,PT,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent']"
+PT_249.txt,Kiev,237,240,PT,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent']"
+PT_249.txt,Subianto,193,200,PT,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent']"
+PT_249.txt,Rússia,3,8,PT,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary']"
+PT_249.txt,Ucrânia,172,178,PT,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+PT_249.txt,Mikhail Galuzin,70,84,PT,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Deceiver']"
+PT_249.txt,Zelensky,172,179,PT,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver']"
+PT_210.txt,Porto Alegre,19,30,PT,Innocent,['Victim'],"['Guardian', 'Virtuous', 'Victim']"
+PT_210.txt,Rio Grande do Sul,55,71,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_230.txt,Brasil,21,26,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_230.txt,São Paulo,146,154,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_230.txt,Amazónia,202,209,PT,Innocent,['Victim'],['Victim']
+PT_244.txt,Comité Organizador de Paris-2024,3,34,PT,Antagonist,['Conspirator'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+PT_244.txt,Maria Zakharova,107,121,PT,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+PT_213.txt,Maceió,74,79,PT,Innocent,"['Exploited', 'Victim']","['Corrupt', 'Victim']"
+PT_213.txt,Braskem,26,32,PT,Antagonist,['Corrupt'],"['Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited', 'Victim']"
+PT_226.txt,Vale do Taquari,390,404,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_226.txt,Rio de Janeiro,69,82,PT,Innocent,['Victim'],"['Guardian', 'Virtuous', 'Victim']"
+PT_239.txt,Dmitro Kuleba,49,61,PT,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary']"
+PT_239.txt,Rússia,163,168,PT,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+PT_239.txt,Moscovo,180,186,PT,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+PT_239.txt,China,3,7,PT,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary', 'Deceiver']"
+PT_239.txt,China,2,6,PT,Protagonist,['Rebel'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Saboteur', 'Deceiver']"
+PT_239.txt,Rússia,34,39,PT,Protagonist,['Rebel'],"['Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Deceiver', 'Scapegoat']"
+PT_239.txt,Estados Unidos,71,84,PT,Antagonist,['Foreign Adversary'],"['Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Deceiver', 'Victim', 'Scapegoat']"
+PT_239.txt,NATO,95,98,PT,Antagonist,['Tyrant'],"['Guardian', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver']"
+PT_239.txt,Moscovo,152,158,PT,Innocent,"['Victim', 'Forgotten']","['Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Deceiver']"
+PT_239.txt,Volodimir Zelensky,39,56,PT,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Foreign Adversary']"
+PT_234.txt,Ásia,293,296,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_234.txt,Antártida,302,310,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_234.txt,Amazónia,7,14,PT,Innocent,['Victim'],"['Guardian', 'Virtuous', 'Victim']"
+PT_207.txt,Zequinha Marinho,10,25,PT,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot']"
+PT_207.txt,Parlamento Europeu,179,196,PT,Antagonist,['Saboteur'],"['Guardian', 'Rebel', 'Virtuous', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited']"
+PT_217.txt,São Paulo,113,121,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_217.txt,Rio de Janeiro,125,138,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_204.txt,Papa Francisco,2,15,PT,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous']"
+PT_229.txt,Panamá,43,48,PT,Innocent,['Victim'],"['Corrupt', 'Incompetent', 'Victim']"
+PT_229.txt,Vásquez,132,138,PT,Protagonist,"['Virtuous', 'Guardian']","['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Corrupt', 'Incompetent', 'Deceiver']"
+PT_229.txt,El Niño,64,70,PT,Antagonist,['Saboteur'],"['Guardian', 'Virtuous', 'Victim']"
+PT_225.txt,Rio Grande do Sul,3,19,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_225.txt,Maranhão,2,9,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_225.txt,Matopiba,205,212,PT,Innocent,['Victim'],"['Guardian', 'Victim']"
+PT_225.txt,Carlos Nobre,64,75,PT,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Virtuous', 'Deceiver', 'Victim']"
+PT_225.txt,Rio Grande do Sul,84,100,PT,Innocent,"['Exploited', 'Victim']","['Guardian', 'Rebel', 'Virtuous', 'Corrupt', 'Incompetent', 'Deceiver', 'Victim']"
+RU-URW-1135.txt,Виктора Орбана,77,90,RU,Antagonist,['Traitor'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Exploited']"
+RU-URW-1135.txt,Александр Шатилов,324,340,RU,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent']"
+RU-URW-1093.txt,Украинские боевики,1,18,RU,Antagonist,['Terrorist'],"['Guardian', 'Instigator', 'Foreign Adversary', 'Terrorist', 'Victim']"
+RU-URW-1118.txt,Россия,1,6,RU,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+RU-URW-1118.txt,Владимир Зеленский,24,41,RU,Antagonist,['Tyrant'],"['Martyr', 'Peacemaker', 'Rebel', 'Virtuous', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited']"
+RU-URW-1118.txt,РФ,36,37,RU,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent']"
+RU-URW-1118.txt,Киев,79,82,RU,Antagonist,['Instigator'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Exploited']"
+RU-URW-1101.txt,Киева,37,41,RU,Antagonist,['Terrorist'],"['Peacemaker', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim']"
+RU-URW-1101.txt,Зеленского,216,225,RU,Antagonist,['Deceiver'],"['Peacemaker', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim']"
+RU-URW-1032.txt,Владимир Зеленский,0,17,RU,Antagonist,['Instigator'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+RU-URW-1032.txt,Трамп,65,69,RU,Protagonist,['Peacemaker'],"['Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1004.txt,Владимиру Зеленскому,0,19,RU,Antagonist,"['Instigator', 'Tyrant']","['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Tyrant', 'Traitor', 'Incompetent', 'Deceiver']"
+RU-URW-1004.txt,Виктор Орбан,208,219,RU,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Tyrant', 'Traitor', 'Incompetent', 'Deceiver']"
+RU-URW-1004.txt,Будапешт,17,24,RU,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Incompetent']"
+RU-URW-1004.txt,Орбан,93,97,RU,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent']"
+RU-URW-1127.txt,осольство США,365,377,RU,Antagonist,['Foreign Adversary'],"['Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+RU-URW-1127.txt,Ермак,117,121,RU,Antagonist,['Deceiver'],"['Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Scapegoat']"
+RU-URW-1127.txt,Владимиром Путиным,38,55,RU,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Traitor', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1069.txt,Российской Федерации,116,135,RU,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim']"
+RU-URW-1023.txt,Белоруссии,36,45,RU,Innocent,['Victim'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim']"
+RU-URW-1023.txt,Европа,372,377,RU,Innocent,['Exploited'],"['Peacemaker', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited']"
+RU-URW-1023.txt,США,388,390,RU,Innocent,['Exploited'],"['Peacemaker', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited']"
+RU-URW-1053.txt,Ле Пен,70,75,RU,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Tyrant', 'Traitor', 'Incompetent', 'Deceiver', 'Bigot']"
+RU-URW-1053.txt,России,155,160,RU,Innocent,['Scapegoat'],"['Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited']"
+RU-URW-1053.txt,ЕС,281,282,RU,Antagonist,['Foreign Adversary'],"['Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited']"
+RU-URW-1061.txt,российских территорий,42,62,RU,Innocent,['Victim'],"['Guardian', 'Instigator', 'Foreign Adversary', 'Terrorist', 'Victim']"
+RU-URW-1061.txt,ВСУ,748,750,RU,Antagonist,['Terrorist'],"['Guardian', 'Instigator', 'Foreign Adversary', 'Terrorist', 'Victim']"
+RU-URW-1061.txt,Байдена,1216,1222,RU,Antagonist,['Foreign Adversary'],"['Guardian', 'Instigator', 'Foreign Adversary', 'Terrorist', 'Victim']"
+RU-URW-1102.txt,Россия,9,14,RU,Protagonist,['Guardian'],"['Guardian', 'Rebel', 'Virtuous', 'Instigator', 'Saboteur', 'Terrorist', 'Deceiver', 'Scapegoat']"
+RU-URW-1102.txt,ВСУ,63,65,RU,Antagonist,['Terrorist'],"['Instigator', 'Conspirator', 'Tyrant', 'Saboteur', 'Corrupt', 'Terrorist', 'Victim', 'Scapegoat']"
+RU-URW-1102.txt,местных жителей,530,544,RU,Innocent,['Victim'],"['Guardian', 'Instigator', 'Foreign Adversary', 'Terrorist', 'Exploited', 'Victim']"
+RU-URW-1120.txt,США,52,54,RU,Antagonist,"['Conspirator', 'Foreign Adversary']","['Peacemaker', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Scapegoat']"
+RU-URW-1120.txt,Донецка,132,138,RU,Innocent,['Victim'],"['Guardian', 'Instigator', 'Foreign Adversary', 'Terrorist', 'Victim']"
+RU-URW-1120.txt,Россией,12,18,RU,Innocent,['Victim'],"['Guardian', 'Instigator', 'Foreign Adversary', 'Terrorist', 'Victim']"
+RU-URW-1014.txt,Российские войска,0,16,RU,Protagonist,['Guardian'],"['Guardian', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Victim']"
+RU-URW-1014.txt,ВСУ,38,40,RU,Antagonist,['Foreign Adversary'],"['Guardian', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Exploited', 'Victim']"
+RU-URW-1146.txt,Китая,85,89,RU,Protagonist,['Guardian'],"['Guardian', 'Instigator', 'Foreign Adversary', 'Terrorist', 'Victim']"
+RU-URW-1146.txt,Белоруссии,113,122,RU,Protagonist,['Guardian'],"['Guardian', 'Instigator', 'Foreign Adversary', 'Terrorist', 'Victim']"
+RU-URW-1146.txt,Польши,335,340,RU,Antagonist,['Foreign Adversary'],"['Guardian', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Terrorist', 'Victim']"
+RU-URW-1146.txt,Украиной,585,592,RU,Antagonist,['Instigator'],"['Guardian', 'Instigator', 'Foreign Adversary', 'Terrorist', 'Victim']"
+RU-URW-1146.txt,Польшей,603,609,RU,Antagonist,['Instigator'],"['Guardian', 'Instigator', 'Foreign Adversary', 'Terrorist', 'Victim']"
+RU-URW-1171.txt,Украине,173,179,RU,Antagonist,['Terrorist'],"['Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+RU-URW-1171.txt,Госдуме,5,11,RU,Protagonist,['Guardian'],"['Instigator', 'Corrupt', 'Terrorist', 'Deceiver', 'Exploited', 'Victim']"
+RU-URW-1171.txt,США,131,133,RU,Antagonist,['Foreign Adversary'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Scapegoat']"
+RU-URW-1171.txt,Великобритании,137,150,RU,Antagonist,['Foreign Adversary'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+RU-URW-1171.txt,ВСУ,247,249,RU,Antagonist,['Terrorist'],"['Instigator', 'Conspirator', 'Tyrant', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+RU-URW-1171.txt,Франции,324,330,RU,Antagonist,['Conspirator'],"['Instigator', 'Conspirator', 'Tyrant', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+RU-URW-1184.txt,БРИКС,27,31,RU,Protagonist,['Rebel'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1073.txt,Трампа,87,92,RU,Protagonist,['Peacemaker'],"['Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Traitor', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1073.txt,Орбану,195,200,RU,Protagonist,['Peacemaker'],"['Peacemaker', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Traitor', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1073.txt,Ермак,396,400,RU,Antagonist,"['Instigator', 'Traitor']","['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Traitor', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1073.txt,Америку,438,444,RU,Antagonist,['Foreign Adversary'],"['Peacemaker', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Traitor', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1043.txt,ФСБ,0,2,RU,Protagonist,['Guardian'],"['Guardian', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+RU-URW-1043.txt,Главному управлению разведки Украины,152,187,RU,Antagonist,['Spy'],"['Guardian', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+RU-URW-1043.txt,УФСБ,36,39,RU,Protagonist,['Guardian'],"['Guardian', 'Virtuous', 'Instigator', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+RU-URW-1168.txt,ВСУ,149,151,RU,Antagonist,['Incompetent'],"['Guardian', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim']"
+RU-URW-1168.txt,Марьяна Безуглая,259,274,RU,Antagonist,['Incompetent'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited']"
+RU-URW-1168.txt,ВС РФ,628,632,RU,Protagonist,['Virtuous'],"['Guardian', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+RU-URW-1168.txt,украинский генералитет,696,717,RU,Antagonist,['Incompetent'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited']"
+RU-URW-1110.txt,Страны Запада,1,13,RU,Antagonist,['Corrupt'],"['Virtuous', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1110.txt,Украине,52,58,RU,Antagonist,['Corrupt'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited', 'Victim']"
+RU-URW-1166.txt,Путин,161,165,RU,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Exploited']"
+RU-URW-1166.txt,Си Цзиньпин,873,883,RU,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+RU-URW-1166.txt,Виктор Орбан,1846,1857,RU,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Exploited']"
+RU-URW-1077.txt,Россия,0,5,RU,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+RU-URW-1077.txt,Китай,9,13,RU,Protagonist,['Peacemaker'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary']"
+RU-URW-1077.txt,Александера Стубба,112,129,RU,Antagonist,['Incompetent'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1077.txt,Североатлантическому альянсу,28,55,RU,Antagonist,['Foreign Adversary'],"['Peacemaker', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1170.txt,Владимир Зеленский,39,56,RU,Antagonist,['Traitor'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent']"
+RU-URW-1170.txt,Дональдом Туском,503,518,RU,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Exploited']"
+RU-URW-1170.txt,Польша,1859,1864,RU,Antagonist,['Instigator'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1085.txt,Юрия Трутнева,104,116,RU,Protagonist,['Virtuous'],"['Guardian', 'Peacemaker', 'Virtuous', 'Foreign Adversary']"
+RU-URW-1174.txt,Зеленского,171,180,RU,Antagonist,['Incompetent'],"['Peacemaker', 'Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1174.txt,ОБСЕ,44,47,RU,Antagonist,['Incompetent'],"['Guardian', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Traitor', 'Saboteur', 'Corrupt', 'Incompetent', 'Deceiver']"
+RU-URW-1174.txt,Германии,160,167,RU,Antagonist,['Foreign Adversary'],"['Peacemaker', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1174.txt,Франции,171,177,RU,Antagonist,['Foreign Adversary'],"['Peacemaker', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1174.txt,Зеленский,0,8,RU,Antagonist,['Tyrant'],"['Guardian', 'Martyr', 'Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Tyrant', 'Traitor', 'Corrupt', 'Incompetent', 'Deceiver', 'Bigot', 'Exploited']"
+RU-URW-1152.txt,НАТО,8,11,RU,Protagonist,['Guardian'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1152.txt,Китаем,85,90,RU,Antagonist,['Foreign Adversary'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Saboteur', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Scapegoat']"
+RU-URW-1152.txt,России,92,97,RU,Antagonist,['Foreign Adversary'],"['Peacemaker', 'Virtuous', 'Instigator', 'Conspirator', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim']"
+RU-URW-1152.txt,США,132,134,RU,Antagonist,['Conspirator'],"['Guardian', 'Peacemaker', 'Virtuous', 'Instigator', 'Foreign Adversary', 'Incompetent', 'Deceiver']"
+RU-URW-1139.txt,Запада,167,172,RU,Antagonist,['Conspirator'],"['Instigator', 'Conspirator', 'Tyrant', 'Foreign Adversary', 'Corrupt', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim', 'Scapegoat']"
+RU-URW-1139.txt,России,292,297,RU,Innocent,['Victim'],"['Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1139.txt,НАТО,278,281,RU,Antagonist,['Foreign Adversary'],"['Instigator', 'Conspirator', 'Foreign Adversary', 'Incompetent', 'Terrorist', 'Deceiver', 'Exploited', 'Victim']"
+RU-URW-1139.txt,Зеленского,200,209,RU,Antagonist,['Foreign Adversary'],"['Peacemaker', 'Rebel', 'Virtuous', 'Instigator', 'Corrupt', 'Incompetent', 'Deceiver', 'Exploited']"
+RU-URW-1139.txt,Киеву,165,169,RU,Antagonist,['Instigator'],"['Peacemaker', 'Virtuous', 'Instigator', 'Tyrant', 'Foreign Adversary', 'Incompetent', 'Exploited', 'Victim']"

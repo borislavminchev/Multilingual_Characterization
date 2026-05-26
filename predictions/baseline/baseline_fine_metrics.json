@@ -1,0 +1,112 @@
+{
+  "coarse": {
+    "accuracy": 0.6854304635761589,
+    "weighted_f1": 0.6832744942649491
+  },
+  "fine": {
+    "f1_micro": 0.0,
+    "f1_macro": 0.0,
+    "f1_sample": 0.0,
+    "emr": 0.0,
+    "mean_pred_card": 0.0,
+    "mean_true_card": 1.0844370860927153,
+    "threshold": 0.5
+  },
+  "e2e": {
+    "sample_f1": 0.4500551876379691,
+    "emr": 0.0
+  },
+  "per_label_f1": {
+    "Guardian": 0.0,
+    "Martyr": 0.0,
+    "Peacemaker": 0.0,
+    "Rebel": 0.0,
+    "Underdog": 0.0,
+    "Virtuous": 0.0,
+    "Instigator": 0.0,
+    "Conspirator": 0.0,
+    "Tyrant": 0.0,
+    "Foreign Adversary": 0.0,
+    "Traitor": 0.0,
+    "Spy": 0.0,
+    "Saboteur": 0.0,
+    "Corrupt": 0.0,
+    "Incompetent": 0.0,
+    "Terrorist": 0.0,
+    "Deceiver": 0.0,
+    "Bigot": 0.0,
+    "Forgotten": 0.0,
+    "Exploited": 0.0,
+    "Victim": 0.0,
+    "Scapegoat": 0.0
+  },
+  "per_label_support": {
+    "Guardian": 85,
+    "Martyr": 3,
+    "Peacemaker": 40,
+    "Rebel": 21,
+    "Underdog": 15,
+    "Virtuous": 42,
+    "Instigator": 29,
+    "Conspirator": 20,
+    "Tyrant": 34,
+    "Foreign Adversary": 81,
+    "Traitor": 7,
+    "Spy": 6,
+    "Saboteur": 7,
+    "Corrupt": 17,
+    "Incompetent": 27,
+    "Terrorist": 19,
+    "Deceiver": 34,
+    "Bigot": 11,
+    "Forgotten": 11,
+    "Exploited": 20,
+    "Victim": 119,
+    "Scapegoat": 7
+  },
+  "per_language": [
+    {
+      "Language": "BG",
+      "Samples": 31,
+      "Micro-F1": 0.0,
+      "Macro-F1": 0.0,
+      "Sample-F1": 0.0,
+      "EMR": 0.0
+    },
+    {
+      "Language": "EN",
+      "Samples": 91,
+      "Micro-F1": 0.0,
+      "Macro-F1": 0.0,
+      "Sample-F1": 0.0,
+      "EMR": 0.0
+    },
+    {
+      "Language": "HI",
+      "Samples": 280,
+      "Micro-F1": 0.0,
+      "Macro-F1": 0.0,
+      "Sample-F1": 0.0,
+      "EMR": 0.0
+    },
+    {
+      "Language": "PT",
+      "Samples": 116,
+      "Micro-F1": 0.0,
+      "Macro-F1": 0.0,
+      "Sample-F1": 0.0,
+      "EMR": 0.0
+    },
+    {
+      "Language": "RU",
+      "Samples": 86,
+      "Micro-F1": 0.0,
+      "Macro-F1": 0.0,
+      "Sample-F1": 0.0,
+      "EMR": 0.0
+    }
+  ],
+  "n_test": 604,
+  "n_train": 4484,
+  "n_val": 1122
+}

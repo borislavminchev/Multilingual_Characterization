@@ -243,25 +243,29 @@ class AsymmetricLoss(nn.Module):
     def forward(self, logits, targets, mask=None):
         probs = torch.sigmoid(logits)
         probs_pos = probs
-        probs_neg = 1 - probs
-        
+
+        # Probability shifting (Eq. 5 in Ben-Baruch et al., 2021): p_m = max(p - m, 0)
         if self.clip > 0:
-            probs_neg = (probs_neg + self.clip).clamp(max=1)
-        
+            probs_shifted = (probs - self.clip).clamp(min=0)
+        else:
+            probs_shifted = probs
+
+        # L+ = (1 - p)^gamma_pos * log(p)
         loss_pos = -torch.log(probs_pos.clamp(min=self.eps))
-        loss_neg = -torch.log(probs_neg.clamp(min=self.eps))
-        
+        # L- = (p_m)^gamma_neg * log(1 - p_m)
+        loss_neg = -torch.log((1 - probs_shifted).clamp(min=self.eps))
+
         if self.disable_torch_grad_focal_loss:
             with torch.no_grad():
                 focal_weight_pos = (1 - probs_pos) ** self.gamma_pos
-                focal_weight_neg = probs_pos ** self.gamma_neg
+                focal_weight_neg = probs_shifted ** self.gamma_neg
         else:
             focal_weight_pos = (1 - probs_pos) ** self.gamma_pos
-            focal_weight_neg = probs_pos ** self.gamma_neg
-        
+            focal_weight_neg = probs_shifted ** self.gamma_neg
+
         loss_pos = focal_weight_pos * loss_pos
         loss_neg = focal_weight_neg * loss_neg
-        
+
         loss = targets * loss_pos + (1 - targets) * loss_neg
         
         if mask is not None:
@@ -351,25 +355,29 @@ class AsymmetricLossOptimized(nn.Module):
     def forward(self, logits, targets, mask=None):
         probs = torch.sigmoid(logits)
         probs_pos = probs
-        probs_neg = 1 - probs
-        
+
+        # Probability shifting (Eq. 5 in Ben-Baruch et al., 2021): p_m = max(p - m, 0)
         if self.clip > 0:
-            probs_neg = (probs_neg + self.clip).clamp(max=1)
-        
+            probs_shifted = (probs - self.clip).clamp(min=0)
+        else:
+            probs_shifted = probs
+
+        # L+ = (1 - p)^gamma_pos * log(p)
         loss_pos = -torch.log(probs_pos.clamp(min=self.eps))
-        loss_neg = -torch.log(probs_neg.clamp(min=self.eps))
-        
+        # L- = (p_m)^gamma_neg * log(1 - p_m)
+        loss_neg = -torch.log((1 - probs_shifted).clamp(min=self.eps))
+
         if self.disable_torch_grad_focal_loss:
             with torch.no_grad():
                 focal_weight_pos = (1 - probs_pos) ** self.gamma_pos
-                focal_weight_neg = probs_pos ** self.gamma_neg
+                focal_weight_neg = probs_shifted ** self.gamma_neg
         else:
             focal_weight_pos = (1 - probs_pos) ** self.gamma_pos
-            focal_weight_neg = probs_pos ** self.gamma_neg
-        
+            focal_weight_neg = probs_shifted ** self.gamma_neg
+
         loss_pos = focal_weight_pos * loss_pos
         loss_neg = focal_weight_neg * loss_neg
-        
+
         loss = targets * loss_pos + (1 - targets) * loss_neg
         
         if self.class_weights is not None:

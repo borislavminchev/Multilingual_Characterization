@@ -1,0 +1,58 @@
+====================================================================================================
+HIERARCHICAL ENTITY ROLE CLASSIFICATION - INFERENCE (SOFT CONDITIONING)
+====================================================================================================
+
+📱 Using device: cuda
+
+📂 Loading data from: ./predictions\coarse_predictions_test.csv
+   Total samples: 604
+
+🔤 Loading tokenizer: xlm-roberta-base
+🧠 Loading fine classifier from: ./checkpoints\fine_classifier_soft
+The new embeddings will be initialized from a multivariate normal distribution that has old embeddings' mean and covariance. As described in this article: https://nlp.stanford.edu/~johnhew/vocab-expansion.html. To disable this, use `mean_resizing=False`
+✅ Loaded model weights from model.safetensors
+
+📊 Creating inference dataset...
+
+🔮 Generating fine label predictions...
+   Mode: SOFT CONDITIONING
+   Parameters: threshold=0.25, gap_ratio=0.7, min_labels=1, max_labels=3
+Predicting (soft conditioning): 100%|████████████████████████████████████████████████████████████████████████████████| 76/76 [00:17<00:00,  4.28it/s]
+
+🔗 Combining coarse and fine predictions...
+
+✅ Saved predictions to: ./predictions\final_predictions.csv
+
+📊 Evaluation Results:
+--------------------------------------------------
+Coarse Accuracy: 0.8162
+Fine Role F1 (sample avg): 0.5067
+Exact Match Accuracy: 0.4321
+Avg Pred Labels/Sample: 1.15
+Avg GT Labels/Sample: 1.08
+--------------------------------------------------
+
+📈 Prediction Summary:
+--------------------------------------------------
+Coarse label distribution:
+   Antagonist: 262 (43.4%)
+   Protagonist: 206 (34.1%)
+   Innocent: 136 (22.5%)
+
+Top 10 fine labels:
+   Victim: 114
+   Foreign Adversary: 96
+   Guardian: 87
+   Virtuous: 68
+   Peacemaker: 41
+   Rebel: 40
+   Instigator: 33
+   Deceiver: 32
+   Tyrant: 29
+   Conspirator: 28
+
+Avg fine labels per sample: 1.15
+
+====================================================================================================
+INFERENCE COMPLETE (SOFT CONDITIONING)
+====================================================================================================

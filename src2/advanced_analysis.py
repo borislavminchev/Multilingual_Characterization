@@ -204,11 +204,11 @@ def d1_system_architecture():
     # Stage 2: Fine
     ax.text(10, 6.0, 'STAGE 2: FINE', ha='center', va='center',
             fontsize=11, fontweight='bold', color='#E65100')
-    ax.text(10, 5.3, 'Entity Projection MLP\n768 → 768 → 22 logits\n+ Hierarchy Affinity (p · A)',
+    ax.text(10, 5.3, 'Entity Projection MLP\n768 → 768 (LayerNorm, GELU) → 22 logits\n+ Hierarchy Affinity (p_coarse · A)',
             ha='center', va='center', fontsize=9, bbox=box_fine)
-    ax.text(10, 4.2, 'ASL-Opt (γ⁺=0, γ⁻=2, m=0.05)\n+ Entropy reg (λ=0.15)\n+ Cardinality reg (λ=0.3, k=1.5)',
+    ax.text(10, 4.2, 'ASL Loss (γ⁺=0, γ⁻=2, m=0.05)\n+ Cardinality reg (λ=0.3, k=1.5)',
             ha='center', va='center', fontsize=8.5, bbox=box_fine)
-    ax.text(10, 3.15, 'Adaptive Threshold\nτ=0.25, gap=0.7\nmin=1, max=3',
+    ax.text(10, 3.15, 'Relative Threshold\nτ=0.25, gap=0.7·p_max\nmin=1, max=3',
             ha='center', va='center', fontsize=9, bbox=box_fine)
     ax.text(10, 2.2, 'Output: ≤3 labels\nfrom 22 fine roles',
             ha='center', va='center', fontsize=9, fontweight='bold',

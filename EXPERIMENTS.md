@@ -97,7 +97,7 @@ CARDINALITY_WEIGHT = 0.3
 | E16 | xlm-roberta-base + reg | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | | | | | | | ⬜ |
 | E17 | xlm-roberta-base | Semantic | **CE** | Semantic | Soft | ASL | 2.0 | 0.0 | 0.05 | 0.3 | 82.13 | 78.05 | 94.73 | 93.94 | 50.29 | 41.06 | ⬜ |
 | E18 | xlm-roberta-base | Semantic | **W-CE** | Semantic | Soft | ASL | 2.0 | 0.0 | 0.05 | 0.3 | 81.76 | 81.19 | 94.76 | 94.08 | 50.44 | 41.06 | ⬜ |
-| E19 | xlm-roberta-base | Semantic | **CB-CE** | Semantic | Soft | ASL | 2.0 | 0.0 | 0.05 | 0.3 | 80.96 | 81.68 | 94.62 | 93.87 | 50.67 | 43.21 | ⬜ |
+| E19 | xlm-roberta-base | Semantic | **CB-CE** | Semantic | Soft | ASL | 2.0 | 0.0 | 0.05 | 0.3 | 80.96 | 81.68 | 94.62 | 93.87 | 50.67 | 44.54 | ⬜ |
 | E20 | xlm-roberta-base | Semantic | **CB-CE** | Semantic | HARD | ASL | 2.0 | 0.0 | 0.05 | 0.3 | 81.58 | 82.70 | 67.13 | 67.86 | 31.13 | 0.00 | ⬜ |
 
 ---

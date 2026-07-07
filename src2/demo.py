@@ -11,6 +11,7 @@ Usage:
 import os
 import re
 import json
+import time
 import numpy as np
 import torch
 import streamlit as st
@@ -32,6 +33,13 @@ from datasets import (
 from hierarchical_model import CoarseRoleClassifier, SoftConditionedFineClassifier, FineRoleClassifier
 from inference import load_fine_classifier, soft_prediction, smart_prediction
 from taxonomy_manager import TaxonomyManager
+from saliency import (
+    compute_occlusion_saliency,
+    compute_gradient_x_embedding_saliency,
+    aggregate_to_words,
+    render_saliency_html,
+    plot_saliency_bar,
+)
 
 # ─────────────────────────────────────────────
 # Constants
@@ -203,7 +211,8 @@ def predict(text, mention, start, end, tokenizer, coarse_model, fine_model, taxo
     # Tokenize
     encoding = tokenizer(
         marked_text, truncation=True, padding='max_length',
-        max_length=MAX_LENGTH, return_tensors='pt'
+        max_length=MAX_LENGTH, return_tensors='pt',
+        return_offsets_mapping=True,
     )
     input_ids = encoding['input_ids'].to(device)
     attention_mask = encoding['attention_mask'].to(device)
@@ -217,8 +226,10 @@ def predict(text, mention, start, end, tokenizer, coarse_model, fine_model, taxo
         coarse_label = coarse_id2label[coarse_id]
 
         # Fine prediction
+        coarse_probs_tensor = torch.tensor(
+            coarse_probs, dtype=torch.float32
+        ).unsqueeze(0).to(device)
         if USE_SOFT_CONDITIONING:
-            coarse_probs_tensor = torch.tensor(coarse_probs, dtype=torch.float32).unsqueeze(0).to(device)
             fine_out = fine_model(
                 input_ids, attention_mask,
                 coarse_probs=coarse_probs_tensor,
@@ -252,6 +263,14 @@ def predict(text, mention, start, end, tokenizer, coarse_model, fine_model, taxo
         'fine_labels': selected_fine,
         'fine_probs': {fine_id2label[i]: float(fine_probs[i]) for i in range(NUM_FINE_LABELS)},
         'predictions': predictions,
+        # --- Saliency support: raw tensors + encoding for downstream analysis ---
+        'input_ids': input_ids.detach(),
+        'attention_mask': attention_mask.detach(),
+        'encoding': encoding,
+        'marked_text': marked_text,
+        'coarse_probs_tensor': coarse_probs_tensor.detach(),
+        'target_coarse_id': coarse_id,
+        'target_fine_ids': [i for i in range(NUM_FINE_LABELS) if predictions[i] == 1],
     }
 
 
@@ -414,6 +433,14 @@ def main():
         with st.spinner("Running inference..."):
             result = predict(text, mention, start, end,
                              tokenizer, coarse_model, fine_model, taxonomy_mgr, device)
+        # Persist across reruns triggered by widgets in the saliency section.
+        st.session_state["last_result"] = result
+        st.session_state["last_text"] = text
+
+    # Everything below (results + saliency) is driven from session_state so
+    # widgets in the saliency section don't wipe the results block on rerun.
+    if "last_result" in st.session_state:
+        result = st.session_state["last_result"]
 
         # Results
         st.markdown("---")
@@ -458,6 +485,169 @@ def main():
                 'fine_probabilities': result['fine_probs'],
                 'selected_fine_labels': result['fine_labels'],
             })
+
+        # ── Saliency Analysis ────────────────────────────────────────────
+        _render_saliency_section(
+            result=result,
+            coarse_model=coarse_model,
+            fine_model=fine_model,
+            tokenizer=tokenizer,
+            device=device,
+        )
+
+
+def _render_saliency_section(result, coarse_model, fine_model, tokenizer, device):
+    """Renders the Saliency Analysis expander (occlusion + gradient×embedding)."""
+    with st.expander("🔬 Saliency Analysis", expanded=False):
+        st.caption(
+            "За всяка дума в контекста измерваме колко пада вероятността на "
+            "предсказания клас, ако тази дума я нямаше. "
+            "Зелено = подкрепя предсказания клас, червено = противодейства."
+        )
+
+        # Method selector: occlusion (always) + gradient×embedding (if hook path works)
+        method = st.radio(
+            "Метод:",
+            options=["Occlusion", "Gradient × Embedding"],
+            horizontal=True,
+            help=(
+                "Occlusion: маскираме всяка дума и мерим спада на увереността. "
+                "Gradient×Embedding: локална линейна атрибуция чрез градиенти "
+                "върху embedding-слоя."
+            ),
+            key="saliency_method",
+        )
+        top_k = st.slider("Top-K думи:", min_value=5, max_value=25, value=10,
+                          key="saliency_topk")
+
+        tab_coarse, tab_fine = st.tabs(
+            [f"Coarse: {result['coarse_label']}",
+             f"Fine ({len(result['fine_labels'])})"]
+        )
+
+        with tab_coarse:
+            _render_saliency_for_target(
+                result=result,
+                model=coarse_model,
+                tokenizer=tokenizer,
+                device=device,
+                task='coarse',
+                target_class=result['target_coarse_id'],
+                target_label=result['coarse_label'],
+                method=method,
+                top_k=top_k,
+                cache_key=f"coarse-{result['target_coarse_id']}-{method}",
+            )
+
+        with tab_fine:
+            fine_ids = result['target_fine_ids']
+            if not fine_ids:
+                st.info("Няма предсказани детайлни роли.")
+            else:
+                fine_names = [fine_id2label[i] for i in fine_ids]
+                selected = st.selectbox(
+                    "Детайлна роля:",
+                    options=fine_names,
+                    key="saliency_fine_selector",
+                )
+                selected_id = fine_label2id[selected]
+                _render_saliency_for_target(
+                    result=result,
+                    model=fine_model,
+                    tokenizer=tokenizer,
+                    device=device,
+                    task='fine',
+                    target_class=selected_id,
+                    target_label=selected,
+                    method=method,
+                    top_k=top_k,
+                    cache_key=f"fine-{selected_id}-{method}",
+                )
+
+
+def _render_saliency_for_target(result, model, tokenizer, device, task,
+                                target_class, target_label, method, top_k, cache_key):
+    """Compute and render saliency for one (task, target_class) combination."""
+    # Cache the raw token-level saliency in session_state so switching top_k or
+    # bouncing between tabs doesn't recompute unnecessarily.
+    cache = st.session_state.setdefault("saliency_cache", {})
+    if cache_key not in cache:
+        method_used = method
+        with st.spinner(f"Изчислявам saliency ({method_used})…"):
+            t0 = time.perf_counter()
+            token_sal = None
+
+            if method == "Gradient × Embedding":
+                token_sal = compute_gradient_x_embedding_saliency(
+                    input_ids=result['input_ids'],
+                    attention_mask=result['attention_mask'],
+                    model=model,
+                    target_class=target_class,
+                    tokenizer=tokenizer,
+                    task=task,
+                    coarse_probs=result['coarse_probs_tensor'] if task == 'fine' else None,
+                    device=device,
+                )
+                if token_sal is None:
+                    st.warning(
+                        "Gradient метода не работи с текущия модел — минавам на occlusion."
+                    )
+                    method_used = "Occlusion (fallback)"
+
+            if token_sal is None:
+                token_sal, _ = compute_occlusion_saliency(
+                    input_ids=result['input_ids'],
+                    attention_mask=result['attention_mask'],
+                    model=model,
+                    target_class=target_class,
+                    tokenizer=tokenizer,
+                    task=task,
+                    coarse_probs=result['coarse_probs_tensor'] if task == 'fine' else None,
+                    device=device,
+                )
+
+            words = aggregate_to_words(
+                token_saliency=token_sal,
+                encoding=result['encoding'],
+                marked_text=result['marked_text'],
+                strategy='sum',
+            )
+            elapsed_ms = (time.perf_counter() - t0) * 1000
+            cache[cache_key] = {
+                'words': words,
+                'elapsed_ms': elapsed_ms,
+                'method_used': method_used,
+                'nonzero': int(np.count_nonzero(token_sal)),
+            }
+
+    entry = cache[cache_key]
+    words = entry['words']
+    st.caption(
+        f"Изчислено за {entry['elapsed_ms']:.0f} ms върху "
+        f"{len(words)} думи ({entry['nonzero']} значими токена, "
+        f"метод: {entry['method_used']})."
+    )
+
+    if not words:
+        st.info("Не намерих контекст за анализ.")
+        return
+
+    col_html, col_bar = st.columns([2, 1])
+    with col_html:
+        st.markdown("#### Оцветен контекст")
+        html_str = render_saliency_html(
+            marked_text=result['marked_text'],
+            words=words,
+            target_label=target_label,
+            method_name=entry['method_used'].lower(),
+        )
+        st.markdown(html_str, unsafe_allow_html=True)
+
+    with col_bar:
+        st.markdown(f"#### Top-{top_k} влияещи думи")
+        fig_sal = plot_saliency_bar(words, target_label, top_k=top_k)
+        st.pyplot(fig_sal)
+        plt.close(fig_sal)
 
 
 if __name__ == "__main__":

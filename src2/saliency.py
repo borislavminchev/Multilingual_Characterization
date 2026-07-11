@@ -637,7 +637,7 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
             alpha = min(MAX_ALPHA, 0.30 + 0.55 * abs(s_norm))
             bg = _rgba(color, alpha)
             share = w['saliency'] / total_abs * 100.0
-            tooltip = f"дял: {share:+.1f}%"
+            tooltip = f"share: {share:+.1f}%"
             pieces.append(
                 f'<span style="background:{bg};color:#111;border-radius:3px;'
                 f'padding:1px 3px;font-weight:600;" title="{tooltip}">{word_html}</span>'
@@ -672,12 +672,12 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
         f'<div style="font-size:0.85em;color:#555;margin-bottom:8px;">'
         f'<span style="background:{_rgba(POS_COLOR, 0.75)};color:#fff;'
         f'padding:2px 6px;border-radius:3px;font-weight:600;">'
-        f'подкрепя {html.escape(target_label)}</span> '
+        f'supports {html.escape(target_label)}</span> '
         f'&nbsp;&nbsp;'
         f'<span style="background:{_rgba(NEG_COLOR, 0.75)};color:#fff;'
         f'padding:2px 6px;border-radius:3px;font-weight:600;">'
-        f'противодейства на {html.escape(target_label)}</span> '
-        f'&nbsp;&nbsp;<em>метод: {html.escape(method_name)}</em>'
+        f'opposes {html.escape(target_label)}</span> '
+        f'&nbsp;&nbsp;<em>method: {html.escape(method_name)}</em>'
         f'</div>'
     )
     body = (
@@ -704,13 +704,59 @@ def _fmt_share(v, total_abs):
     return f"{(v / total_abs) * 100.0:+.1f}%"
 
 
-def plot_saliency_bar(words, target_label, top_k=10):
-    """Horizontal bar chart of the top-K words by share of total influence.
+def _group_consecutive_phrases(words, tol=1e-9):
+    """Merge consecutive words that share the same saliency into one phrase.
 
-    Each word's saliency is expressed as a signed share (%) of the total
+    Used for block-phrase occlusion, where every word in a masked phrase gets
+    the identical delta. Consecutive same-value words are joined into a single
+    entry whose 'word' is the phrase text. Words are assumed sorted by 'start'.
+
+    Returns a new list of {'word', 'start', 'end', 'saliency'} dicts.
+    """
+    if not words:
+        return []
+    ordered = sorted(words, key=lambda w: w['start'])
+    merged = []
+    cur = None
+    for w in ordered:
+        if cur is not None and abs(w['saliency'] - cur['saliency']) <= tol:
+            # Extend the current phrase.
+            cur['words'].append(w['word'])
+            cur['end'] = w['end']
+        else:
+            if cur is not None:
+                merged.append(cur)
+            cur = {
+                'words': [w['word']],
+                'start': w['start'],
+                'end': w['end'],
+                'saliency': w['saliency'],
+            }
+    if cur is not None:
+        merged.append(cur)
+    # Flatten 'words' list into a display string.
+    out = []
+    for m in merged:
+        out.append({
+            'word': ' '.join(m['words']),
+            'start': m['start'],
+            'end': m['end'],
+            'saliency': m['saliency'],
+        })
+    return out
+
+
+def plot_saliency_bar(words, target_label, top_k=10, group_phrases=False):
+    """Horizontal bar chart of the top-K words (or phrases) by share of influence.
+
+    Each entry's saliency is expressed as a signed share (%) of the total
     absolute influence across ALL words, so the magnitudes are interpretable
     (shares of |all| sum to 100%). Sorted by signed share descending so
-    supporting words appear at the top and opposing words at the bottom.
+    supporting entries appear at the top and opposing ones at the bottom.
+
+    group_phrases: when True, consecutive words sharing the same saliency value
+        (as produced by block-phrase occlusion) are merged into a single bar
+        labelled with the whole phrase.
     """
     if not words:
         fig, ax = plt.subplots(figsize=(4.5, 2.5))
@@ -719,17 +765,23 @@ def plot_saliency_bar(words, target_label, top_k=10):
         return fig
 
     # Total influence budget over all words (not just top-k) so shares are
-    # meaningful relative to the whole context.
+    # meaningful relative to the whole context. Computed BEFORE any phrase
+    # grouping so the denominator counts each word once.
     total_abs = sum(abs(w['saliency']) for w in words)
     if total_abs <= 0:
         total_abs = 1e-12
 
-    ranked = sorted(words, key=lambda w: abs(w['saliency']), reverse=True)[:top_k]
+    entries = _group_consecutive_phrases(words) if group_phrases else words
+
+    ranked = sorted(entries, key=lambda w: abs(w['saliency']), reverse=True)[:top_k]
     ranked.sort(key=lambda w: w['saliency'], reverse=True)
 
     labels = [w['word'] for w in ranked]
     shares = [w['saliency'] / total_abs * 100.0 for w in ranked]  # signed %
     colors = [POS_COLOR if s > 0 else NEG_COLOR for s in shares]
+
+    # Truncate very long phrase labels so the y-axis stays readable.
+    labels = [(lbl if len(lbl) <= 32 else lbl[:29] + '…') for lbl in labels]
 
     max_abs_share = max((abs(s) for s in shares), default=0.0)
 
@@ -754,7 +806,7 @@ def plot_saliency_bar(words, target_label, top_k=10):
     ax.set_yticklabels(labels, fontsize=10)
     ax.invert_yaxis()
     ax.axvline(0, color='#888', linewidth=0.8)
-    ax.set_xlabel(f'Дял от общото влияние върху {target_label} (%)', fontsize=9)
+    ax.set_xlabel(f'Share of total influence on {target_label} (%)', fontsize=9)
     ax.grid(axis='x', alpha=0.25, linewidth=0.5)
     for spine in ('top', 'right'):
         ax.spines[spine].set_visible(False)

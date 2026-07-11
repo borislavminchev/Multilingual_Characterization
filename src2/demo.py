@@ -504,44 +504,44 @@ def _render_saliency_section(result, coarse_model, fine_model, tokenizer, device
     """Renders the Saliency Analysis expander (occlusion + gradient×embedding)."""
     with st.expander("🔬 Saliency Analysis", expanded=False):
         st.caption(
-            "За всяка дума в контекста измерваме колко пада вероятността на "
-            "предсказания клас, ако тази дума я нямаше. "
-            "Зелено = подкрепя предсказания клас, червено = противодейства."
+            "For each word in the context we measure how much the predicted "
+            "class probability drops if that word were removed. "
+            "Green = supports the predicted class, red = opposes it."
         )
 
         # Method selector: occlusion (word) / phrase occlusion / gradient×embedding
         method = st.radio(
-            "Метод:",
-            options=["Occlusion (по дума)", "Occlusion (по фраза)", "Gradient × Embedding"],
+            "Method:",
+            options=["Occlusion (word)", "Occlusion (phrase)", "Gradient × Embedding"],
             horizontal=True,
             help=(
-                "Occlusion (по дума, препоръчан): маскираме всяка дума поотделно. "
-                "Occlusion (по фраза): маскираме цели фрази наведнъж — по-силен, "
-                "по-малко шумен сигнал (размерът на фразата се избира автоматично). "
-                "Gradient×Embedding: локална линейна апроксимация; по-бърз, по-шумен."
+                "Occlusion (word, recommended): mask each word individually. "
+                "Occlusion (phrase): mask whole phrases at once — a stronger, "
+                "less noisy signal (phrase size is chosen automatically). "
+                "Gradient×Embedding: local linear approximation; faster, noisier."
             ),
             key="saliency_method",
         )
         phrase_mode = None
-        if method == "Occlusion (по фраза)":
+        if method == "Occlusion (phrase)":
             phrase_mode_label = st.radio(
-                "Тип фрази:",
-                options=["Блокове (без застъпване)", "Плъзгащ прозорец (застъпване)"],
+                "Phrase type:",
+                options=["Blocks (non-overlapping)", "Sliding window (overlapping)"],
                 horizontal=True,
                 key="saliency_phrase_mode",
                 help=(
-                    "Блокове: всяка дума принадлежи на точно една фраза. "
-                    "Плъзгащ прозорец: думите получават усреднено влияние от "
-                    "всички фрази, в които участват (по-гладко)."
+                    "Blocks: each word belongs to exactly one phrase. "
+                    "Sliding window: words get the averaged influence of all "
+                    "phrases they appear in (smoother)."
                 ),
             )
-            phrase_mode = 'block' if phrase_mode_label.startswith("Блокове") else 'sliding'
+            phrase_mode = 'block' if phrase_mode_label.startswith("Blocks") else 'sliding'
         if method == "Gradient × Embedding":
             st.caption(
-                "ℹ️ Gradient×Embedding е приблизителен метод и може да дава "
-                "по-шумни резултати от Occlusion. При съмнение сравнявайте с Occlusion."
+                "ℹ️ Gradient×Embedding is an approximate method and may give "
+                "noisier results than Occlusion. When in doubt, compare with Occlusion."
             )
-        top_k = st.slider("Top-K думи:", min_value=5, max_value=25, value=10,
+        top_k = st.slider("Top-K words:", min_value=5, max_value=25, value=10,
                           key="saliency_topk")
 
         # Short hash of the marked text so cache keys never collide across
@@ -573,11 +573,11 @@ def _render_saliency_section(result, coarse_model, fine_model, tokenizer, device
         with tab_fine:
             fine_ids = result['target_fine_ids']
             if not fine_ids:
-                st.info("Няма предсказани детайлни роли.")
+                st.info("No fine-grained roles predicted.")
             else:
                 fine_names = [fine_id2label[i] for i in fine_ids]
                 selected = st.selectbox(
-                    "Детайлна роля:",
+                    "Fine-grained role:",
                     options=fine_names,
                     key="saliency_fine_selector",
                 )
@@ -607,7 +607,7 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
     if cache_key not in cache:
         method_used = method
         agg_strategy = 'sum'
-        with st.spinner(f"Изчислявам saliency ({method_used})…"):
+        with st.spinner(f"Computing saliency ({method_used})…"):
             t0 = time.perf_counter()
             token_sal = None
             span_info = None
@@ -625,11 +625,11 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
                 )
                 if token_sal is None:
                     st.warning(
-                        "Gradient метода не работи с текущия модел — минавам на occlusion."
+                        "Gradient method does not work with the current model — falling back to occlusion."
                     )
                     method_used = "Occlusion (fallback)"
 
-            elif method == "Occlusion (по фраза)":
+            elif method == "Occlusion (phrase)":
                 token_sal, _, span_info = compute_span_occlusion_saliency(
                     input_ids=result['input_ids'],
                     attention_mask=result['attention_mask'],
@@ -680,23 +680,23 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
     if entry.get('span_info'):
         si = entry['span_info']
         span_note = (
-            f" | фраза = {si['span_size']} "
-            f"{'дума' if si['span_size'] == 1 else 'думи'}, "
-            f"{si['num_phrases']} фрази"
+            f" | phrase = {si['span_size']} "
+            f"{'word' if si['span_size'] == 1 else 'words'}, "
+            f"{si['num_phrases']} phrases"
         )
     st.caption(
-        f"Изчислено за {entry['elapsed_ms']:.0f} ms върху "
-        f"{len(words)} думи ({entry['nonzero']} значими токена, "
-        f"метод: {entry['method_used']}){span_note}."
+        f"Computed in {entry['elapsed_ms']:.0f} ms over "
+        f"{len(words)} words ({entry['nonzero']} significant tokens, "
+        f"method: {entry['method_used']}){span_note}."
     )
 
     if not words:
-        st.info("Не намерих контекст за анализ.")
+        st.info("No context found to analyse.")
         return
 
     col_html, col_bar = st.columns([2, 1])
     with col_html:
-        st.markdown("#### Оцветен контекст")
+        st.markdown("#### Highlighted context")
         html_str = render_saliency_html(
             marked_text=result['marked_text'],
             words=words,
@@ -706,8 +706,17 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
         st.markdown(html_str, unsafe_allow_html=True)
 
     with col_bar:
-        st.markdown(f"#### Top-{top_k} влияещи думи")
-        fig_sal = plot_saliency_bar(words, target_label, top_k=top_k)
+        # Group consecutive same-value words into phrases for the bar chart when
+        # using block-phrase occlusion (avoids repeating identical bars).
+        group_phrases = (
+            entry.get('span_info') is not None
+            and phrase_mode == 'block'
+            and entry['span_info'].get('span_size', 1) > 1
+        )
+        chart_title = "Top influencing phrases" if group_phrases else f"Top-{top_k} influencing words"
+        st.markdown(f"#### {chart_title}")
+        fig_sal = plot_saliency_bar(words, target_label, top_k=top_k,
+                                    group_phrases=group_phrases)
         st.pyplot(fig_sal)
         plt.close(fig_sal)
 

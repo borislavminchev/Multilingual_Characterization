@@ -66,28 +66,74 @@ for _c, _fines in FINE_LABELS_BY_COARSE.items():
 
 EXAMPLES = [
     {
-        "name": "EN - Bill Gates (Antagonist)",
-        "text": "Bill Gates has been accused of using his foundation to push vaccine mandates globally, enriching pharmaceutical companies he has invested in. Critics say his influence over the WHO gives him outsized power over public health decisions.",
-        "mention": "Bill Gates",
-    },
-    {
-        "name": "EN - Greta Thunberg (Protagonist)",
-        "text": "Greta Thunberg continued her climate activism, leading a massive protest in Stockholm demanding immediate government action on reducing carbon emissions. Her movement has inspired millions of young people worldwide.",
+        "name": "EN - Greta Thunberg (Protagonist: Guardian + Virtuous)",
+        "text": (
+            "Greta Thunberg has once again stood at the forefront of the global climate "
+            "movement, leading hundreds of thousands of demonstrators through the streets "
+            "of Stockholm to demand urgent action to protect the planet. Refusing lucrative "
+            "sponsorship deals and personal comfort, she has devoted herself entirely to "
+            "defending the environment for future generations, often at great personal cost. "
+            "Her unwavering moral conviction and selfless dedication have inspired millions of "
+            "young people around the world to join the cause. Environmental groups praise her "
+            "as a courageous guardian of the vulnerable and a principled voice for those who "
+            "cannot speak for themselves."
+        ),
         "mention": "Greta Thunberg",
     },
     {
-        "name": "EN - Ukraine (Innocent)",
-        "text": "Ukraine continues to suffer devastating losses as the conflict enters another year. Civilian infrastructure has been repeatedly targeted, leaving millions without heat and electricity during the harsh winter months.",
+        "name": "EN - Bill Gates (Antagonist: Conspirator)",
+        "text": (
+            "Bill Gates has come under intense scrutiny after reports alleged that his "
+            "foundation quietly funneled millions into pharmaceutical companies in which he "
+            "held personal financial stakes. Critics claim that he worked behind the scenes, "
+            "coordinating secretly with select corporations and health officials to shape "
+            "global vaccine policy for his own benefit. Investigative journalists describe a "
+            "hidden network of influence over international health organizations that allowed "
+            "him to quietly steer decisions affecting billions of people. Detractors accuse him "
+            "of orchestrating a covert scheme, concealing his true intentions behind the mask "
+            "of philanthropy."
+        ),
+        "mention": "Bill Gates",
+    },
+    {
+        "name": "EN - Ukraine (Innocent: Victim + Exploited)",
+        "text": (
+            "Ukraine has endured another brutal year of war, with entire cities reduced to "
+            "rubble and millions of civilians forced to flee their homes. Hospitals, schools, "
+            "and power plants have been repeatedly struck, leaving ordinary families without "
+            "heat, water, or electricity through the freezing winter. The country's people "
+            "continue to bear the devastating human cost of a conflict they did not choose, "
+            "mourning the loss of loved ones and the destruction of their communities. Aid "
+            "organizations warn that ordinary Ukrainians are being ground down and exploited "
+            "by powerful forces far beyond their control."
+        ),
         "mention": "Ukraine",
     },
     {
-        "name": "BG - Русия (Antagonist)",
-        "text": "Русия продължава да нарушава международното право с агресията си срещу Украйна. Западните държави наложиха нови санкции срещу Москва след поредните ракетни удари по цивилна инфраструктура.",
+        "name": "BG - Русия (Antagonist: Foreign Adversary + Instigator)",
+        "text": (
+            "Русия продължава да води агресивна война срещу суверенна Украйна, като "
+            "систематично нарушава международното право и основните принципи на човечността. "
+            "Именно Москва разпали конфликта, изпращайки войските си през границата и "
+            "подлагайки цивилни градове на безмилостни ракетни удари. Западните лидери "
+            "определят действията на Кремъл като целенасочена агресия от страна на външен "
+            "противник, който пряко заплашва сигурността на цяла Европа. Според международни "
+            "наблюдатели Русия носи цялата отговорност за ескалацията на насилието и за "
+            "хилядите невинни жертви."
+        ),
         "mention": "Русия",
     },
     {
-        "name": "RU - Трамп (Protagonist/Peacemaker)",
-        "text": "Трамп заявил что готов выступить посредником в урегулировании конфликта между Россией и Украиной. Он предложил провести переговоры на высшем уровне для достижения мирного соглашения.",
+        "name": "RU - Трамп (Protagonist: Peacemaker)",
+        "text": (
+            "Дональд Трамп вновь заявил о своей готовности выступить посредником в "
+            "урегулировании конфликта между Россией и Украиной, предложив организовать "
+            "переговоры на высшем уровне. Он подчеркнул, что стремится как можно скорее "
+            "добиться прекращения огня и установления прочного мира в регионе. По его словам, "
+            "только путь дипломатии и терпеливого диалога способен остановить кровопролитие и "
+            "спасти тысячи жизней. Сторонники называют его миротворцем, готовым лично "
+            "содействовать достижению долгожданного мирного соглашения."
+        ),
         "mention": "Трамп",
     },
 ]

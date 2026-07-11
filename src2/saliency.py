@@ -31,7 +31,7 @@ import numpy as np
 import torch
 import matplotlib.pyplot as plt
 
-from data_utils import ENTITY_START_TOKEN, ENTITY_END_TOKEN
+from data_utils import ENTITY_START_TOKEN, ENTITY_END_TOKEN, split_sentences_with_offsets
 
 
 # Diverging colors for signed saliency (design system: green supports, red opposes).
@@ -259,17 +259,19 @@ def _auto_span_size(num_words):
 
 
 # Sentence-ending punctuation across the task's five languages (Latin/Cyrillic
-# use ./!/?; Devanagari uses the danda । and double danda ॥).
+# use ./!/?; Devanagari uses the danda । and double danda ॥). Used only as a
+# fallback if nltk sentence splitting is unavailable.
 _SENTENCE_TERMINATORS = '.!?…।॥'
 
 
 def _sentence_ids_for_words(word_groups, encoding, marked_text):
     """Assign each word (by index in word_groups) a sentence id.
 
-    A sentence boundary is detected when the text between the end of one word
-    and the start of the next contains a sentence terminator (. ! ? … । ॥).
-    This keeps phrases from crossing sentence boundaries. Language-agnostic and
-    robust for all five task languages.
+    Sentences are detected with the project's nltk-based splitter
+    (`split_sentences_with_offsets`), which returns char spans. Each word is
+    mapped to the sentence whose char span contains the word's start offset, so
+    a phrase never crosses a sentence boundary. Punctuation such as the final
+    "." correctly belongs to the sentence it ends.
 
     Returns a list of ints, one per word_group, e.g. [0,0,0,1,1,2,...].
     """
@@ -287,16 +289,44 @@ def _sentence_ids_for_words(word_groups, encoding, marked_text):
         ends = [int(offsets[p][1]) for p in tok_positions]
         word_char_spans.append((min(starts), max(ends)))
 
+    # Replace entity markers with equal-length blanks so nltk sees clean text
+    # while character offsets stay aligned with `marked_text`.
+    clean = marked_text
+    for marker in (ENTITY_START_TOKEN, ENTITY_END_TOKEN):
+        clean = clean.replace(marker, ' ' * len(marker))
+
+    # nltk sentence spans (start inclusive, end exclusive-ish per the helper).
+    try:
+        sent_spans = split_sentences_with_offsets(clean)
+    except Exception:
+        sent_spans = []
+
+    if not sent_spans:
+        # Fallback: gap-terminator heuristic.
+        sent_ids = []
+        sid = 0
+        prev_end = None
+        for (start, end) in word_char_spans:
+            if prev_end is not None:
+                if any(t in marked_text[prev_end:start] for t in _SENTENCE_TERMINATORS):
+                    sid += 1
+            sent_ids.append(sid)
+            prev_end = end
+        return sent_ids
+
+    # Map each word to the sentence whose [start, end) contains the word start.
     sent_ids = []
-    sid = 0
-    prev_end = None
-    for (start, end) in word_char_spans:
-        if prev_end is not None:
-            between = marked_text[prev_end:start]
-            if any(t in between for t in _SENTENCE_TERMINATORS):
-                sid += 1
-        sent_ids.append(sid)
-        prev_end = end
+    for (w_start, _w_end) in word_char_spans:
+        assigned = 0
+        for si, (s_start, s_end, _txt) in enumerate(sent_spans):
+            if s_start <= w_start < s_end:
+                assigned = si
+                break
+        else:
+            # Word start falls outside all sentence spans (e.g. in whitespace
+            # that was a marker); attach to the nearest preceding sentence.
+            assigned = sent_ids[-1] if sent_ids else 0
+        sent_ids.append(assigned)
     return sent_ids
 
 
@@ -764,6 +794,14 @@ def _fmt_share(v, total_abs):
     return f"{(v / total_abs) * 100.0:+.1f}%"
 
 
+def _sentence_id_at_char(char_pos, sent_spans):
+    """Return the index of the sentence span whose [start, end) contains char_pos."""
+    for si, (s_start, s_end, _txt) in enumerate(sent_spans):
+        if s_start <= char_pos < s_end:
+            return si
+    return -1
+
+
 def _group_consecutive_phrases(words, tol=1e-9, marked_text=None):
     """Merge consecutive words that share the same saliency into one phrase.
 
@@ -771,22 +809,37 @@ def _group_consecutive_phrases(words, tol=1e-9, marked_text=None):
     the identical delta. Consecutive same-value words are joined into a single
     entry whose 'word' is the phrase text. Words are assumed sorted by 'start'.
 
-    If marked_text is given, a merge is also blocked whenever the gap between two
-    words contains a sentence terminator, so a displayed phrase never spans two
-    sentences (even if both sentences' phrases happened to get the same delta).
+    If marked_text is given, sentences are detected with the nltk-based splitter
+    and a merge is blocked whenever two words fall in different sentences, so a
+    displayed phrase never spans two sentences (even if both sentences' phrases
+    happened to get the same delta). This is robust to punctuation being its own
+    token (e.g. the "." ending a sentence).
 
     Returns a new list of {'word', 'start', 'end', 'saliency'} dicts.
     """
     if not words:
         return []
+
+    sent_spans = None
+    if marked_text is not None:
+        clean = marked_text
+        for marker in (ENTITY_START_TOKEN, ENTITY_END_TOKEN):
+            clean = clean.replace(marker, ' ' * len(marker))
+        try:
+            sent_spans = split_sentences_with_offsets(clean)
+        except Exception:
+            sent_spans = None
+
     ordered = sorted(words, key=lambda w: w['start'])
     merged = []
     cur = None
+    cur_sid = None
     for w in ordered:
-        crosses_sentence = False
-        if cur is not None and marked_text is not None:
-            gap = marked_text[cur['end']:w['start']]
-            crosses_sentence = any(t in gap for t in _SENTENCE_TERMINATORS)
+        w_sid = _sentence_id_at_char(w['start'], sent_spans) if sent_spans else None
+        crosses_sentence = (
+            cur is not None and sent_spans and cur_sid is not None
+            and w_sid != cur_sid
+        )
         if (cur is not None
                 and abs(w['saliency'] - cur['saliency']) <= tol
                 and not crosses_sentence):
@@ -802,6 +855,7 @@ def _group_consecutive_phrases(words, tol=1e-9, marked_text=None):
                 'end': w['end'],
                 'saliency': w['saliency'],
             }
+            cur_sid = w_sid
     if cur is not None:
         merged.append(cur)
     # Flatten 'words' list into a display string.

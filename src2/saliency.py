@@ -104,17 +104,24 @@ def _forward_prob(model, input_ids, attention_mask, target_class, task,
     task='fine'    → sigmoid over 22 classes (multi-label), select target_class
 
     score_mode:
-        'prob'   → the raw probability of the target class (default).
-        'margin' → how strongly the target *wins over its closest competitor*.
-                   For coarse this is p(target) − max(p over other classes).
-                   For fine it is computed in LOGIT space:
-                       logit(target) − max(logit over other fine classes).
-                   Logit-space is used for fine because fine probabilities
-                   saturate near 1.0 for confident predictions (masking barely
-                   moves them) and because the learnable hierarchy prior is a
-                   constant additive term that cancels exactly in a logit margin.
-                   This isolates evidence specific to the target fine role from
-                   evidence that lifts the whole coarse group equally.
+        'prob'   → the raw probability of the target class (default; used for
+                   coarse, whose 3-way softmax is not saturated ~0.4).
+        'logit'  → the raw target logit (used for fine). Chosen over the fine
+                   probability because:
+                     * The sigmoid probability saturates near 1.0 for confident
+                       fine predictions, so masking barely moves it (the "all
+                       red / noisy sign" problem). The logit is unbounded and
+                       stays sensitive.
+                     * With soft conditioning, fine_logit = entity_projection(e)
+                       + hierarchy_prior, and the prior is constant while we hold
+                       coarse_probs fixed. In the occlusion DELTA the constant
+                       prior cancels exactly, so the score reflects only the
+                       entity-driven, target-specific contribution.
+                   A plain single logit is used rather than a margin over the
+                   other classes: the max-over-others reference shifts between
+                   the clean and masked runs, which biases the sign (masking a
+                   word that supports a RIVAL role would otherwise show up as
+                   "against" the target).
     """
     kwargs = {}
     if task == 'fine' and coarse_probs is not None:
@@ -122,19 +129,8 @@ def _forward_prob(model, input_ids, attention_mask, target_class, task,
     out = model(input_ids=input_ids, attention_mask=attention_mask, **kwargs)
     logits = out.logits
 
-    if score_mode == 'margin':
-        if task == 'coarse':
-            probs = torch.softmax(logits, dim=-1)
-            target = probs[:, target_class]
-            others = probs.clone()
-            others[:, target_class] = float('-inf')
-            return target - others.max(dim=-1).values
-        else:
-            # Fine: margin in logit space (see docstring).
-            target = logits[:, target_class]
-            others = logits.clone()
-            others[:, target_class] = float('-inf')
-            return target - others.max(dim=-1).values
+    if score_mode == 'logit':
+        return logits[:, target_class]  # (B,) — unbounded, prior cancels in delta
 
     # score_mode == 'prob'
     if task == 'coarse':
@@ -202,9 +198,10 @@ def compute_occlusion_saliency(
 
         # For confident fine (multi-label) predictions the raw probability is
         # saturated near 1.0, so masking barely moves it and the sign becomes
-        # noise. Score the winning MARGIN over the closest competing class
-        # instead — it stays informative and isolates target-specific evidence.
-        score_mode = 'margin' if task == 'fine' else 'prob'
+        # noise. Score the target LOGIT instead — unbounded (no saturation) and,
+        # because the hierarchy prior is constant, the prior cancels in the
+        # occlusion delta, leaving only the entity-driven contribution.
+        score_mode = 'logit' if task == 'fine' else 'prob'
 
         # Original score.
         p_orig = _forward_prob(
@@ -459,9 +456,10 @@ def compute_span_occlusion_saliency(
 
     model.eval()
     with torch.no_grad():
-        # Same rationale as word-level occlusion: use the winning margin for
-        # confident fine predictions so the signal doesn't vanish at saturation.
-        score_mode = 'margin' if task == 'fine' else 'prob'
+        # Same rationale as word-level occlusion: use the target logit for
+        # confident fine predictions so the signal doesn't vanish at saturation
+        # (and the constant hierarchy prior cancels in the delta).
+        score_mode = 'logit' if task == 'fine' else 'prob'
 
         p_orig = _forward_prob(
             model, input_ids, attention_mask, target_class,

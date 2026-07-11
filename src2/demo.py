@@ -541,8 +541,15 @@ def _render_saliency_section(result, coarse_model, fine_model, tokenizer, device
                 "ℹ️ Gradient×Embedding is an approximate method and may give "
                 "noisier results than Occlusion. When in doubt, compare with Occlusion."
             )
-        top_k = st.slider("Top-K words:", min_value=5, max_value=25, value=10,
-                          key="saliency_topk")
+        # Phrase mode shows fewer, coarser bars, so default to Top-3 there.
+        is_phrase = method == "Occlusion (phrase)"
+        top_k = st.slider(
+            "Top-K phrases:" if is_phrase else "Top-K words:",
+            min_value=1,
+            max_value=25,
+            value=3 if is_phrase else 10,
+            key="saliency_topk_phrase" if is_phrase else "saliency_topk",
+        )
 
         # Short hash of the marked text so cache keys never collide across
         # different examples that happen to share a coarse/fine class id.

@@ -258,6 +258,48 @@ def _auto_span_size(num_words):
     return 4
 
 
+# Sentence-ending punctuation across the task's five languages (Latin/Cyrillic
+# use ./!/?; Devanagari uses the danda । and double danda ॥).
+_SENTENCE_TERMINATORS = '.!?…।॥'
+
+
+def _sentence_ids_for_words(word_groups, encoding, marked_text):
+    """Assign each word (by index in word_groups) a sentence id.
+
+    A sentence boundary is detected when the text between the end of one word
+    and the start of the next contains a sentence terminator (. ! ? … । ॥).
+    This keeps phrases from crossing sentence boundaries. Language-agnostic and
+    robust for all five task languages.
+
+    Returns a list of ints, one per word_group, e.g. [0,0,0,1,1,2,...].
+    """
+    offsets = encoding['offset_mapping']
+    if hasattr(offsets, 'tolist'):
+        offsets = offsets.tolist()
+    if len(offsets) > 0 and isinstance(offsets[0], (list, tuple)) \
+            and len(offsets[0]) > 0 and isinstance(offsets[0][0], (list, tuple)):
+        offsets = offsets[0]
+
+    # Character span of each word: min start / max end over its subword tokens.
+    word_char_spans = []
+    for _wid, tok_positions in word_groups:
+        starts = [int(offsets[p][0]) for p in tok_positions]
+        ends = [int(offsets[p][1]) for p in tok_positions]
+        word_char_spans.append((min(starts), max(ends)))
+
+    sent_ids = []
+    sid = 0
+    prev_end = None
+    for (start, end) in word_char_spans:
+        if prev_end is not None:
+            between = marked_text[prev_end:start]
+            if any(t in between for t in _SENTENCE_TERMINATORS):
+                sid += 1
+        sent_ids.append(sid)
+        prev_end = end
+    return sent_ids
+
+
 def compute_span_occlusion_saliency(
     input_ids,
     attention_mask,
@@ -265,6 +307,7 @@ def compute_span_occlusion_saliency(
     target_class,
     tokenizer,
     encoding,
+    marked_text,
     task='coarse',
     coarse_probs=None,
     device='cuda',
@@ -278,7 +321,8 @@ def compute_span_occlusion_saliency(
     consecutive words) at once and measure the drop in the target probability.
     Masking a phrase removes more context jointly, so the signal is stronger and
     less noisy than single-token occlusion. A phrase of size 1 reduces to
-    word-level occlusion.
+    word-level occlusion. Phrases never cross sentence boundaries (a phrase is
+    always contained within a single sentence).
 
     mode:
         'block'   — non-overlapping consecutive phrases; each word belongs to
@@ -289,12 +333,14 @@ def compute_span_occlusion_saliency(
 
     span_size: number of words per phrase; None picks it automatically from the
         context length via _auto_span_size.
+    marked_text: the string that was tokenized (used to detect sentence
+        boundaries so phrases stay within one sentence).
 
     Returns:
         saliency: np.ndarray (T,) token-level deltas (each token inherits its
                   word's phrase value), 0.0 at skipped positions
         valid_mask: np.ndarray (T,) bool
-        info: dict with {'span_size': int, 'num_phrases': int}
+        info: dict with {'span_size', 'num_phrases', 'num_sentences'}
     """
     if not getattr(tokenizer, 'is_fast', False):
         raise RuntimeError("Fast tokenizer required.")
@@ -319,17 +365,31 @@ def compute_span_occlusion_saliency(
     span_size = max(1, span_size)
     info['span_size'] = span_size
 
-    # Build the list of phrases as index ranges into word_groups.
-    phrases = []  # each: list of word-group indices
-    if mode == 'sliding':
-        if num_words <= span_size:
-            phrases.append(list(range(num_words)))
+    # Assign each word to a sentence so phrases never cross sentence boundaries.
+    sent_ids = _sentence_ids_for_words(word_groups, encoding, marked_text)
+    # Group word indices by sentence, preserving left-to-right order.
+    sentences = []
+    for wi, sid in enumerate(sent_ids):
+        if not sentences or sentences[-1][0] != sid:
+            sentences.append((sid, [wi]))
         else:
-            for start in range(0, num_words - span_size + 1):
-                phrases.append(list(range(start, start + span_size)))
-    else:  # block
-        for start in range(0, num_words, span_size):
-            phrases.append(list(range(start, min(start + span_size, num_words))))
+            sentences[-1][1].append(wi)
+    info['num_sentences'] = len(sentences)
+
+    # Build the list of phrases as index ranges into word_groups, restricted to
+    # within each sentence.
+    phrases = []  # each: list of word-group indices
+    for _sid, wi_list in sentences:
+        m = len(wi_list)
+        if mode == 'sliding':
+            if m <= span_size:
+                phrases.append(list(wi_list))
+            else:
+                for s in range(0, m - span_size + 1):
+                    phrases.append(list(wi_list[s:s + span_size]))
+        else:  # block
+            for s in range(0, m, span_size):
+                phrases.append(list(wi_list[s:s + span_size]))
     info['num_phrases'] = len(phrases)
 
     model.eval()
@@ -704,12 +764,16 @@ def _fmt_share(v, total_abs):
     return f"{(v / total_abs) * 100.0:+.1f}%"
 
 
-def _group_consecutive_phrases(words, tol=1e-9):
+def _group_consecutive_phrases(words, tol=1e-9, marked_text=None):
     """Merge consecutive words that share the same saliency into one phrase.
 
     Used for block-phrase occlusion, where every word in a masked phrase gets
     the identical delta. Consecutive same-value words are joined into a single
     entry whose 'word' is the phrase text. Words are assumed sorted by 'start'.
+
+    If marked_text is given, a merge is also blocked whenever the gap between two
+    words contains a sentence terminator, so a displayed phrase never spans two
+    sentences (even if both sentences' phrases happened to get the same delta).
 
     Returns a new list of {'word', 'start', 'end', 'saliency'} dicts.
     """
@@ -719,7 +783,13 @@ def _group_consecutive_phrases(words, tol=1e-9):
     merged = []
     cur = None
     for w in ordered:
-        if cur is not None and abs(w['saliency'] - cur['saliency']) <= tol:
+        crosses_sentence = False
+        if cur is not None and marked_text is not None:
+            gap = marked_text[cur['end']:w['start']]
+            crosses_sentence = any(t in gap for t in _SENTENCE_TERMINATORS)
+        if (cur is not None
+                and abs(w['saliency'] - cur['saliency']) <= tol
+                and not crosses_sentence):
             # Extend the current phrase.
             cur['words'].append(w['word'])
             cur['end'] = w['end']
@@ -746,7 +816,7 @@ def _group_consecutive_phrases(words, tol=1e-9):
     return out
 
 
-def plot_saliency_bar(words, target_label, top_k=10, group_phrases=False):
+def plot_saliency_bar(words, target_label, top_k=10, group_phrases=False, marked_text=None):
     """Horizontal bar chart of the top-K words (or phrases) by share of influence.
 
     Each entry's saliency is expressed as a signed share (%) of the total
@@ -771,7 +841,7 @@ def plot_saliency_bar(words, target_label, top_k=10, group_phrases=False):
     if total_abs <= 0:
         total_abs = 1e-12
 
-    entries = _group_consecutive_phrases(words) if group_phrases else words
+    entries = _group_consecutive_phrases(words, marked_text=marked_text) if group_phrases else words
 
     ranked = sorted(entries, key=lambda w: abs(w['saliency']), reverse=True)[:top_k]
     ranked.sort(key=lambda w: w['saliency'], reverse=True)

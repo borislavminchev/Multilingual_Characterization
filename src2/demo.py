@@ -637,6 +637,7 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
                     target_class=target_class,
                     tokenizer=tokenizer,
                     encoding=result['encoding'],
+                    marked_text=result['marked_text'],
                     task=task,
                     coarse_probs=result['coarse_probs_tensor'] if task == 'fine' else None,
                     device=device,
@@ -716,7 +717,8 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
         chart_title = "Top influencing phrases" if group_phrases else f"Top-{top_k} influencing words"
         st.markdown(f"#### {chart_title}")
         fig_sal = plot_saliency_bar(words, target_label, top_k=top_k,
-                                    group_phrases=group_phrases)
+                                    group_phrases=group_phrases,
+                                    marked_text=result['marked_text'])
         st.pyplot(fig_sal)
         plt.close(fig_sal)
 

@@ -436,6 +436,9 @@ def main():
         # Persist across reruns triggered by widgets in the saliency section.
         st.session_state["last_result"] = result
         st.session_state["last_text"] = text
+        # New classification → drop any cached saliency from a previous example
+        # (otherwise stale word offsets get rendered over the new text).
+        st.session_state["saliency_cache"] = {}
 
     # Everything below (results + saliency) is driven from session_state so
     # widgets in the saliency section don't wipe the results block on rerun.
@@ -511,14 +514,24 @@ def _render_saliency_section(result, coarse_model, fine_model, tokenizer, device
             options=["Occlusion", "Gradient × Embedding"],
             horizontal=True,
             help=(
-                "Occlusion: маскираме всяка дума и мерим спада на увереността. "
-                "Gradient×Embedding: локална линейна атрибуция чрез градиенти "
-                "върху embedding-слоя."
+                "Occlusion (препоръчан): маскираме всяка дума и мерим спада на "
+                "увереността — директно интерпретируем. "
+                "Gradient×Embedding: локална линейна апроксимация чрез градиенти "
+                "върху embedding-слоя; по-бърз, но по-шумен."
             ),
             key="saliency_method",
         )
+        if method == "Gradient × Embedding":
+            st.caption(
+                "ℹ️ Gradient×Embedding е приблизителен метод и може да дава "
+                "по-шумни резултати от Occlusion. При съмнение сравнявайте с Occlusion."
+            )
         top_k = st.slider("Top-K думи:", min_value=5, max_value=25, value=10,
                           key="saliency_topk")
+
+        # Short hash of the marked text so cache keys never collide across
+        # different examples that happen to share a coarse/fine class id.
+        text_key = str(abs(hash(result['marked_text'])) % (10 ** 8))
 
         tab_coarse, tab_fine = st.tabs(
             [f"Coarse: {result['coarse_label']}",
@@ -536,7 +549,7 @@ def _render_saliency_section(result, coarse_model, fine_model, tokenizer, device
                 target_label=result['coarse_label'],
                 method=method,
                 top_k=top_k,
-                cache_key=f"coarse-{result['target_coarse_id']}-{method}",
+                cache_key=f"{text_key}-coarse-{result['target_coarse_id']}-{method}",
             )
 
         with tab_fine:
@@ -561,7 +574,7 @@ def _render_saliency_section(result, coarse_model, fine_model, tokenizer, device
                     target_label=selected,
                     method=method,
                     top_k=top_k,
-                    cache_key=f"fine-{selected_id}-{method}",
+                    cache_key=f"{text_key}-fine-{selected_id}-{method}",
                 )
 
 

@@ -275,16 +275,23 @@ def compute_gradient_x_embedding_saliency(
             model.zero_grad(set_to_none=True)
             out = model(input_ids=input_ids, attention_mask=attention_mask, **kwargs)
             logits = out.logits
-            # Scalar target: use the logit (not probability) to avoid vanishing
-            # gradients from softmax/sigmoid saturation.
-            target_scalar = logits[0, target_class]
+            # Target the PROBABILITY (not the raw logit) so the attribution is
+            # directly comparable to occlusion (which measures Δp). For coarse
+            # use softmax; for fine use sigmoid. The model here is not confident
+            # enough to saturate the nonlinearity, so gradients don't vanish.
+            if task == 'coarse':
+                target_scalar = torch.softmax(logits, dim=-1)[0, target_class]
+            else:
+                target_scalar = torch.sigmoid(logits)[0, target_class]
             target_scalar.backward()
 
             emb = cache.get('embed', None)
             if emb is None or emb.grad is None:
                 return None
 
-            # (1, T, H) → (T,)
+            # (1, T, H) → (T,). Positive = the token's embedding pushes the
+            # target probability up (supports the class), matching occlusion's
+            # sign convention (positive delta = supports).
             saliency = (emb.grad * emb).sum(dim=-1).detach().cpu().numpy()[0]
     except Exception:
         return None
@@ -492,6 +499,19 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
 # BAR CHART
 # =============================================================================
 
+def _fmt_delta(v, scale_exp):
+    """Format a delta value adaptively based on the magnitude scale of the data.
+
+    scale_exp is floor(log10(max_abs)). For tiny values (e.g. 1e-4) we show
+    enough significant digits instead of rounding everything to 0.000.
+    """
+    if v == 0:
+        return "0"
+    # Number of decimals: keep ~2 significant digits relative to the scale.
+    decimals = max(1, min(6, 1 - scale_exp))
+    return f"{v:+.{decimals}f}"
+
+
 def plot_saliency_bar(words, target_label, top_k=10):
     """Horizontal bar chart of the top-K words by |saliency|.
 
@@ -511,20 +531,27 @@ def plot_saliency_bar(words, target_label, top_k=10):
     values = [w['saliency'] for w in ranked]
     colors = [POS_COLOR if v > 0 else NEG_COLOR for v in values]
 
+    max_abs = max((abs(v) for v in values), default=0.0)
+    # Magnitude scale used both for label formatting and axis tick density.
+    if max_abs > 0:
+        scale_exp = int(np.floor(np.log10(max_abs)))
+    else:
+        scale_exp = 0
+
     k = len(ranked)
-    fig, ax = plt.subplots(figsize=(5.5, max(2.5, 0.42 * k)))
+    fig, ax = plt.subplots(figsize=(5.8, max(2.5, 0.45 * k)))
     y_pos = np.arange(k)
     bars = ax.barh(y_pos, values, color=colors, edgecolor='white',
                    height=0.7, linewidth=1.5)
 
+    label_offset = max_abs * 0.03 if max_abs > 0 else 0.01
     for bar, v in zip(bars, values):
         x = bar.get_width()
-        offset = (max(abs(v0) for v0 in values) if values else 0.01) * 0.02
         ha = 'left' if x >= 0 else 'right'
         ax.text(
-            x + (offset if x >= 0 else -offset),
+            x + (label_offset if x >= 0 else -label_offset),
             bar.get_y() + bar.get_height() / 2,
-            f'{v:+.3f}',
+            _fmt_delta(v, scale_exp),
             va='center', ha=ha, fontsize=9,
         )
 
@@ -539,10 +566,20 @@ def plot_saliency_bar(words, target_label, top_k=10):
     ax.spines['left'].set_color('#CCC')
     ax.spines['bottom'].set_color('#CCC')
 
-    # Slight x-limit padding so annotations don't clip.
+    # Limit x-axis ticks to at most 5 so labels don't overlap, and format them
+    # in scientific notation when the values are tiny.
+    from matplotlib.ticker import MaxNLocator, FuncFormatter
+    ax.xaxis.set_major_locator(MaxNLocator(nbins=5, prune='both'))
+    if 0 < max_abs < 1e-2:
+        ax.ticklabel_format(axis='x', style='sci', scilimits=(0, 0))
+        ax.xaxis.get_offset_text().set_fontsize(8)
+    ax.tick_params(axis='x', labelsize=8)
+
+    # Symmetric-ish x padding so annotations don't clip.
     xmin = min(values + [0.0])
     xmax = max(values + [0.0])
-    pad = (xmax - xmin) * 0.18 if xmax > xmin else 0.05
+    span = (xmax - xmin) if xmax > xmin else max(max_abs, 1e-6)
+    pad = span * 0.28
     ax.set_xlim(xmin - pad, xmax + pad)
 
     fig.tight_layout()

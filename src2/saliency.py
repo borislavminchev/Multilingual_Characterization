@@ -439,17 +439,23 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
             emit_plain(marked_text[cursor:w['start']])
         # Emit the word itself, colored.
         s_norm = w['saliency'] / max_abs
-        alpha = min(MAX_ALPHA, abs(s_norm))
         word_html = html.escape(w['word'])
         if abs(s_norm) < DISPLAY_ALPHA_CUTOFF:
-            pieces.append(word_html)
+            # Below cutoff: no background, but keep an explicit dark color so the
+            # word stays readable on the light body background (Streamlit dark
+            # theme would otherwise render it white-on-light).
+            pieces.append(f'<span style="color:#1a1a1a;">{word_html}</span>')
         else:
             color = POS_COLOR if s_norm > 0 else NEG_COLOR
+            # Floor the alpha so even weak-but-significant words get a clearly
+            # visible tint; scale the rest up to MAX_ALPHA.
+            alpha = min(MAX_ALPHA, 0.30 + 0.55 * abs(s_norm))
             bg = _rgba(color, alpha)
-            tooltip = f"Δp = {w['saliency']:+.3f}"
+            pct = w['saliency'] * 100.0
+            tooltip = f"Δp = {w['saliency']:+.2e} ({pct:+.4f}%)"
             pieces.append(
-                f'<span style="background:{bg};border-radius:3px;'
-                f'padding:1px 3px;" title="{tooltip}">{word_html}</span>'
+                f'<span style="background:{bg};color:#111;border-radius:3px;'
+                f'padding:1px 3px;font-weight:600;" title="{tooltip}">{word_html}</span>'
             )
         cursor = w['end']
 
@@ -479,18 +485,20 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
     # Legend + body wrapper.
     legend = (
         f'<div style="font-size:0.85em;color:#555;margin-bottom:8px;">'
-        f'<span style="background:{_rgba(POS_COLOR, 0.55)};padding:2px 6px;'
-        f'border-radius:3px;">supports {html.escape(target_label)}</span> '
+        f'<span style="background:{_rgba(POS_COLOR, 0.75)};color:#fff;'
+        f'padding:2px 6px;border-radius:3px;font-weight:600;">'
+        f'подкрепя {html.escape(target_label)}</span> '
         f'&nbsp;&nbsp;'
-        f'<span style="background:{_rgba(NEG_COLOR, 0.55)};padding:2px 6px;'
-        f'border-radius:3px;">opposes {html.escape(target_label)}</span> '
-        f'&nbsp;&nbsp;<em>method: {html.escape(method_name)}</em>'
+        f'<span style="background:{_rgba(NEG_COLOR, 0.75)};color:#fff;'
+        f'padding:2px 6px;border-radius:3px;font-weight:600;">'
+        f'противодейства на {html.escape(target_label)}</span> '
+        f'&nbsp;&nbsp;<em>метод: {html.escape(method_name)}</em>'
         f'</div>'
     )
     body = (
-        f'<div style="white-space:pre-wrap;line-height:2.0;font-size:1.02rem;'
-        f'font-family:inherit;padding:8px;background:#FAFAFA;'
-        f'border-radius:4px;border:1px solid #EEE;">{joined}</div>'
+        f'<div style="white-space:pre-wrap;line-height:2.1;font-size:1.05rem;'
+        f'font-family:inherit;padding:12px;background:#FFFFFF;color:#1a1a1a;'
+        f'border-radius:6px;border:1px solid #DDD;">{joined}</div>'
     )
     return legend + body
 
@@ -499,17 +507,16 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
 # BAR CHART
 # =============================================================================
 
-def _fmt_delta(v, scale_exp):
-    """Format a delta value adaptively based on the magnitude scale of the data.
+def _fmt_delta(v, scale_exp=None):
+    """Format a saliency delta as scientific notation plus a percentage.
 
-    scale_exp is floor(log10(max_abs)). For tiny values (e.g. 1e-4) we show
-    enough significant digits instead of rounding everything to 0.000.
+    Example: 4.6e-6 → "+4.6e-06 (+0.00046%)". The percentage expresses the
+    change in the target-class probability (a probability of 0.01 = 1%).
     """
     if v == 0:
         return "0"
-    # Number of decimals: keep ~2 significant digits relative to the scale.
-    decimals = max(1, min(6, 1 - scale_exp))
-    return f"{v:+.{decimals}f}"
+    pct = v * 100.0
+    return f"{v:+.1e} ({pct:+.4f}%)"
 
 
 def plot_saliency_bar(words, target_label, top_k=10):
@@ -539,7 +546,7 @@ def plot_saliency_bar(words, target_label, top_k=10):
         scale_exp = 0
 
     k = len(ranked)
-    fig, ax = plt.subplots(figsize=(5.8, max(2.5, 0.45 * k)))
+    fig, ax = plt.subplots(figsize=(7.0, max(2.6, 0.5 * k)))
     y_pos = np.arange(k)
     bars = ax.barh(y_pos, values, color=colors, edgecolor='white',
                    height=0.7, linewidth=1.5)
@@ -551,36 +558,35 @@ def plot_saliency_bar(words, target_label, top_k=10):
         ax.text(
             x + (label_offset if x >= 0 else -label_offset),
             bar.get_y() + bar.get_height() / 2,
-            _fmt_delta(v, scale_exp),
-            va='center', ha=ha, fontsize=9,
+            _fmt_delta(v),
+            va='center', ha=ha, fontsize=8,
         )
 
     ax.set_yticks(y_pos)
     ax.set_yticklabels(labels, fontsize=10)
     ax.invert_yaxis()
     ax.axvline(0, color='#888', linewidth=0.8)
-    ax.set_xlabel(f'Δ p({target_label}) when word is masked', fontsize=9)
+    ax.set_xlabel(f'Δ p({target_label}) при маскиране на думата', fontsize=9)
     ax.grid(axis='x', alpha=0.25, linewidth=0.5)
     for spine in ('top', 'right'):
         ax.spines[spine].set_visible(False)
     ax.spines['left'].set_color('#CCC')
     ax.spines['bottom'].set_color('#CCC')
 
-    # Limit x-axis ticks to at most 5 so labels don't overlap, and format them
-    # in scientific notation when the values are tiny.
-    from matplotlib.ticker import MaxNLocator, FuncFormatter
-    ax.xaxis.set_major_locator(MaxNLocator(nbins=5, prune='both'))
+    # Limit x-axis ticks so labels don't overlap; use scientific notation for
+    # the tiny occlusion magnitudes.
+    from matplotlib.ticker import MaxNLocator
+    ax.xaxis.set_major_locator(MaxNLocator(nbins=4, prune='both'))
     if 0 < max_abs < 1e-2:
         ax.ticklabel_format(axis='x', style='sci', scilimits=(0, 0))
         ax.xaxis.get_offset_text().set_fontsize(8)
     ax.tick_params(axis='x', labelsize=8)
 
-    # Symmetric-ish x padding so annotations don't clip.
+    # Generous x padding so the (scientific + percentage) annotations don't clip.
     xmin = min(values + [0.0])
     xmax = max(values + [0.0])
     span = (xmax - xmin) if xmax > xmin else max(max_abs, 1e-6)
-    pad = span * 0.28
-    ax.set_xlim(xmin - pad, xmax + pad)
+    ax.set_xlim(xmin - span * 0.55, xmax + span * 0.55)
 
     fig.tight_layout()
     return fig

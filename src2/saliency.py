@@ -241,13 +241,16 @@ def compute_occlusion_saliency(
             )
             deltas[start:end] = (p_orig - probs.detach().cpu().numpy()).astype(np.float32)
 
-        # Baseline correction: inserting <mask> tokens shifts the prediction by a
-        # roughly constant amount regardless of which word is masked (the model
-        # loses information and drifts). That constant offset would tint almost
-        # every word the same color. Subtract the median delta so the sign
-        # reflects each word's RELATIVE influence. If there is no baseline drift
-        # (median ~ 0) this is a no-op.
-        if n > 0:
+        # Baseline correction — COARSE ONLY. Inserting <mask> tokens shifts the
+        # softmax probability by a roughly constant amount regardless of which
+        # word is masked (the model loses information and drifts), which would
+        # tint almost every word the same color. Subtracting the median makes the
+        # sign reflect each word's RELATIVE influence.
+        #   Not applied for fine: fine uses raw target LOGITS, where the constant
+        #   hierarchy prior already cancels in the delta, so there is no baseline
+        #   drift to remove — and centering there flips genuinely supporting
+        #   phrases to red once most phrases sit above the median.
+        if n > 0 and task != 'fine':
             deltas = deltas - float(np.median(deltas))
 
         for local_idx, pos in enumerate(positions):
@@ -519,11 +522,10 @@ def compute_span_occlusion_saliency(
                 p_orig - probs.detach().cpu().numpy()
             ).astype(np.float32)
 
-    # Baseline correction (same rationale as word occlusion): masking whole
-    # phrases shifts the score by a roughly constant amount, which would tint
-    # every phrase the same color. Subtract the median so the sign reflects each
-    # phrase's RELATIVE influence.
-    if n > 0:
+    # Baseline correction — COARSE ONLY (see compute_occlusion_saliency for the
+    # full rationale). Fine uses raw logits where the constant prior cancels in
+    # the delta, so centering there would wrongly flip supporting phrases to red.
+    if n > 0 and task != 'fine':
         phrase_deltas = phrase_deltas - float(np.median(phrase_deltas))
 
     # Distribute phrase deltas back to token positions.

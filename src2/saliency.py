@@ -416,6 +416,11 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
     if max_abs < 1e-9:
         max_abs = 1e-9
 
+    # Total influence budget for expressing each word as a share (%).
+    total_abs = sum(abs(w['saliency']) for w in words)
+    if total_abs <= 0:
+        total_abs = 1e-12
+
     # Find entity marker character positions in marked_text.
     ent_open = marked_text.find(ENTITY_START_TOKEN)
     ent_close = marked_text.find(ENTITY_END_TOKEN)
@@ -451,8 +456,8 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
             # visible tint; scale the rest up to MAX_ALPHA.
             alpha = min(MAX_ALPHA, 0.30 + 0.55 * abs(s_norm))
             bg = _rgba(color, alpha)
-            pct = w['saliency'] * 100.0
-            tooltip = f"Δp = {w['saliency']:+.2e} ({pct:+.4f}%)"
+            share = w['saliency'] / total_abs * 100.0
+            tooltip = f"дял: {share:+.1f}%"
             pieces.append(
                 f'<span style="background:{bg};color:#111;border-radius:3px;'
                 f'padding:1px 3px;font-weight:600;" title="{tooltip}">{word_html}</span>'
@@ -507,23 +512,25 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
 # BAR CHART
 # =============================================================================
 
-def _fmt_delta(v, scale_exp=None):
-    """Format a saliency delta as scientific notation plus a percentage.
+def _fmt_share(v, total_abs):
+    """Format a saliency value as a signed share (%) of the total influence.
 
-    Example: 4.6e-6 → "+4.6e-06 (+0.00046%)". The percentage expresses the
-    change in the target-class probability (a probability of 0.01 = 1%).
+    share = v / sum(|all saliencies|) * 100. The sum of |shares| over all words
+    equals 100%, so "+12.3%" reads as "this word carries 12.3% of the total
+    influence, in the direction of supporting the class".
     """
-    if v == 0:
-        return "0"
-    pct = v * 100.0
-    return f"{v:+.1e} ({pct:+.4f}%)"
+    if v == 0 or total_abs <= 0:
+        return "0%"
+    return f"{(v / total_abs) * 100.0:+.1f}%"
 
 
 def plot_saliency_bar(words, target_label, top_k=10):
-    """Horizontal bar chart of the top-K words by |saliency|.
+    """Horizontal bar chart of the top-K words by share of total influence.
 
-    Sorted by signed saliency descending so positive contributors appear at the
-    top and opposing words at the bottom. Bar color reflects sign.
+    Each word's saliency is expressed as a signed share (%) of the total
+    absolute influence across ALL words, so the magnitudes are interpretable
+    (shares of |all| sum to 100%). Sorted by signed share descending so
+    supporting words appear at the top and opposing words at the bottom.
     """
     if not words:
         fig, ax = plt.subplots(figsize=(4.5, 2.5))
@@ -531,62 +538,58 @@ def plot_saliency_bar(words, target_label, top_k=10):
         ax.axis('off')
         return fig
 
+    # Total influence budget over all words (not just top-k) so shares are
+    # meaningful relative to the whole context.
+    total_abs = sum(abs(w['saliency']) for w in words)
+    if total_abs <= 0:
+        total_abs = 1e-12
+
     ranked = sorted(words, key=lambda w: abs(w['saliency']), reverse=True)[:top_k]
     ranked.sort(key=lambda w: w['saliency'], reverse=True)
 
     labels = [w['word'] for w in ranked]
-    values = [w['saliency'] for w in ranked]
-    colors = [POS_COLOR if v > 0 else NEG_COLOR for v in values]
+    shares = [w['saliency'] / total_abs * 100.0 for w in ranked]  # signed %
+    colors = [POS_COLOR if s > 0 else NEG_COLOR for s in shares]
 
-    max_abs = max((abs(v) for v in values), default=0.0)
-    # Magnitude scale used both for label formatting and axis tick density.
-    if max_abs > 0:
-        scale_exp = int(np.floor(np.log10(max_abs)))
-    else:
-        scale_exp = 0
+    max_abs_share = max((abs(s) for s in shares), default=0.0)
 
     k = len(ranked)
-    fig, ax = plt.subplots(figsize=(7.0, max(2.6, 0.5 * k)))
+    fig, ax = plt.subplots(figsize=(6.2, max(2.6, 0.5 * k)))
     y_pos = np.arange(k)
-    bars = ax.barh(y_pos, values, color=colors, edgecolor='white',
+    bars = ax.barh(y_pos, shares, color=colors, edgecolor='white',
                    height=0.7, linewidth=1.5)
 
-    label_offset = max_abs * 0.03 if max_abs > 0 else 0.01
-    for bar, v in zip(bars, values):
+    label_offset = max_abs_share * 0.03 if max_abs_share > 0 else 0.5
+    for bar, s in zip(bars, shares):
         x = bar.get_width()
         ha = 'left' if x >= 0 else 'right'
         ax.text(
             x + (label_offset if x >= 0 else -label_offset),
             bar.get_y() + bar.get_height() / 2,
-            _fmt_delta(v),
-            va='center', ha=ha, fontsize=8,
+            f'{s:+.1f}%',
+            va='center', ha=ha, fontsize=9,
         )
 
     ax.set_yticks(y_pos)
     ax.set_yticklabels(labels, fontsize=10)
     ax.invert_yaxis()
     ax.axvline(0, color='#888', linewidth=0.8)
-    ax.set_xlabel(f'Δ p({target_label}) при маскиране на думата', fontsize=9)
+    ax.set_xlabel(f'Дял от общото влияние върху {target_label} (%)', fontsize=9)
     ax.grid(axis='x', alpha=0.25, linewidth=0.5)
     for spine in ('top', 'right'):
         ax.spines[spine].set_visible(False)
     ax.spines['left'].set_color('#CCC')
     ax.spines['bottom'].set_color('#CCC')
 
-    # Limit x-axis ticks so labels don't overlap; use scientific notation for
-    # the tiny occlusion magnitudes.
     from matplotlib.ticker import MaxNLocator
-    ax.xaxis.set_major_locator(MaxNLocator(nbins=4, prune='both'))
-    if 0 < max_abs < 1e-2:
-        ax.ticklabel_format(axis='x', style='sci', scilimits=(0, 0))
-        ax.xaxis.get_offset_text().set_fontsize(8)
+    ax.xaxis.set_major_locator(MaxNLocator(nbins=5, prune='both'))
     ax.tick_params(axis='x', labelsize=8)
 
-    # Generous x padding so the (scientific + percentage) annotations don't clip.
-    xmin = min(values + [0.0])
-    xmax = max(values + [0.0])
-    span = (xmax - xmin) if xmax > xmin else max(max_abs, 1e-6)
-    ax.set_xlim(xmin - span * 0.55, xmax + span * 0.55)
+    # Padding so the percentage annotations don't clip.
+    xmin = min(shares + [0.0])
+    xmax = max(shares + [0.0])
+    span = (xmax - xmin) if xmax > xmin else max(max_abs_share, 1.0)
+    ax.set_xlim(xmin - span * 0.30, xmax + span * 0.30)
 
     fig.tight_layout()
     return fig

@@ -97,17 +97,46 @@ def _valid_positions(input_ids_1d, attention_mask_1d, tokenizer):
 
 
 def _forward_prob(model, input_ids, attention_mask, target_class, task,
-                  coarse_probs=None):
-    """Single-example forward → probability of the target class.
+                  coarse_probs=None, score_mode='prob'):
+    """Single-example forward → score of the target class.
 
     task='coarse'  → softmax over 3 classes
     task='fine'    → sigmoid over 22 classes (multi-label), select target_class
+
+    score_mode:
+        'prob'   → the raw probability of the target class (default).
+        'margin' → how strongly the target *wins over its closest competitor*.
+                   For coarse this is p(target) − max(p over other classes).
+                   For fine it is computed in LOGIT space:
+                       logit(target) − max(logit over other fine classes).
+                   Logit-space is used for fine because fine probabilities
+                   saturate near 1.0 for confident predictions (masking barely
+                   moves them) and because the learnable hierarchy prior is a
+                   constant additive term that cancels exactly in a logit margin.
+                   This isolates evidence specific to the target fine role from
+                   evidence that lifts the whole coarse group equally.
     """
     kwargs = {}
     if task == 'fine' and coarse_probs is not None:
         kwargs['coarse_probs'] = coarse_probs
     out = model(input_ids=input_ids, attention_mask=attention_mask, **kwargs)
     logits = out.logits
+
+    if score_mode == 'margin':
+        if task == 'coarse':
+            probs = torch.softmax(logits, dim=-1)
+            target = probs[:, target_class]
+            others = probs.clone()
+            others[:, target_class] = float('-inf')
+            return target - others.max(dim=-1).values
+        else:
+            # Fine: margin in logit space (see docstring).
+            target = logits[:, target_class]
+            others = logits.clone()
+            others[:, target_class] = float('-inf')
+            return target - others.max(dim=-1).values
+
+    # score_mode == 'prob'
     if task == 'coarse':
         probs = torch.softmax(logits, dim=-1)
     else:
@@ -171,10 +200,16 @@ def compute_occlusion_saliency(
         if len(positions) == 0:
             return saliency, valid_mask
 
-        # Original probability.
+        # For confident fine (multi-label) predictions the raw probability is
+        # saturated near 1.0, so masking barely moves it and the sign becomes
+        # noise. Score the winning MARGIN over the closest competing class
+        # instead — it stays informative and isolates target-specific evidence.
+        score_mode = 'margin' if task == 'fine' else 'prob'
+
+        # Original score.
         p_orig = _forward_prob(
             model, input_ids, attention_mask, target_class,
-            task=task, coarse_probs=coarse_probs
+            task=task, coarse_probs=coarse_probs, score_mode=score_mode
         ).item()
 
         # Build batched perturbations. Each row is a copy of input_ids with
@@ -205,7 +240,7 @@ def compute_occlusion_saliency(
 
             probs = _forward_prob(
                 model, perturbed, am_rep, target_class,
-                task=task, coarse_probs=cp_chunk,
+                task=task, coarse_probs=cp_chunk, score_mode=score_mode,
             )
             deltas[start:end] = (p_orig - probs.detach().cpu().numpy()).astype(np.float32)
 
@@ -424,9 +459,13 @@ def compute_span_occlusion_saliency(
 
     model.eval()
     with torch.no_grad():
+        # Same rationale as word-level occlusion: use the winning margin for
+        # confident fine predictions so the signal doesn't vanish at saturation.
+        score_mode = 'margin' if task == 'fine' else 'prob'
+
         p_orig = _forward_prob(
             model, input_ids, attention_mask, target_class,
-            task=task, coarse_probs=coarse_probs,
+            task=task, coarse_probs=coarse_probs, score_mode=score_mode,
         ).item()
 
         mask_id = tokenizer.mask_token_id
@@ -456,7 +495,7 @@ def compute_span_occlusion_saliency(
 
             probs = _forward_prob(
                 model, perturbed, am_rep, target_class,
-                task=task, coarse_probs=cp_chunk,
+                task=task, coarse_probs=cp_chunk, score_mode=score_mode,
             )
             phrase_deltas[start:end] = (
                 p_orig - probs.detach().cpu().numpy()

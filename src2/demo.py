@@ -35,6 +35,7 @@ from inference import load_fine_classifier, soft_prediction, smart_prediction
 from taxonomy_manager import TaxonomyManager
 from saliency import (
     compute_occlusion_saliency,
+    compute_span_occlusion_saliency,
     compute_gradient_x_embedding_saliency,
     aggregate_to_words,
     render_saliency_html,
@@ -508,19 +509,33 @@ def _render_saliency_section(result, coarse_model, fine_model, tokenizer, device
             "Зелено = подкрепя предсказания клас, червено = противодейства."
         )
 
-        # Method selector: occlusion (always) + gradient×embedding (if hook path works)
+        # Method selector: occlusion (word) / phrase occlusion / gradient×embedding
         method = st.radio(
             "Метод:",
-            options=["Occlusion", "Gradient × Embedding"],
+            options=["Occlusion (по дума)", "Occlusion (по фраза)", "Gradient × Embedding"],
             horizontal=True,
             help=(
-                "Occlusion (препоръчан): маскираме всяка дума и мерим спада на "
-                "увереността — директно интерпретируем. "
-                "Gradient×Embedding: локална линейна апроксимация чрез градиенти "
-                "върху embedding-слоя; по-бърз, но по-шумен."
+                "Occlusion (по дума, препоръчан): маскираме всяка дума поотделно. "
+                "Occlusion (по фраза): маскираме цели фрази наведнъж — по-силен, "
+                "по-малко шумен сигнал (размерът на фразата се избира автоматично). "
+                "Gradient×Embedding: локална линейна апроксимация; по-бърз, по-шумен."
             ),
             key="saliency_method",
         )
+        phrase_mode = None
+        if method == "Occlusion (по фраза)":
+            phrase_mode_label = st.radio(
+                "Тип фрази:",
+                options=["Блокове (без застъпване)", "Плъзгащ прозорец (застъпване)"],
+                horizontal=True,
+                key="saliency_phrase_mode",
+                help=(
+                    "Блокове: всяка дума принадлежи на точно една фраза. "
+                    "Плъзгащ прозорец: думите получават усреднено влияние от "
+                    "всички фрази, в които участват (по-гладко)."
+                ),
+            )
+            phrase_mode = 'block' if phrase_mode_label.startswith("Блокове") else 'sliding'
         if method == "Gradient × Embedding":
             st.caption(
                 "ℹ️ Gradient×Embedding е приблизителен метод и може да дава "
@@ -532,6 +547,7 @@ def _render_saliency_section(result, coarse_model, fine_model, tokenizer, device
         # Short hash of the marked text so cache keys never collide across
         # different examples that happen to share a coarse/fine class id.
         text_key = str(abs(hash(result['marked_text'])) % (10 ** 8))
+        method_key = method + (f"-{phrase_mode}" if phrase_mode else "")
 
         tab_coarse, tab_fine = st.tabs(
             [f"Coarse: {result['coarse_label']}",
@@ -548,9 +564,11 @@ def _render_saliency_section(result, coarse_model, fine_model, tokenizer, device
                 target_class=result['target_coarse_id'],
                 target_label=result['coarse_label'],
                 method=method,
+                phrase_mode=phrase_mode,
                 top_k=top_k,
-                cache_key=f"{text_key}-coarse-{result['target_coarse_id']}-{method}",
+                cache_key=f"{text_key}-coarse-{result['target_coarse_id']}-{method_key}",
             )
+
 
         with tab_fine:
             fine_ids = result['target_fine_ids']
@@ -573,22 +591,26 @@ def _render_saliency_section(result, coarse_model, fine_model, tokenizer, device
                     target_class=selected_id,
                     target_label=selected,
                     method=method,
+                    phrase_mode=phrase_mode,
                     top_k=top_k,
-                    cache_key=f"{text_key}-fine-{selected_id}-{method}",
+                    cache_key=f"{text_key}-fine-{selected_id}-{method_key}",
                 )
 
 
 def _render_saliency_for_target(result, model, tokenizer, device, task,
-                                target_class, target_label, method, top_k, cache_key):
+                                target_class, target_label, method, top_k, cache_key,
+                                phrase_mode=None):
     """Compute and render saliency for one (task, target_class) combination."""
     # Cache the raw token-level saliency in session_state so switching top_k or
     # bouncing between tabs doesn't recompute unnecessarily.
     cache = st.session_state.setdefault("saliency_cache", {})
     if cache_key not in cache:
         method_used = method
+        agg_strategy = 'sum'
         with st.spinner(f"Изчислявам saliency ({method_used})…"):
             t0 = time.perf_counter()
             token_sal = None
+            span_info = None
 
             if method == "Gradient × Embedding":
                 token_sal = compute_gradient_x_embedding_saliency(
@@ -607,6 +629,24 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
                     )
                     method_used = "Occlusion (fallback)"
 
+            elif method == "Occlusion (по фраза)":
+                token_sal, _, span_info = compute_span_occlusion_saliency(
+                    input_ids=result['input_ids'],
+                    attention_mask=result['attention_mask'],
+                    model=model,
+                    target_class=target_class,
+                    tokenizer=tokenizer,
+                    encoding=result['encoding'],
+                    task=task,
+                    coarse_probs=result['coarse_probs_tensor'] if task == 'fine' else None,
+                    device=device,
+                    mode=phrase_mode or 'block',
+                )
+                # Every subword token in a word already carries the same phrase
+                # delta, so aggregate by 'max' to avoid multiplying by the
+                # number of subwords.
+                agg_strategy = 'max'
+
             if token_sal is None:
                 token_sal, _ = compute_occlusion_saliency(
                     input_ids=result['input_ids'],
@@ -623,7 +663,7 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
                 token_saliency=token_sal,
                 encoding=result['encoding'],
                 marked_text=result['marked_text'],
-                strategy='sum',
+                strategy=agg_strategy,
             )
             elapsed_ms = (time.perf_counter() - t0) * 1000
             cache[cache_key] = {
@@ -631,14 +671,23 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
                 'elapsed_ms': elapsed_ms,
                 'method_used': method_used,
                 'nonzero': int(np.count_nonzero(token_sal)),
+                'span_info': span_info,
             }
 
     entry = cache[cache_key]
     words = entry['words']
+    span_note = ""
+    if entry.get('span_info'):
+        si = entry['span_info']
+        span_note = (
+            f" | фраза = {si['span_size']} "
+            f"{'дума' if si['span_size'] == 1 else 'думи'}, "
+            f"{si['num_phrases']} фрази"
+        )
     st.caption(
         f"Изчислено за {entry['elapsed_ms']:.0f} ms върху "
         f"{len(words)} думи ({entry['nonzero']} значими токена, "
-        f"метод: {entry['method_used']})."
+        f"метод: {entry['method_used']}){span_note}."
     )
 
     if not words:

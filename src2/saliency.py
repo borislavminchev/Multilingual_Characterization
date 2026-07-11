@@ -217,6 +217,186 @@ def compute_occlusion_saliency(
 
 
 # =============================================================================
+# SPAN (PHRASE) OCCLUSION SALIENCY
+# =============================================================================
+
+def _word_token_groups(input_ids_1d, attention_mask_1d, encoding, tokenizer):
+    """Group maskable token positions by word.
+
+    Returns an ordered list of (word_id, [token_positions]) for words that are
+    fully maskable (not special tokens, not the entity span). Order follows the
+    left-to-right appearance of words in the text.
+    """
+    valid = set(_valid_positions(input_ids_1d, attention_mask_1d, tokenizer))
+    word_ids = encoding.word_ids(batch_index=0)
+
+    groups = {}
+    order = []
+    for tok_idx, wid in enumerate(word_ids):
+        if wid is None or tok_idx not in valid:
+            continue
+        if wid not in groups:
+            groups[wid] = []
+            order.append(wid)
+        groups[wid].append(tok_idx)
+    return [(wid, groups[wid]) for wid in order]
+
+
+def _auto_span_size(num_words):
+    """Choose a phrase length automatically based on how much context there is.
+
+    Short contexts → smaller phrases (so we still get several distinct spans);
+    longer contexts → larger phrases (so the signal is strong and the number of
+    forward passes stays bounded).
+    """
+    if num_words <= 6:
+        return 1
+    if num_words <= 15:
+        return 2
+    if num_words <= 30:
+        return 3
+    return 4
+
+
+def compute_span_occlusion_saliency(
+    input_ids,
+    attention_mask,
+    model,
+    target_class,
+    tokenizer,
+    encoding,
+    task='coarse',
+    coarse_probs=None,
+    device='cuda',
+    mode='block',        # 'block' (non-overlapping) | 'sliding' (overlapping)
+    span_size=None,      # None → auto
+    batch_size=32,
+):
+    """Phrase-level occlusion saliency.
+
+    Instead of masking one token at a time, we mask a whole phrase (a span of
+    consecutive words) at once and measure the drop in the target probability.
+    Masking a phrase removes more context jointly, so the signal is stronger and
+    less noisy than single-token occlusion. A phrase of size 1 reduces to
+    word-level occlusion.
+
+    mode:
+        'block'   — non-overlapping consecutive phrases; each word belongs to
+                    exactly one phrase. Every word in a phrase gets that phrase's
+                    delta (so words in the same phrase share a value).
+        'sliding' — overlapping windows; each word's saliency is the mean of the
+                    deltas of all windows containing it (smoother attribution).
+
+    span_size: number of words per phrase; None picks it automatically from the
+        context length via _auto_span_size.
+
+    Returns:
+        saliency: np.ndarray (T,) token-level deltas (each token inherits its
+                  word's phrase value), 0.0 at skipped positions
+        valid_mask: np.ndarray (T,) bool
+        info: dict with {'span_size': int, 'num_phrases': int}
+    """
+    if not getattr(tokenizer, 'is_fast', False):
+        raise RuntimeError("Fast tokenizer required.")
+
+    input_ids = input_ids.to(device)
+    attention_mask = attention_mask.to(device)
+    if coarse_probs is not None:
+        coarse_probs = coarse_probs.to(device)
+
+    T = input_ids.size(1)
+    saliency = np.zeros(T, dtype=np.float32)
+    valid_mask = np.zeros(T, dtype=bool)
+
+    word_groups = _word_token_groups(input_ids[0], attention_mask[0], encoding, tokenizer)
+    num_words = len(word_groups)
+    info = {'span_size': 0, 'num_phrases': 0}
+    if num_words == 0:
+        return saliency, valid_mask, info
+
+    if span_size is None:
+        span_size = _auto_span_size(num_words)
+    span_size = max(1, span_size)
+    info['span_size'] = span_size
+
+    # Build the list of phrases as index ranges into word_groups.
+    phrases = []  # each: list of word-group indices
+    if mode == 'sliding':
+        if num_words <= span_size:
+            phrases.append(list(range(num_words)))
+        else:
+            for start in range(0, num_words - span_size + 1):
+                phrases.append(list(range(start, start + span_size)))
+    else:  # block
+        for start in range(0, num_words, span_size):
+            phrases.append(list(range(start, min(start + span_size, num_words))))
+    info['num_phrases'] = len(phrases)
+
+    model.eval()
+    with torch.no_grad():
+        p_orig = _forward_prob(
+            model, input_ids, attention_mask, target_class,
+            task=task, coarse_probs=coarse_probs,
+        ).item()
+
+        mask_id = tokenizer.mask_token_id
+        n = len(phrases)
+        phrase_deltas = np.zeros(n, dtype=np.float32)
+
+        # Precompute the token positions each phrase masks.
+        phrase_token_positions = []
+        for wi_list in phrases:
+            toks = []
+            for wi in wi_list:
+                toks.extend(word_groups[wi][1])
+            phrase_token_positions.append(toks)
+
+        for start in range(0, n, batch_size):
+            end = min(start + batch_size, n)
+            chunk = end - start
+            perturbed = input_ids.expand(chunk, -1).clone()
+            am_rep = attention_mask.expand(chunk, -1).contiguous()
+            for row, phrase_idx in enumerate(range(start, end)):
+                for pos in phrase_token_positions[phrase_idx]:
+                    perturbed[row, pos] = mask_id
+
+            cp_chunk = None
+            if coarse_probs is not None:
+                cp_chunk = coarse_probs.expand(chunk, -1).contiguous()
+
+            probs = _forward_prob(
+                model, perturbed, am_rep, target_class,
+                task=task, coarse_probs=cp_chunk,
+            )
+            phrase_deltas[start:end] = (
+                p_orig - probs.detach().cpu().numpy()
+            ).astype(np.float32)
+
+    # Distribute phrase deltas back to token positions.
+    if mode == 'sliding':
+        # Average over all phrases covering each word.
+        word_sum = np.zeros(num_words, dtype=np.float64)
+        word_cnt = np.zeros(num_words, dtype=np.float64)
+        for phrase_idx, wi_list in enumerate(phrases):
+            for wi in wi_list:
+                word_sum[wi] += phrase_deltas[phrase_idx]
+                word_cnt[wi] += 1
+        word_vals = np.where(word_cnt > 0, word_sum / np.maximum(word_cnt, 1), 0.0)
+        for wi, (_, toks) in enumerate(word_groups):
+            for pos in toks:
+                saliency[pos] = word_vals[wi]
+                valid_mask[pos] = True
+    else:  # block — each word gets its phrase's delta
+        for phrase_idx, wi_list in enumerate(phrases):
+            for wi in wi_list:
+                for pos in word_groups[wi][1]:
+                    saliency[pos] = phrase_deltas[phrase_idx]
+                    valid_mask[pos] = True
+
+    return saliency, valid_mask, info
+
+
+# =============================================================================
 # GRADIENT x EMBEDDING SALIENCY
 # =============================================================================
 

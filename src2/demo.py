@@ -40,6 +40,7 @@ from saliency import (
     aggregate_to_words,
     render_saliency_html,
     plot_saliency_bar,
+    select_top_entries,
 )
 
 # ─────────────────────────────────────────────
@@ -695,6 +696,7 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
                     coarse_probs=result['coarse_probs_tensor'] if task == 'fine' else None,
                     device=device,
                     mode=phrase_mode or 'block',
+                    max_phrases=10,
                 )
                 # Every subword token in a word already carries the same phrase
                 # delta, so aggregate by 'max' to avoid multiplying by the
@@ -749,6 +751,20 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
         return
 
     col_html, col_bar = st.columns([2, 1])
+
+    # Determine whether to group into phrases, and compute the exact set of
+    # entries shown on the bar chart so we can highlight only those in the text.
+    group_phrases = (
+        entry.get('span_info') is not None
+        and phrase_mode == 'block'
+        and entry['span_info'].get('span_size', 1) > 1
+    )
+    top_entries = select_top_entries(
+        words, top_k=top_k, group_phrases=group_phrases,
+        marked_text=result['marked_text'],
+    )
+    highlight_spans = [(e['start'], e['end']) for e in top_entries]
+
     with col_html:
         st.markdown("#### Highlighted context")
         html_str = render_saliency_html(
@@ -756,17 +772,11 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
             words=words,
             target_label=target_label,
             method_name=entry['method_used'].lower(),
+            highlight_spans=highlight_spans,
         )
         st.markdown(html_str, unsafe_allow_html=True)
 
     with col_bar:
-        # Group consecutive same-value words into phrases for the bar chart when
-        # using block-phrase occlusion (avoids repeating identical bars).
-        group_phrases = (
-            entry.get('span_info') is not None
-            and phrase_mode == 'block'
-            and entry['span_info'].get('span_size', 1) > 1
-        )
         chart_title = "Top influencing phrases" if group_phrases else f"Top-{top_k} influencing words"
         st.markdown(f"#### {chart_title}")
         fig_sal = plot_saliency_bar(words, target_label, top_k=top_k,

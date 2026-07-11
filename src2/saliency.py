@@ -241,6 +241,15 @@ def compute_occlusion_saliency(
             )
             deltas[start:end] = (p_orig - probs.detach().cpu().numpy()).astype(np.float32)
 
+        # Baseline correction: inserting <mask> tokens shifts the prediction by a
+        # roughly constant amount regardless of which word is masked (the model
+        # loses information and drifts). That constant offset would tint almost
+        # every word the same color. Subtract the median delta so the sign
+        # reflects each word's RELATIVE influence. If there is no baseline drift
+        # (median ~ 0) this is a no-op.
+        if n > 0:
+            deltas = deltas - float(np.median(deltas))
+
         for local_idx, pos in enumerate(positions):
             saliency[pos] = deltas[local_idx]
             valid_mask[pos] = True
@@ -375,6 +384,7 @@ def compute_span_occlusion_saliency(
     device='cuda',
     mode='block',        # 'block' (non-overlapping) | 'sliding' (overlapping)
     span_size=None,      # None → auto
+    max_phrases=10,      # cap total phrases (grow span_size until it fits)
     batch_size=32,
 ):
     """Phrase-level occlusion saliency.
@@ -439,19 +449,29 @@ def compute_span_occlusion_saliency(
     info['num_sentences'] = len(sentences)
 
     # Build the list of phrases as index ranges into word_groups, restricted to
-    # within each sentence.
-    phrases = []  # each: list of word-group indices
-    for _sid, wi_list in sentences:
-        m = len(wi_list)
-        if mode == 'sliding':
-            if m <= span_size:
-                phrases.append(list(wi_list))
-            else:
-                for s in range(0, m - span_size + 1):
-                    phrases.append(list(wi_list[s:s + span_size]))
-        else:  # block
-            for s in range(0, m, span_size):
-                phrases.append(list(wi_list[s:s + span_size]))
+    # within each sentence. Enforce a cap on the total number of phrases by
+    # growing the phrase size until the count fits (fewer, larger phrases keep
+    # the display readable and the forward passes bounded).
+    def _build_phrases(sz):
+        out = []
+        for _sid, wi_list in sentences:
+            m = len(wi_list)
+            if mode == 'sliding':
+                if m <= sz:
+                    out.append(list(wi_list))
+                else:
+                    for s in range(0, m - sz + 1):
+                        out.append(list(wi_list[s:s + sz]))
+            else:  # block
+                for s in range(0, m, sz):
+                    out.append(list(wi_list[s:s + sz]))
+        return out
+
+    phrases = _build_phrases(span_size)
+    while len(phrases) > max_phrases:
+        span_size += 1
+        info['span_size'] = span_size
+        phrases = _build_phrases(span_size)
     info['num_phrases'] = len(phrases)
 
     model.eval()
@@ -498,6 +518,13 @@ def compute_span_occlusion_saliency(
             phrase_deltas[start:end] = (
                 p_orig - probs.detach().cpu().numpy()
             ).astype(np.float32)
+
+    # Baseline correction (same rationale as word occlusion): masking whole
+    # phrases shifts the score by a roughly constant amount, which would tint
+    # every phrase the same color. Subtract the median so the sign reflects each
+    # phrase's RELATIVE influence.
+    if n > 0:
+        phrase_deltas = phrase_deltas - float(np.median(phrase_deltas))
 
     # Distribute phrase deltas back to token positions.
     if mode == 'sliding':
@@ -699,7 +726,8 @@ def _rgba(hex_color, alpha):
     return f"rgba({r},{g},{b},{alpha:.3f})"
 
 
-def render_saliency_html(marked_text, words, target_label, method_name="occlusion"):
+def render_saliency_html(marked_text, words, target_label, method_name="occlusion",
+                         highlight_spans=None):
     """Render marked_text with per-word background colors reflecting saliency.
 
     Positive saliency (supports the target class) -> green tint.
@@ -712,6 +740,10 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
         words: output of aggregate_to_words
         target_label: display name of the target class (e.g. "Antagonist")
         method_name: 'occlusion' or 'gradient×embedding' (for the legend)
+        highlight_spans: optional list of (start, end) char ranges. When given,
+            ONLY words whose character span overlaps one of these ranges are
+            tinted — used to color exactly the entries shown on the bar chart.
+            Everything else is rendered as plain (dark) text.
 
     Returns:
         HTML string suitable for st.markdown(..., unsafe_allow_html=True)
@@ -727,6 +759,15 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
     total_abs = sum(abs(w['saliency']) for w in words)
     if total_abs <= 0:
         total_abs = 1e-12
+
+    def _on_diagram(w):
+        """True if this word should be tinted (overlaps an allowed span)."""
+        if highlight_spans is None:
+            return True
+        for (hs, he) in highlight_spans:
+            if w['start'] < he and w['end'] > hs:  # overlap
+                return True
+        return False
 
     # Find entity marker character positions in marked_text.
     ent_open = marked_text.find(ENTITY_START_TOKEN)
@@ -752,10 +793,10 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
         # Emit the word itself, colored.
         s_norm = w['saliency'] / max_abs
         word_html = html.escape(w['word'])
-        if abs(s_norm) < DISPLAY_ALPHA_CUTOFF:
-            # Below cutoff: no background, but keep an explicit dark color so the
-            # word stays readable on the light body background (Streamlit dark
-            # theme would otherwise render it white-on-light).
+        if abs(s_norm) < DISPLAY_ALPHA_CUTOFF or not _on_diagram(w):
+            # Below cutoff OR not on the diagram: no background, but keep an
+            # explicit dark color so the word stays readable on the light body
+            # background (Streamlit dark theme would otherwise render it white).
             pieces.append(f'<span style="color:#1a1a1a;">{word_html}</span>')
         else:
             color = POS_COLOR if s_norm > 0 else NEG_COLOR
@@ -907,6 +948,24 @@ def _group_consecutive_phrases(words, tol=1e-9, marked_text=None):
     return out
 
 
+def select_top_entries(words, top_k=10, group_phrases=False, marked_text=None):
+    """Return the top-K entries shown on the bar chart (highest |saliency|).
+
+    Encapsulates the ranking used by both the chart and the highlighter so they
+    always agree on which words/phrases are "on the diagram". When group_phrases
+    is True, consecutive same-value words are merged into phrases first.
+
+    Returns a list of {'word', 'start', 'end', 'saliency'} dicts, sorted by
+    signed saliency descending (same order the chart draws them).
+    """
+    if not words:
+        return []
+    entries = _group_consecutive_phrases(words, marked_text=marked_text) if group_phrases else words
+    ranked = sorted(entries, key=lambda w: abs(w['saliency']), reverse=True)[:top_k]
+    ranked.sort(key=lambda w: w['saliency'], reverse=True)
+    return ranked
+
+
 def plot_saliency_bar(words, target_label, top_k=10, group_phrases=False, marked_text=None):
     """Horizontal bar chart of the top-K words (or phrases) by share of influence.
 
@@ -932,10 +991,8 @@ def plot_saliency_bar(words, target_label, top_k=10, group_phrases=False, marked
     if total_abs <= 0:
         total_abs = 1e-12
 
-    entries = _group_consecutive_phrases(words, marked_text=marked_text) if group_phrases else words
-
-    ranked = sorted(entries, key=lambda w: abs(w['saliency']), reverse=True)[:top_k]
-    ranked.sort(key=lambda w: w['saliency'], reverse=True)
+    ranked = select_top_entries(words, top_k=top_k, group_phrases=group_phrases,
+                                marked_text=marked_text)
 
     labels = [w['word'] for w in ranked]
     shares = [w['saliency'] / total_abs * 100.0 for w in ranked]  # signed %

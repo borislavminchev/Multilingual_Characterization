@@ -67,59 +67,34 @@ for _c, _fines in FINE_LABELS_BY_COARSE.items():
 
 EXAMPLES = [
     {
-        "name": "EN - United States (Antagonist: Instigator + Tyrant)",
-        "text": (
-            "The above list is only a partial record of the United States’ and "
-            "NATO’s bloody violations of other countries’ national sovereignty. "
-            "Nevertheless, the Post hypocritically declares: “Russia’s posture "
-            "toward Ukraine amounts to prohibited conduct under Article 2 of the "
-            "United Nations Charter, which specifically bars the ‘threat or use of "
-            "force against the territorial integrity or political independence of "
-            "any state.’”"
-        ),
-        "mention": "United States",
+        "name": 'EN - Democrats (Antagonist: Conspirator + Tyrant)',
+        "text": 'The very compound that the Democrats are targeting – CO2 – is actually the solution to preserving croplands, grasslands, forests and water supplies for growing populations.',
+        "mention": 'Democrats',
     },
     {
-        "name": "PT - Papa Francisco (Protagonist: Guardian + Virtuous)",
-        "text": (
-            "O Papa Francisco poderá participar na conferência climática COP28, que "
-            "decorre no Dubai, entre 30 e novembro e 12 de dezembro deste ano. De "
-            "acordo com a agência Reuters, desta forma, poderá fazer valer o seu "
-            "recente apelo por ações que ajudem a conter o avanço do aquecimento "
-            "global."
-        ),
-        "mention": "Papa Francisco",
+        "name": 'EN - the West (Antagonist: Instigator + Foreign Adversary)',
+        "text": 'Messed up your proxy war in Ukraine? Well, just blame China. So while the West has been pouring massive military hardware into the conflict to the extent of emptying their own weapons warehouses – and still not winning – it’s Beijing that’s supposed to be the “decisive enabler” of the war. Seriously.',
+        "mention": 'the West',
     },
     {
-        "name": "HI - प्रधानमंत्री / PM (Protagonist: Guardian + Peacemaker + Virtuous)",
-        "text": (
-            "प्रधानमंत्री नरेंद्र मोदी ने भी समित के दौरान राष्ट्रपति ज़ेलेंस्की के साथ एक बैठक की, "
-            "जिसमें उन्होंने यूक्रेन युद्ध और रूसी आक्रामकता के बारे में बातचीत की।"
-        ),
-        "mention": "प्रधानमंत्री",
+        "name": 'BG - Володимир Зеленски (Protagonist: Guardian)',
+        "text": 'Президентът на Украйна Володимир Зеленски призова за "пълна защита на украинското небе" след масираната руска въздушна атака през нощта, предаде Укринформ.',
+        "mention": 'Володимир Зеленски',
     },
     {
-        "name": "RU - ЕС / EU (Antagonist: Instigator + Foreign Adversary)",
-        "text": (
-            "Первый тур парламентских выборов во Франции завершился победой партии "
-            "Ле Пен. Глава французской партии «Национальное объединение», высказала "
-            "свое мнение о России, антироссийских санкциях и конфликте на Украине. "
-            "Ее заявления вызвали широкий резонанс. Ле Пен утверждает, что санкции "
-            "ЕС против нашей страны наносят больший ущерб европейцам, чем нам самим, "
-            "и призывает к сближению Европы с Россией для обеспечения безопасности "
-            "континента."
-        ),
-        "mention": "ЕС",
+        "name": 'BG - Путин (Antagonist: Tyrant)',
+        "text": '"Обща цел за всички руснаци би трябвало да бъде освобождаването на Русия от безумния диктатор Путин и неговия режим, а не борбата със санкциите. Санкциите трябва само да бъдат засилвани докато Русия продължава въоръжената си агресия." – написа той в социалните мрежи.',
+        "mention": 'Путин',
     },
     {
-        "name": "HI - अवदीवка / Avdiivka (Innocent: Exploited + Victim)",
-        "text": (
-            "रूस की सेना ने लगातार अपने कब्जे वाले क्षेत्रों पर मजबूत पकड़ बनाते हुए यूक्रेन की "
-            "सेना को पीछे खदेड़ने का काम किया है। यूक्रेन के सीमावर्ती गांव अवदीवका से शुरुआत "
-            "करते हुए, रूस ने कहा कि उसने पूर्वी यूक्रेन में दर्जनों गांवों को जीत लिया है। इनमें से "
-            "कई गांव रूस ने तब जीते थे, जब उसने खार्किव पर एक तेज और आश्चर्यजनक हमला किया था।"
-        ),
-        "mention": "अवदीवका",
+        "name": 'BG - Луганск (Innocent: Victim)',
+        "text": 'Западът отгледа "терористична гадина", която унищожава всичко. Така официалният представител на МВнР на Русия Мария Захарова коментира пред журналисти "Новина" Николай Иванов днес удари Въоръжените сили на Украйна (ВСУ) по Луганск.',
+        "mention": 'Луганск',
+    },
+    {
+        "name": 'HI - प्रधानमंत्री / PM (Protagonist: Guardian + Peacemaker + Virtuous)',
+        "text": 'प्रधानमंत्री नरेंद्र मोदी ने भी समित के दौरान राष्ट्रपति ज़ेलेंस्की के साथ एक बैठक की, जिसमें उन्होंने यूक्रेन युद्ध और रूसी आक्रामकता के बारे में बातचीत की।',
+        "mention": 'प्रधानमंत्री',
     },
 ]
 

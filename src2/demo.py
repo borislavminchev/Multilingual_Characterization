@@ -67,75 +67,56 @@ for _c, _fines in FINE_LABELS_BY_COARSE.items():
 
 EXAMPLES = [
     {
-        "name": "EN - Greta Thunberg (Protagonist: Guardian + Virtuous)",
+        "name": "EN - the West (Antagonist: Instigator + Foreign Adversary)",
         "text": (
-            "Greta Thunberg has once again stood at the forefront of the global climate "
-            "movement, leading hundreds of thousands of demonstrators through the streets "
-            "of Stockholm to demand urgent action to protect the planet. Refusing lucrative "
-            "sponsorship deals and personal comfort, she has devoted herself entirely to "
-            "defending the environment for future generations, often at great personal cost. "
-            "Her unwavering moral conviction and selfless dedication have inspired millions of "
-            "young people around the world to join the cause. Environmental groups praise her "
-            "as a courageous guardian of the vulnerable and a principled voice for those who "
-            "cannot speak for themselves."
+            "Messed up your proxy war in Ukraine? Well, just blame China. So while "
+            "the West has been pouring massive military hardware into the conflict "
+            "to the extent of emptying their own weapons warehouses – and still not "
+            "winning – it’s Beijing that’s supposed to be the “decisive enabler” of "
+            "the war. Seriously."
         ),
-        "mention": "Greta Thunberg",
+        "mention": "the West",
     },
     {
-        "name": "EN - Bill Gates (Antagonist: Conspirator)",
+        "name": "RU - Зеленски (Antagonist: Tyrant + Traitor)",
         "text": (
-            "Bill Gates has come under intense scrutiny after reports alleged that his "
-            "foundation quietly funneled millions into pharmaceutical companies in which he "
-            "held personal financial stakes. Critics claim that he worked behind the scenes, "
-            "coordinating secretly with select corporations and health officials to shape "
-            "global vaccine policy for his own benefit. Investigative journalists describe a "
-            "hidden network of influence over international health organizations that allowed "
-            "him to quietly steer decisions affecting billions of people. Detractors accuse him "
-            "of orchestrating a covert scheme, concealing his true intentions behind the mask "
-            "of philanthropy."
+            "Зеленский полностью контролирует украинский парламент, арестовывает или "
+            "ссылает оппозиционных политиков и наступает на глотку прессе и другим "
+            "СМИ. Зеленский держит ситуацию в ежовых рукавицах и лично не допустит "
+            "прямых переговоров."
         ),
-        "mention": "Bill Gates",
+        "mention": "Зеленский",
     },
     {
-        "name": "EN - Ukraine (Innocent: Victim + Exploited)",
+        "name": "PT - Rodrigo Agostinho (Protagonist: Guardian + Virtuous)",
         "text": (
-            "Ukraine has endured another brutal year of war, with entire cities reduced to "
-            "rubble and millions of civilians forced to flee their homes. Hospitals, schools, "
-            "and power plants have been repeatedly struck, leaving ordinary families without "
-            "heat, water, or electricity through the freezing winter. The country's people "
-            "continue to bear the devastating human cost of a conflict they did not choose, "
-            "mourning the loss of loved ones and the destruction of their communities. Aid "
-            "organizations warn that ordinary Ukrainians are being ground down and exploited "
-            "by powerful forces far beyond their control."
+            "Já foram perdidos 34 milhões de hectares – área equivalente ao estado de "
+            "Goiás – dos 82,6 milhões de hectares da Caatinga, 40% do seu território. "
+            "O alerta foi dado pelo presidente do IBAMA, Rodrigo Agostinho, num "
+            "seminário técnico-científico sobre o bioma, noticiam a Agência Brasil, "
+            "UOL, Brasil 247, SBT e O Povo."
         ),
-        "mention": "Ukraine",
+        "mention": "Rodrigo Agostinho",
     },
     {
-        "name": "BG - Русия (Antagonist: Foreign Adversary + Instigator)",
+        "name": "PT - Autoridade do Clima (Antagonist: Corrupt + Incompetent)",
         "text": (
-            "Русия продължава да води агресивна война срещу суверенна Украйна, като "
-            "систематично нарушава международното право и основните принципи на човечността. "
-            "Именно Москва разпали конфликта, изпращайки войските си през границата и "
-            "подлагайки цивилни градове на безмилостни ракетни удари. Западните лидери "
-            "определят действията на Кремъл като целенасочена агресия от страна на външен "
-            "противник, който пряко заплашва сигурността на цяла Европа. Според международни "
-            "наблюдатели Русия носи цялата отговорност за ескалацията на насилието и за "
-            "хилядите невинни жертви."
+            "Não é culpar “El Niño”, mas o dolo está na omissão do governo brasileiro, "
+            "que tem um discurso edificante, mas uma prática miserável. Por exemplo, "
+            "a Autoridade do Clima, onde está?"
         ),
-        "mention": "Русия",
+        "mention": "Autoridade do Clima",
     },
     {
-        "name": "RU - Трамп (Protagonist: Peacemaker)",
+        "name": "HI - रूसी सेना / Russian army (Antagonist: Rebel + Tyrant)",
         "text": (
-            "Дональд Трамп вновь заявил о своей готовности выступить посредником в "
-            "урегулировании конфликта между Россией и Украиной, предложив организовать "
-            "переговоры на высшем уровне. Он подчеркнул, что стремится как можно скорее "
-            "добиться прекращения огня и установления прочного мира в регионе. По его словам, "
-            "только путь дипломатии и терпеливого диалога способен остановить кровопролитие и "
-            "спасти тысячи жизней. Сторонники называют его миротворцем, готовым лично "
-            "содействовать достижению долгожданного мирного соглашения."
+            "1. सैन्य ताकत: युद्ध में सबसे अहम होती है सैन्य ताकत. यूक्रेनी सेना के मैन पावर "
+            "पांच लाख का है लेकिन इससे चार गुना बड़ी रूसी सेना के सामने वे दो साल से टिके हैं. "
+            "तकनीकी रूप से मजबूत, लंबी दूरी और अत्याधुनिक हथियारों से लैस रूसी सेना दो साल में "
+            "भी यूक्रेन को 'निपटा' पाने में विफल रही. यूक्रेनी सेना ने बड़ी ही सूझबूझ और अमेरिकी "
+            "मदद से रूसी सेना का मजबूती के साथ मुकाबला किया है."
         ),
-        "mention": "Трамп",
+        "mention": "रूसी सेना",
     },
 ]
 

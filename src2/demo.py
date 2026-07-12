@@ -41,7 +41,6 @@ from saliency import (
     render_saliency_html,
     plot_saliency_bar,
     select_top_entries,
-    _group_consecutive_phrases,
 )
 
 # ─────────────────────────────────────────────
@@ -754,19 +753,11 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
     )
     highlight_spans = [(e['start'], e['end']) for e in top_entries]
 
-    # For phrase mode, render whole phrases as single hoverable units (grouped)
-    # so hovering highlights the entire phrase and the tooltip shows its full
-    # text. For word/gradient mode, render the individual words.
-    if group_phrases:
-        render_words = _group_consecutive_phrases(words, marked_text=result['marked_text'])
-    else:
-        render_words = words
-
     with col_html:
         st.markdown("#### Highlighted context")
         html_str = render_saliency_html(
             marked_text=result['marked_text'],
-            words=render_words,
+            words=words,
             target_label=target_label,
             method_name=entry['method_used'].lower(),
             highlight_spans=highlight_spans,

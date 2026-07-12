@@ -600,14 +600,10 @@ def compute_gradient_x_embedding_saliency(
             model.zero_grad(set_to_none=True)
             out = model(input_ids=input_ids, attention_mask=attention_mask, **kwargs)
             logits = out.logits
-            # Target the PROBABILITY (not the raw logit) so the attribution is
-            # directly comparable to occlusion (which measures Δp). For coarse
-            # use softmax; for fine use sigmoid. The model here is not confident
-            # enough to saturate the nonlinearity, so gradients don't vanish.
-            if task == 'coarse':
-                target_scalar = torch.softmax(logits, dim=-1)[0, target_class]
-            else:
-                target_scalar = torch.sigmoid(logits)[0, target_class]
+            # Target the raw LOGIT (not the probability), to match occlusion,
+            # which is now unified on logits for both coarse and fine. Using the
+            # logit also avoids softmax/sigmoid saturation zeroing the gradient.
+            target_scalar = logits[0, target_class]
             target_scalar.backward()
 
             emb = cache.get('embed', None)
@@ -615,8 +611,8 @@ def compute_gradient_x_embedding_saliency(
                 return None
 
             # (1, T, H) → (T,). Positive = the token's embedding pushes the
-            # target probability up (supports the class), matching occlusion's
-            # sign convention (positive delta = supports).
+            # target LOGIT up (supports the class), matching occlusion's sign
+            # convention (positive = supports).
             saliency = (emb.grad * emb).sum(dim=-1).detach().cpu().numpy()[0]
     except Exception:
         return None

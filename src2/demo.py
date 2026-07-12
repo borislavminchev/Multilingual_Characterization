@@ -67,56 +67,59 @@ for _c, _fines in FINE_LABELS_BY_COARSE.items():
 
 EXAMPLES = [
     {
-        "name": "EN - the West (Antagonist: Instigator + Foreign Adversary)",
+        "name": "EN - United States (Antagonist: Instigator + Tyrant)",
         "text": (
-            "Messed up your proxy war in Ukraine? Well, just blame China. So while "
-            "the West has been pouring massive military hardware into the conflict "
-            "to the extent of emptying their own weapons warehouses – and still not "
-            "winning – it’s Beijing that’s supposed to be the “decisive enabler” of "
-            "the war. Seriously."
+            "The above list is only a partial record of the United States’ and "
+            "NATO’s bloody violations of other countries’ national sovereignty. "
+            "Nevertheless, the Post hypocritically declares: “Russia’s posture "
+            "toward Ukraine amounts to prohibited conduct under Article 2 of the "
+            "United Nations Charter, which specifically bars the ‘threat or use of "
+            "force against the territorial integrity or political independence of "
+            "any state.’”"
         ),
-        "mention": "the West",
+        "mention": "United States",
     },
     {
-        "name": "RU - Зеленски (Antagonist: Tyrant + Traitor)",
+        "name": "PT - Papa Francisco (Protagonist: Guardian + Virtuous)",
         "text": (
-            "Зеленский полностью контролирует украинский парламент, арестовывает или "
-            "ссылает оппозиционных политиков и наступает на глотку прессе и другим "
-            "СМИ. Зеленский держит ситуацию в ежовых рукавицах и лично не допустит "
-            "прямых переговоров."
+            "O Papa Francisco poderá participar na conferência climática COP28, que "
+            "decorre no Dubai, entre 30 e novembro e 12 de dezembro deste ano. De "
+            "acordo com a agência Reuters, desta forma, poderá fazer valer o seu "
+            "recente apelo por ações que ajudem a conter o avanço do aquecimento "
+            "global."
         ),
-        "mention": "Зеленский",
+        "mention": "Papa Francisco",
     },
     {
-        "name": "PT - Rodrigo Agostinho (Protagonist: Guardian + Virtuous)",
+        "name": "HI - प्रधानमंत्री / PM (Protagonist: Guardian + Peacemaker + Virtuous)",
         "text": (
-            "Já foram perdidos 34 milhões de hectares – área equivalente ao estado de "
-            "Goiás – dos 82,6 milhões de hectares da Caatinga, 40% do seu território. "
-            "O alerta foi dado pelo presidente do IBAMA, Rodrigo Agostinho, num "
-            "seminário técnico-científico sobre o bioma, noticiam a Agência Brasil, "
-            "UOL, Brasil 247, SBT e O Povo."
+            "प्रधानमंत्री नरेंद्र मोदी ने भी समित के दौरान राष्ट्रपति ज़ेलेंस्की के साथ एक बैठक की, "
+            "जिसमें उन्होंने यूक्रेन युद्ध और रूसी आक्रामकता के बारे में बातचीत की।"
         ),
-        "mention": "Rodrigo Agostinho",
+        "mention": "प्रधानमंत्री",
     },
     {
-        "name": "PT - Autoridade do Clima (Antagonist: Corrupt + Incompetent)",
+        "name": "RU - ЕС / EU (Antagonist: Instigator + Foreign Adversary)",
         "text": (
-            "Não é culpar “El Niño”, mas o dolo está na omissão do governo brasileiro, "
-            "que tem um discurso edificante, mas uma prática miserável. Por exemplo, "
-            "a Autoridade do Clima, onde está?"
+            "Первый тур парламентских выборов во Франции завершился победой партии "
+            "Ле Пен. Глава французской партии «Национальное объединение», высказала "
+            "свое мнение о России, антироссийских санкциях и конфликте на Украине. "
+            "Ее заявления вызвали широкий резонанс. Ле Пен утверждает, что санкции "
+            "ЕС против нашей страны наносят больший ущерб европейцам, чем нам самим, "
+            "и призывает к сближению Европы с Россией для обеспечения безопасности "
+            "континента."
         ),
-        "mention": "Autoridade do Clima",
+        "mention": "ЕС",
     },
     {
-        "name": "HI - रूसी सेना / Russian army (Antagonist: Rebel + Tyrant)",
+        "name": "HI - अवदीवка / Avdiivka (Innocent: Exploited + Victim)",
         "text": (
-            "1. सैन्य ताकत: युद्ध में सबसे अहम होती है सैन्य ताकत. यूक्रेनी सेना के मैन पावर "
-            "पांच लाख का है लेकिन इससे चार गुना बड़ी रूसी सेना के सामने वे दो साल से टिके हैं. "
-            "तकनीकी रूप से मजबूत, लंबी दूरी और अत्याधुनिक हथियारों से लैस रूसी सेना दो साल में "
-            "भी यूक्रेन को 'निपटा' पाने में विफल रही. यूक्रेनी सेना ने बड़ी ही सूझबूझ और अमेरिकी "
-            "मदद से रूसी सेना का मजबूती के साथ मुकाबला किया है."
+            "रूस की सेना ने लगातार अपने कब्जे वाले क्षेत्रों पर मजबूत पकड़ बनाते हुए यूक्रेन की "
+            "सेना को पीछे खदेड़ने का काम किया है। यूक्रेन के सीमावर्ती गांव अवदीवका से शुरुआत "
+            "करते हुए, रूस ने कहा कि उसने पूर्वी यूक्रेन में दर्जनों गांवों को जीत लिया है। इनमें से "
+            "कई गांव रूस ने तब जीते थे, जब उसने खार्किव पर एक तेज और आश्चर्यजनक हमला किया था।"
         ),
-        "mention": "रूसी सेना",
+        "mention": "अवदीवका",
     },
 ]
 

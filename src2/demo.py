@@ -41,6 +41,7 @@ from saliency import (
     render_saliency_html,
     plot_saliency_bar,
     select_top_entries,
+    _group_consecutive_phrases,
 )
 
 # ─────────────────────────────────────────────
@@ -569,20 +570,8 @@ def _render_saliency_section(result, coarse_model, fine_model, tokenizer, device
             ),
             key="saliency_method",
         )
-        phrase_mode = None
-        if method == "Occlusion (phrase)":
-            phrase_mode_label = st.radio(
-                "Phrase type:",
-                options=["Blocks (non-overlapping)", "Sliding window (overlapping)"],
-                horizontal=True,
-                key="saliency_phrase_mode",
-                help=(
-                    "Blocks: each word belongs to exactly one phrase. "
-                    "Sliding window: words get the averaged influence of all "
-                    "phrases they appear in (smoother)."
-                ),
-            )
-            phrase_mode = 'block' if phrase_mode_label.startswith("Blocks") else 'sliding'
+        # Phrase occlusion always uses non-overlapping blocks (one phrase per word).
+        phrase_mode = 'block' if method == "Occlusion (phrase)" else None
         if method == "Gradient × Embedding":
             st.caption(
                 "ℹ️ Gradient×Embedding is an approximate method and may give "
@@ -765,11 +754,19 @@ def _render_saliency_for_target(result, model, tokenizer, device, task,
     )
     highlight_spans = [(e['start'], e['end']) for e in top_entries]
 
+    # For phrase mode, render whole phrases as single hoverable units (grouped)
+    # so hovering highlights the entire phrase and the tooltip shows its full
+    # text. For word/gradient mode, render the individual words.
+    if group_phrases:
+        render_words = _group_consecutive_phrases(words, marked_text=result['marked_text'])
+    else:
+        render_words = words
+
     with col_html:
         st.markdown("#### Highlighted context")
         html_str = render_saliency_html(
             marked_text=result['marked_text'],
-            words=words,
+            words=render_words,
             target_label=target_label,
             method_name=entry['method_used'].lower(),
             highlight_spans=highlight_spans,

@@ -795,22 +795,47 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
         # Emit the word itself, colored.
         s_norm = w['saliency'] / max_abs
         word_html = html.escape(w['word'])
+        share = w['saliency'] / total_abs * 100.0
+        direction = "supports" if w['saliency'] > 0 else "opposes"
+        # Rich tooltip: the word/phrase text, its signed share, and direction.
+        tip = html.escape(
+            f"“{w['word']}” — {share:+.1f}% ({direction} {target_label})"
+        )
+        # Inline hover handlers survive Streamlit's HTML sanitizer (a <style>
+        # block would be stripped). On hover we add a visible outline + shadow.
+        hover_in = (
+            "this.style.outline='2px solid #333';"
+            "this.style.outlineOffset='1px';"
+            "this.style.filter='brightness(0.92)';"
+        )
+        hover_out = (
+            "this.style.outline='none';"
+            "this.style.filter='none';"
+        )
+        hover_attrs = (
+            f'onmouseover="{hover_in}" onmouseout="{hover_out}" '
+            f'title="{tip}"'
+        )
+
         if abs(s_norm) < DISPLAY_ALPHA_CUTOFF or not _on_diagram(w):
             # Below cutoff OR not on the diagram: no background, but keep an
             # explicit dark color so the word stays readable on the light body
             # background (Streamlit dark theme would otherwise render it white).
-            pieces.append(f'<span style="color:#1a1a1a;">{word_html}</span>')
+            # Still interactive: hovering shows the tooltip + outline.
+            pieces.append(
+                f'<span style="color:#1a1a1a;cursor:default;border-radius:3px;" '
+                f'{hover_attrs}>{word_html}</span>'
+            )
         else:
             color = POS_COLOR if s_norm > 0 else NEG_COLOR
             # Floor the alpha so even weak-but-significant words get a clearly
             # visible tint; scale the rest up to MAX_ALPHA.
             alpha = min(MAX_ALPHA, 0.30 + 0.55 * abs(s_norm))
             bg = _rgba(color, alpha)
-            share = w['saliency'] / total_abs * 100.0
-            tooltip = f"share: {share:+.1f}%"
             pieces.append(
                 f'<span style="background:{bg};color:#111;border-radius:3px;'
-                f'padding:1px 3px;font-weight:600;" title="{tooltip}">{word_html}</span>'
+                f'padding:1px 3px;font-weight:600;cursor:default;" '
+                f'{hover_attrs}>{word_html}</span>'
             )
         cursor = w['end']
 

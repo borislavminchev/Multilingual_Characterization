@@ -197,12 +197,12 @@ def compute_occlusion_saliency(
         if len(positions) == 0:
             return saliency, valid_mask
 
-        # For confident fine (multi-label) predictions the raw probability is
-        # saturated near 1.0, so masking barely moves it and the sign becomes
-        # noise. Score the target LOGIT instead — unbounded (no saturation) and,
-        # because the hierarchy prior is constant, the prior cancels in the
-        # occlusion delta, leaving only the entity-driven contribution.
-        score_mode = 'logit' if task == 'fine' else 'prob'
+        # Unified scoring: both coarse and fine use the target LOGIT (not the
+        # probability). Logits are unbounded, so masking always produces a
+        # measurable change — no softmax/sigmoid saturation and no systematic
+        # baseline drift from the softmax normalization. This makes "% of total
+        # influence" mean the same thing for coarse and fine.
+        score_mode = 'logit'
 
         # Original score.
         p_orig = _forward_prob(
@@ -242,17 +242,9 @@ def compute_occlusion_saliency(
             )
             deltas[start:end] = (p_orig - probs.detach().cpu().numpy()).astype(np.float32)
 
-        # Baseline correction — COARSE ONLY. Inserting <mask> tokens shifts the
-        # softmax probability by a roughly constant amount regardless of which
-        # word is masked (the model loses information and drifts), which would
-        # tint almost every word the same color. Subtracting the median makes the
-        # sign reflect each word's RELATIVE influence.
-        #   Not applied for fine: fine uses raw target LOGITS, where the constant
-        #   hierarchy prior already cancels in the delta, so there is no baseline
-        #   drift to remove — and centering there flips genuinely supporting
-        #   phrases to red once most phrases sit above the median.
-        if n > 0 and task != 'fine':
-            deltas = deltas - float(np.median(deltas))
+        # No baseline correction: both coarse and fine now score the target
+        # LOGIT, which does not suffer the softmax baseline drift that motivated
+        # median-centering. Deltas already reflect each word's genuine influence.
 
         for local_idx, pos in enumerate(positions):
             saliency[pos] = deltas[local_idx]
@@ -480,10 +472,9 @@ def compute_span_occlusion_saliency(
 
     model.eval()
     with torch.no_grad():
-        # Same rationale as word-level occlusion: use the target logit for
-        # confident fine predictions so the signal doesn't vanish at saturation
-        # (and the constant hierarchy prior cancels in the delta).
-        score_mode = 'logit' if task == 'fine' else 'prob'
+        # Unified scoring: target LOGIT for both coarse and fine (see
+        # compute_occlusion_saliency for the rationale).
+        score_mode = 'logit'
 
         p_orig = _forward_prob(
             model, input_ids, attention_mask, target_class,
@@ -523,11 +514,8 @@ def compute_span_occlusion_saliency(
                 p_orig - probs.detach().cpu().numpy()
             ).astype(np.float32)
 
-    # Baseline correction — COARSE ONLY (see compute_occlusion_saliency for the
-    # full rationale). Fine uses raw logits where the constant prior cancels in
-    # the delta, so centering there would wrongly flip supporting phrases to red.
-    if n > 0 and task != 'fine':
-        phrase_deltas = phrase_deltas - float(np.median(phrase_deltas))
+    # No baseline correction: both coarse and fine score the target LOGIT, which
+    # has no softmax baseline drift to remove.
 
     # Distribute phrase deltas back to token positions.
     if mode == 'sliding':

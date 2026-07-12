@@ -796,46 +796,67 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
         s_norm = w['saliency'] / max_abs
         word_html = html.escape(w['word'])
         share = w['saliency'] / total_abs * 100.0
-        direction = "supports" if w['saliency'] > 0 else "opposes"
-        # Rich tooltip: the word/phrase text, its signed share, and direction.
-        tip = html.escape(
-            f"“{w['word']}” — {share:+.1f}% ({direction} {target_label})"
-        )
-        # Inline hover handlers survive Streamlit's HTML sanitizer (a <style>
-        # block would be stripped). On hover we add a visible outline + shadow.
-        hover_in = (
-            "this.style.outline='2px solid #333';"
-            "this.style.outlineOffset='1px';"
-            "this.style.filter='brightness(0.92)';"
-        )
-        hover_out = (
-            "this.style.outline='none';"
-            "this.style.filter='none';"
-        )
-        hover_attrs = (
-            f'onmouseover="{hover_in}" onmouseout="{hover_out}" '
-            f'title="{tip}"'
+        supports = w['saliency'] > 0
+        direction = "supports" if supports else "opposes"
+        share_color = POS_COLOR if supports else NEG_COLOR
+
+        # A styled tooltip rendered as a nested <span> (prettier than the native
+        # title attribute). It is hidden by default and shown on hover via inline
+        # handlers, which survive Streamlit's HTML sanitizer.
+        tip_word = html.escape(w['word'])
+        tooltip_html = (
+            f'<span class="saltip" style="display:none;position:absolute;'
+            f'bottom:135%;left:50%;transform:translateX(-50%);z-index:50;'
+            f'background:#1f2937;color:#f9fafb;padding:6px 10px;border-radius:6px;'
+            f'font-size:0.82rem;font-weight:400;line-height:1.35;white-space:nowrap;'
+            f'box-shadow:0 4px 14px rgba(0,0,0,0.35);pointer-events:none;">'
+            f'<b style="color:#fff;">{tip_word}</b><br>'
+            f'<span style="color:{share_color};font-weight:700;">{share:+.1f}%</span>'
+            f'<span style="color:#cbd5e1;"> · {direction} {html.escape(target_label)}</span>'
+            f'</span>'
         )
 
+        # Hover: reveal the tooltip and draw a clear frame around this element.
+        show_tip = "var t=this.getElementsByClassName('saltip')[0]; if(t){t.style.display='block';}"
+        hide_tip = "var t=this.getElementsByClassName('saltip')[0]; if(t){t.style.display='none';}"
+
         if abs(s_norm) < DISPLAY_ALPHA_CUTOFF or not _on_diagram(w):
-            # Below cutoff OR not on the diagram: no background, but keep an
-            # explicit dark color so the word stays readable on the light body
-            # background (Streamlit dark theme would otherwise render it white).
-            # Still interactive: hovering shows the tooltip + outline.
+            # Below cutoff OR not on the diagram: no background, but readable dark
+            # text. Hovering shows the tooltip and a subtle frame.
+            frame_in = (
+                "this.style.outline='2px solid #9ca3af';"
+                "this.style.outlineOffset='1px';"
+                "this.style.borderRadius='3px';"
+            )
+            frame_out = "this.style.outline='none';"
             pieces.append(
-                f'<span style="color:#1a1a1a;cursor:default;border-radius:3px;" '
-                f'{hover_attrs}>{word_html}</span>'
+                f'<span style="position:relative;color:#1a1a1a;cursor:pointer;'
+                f'border-radius:3px;padding:0 1px;" '
+                f'onmouseover="{show_tip}{frame_in}" '
+                f'onmouseout="{hide_tip}{frame_out}">'
+                f'{word_html}{tooltip_html}</span>'
             )
         else:
             color = POS_COLOR if s_norm > 0 else NEG_COLOR
-            # Floor the alpha so even weak-but-significant words get a clearly
-            # visible tint; scale the rest up to MAX_ALPHA.
             alpha = min(MAX_ALPHA, 0.30 + 0.55 * abs(s_norm))
             bg = _rgba(color, alpha)
+            # On hover: a bold dark frame + shadow makes the selected colored
+            # rectangle stand out clearly from its neighbours.
+            frame_in = (
+                "this.style.outline='2.5px solid #111827';"
+                "this.style.outlineOffset='1px';"
+                "this.style.boxShadow='0 2px 8px rgba(0,0,0,0.4)';"
+            )
+            frame_out = (
+                "this.style.outline='none';"
+                "this.style.boxShadow='none';"
+            )
             pieces.append(
-                f'<span style="background:{bg};color:#111;border-radius:3px;'
-                f'padding:1px 3px;font-weight:600;cursor:default;" '
-                f'{hover_attrs}>{word_html}</span>'
+                f'<span style="position:relative;background:{bg};color:#111;'
+                f'border-radius:3px;padding:1px 3px;font-weight:600;cursor:pointer;" '
+                f'onmouseover="{show_tip}{frame_in}" '
+                f'onmouseout="{hide_tip}{frame_out}">'
+                f'{word_html}{tooltip_html}</span>'
             )
         cursor = w['end']
 
@@ -876,9 +897,10 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
         f'</div>'
     )
     body = (
-        f'<div style="white-space:pre-wrap;line-height:2.1;font-size:1.05rem;'
-        f'font-family:inherit;padding:12px;background:#FFFFFF;color:#1a1a1a;'
-        f'border-radius:6px;border:1px solid #DDD;">{joined}</div>'
+        f'<div style="white-space:pre-wrap;line-height:2.4;font-size:1.05rem;'
+        f'font-family:inherit;padding:22px 12px 12px 12px;background:#FFFFFF;'
+        f'color:#1a1a1a;border-radius:6px;border:1px solid #DDD;'
+        f'overflow:visible;">{joined}</div>'
     )
     return legend + body
 

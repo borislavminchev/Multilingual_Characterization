@@ -287,7 +287,7 @@ def predict(text, mention, start, end, tokenizer, coarse_model, fine_model, taxo
 
 def plot_coarse_probs(probs):
     """Horizontal bar chart for coarse probabilities."""
-    fig, ax = plt.subplots(figsize=(6, 2.5))
+    fig, ax = plt.subplots(figsize=(6, 4.2))
     labels = list(probs.keys())
     values = list(probs.values())
     colors = [COARSE_COLORS[l] for l in labels]
@@ -311,7 +311,8 @@ def plot_fine_probs(fine_probs, predictions, threshold):
         ordered_labels.extend(FINE_LABELS_BY_COARSE[c])
 
     n_labels = len(ordered_labels)
-    fig, ax = plt.subplots(figsize=(6, max(3.5, n_labels * 0.28)))
+    fig_height = min(6.0, max(4.0, n_labels * 0.22))
+    fig, ax = plt.subplots(figsize=(6, fig_height))
     y_pos = np.arange(len(ordered_labels))
     values = [fine_probs.get(l, 0) for l in ordered_labels]
     selected = [l in [fine_id2label[i] for i, p in enumerate(predictions) if p == 1] for l in ordered_labels]
@@ -357,7 +358,7 @@ def plot_fine_probs(fine_probs, predictions, threshold):
 def main():
     st.set_page_config(page_title="Entity Framing Demo", layout="wide")
 
-    st.title("SemEval-2025 Task 10 ST1 -- Entity Framing")
+    st.title("SemEval-2025 Task 10")
     st.caption("Hierarchical multi-label classification of entity roles in news articles")
 
     # Sidebar: taxonomy reference
@@ -458,7 +459,7 @@ def main():
         st.subheader("Results")
 
         # Coarse
-        col_coarse, col_fine = st.columns([1, 2])
+        col_coarse, col_fine = st.columns([1.2, 1.8])
 
         with col_coarse:
             st.markdown("### Coarse Role")

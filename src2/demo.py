@@ -288,9 +288,6 @@ def predict(text, mention, start, end, tokenizer, coarse_model, fine_model, taxo
 def plot_coarse_probs(probs):
     """Horizontal bar chart for coarse probabilities."""
     fig, ax = plt.subplots(figsize=(6, 2))
-    labels = list(probs.keys())
-    values = list(probs.values())
-    colors = [COARSE_COLORS[l] for l in labels]
     bars = ax.barh(labels, values, color=colors, edgecolor='white', height=0.6)
     for bar, val in zip(bars, values):
         ax.text(bar.get_width() + 0.01, bar.get_y() + bar.get_height() / 2,
@@ -310,7 +307,7 @@ def plot_fine_probs(fine_probs, predictions, threshold):
     for c in COARSE_LABELS:
         ordered_labels.extend(FINE_LABELS_BY_COARSE[c])
 
-    fig, ax = plt.subplots(figsize=(8, 8))
+    fig, ax = plt.subplots(figsize=(6, 6))
     y_pos = np.arange(len(ordered_labels))
     values = [fine_probs.get(l, 0) for l in ordered_labels]
     selected = [l in [fine_id2label[i] for i, p in enumerate(predictions) if p == 1] for l in ordered_labels]

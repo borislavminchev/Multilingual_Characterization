@@ -1442,7 +1442,7 @@ Integrated Gradients и SHAP са широко приети като теоре�
 \subsection{Градиент $\times$ Вграждане (Gradient $\times$ Embedding)}
 \label{sec:gradient_embedding}
 
-\textbf{Принцип.} Методът е адаптация на Gradient $\times$ Input \cite{simonyan2014gradient} за текстови модели: вместо входни пиксели, умножаваме градиента по вградените представяния на токените. За всеки токен $t$ с вградено представяне $\mathbf{e}_t \in \mathbb{R}^{D}$ изчисляваме точковото произведение между градиента на логита и самото представяне:
+\textbf{Принцип.} Методът е адаптация на Gradient $\times$ Input \cite{simonyan2014gradient} за текстови модели: вместо скаларни входни стойности, градиентът се умножава по вградените векторни представяния на токените. За всеки токен $t$ с вградено представяне $\mathbf{e}_t \in \mathbb{R}^{D}$ изчисляваме точковото произведение между градиента на логита и самото представяне:
 \begin{equation}
   s_t = \nabla_{\mathbf{e}_t} \ell \cdot \mathbf{e}_t = \sum_{d=1}^{D} \frac{\partial \ell}{\partial e_{t,d}} \cdot e_{t,d}
   \label{eq:grad_emb}

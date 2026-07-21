@@ -4,7 +4,7 @@ A9_BG_3970.txt,НАТО,160,163,BG,Antagonist,Antagonist
 A9_BG_4076.txt,Европа,50,55,BG,Innocent,Antagonist
 A9_BG_8427.txt,Путин,94,98,BG,Antagonist,Antagonist
 A9_BG_3819.txt,Украйна,233,239,BG,Protagonist,Innocent
-A9_BG_3819.txt,Владимир Путин,40,53,BG,Antagonist,Antagonist
+A9_BG_3819.txt,Владимир Путин,40,53,BG,Antagonist,Protagonist
 A9_BG_2961.txt,Володимир Зеленски,23,40,BG,Protagonist,Protagonist
 A9_BG_2961.txt,Путин,86,90,BG,Antagonist,Antagonist
 A9_BG_2828.txt,Вашингтон,47,55,BG,Antagonist,Antagonist
@@ -21,7 +21,7 @@ A9_BG_2663.txt,Запада,298,303,BG,Antagonist,Antagonist
 BG_979.txt,Ал Гор,170,175,BG,Antagonist,Antagonist
 BG_979.txt,Грета Тунберг,219,231,BG,Antagonist,Antagonist
 BG_979.txt,Марк Баумър,224,234,BG,Antagonist,Antagonist
-BG_950.txt,Швеция,2,7,BG,Antagonist,Antagonist
+BG_950.txt,Швеция,2,7,BG,Antagonist,Innocent
 A9_BG_2569.txt,Украйна,63,69,BG,Antagonist,Antagonist
 A9_BG_2569.txt,Русия,123,127,BG,Innocent,Antagonist
 A9_BG_2569.txt,Запада,218,223,BG,Antagonist,Antagonist
@@ -116,14 +116,14 @@ EN_CC_200069.txt,the UK,107,112,EN,Protagonist,Antagonist
 EN_CC_200069.txt,Piers Corbyn,0,11,EN,Protagonist,Protagonist
 EN_UA_DEV_100019.txt,Russia-,0,6,EN,Antagonist,Antagonist
 EN_UA_DEV_100019.txt,Star Blizzard,79,91,EN,Antagonist,Antagonist
-EN_UA_DEV_100002.txt,Zelensky,0,7,EN,Antagonist,Protagonist
+EN_UA_DEV_100002.txt,Zelensky,0,7,EN,Antagonist,Antagonist
 EN_UA_DEV_100002.txt,Ukraine,15,21,EN,Innocent,Antagonist
 EN_UA_DEV_100002.txt,West,4,7,EN,Antagonist,Antagonist
 EN_UA_DEV_100002.txt,NATO,150,153,EN,Antagonist,Antagonist
 EN_UA_DEV_100002.txt,Russia,51,56,EN,Protagonist,Antagonist
 HI_26.txt,मोदी,0,3,HI,Protagonist,Protagonist
 HI_26.txt,भारत,54,57,HI,Protagonist,Protagonist
-HI_26.txt,राष्ट्रपति वोलोदोमीर,11,30,HI,Antagonist,Innocent
+HI_26.txt,राष्ट्रपति वोलोदोमीर,11,30,HI,Antagonist,Protagonist
 HI_26.txt,रूस,85,87,HI,Antagonist,Antagonist
 HI_26.txt,कीव,92,94,HI,Innocent,Innocent
 HI_26.txt,स्लोवियास्क,99,109,HI,Innocent,Innocent
@@ -164,14 +164,14 @@ HI_152.txt,यूक्रेन,136,142,HI,Innocent,Antagonist
 HI_152.txt,साउथ कोरिया,220,230,HI,Antagonist,Antagonist
 HI_152.txt,दक्षिण कोरिया,458,470,HI,Protagonist,Protagonist
 HI_152.txt,किम योंग-ह्यून,488,501,HI,Protagonist,Protagonist
-HI_152.txt,पुतिन,142,146,HI,Antagonist,Antagonist
+HI_152.txt,पुतिन,142,146,HI,Antagonist,Protagonist
 HI_152.txt,नाटो,189,192,HI,Antagonist,Antagonist
 HI_152.txt,पश्चिमी देशों,203,215,HI,Antagonist,Antagonist
 HI_152.txt,रूस,16,18,HI,Protagonist,Antagonist
 HI_152.txt,यूक्रेन,20,26,HI,Protagonist,Antagonist
 HI_152.txt,राष्ट्रपति जेलेंस्की,388,407,HI,Protagonist,Antagonist
 HI_152.txt,सैनिकों,213,219,HI,Innocent,Antagonist
-HI_152.txt,उत्तर कोरिया,8,19,HI,Antagonist,Antagonist
+HI_152.txt,उत्तर कोरिया,8,19,HI,Antagonist,Protagonist
 HI_152.txt,दोनेत्सक,128,135,HI,Innocent,Innocent
 HI_152.txt,यूक्रेन,144,150,HI,Protagonist,Antagonist
 HI_35.txt,द मॉस्को टाइम्स,42,56,HI,Antagonist,Antagonist
@@ -214,13 +214,13 @@ HI_126.txt,यूक्रेन के राष्ट्रपति,213,233,H
 HI_126.txt,प्रधानमंत्री मोदी,158,174,HI,Protagonist,Protagonist
 HI_126.txt,भारत,17,20,HI,Protagonist,Protagonist
 HI_126.txt,चीन,177,179,HI,Antagonist,Antagonist
-HI_151.txt,किंग जोंग,24,32,HI,Antagonist,Protagonist
+HI_151.txt,किंग जोंग,24,32,HI,Antagonist,Antagonist
 HI_151.txt,यूक्रेन,279,285,HI,Innocent,Antagonist
 HI_151.txt,सोवियत संघ,80,89,HI,Protagonist,Antagonist
 HI_151.txt,अमेरिका,50,56,HI,Antagonist,Protagonist
 HI_125.txt,यूक्रेन,0,6,HI,Innocent,Protagonist
 HI_125.txt,वोलोदिमिर जेलेंस्की,22,40,HI,Protagonist,Protagonist
-HI_125.txt,रूस,64,66,HI,Antagonist,Antagonist
+HI_125.txt,रूस,64,66,HI,Antagonist,Protagonist
 HI_125.txt,जर्मनी,47,52,HI,Antagonist,Antagonist
 HI_125.txt,जेलेंस्की,0,8,HI,Protagonist,Protagonist
 HI_125.txt,जर्मनी,47,52,HI,Antagonist,Antagonist
@@ -248,9 +248,9 @@ HI_5.txt,यूक्रेन,42,48,HI,Innocent,Antagonist
 HI_5.txt,अमेरिका,114,120,HI,Protagonist,Protagonist
 HI_5.txt,फ्रांस,319,324,HI,Protagonist,Antagonist
 HI_5.txt,ब्रिटेन,329,335,HI,Protagonist,Antagonist
-HI_5.txt,यूक्रेन,23,29,HI,Innocent,Innocent
+HI_5.txt,यूक्रेन,23,29,HI,Innocent,Antagonist
 HI_5.txt,व्लादिमीर ज़ेलेंस्की,56,75,HI,Protagonist,Protagonist
-HI_5.txt,अमेरिका,71,77,HI,Protagonist,Protagonist
+HI_5.txt,अमेरिका,71,77,HI,Protagonist,Antagonist
 HI_5.txt,ज़ेलेंस्की,106,115,HI,Innocent,Antagonist
 HI_5.txt,पुतिन,16,20,HI,Protagonist,Protagonist
 HI_5.txt,प्रधानमंत्री,0,11,HI,Protagonist,Protagonist
@@ -271,7 +271,7 @@ HI_28.txt,अमेरिका-,32,39,HI,Antagonist,Antagonist
 HI_28.txt,रूस,40,42,HI,Antagonist,Antagonist
 HI_28.txt,पत्रकारों,80,88,HI,Innocent,Antagonist
 HI_28.txt,वादिम क्रासिकोव,356,370,HI,Antagonist,Antagonist
-HI_28.txt,बाइडेन,122,127,HI,Protagonist,Antagonist
+HI_28.txt,बाइडेन,122,127,HI,Protagonist,Protagonist
 HI_28.txt,पत्रकारों,259,267,HI,Innocent,Antagonist
 HI_28.txt,गेर्शकोविच,39,48,HI,Innocent,Protagonist
 HI_11.txt,नाटो,210,213,HI,Antagonist,Antagonist
@@ -282,10 +282,10 @@ HI_11.txt,हमास,64,67,HI,Antagonist,Antagonist
 HI_11.txt,इजरायल,54,59,HI,Protagonist,Antagonist
 HI_11.txt,भारत,13,16,HI,Protagonist,Protagonist
 HI_11.txt,चीन,43,45,HI,Antagonist,Antagonist
-HI_11.txt,पाकिस्तान,56,64,HI,Antagonist,Innocent
+HI_11.txt,पाकिस्तान,56,64,HI,Antagonist,Protagonist
 HI_11.txt,रूस,0,2,HI,Antagonist,Protagonist
-HI_11.txt,यूक्रेन,7,13,HI,Innocent,Antagonist
-HI_11.txt,नॉर्थ कोरिया,48,59,HI,Innocent,Innocent
+HI_11.txt,यूक्रेन,7,13,HI,Innocent,Innocent
+HI_11.txt,नॉर्थ कोरिया,48,59,HI,Innocent,Protagonist
 HI_11.txt,तानाशाह,111,117,HI,Antagonist,Antagonist
 HI_31.txt,नरेंद्र मोदी,217,228,HI,Protagonist,Protagonist
 HI_31.txt,व्लादिमीर पुतिन,249,263,HI,Protagonist,Protagonist
@@ -310,11 +310,11 @@ HI_159.txt,सर्गिव्का,420,428,HI,Innocent,Innocent
 HI_159.txt,अवदीवका,146,152,HI,Innocent,Innocent
 HI_159.txt,खार्किव,287,293,HI,Innocent,Innocent
 HI_159.txt,पोक्रोव्स्क,75,85,HI,Innocent,Innocent
-HI_159.txt,यूक्रेन,10,16,HI,Antagonist,Innocent
-HI_159.txt,रूसी सेनाओं,166,176,HI,Protagonist,Antagonist
+HI_159.txt,यूक्रेन,10,16,HI,Antagonist,Protagonist
+HI_159.txt,रूसी सेनाओं,166,176,HI,Protagonist,Protagonist
 HI_159.txt,डोनेट्स्क,579,587,HI,Innocent,Innocent
 HI_159.txt,लुहान्स्क,711,719,HI,Innocent,Innocent
-HI_110.txt,रूस,1,3,HI,Antagonist,Antagonist
+HI_110.txt,रूस,1,3,HI,Antagonist,Protagonist
 HI_110.txt,व्लादिमीर पुतिन,53,67,HI,Protagonist,Protagonist
 HI_110.txt,अमेरिका,72,78,HI,Antagonist,Antagonist
 HI_110.txt,ब्रिटेन,83,89,HI,Antagonist,Antagonist
@@ -336,7 +336,7 @@ HI_158.txt,एलेक्सी स्मिरनोव,37,52,HI,Protagonist,P
 HI_158.txt,नागरिक,236,241,HI,Innocent,Innocent
 HI_158.txt,व्याचेस्लाव ग्लैडकोव,29,48,HI,Protagonist,Protagonist
 HI_158.txt,बेलगोरोड,78,85,HI,Innocent,Innocent
-HI_158.txt,क्रास्नाया यारुगा,148,164,HI,Innocent,Antagonist
+HI_158.txt,क्रास्नाया यारुगा,148,164,HI,Innocent,Innocent
 HI_158.txt,यूक्रेनी सेना,175,187,HI,Antagonist,Antagonist
 HI_158.txt,पुतिन,298,302,HI,Protagonist,Protagonist
 HI_158.txt,राष्ट्रपति,0,9,HI,Protagonist,Protagonist
@@ -376,7 +376,7 @@ HI_95.txt,यूक्रेन,38,44,HI,Innocent,Antagonist
 HI_95.txt,रूस,2,4,HI,Antagonist,Protagonist
 HI_95.txt,हिजबुल्लाह,13,22,HI,Antagonist,Antagonist
 HI_95.txt,इजरायल,27,32,HI,Innocent,Innocent
-HI_95.txt,रूस,28,30,HI,Antagonist,Antagonist
+HI_95.txt,रूस,28,30,HI,Antagonist,Protagonist
 HI_95.txt,उत्तर कोरिया,0,11,HI,Antagonist,Protagonist
 HI_12.txt,नरेन्द्र मोदी,13,25,HI,Protagonist,Protagonist
 HI_12.txt,कार्ल नेहमर,221,231,HI,Protagonist,Protagonist
@@ -390,9 +390,9 @@ HI_34.txt,पुतिन,0,4,HI,Antagonist,Protagonist
 HI_34.txt,यूक्रेनी सेना,19,31,HI,Protagonist,Antagonist
 HI_34.txt,यूक्रेन,28,34,HI,Protagonist,Protagonist
 HI_34.txt,रूसी सेना,86,94,HI,Antagonist,Antagonist
-HI_34.txt,यूक्रेन,35,41,HI,Innocent,Antagonist
-HI_34.txt,यूक्रेन,35,41,HI,Protagonist,Antagonist
-HI_34.txt,यूक्रेन,35,41,HI,Protagonist,Antagonist
+HI_34.txt,यूक्रेन,35,41,HI,Innocent,Protagonist
+HI_34.txt,यूक्रेन,35,41,HI,Protagonist,Protagonist
+HI_34.txt,यूक्रेन,35,41,HI,Protagonist,Protagonist
 HI_34.txt,यूक्रेन,23,29,HI,Innocent,Antagonist
 HI_34.txt,अमेरिका,67,73,HI,Antagonist,Protagonist
 HI_34.txt,यूक्रेन,23,29,HI,Innocent,Antagonist
@@ -406,10 +406,10 @@ PT_203.txt,Valdelice Verón,112,126,PT,Innocent,Protagonist
 PT_203.txt,Guarani Kaiowá,137,150,PT,Innocent,Protagonist
 PT_208.txt,Caatinga,2,9,PT,Innocent,Innocent
 PT_208.txt,Rodrigo Agostinho,190,206,PT,Protagonist,Protagonist
-PT_208.txt,Claudecy Oliveira Lemes,13,35,PT,Antagonist,Antagonist
+PT_208.txt,Claudecy Oliveira Lemes,13,35,PT,Antagonist,Protagonist
 PT_233.txt,Amazónia,538,545,PT,Innocent,Innocent
 PT_241.txt,Rússia,2,7,PT,Protagonist,Protagonist
-PT_241.txt,União Europeia,107,120,PT,Antagonist,Antagonist
+PT_241.txt,União Europeia,107,120,PT,Antagonist,Protagonist
 PT_259.txt,Maria Zakharova,59,73,PT,Protagonist,Protagonist
 PT_259.txt,Volodymyr Zelensky,126,143,PT,Antagonist,Protagonist
 PT_259.txt,Ucrânia,233,239,PT,Innocent,Antagonist

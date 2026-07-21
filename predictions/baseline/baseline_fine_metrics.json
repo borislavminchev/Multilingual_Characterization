@@ -1,7 +1,7 @@
 {
   "coarse": {
-    "accuracy": 0.6920529801324503,
-    "weighted_f1": 0.6890892878068392
+    "accuracy": 0.6854304635761589,
+    "weighted_f1": 0.6833416275235666
   },
   "fine": {
     "f1_micro": 0.3563922942206655,
@@ -13,10 +13,10 @@
     "threshold": 0.5
   },
   "hierarchical": {
-    "coarse_accuracy": 0.6920529801324503,
+    "coarse_accuracy": 0.6854304635761589,
     "exact_match_accuracy": 0.11754966887417219,
-    "conditional_fine_f1": 0.485600364547733,
-    "n_correct_coarse": 418,
+    "conditional_fine_f1": 0.49138486312399354,
+    "n_correct_coarse": 414,
     "n_total": 604
   },
   "per_label_f1": {

@@ -16,6 +16,7 @@
 \usepackage{booktabs}
 \usepackage{subcaption}
 \usepackage{multirow}
+\usepackage{float}
 \graphicspath{{../diagrams/}}
 
 % === Math ===
@@ -316,7 +317,7 @@ Transformer архитектурата \cite{vaswani2017attention}, предло
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=1.1\textwidth]{dataset/a4_entity_role_diversity.png}
+  \includegraphics[width=0.8\textwidth]{dataset/a4_entity_role_diversity.png}
   \caption{Брой различни детайлни роли за многократно споменати именувани обекти в корпуса.}
   \label{fig:role_diversity}
 \end{figure}
@@ -325,21 +326,21 @@ Transformer архитектурата \cite{vaswani2017attention}, предло
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.75\textwidth]{dataset/a1_protagonist_cooccurrence.png}
+  \includegraphics[width=0.6\textwidth]{dataset/a1_protagonist_cooccurrence.png}
   \caption{Съвместно появяване на детайлните етикети в категория Protagonist.}
   \label{fig:cooc_protagonist}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.95\textwidth]{dataset/a1_antagonist_cooccurrence.png}
+  \includegraphics[width=0.8\textwidth]{dataset/a1_antagonist_cooccurrence.png}
   \caption{Съвместно появяване на детайлните етикети в категория Antagonist.}
   \label{fig:cooc_antagonist}
 \end{figure}
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.75\textwidth]{dataset/a1_innocent_cooccurrence.png}
+  \includegraphics[width=0.55\textwidth]{dataset/a1_innocent_cooccurrence.png}
   \caption{Съвместно появяване на детайлните етикети в категория Innocent.}
   \label{fig:cooc_innocent}
 \end{figure}
@@ -377,11 +378,7 @@ Transformer архитектурата \cite{vaswani2017attention}, предло
 
   \item \textbf{Многоезичност.} Петте езика имат различни типологични характеристики и писмени системи (латиница, кирилица, деванагари), което изисква многоезичен предварително обучен модел.
 
-  \item \textbf{Йерархични ограничения.} Детайлните етикети трябва да бъдат съобразени с основната категория. Грешки на грубо ниво неизбежно водят до каскадно разпространение на грешките.
-
   \item \textbf{Дълги документи.} Някои статии надхвърлят лимита от 512~токена, като обектът може да е споменат в различни части на текста.
-
-  \item \textbf{Контекстна зависимост.} Ролята на обекта зависи от контекста, в който е споменат - една и съща личност може да бъде представена като протагонист в една статия и като антагонист в друга.
 \end{enumerate}
 
 

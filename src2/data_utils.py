@@ -5,7 +5,6 @@ import nltk
 from sklearn.model_selection import train_test_split, KFold
 from config import TAXONOMY_FILE, TRAIN_DATA_PARENT, VAL_DATA_PARENT, TEST_DATA_PARENT
 
-# Download NLTK punkt tokenizer
 nltk.download("punkt", quiet=True)
 
 ENTITY_START_TOKEN = "[ENTITY]"
@@ -62,7 +61,6 @@ def expand_to_smaller_units(df, mode):
 
         found = False
         for unit_start, unit_end, unit_text in units:
-            # Check if unit contains the entire mention span
             if not (unit_start <= orig_start and orig_end <= unit_end):
                 continue
 
@@ -162,7 +160,7 @@ def load_multilingual_data_by_mode(mode="document", labeled=True):
 
     trainf_df_all, val_df_all, test_df_all = pd.DataFrame(), pd.DataFrame(), pd.DataFrame()
     for lang in available_languages:
-        print(f"\n📘 Loading {mode}-level data for language: {lang}")
+        print(f"\nLoading {mode}-level data for language: {lang}")
 
         train_root = os.path.join(TRAIN_DATA_PARENT, lang, "raw-documents")
         train_ann = os.path.join(TRAIN_DATA_PARENT, lang, "subtask-1-annotations.txt")
@@ -174,15 +172,14 @@ def load_multilingual_data_by_mode(mode="document", labeled=True):
         test_ann = os.path.join(TEST_DATA_PARENT, lang, "subtask-1-annotations.txt")
 
         if not (os.path.exists(train_ann) and os.path.exists(val_ann)):
-            print(f"⚠️ Skipping {lang}: missing annotation files")
+            print(f"Skipping {lang}: missing annotation files")
             continue
 
-        # Load document-level data
         train_df_doc = load_annotations(train_ann, train_root, labeled=labeled)
         val_df_doc = load_annotations(val_ann, val_root, labeled=labeled)
         test_df_doc = load_annotations(test_ann, test_root, labeled=labeled)
         print(f"  - Loaded {len(train_df_doc)} train, {len(val_df_doc)} val, {len(test_df_doc)} test documents.")
-        # Transform based on mode
+
         if mode == "document":
             train_df, val_df, test_df = train_df_doc, val_df_doc, test_df_doc
         else:
@@ -211,24 +208,21 @@ def add_text_size_features(df):
 def load_data(mode="document"):
     train_df_full, val_df, test_df = load_multilingual_data_by_mode(mode=mode, labeled=True)
 
-    print(f"\n✅ Loaded dataset sizes: Train={len(train_df_full)}, Val={len(val_df)}, Test={len(test_df)}")
+    print(f"\nLoaded dataset sizes: Train={len(train_df_full)}, Val={len(val_df)}, Test={len(test_df)}")
 
     train_df, new_val_df = train_test_split(train_df_full, test_size=0.2, random_state=42)
     val_df = new_val_df
 
-    # Add text size features
     train_df = add_text_size_features(train_df)
     val_df = add_text_size_features(val_df)
     test_df = add_text_size_features(test_df)
 
-    print(f"\n✅ Final dataset sizes: Train={len(train_df)}, Val={len(val_df)}, Test={len(test_df)}")
-    print(f"📊 Avg text length - Train: {train_df['text_length'].mean():.1f}, Val: {val_df['text_length'].mean():.1f}, Test: {test_df['text_length'].mean():.1f}")
-    print(f"📊 Avg word count - Train: {train_df['word_count'].mean():.1f}, Val: {val_df['word_count'].mean():.1f}, Test: {test_df['word_count'].mean():.1f}")
+    print(f"\nFinal dataset sizes: Train={len(train_df)}, Val={len(val_df)}, Test={len(test_df)}")
+    print(f"Avg text length - Train: {train_df['text_length'].mean():.1f}, Val: {val_df['text_length'].mean():.1f}, Test: {test_df['text_length'].mean():.1f}")
+    print(f"Avg word count - Train: {train_df['word_count'].mean():.1f}, Val: {val_df['word_count'].mean():.1f}, Test: {test_df['word_count'].mean():.1f}")
 
     return train_df, val_df, test_df
 
-# Load Labels immediately
-# label2id, id2label = load_taxonomy()
 available_languages = [d for d in os.listdir(TRAIN_DATA_PARENT) if os.path.isdir(os.path.join(TRAIN_DATA_PARENT, d))]
 
 def insert_entity_tokens(df):
@@ -237,7 +231,7 @@ def insert_entity_tokens(df):
     df['text'] = modified_text
     return df
 
-# K-Fold Generator: Implement a function to yield K-Fold splits (train/val/OOF indices).
+# K-fold splits (train/val indices) for cross-validation.
 
 def k_fold_split(df, k=5, random_state=42):
     kf = KFold(n_splits=k, shuffle=True, random_state=random_state)

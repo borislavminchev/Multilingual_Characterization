@@ -43,9 +43,7 @@ from saliency import (
     select_top_entries,
 )
 
-# ─────────────────────────────────────────────
 # Constants
-# ─────────────────────────────────────────────
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
@@ -99,9 +97,7 @@ EXAMPLES = [
 ]
 
 
-# ─────────────────────────────────────────────
-# Model Loading
-# ─────────────────────────────────────────────
+# Model loading
 
 def find_last_checkpoint(checkpoint_dir):
     """Find the checkpoint with the highest step number."""
@@ -204,18 +200,14 @@ def load_models():
     return tokenizer, coarse_model, fine_model, taxonomy_mgr, device, coarse_loaded, fine_loaded
 
 
-# ─────────────────────────────────────────────
 # Prediction
-# ─────────────────────────────────────────────
 
 def predict(text, mention, start, end, tokenizer, coarse_model, fine_model, taxonomy_mgr, device):
     """Run hierarchical coarse → fine prediction."""
-    # Mark entity in text
     marked_text = (
         f"{text[:start]} {ENTITY_START_TOKEN} {text[start:end]} {ENTITY_END_TOKEN} {text[end:]}"
     )
 
-    # Tokenize
     encoding = tokenizer(
         marked_text, truncation=True, padding='max_length',
         max_length=MAX_LENGTH, return_tensors='pt',
@@ -225,14 +217,13 @@ def predict(text, mention, start, end, tokenizer, coarse_model, fine_model, taxo
     attention_mask = encoding['attention_mask'].to(device)
 
     with torch.no_grad():
-        # Coarse prediction
         coarse_out = coarse_model(input_ids, attention_mask)
         coarse_logits = coarse_out.logits[0]
         coarse_probs = torch.softmax(coarse_logits, dim=-1).cpu().numpy()
         coarse_id = int(coarse_probs.argmax())
         coarse_label = coarse_id2label[coarse_id]
 
-        # Fine prediction
+        # Fine stage is conditioned on the coarse probabilities (soft) or the coarse id (hard)
         coarse_probs_tensor = torch.tensor(
             coarse_probs, dtype=torch.float32
         ).unsqueeze(0).to(device)
@@ -270,7 +261,7 @@ def predict(text, mention, start, end, tokenizer, coarse_model, fine_model, taxo
         'fine_labels': selected_fine,
         'fine_probs': {fine_id2label[i]: float(fine_probs[i]) for i in range(NUM_FINE_LABELS)},
         'predictions': predictions,
-        # --- Saliency support: raw tensors + encoding for downstream analysis ---
+        # Raw tensors + encoding kept for the downstream saliency analysis
         'input_ids': input_ids.detach(),
         'attention_mask': attention_mask.detach(),
         'encoding': encoding,
@@ -281,9 +272,7 @@ def predict(text, mention, start, end, tokenizer, coarse_model, fine_model, taxo
     }
 
 
-# ─────────────────────────────────────────────
 # Visualization
-# ─────────────────────────────────────────────
 
 def plot_coarse_probs(probs):
     """Horizontal bar chart for coarse probabilities."""
@@ -351,9 +340,7 @@ def plot_fine_probs(fine_probs, predictions, threshold):
     return fig
 
 
-# ─────────────────────────────────────────────
-# Streamlit App
-# ─────────────────────────────────────────────
+# Streamlit app
 
 def main():
     st.set_page_config(page_title="Entity Framing Demo", layout="wide")
@@ -361,7 +348,6 @@ def main():
     st.title("SemEval-2025 Task 10")
     st.caption("Hierarchical multi-label classification of entity roles in news articles")
 
-    # Sidebar: taxonomy reference
     with st.sidebar:
         st.header("Label Taxonomy")
         for coarse in COARSE_LABELS:
@@ -378,7 +364,6 @@ def main():
         st.text(f"Gap ratio: {FINE_GAP_RATIO}")
         st.text(f"Min/Max labels: {FINE_MIN_LABELS}/{FINE_MAX_LABELS}")
 
-    # Load models
     with st.spinner("Loading models (this may take a minute on first run)..."):
         tokenizer, coarse_model, fine_model, taxonomy_mgr, device, coarse_ok, fine_ok = load_models()
 
@@ -396,7 +381,6 @@ def main():
 
     st.markdown("---")
 
-    # Example selector
     example_names = ["Custom input"] + [e["name"] for e in EXAMPLES]
     selected_example = st.selectbox("Load example:", example_names)
 
@@ -408,7 +392,6 @@ def main():
         default_text = ""
         default_mention = ""
 
-    # Input
     col_input, col_entity = st.columns([3, 1])
     with col_input:
         text = st.text_area("Article text:", value=default_text, height=180)
@@ -454,11 +437,9 @@ def main():
     if "last_result" in st.session_state:
         result = st.session_state["last_result"]
 
-        # Results
         st.markdown("---")
         st.subheader("Results")
 
-        # Coarse
         col_coarse, col_fine = st.columns([1.2, 1.8])
 
         with col_coarse:
@@ -475,7 +456,6 @@ def main():
 
         with col_fine:
             st.markdown("### Fine-Grained Roles")
-            # Selected labels as chips
             for fl in result['fine_labels']:
                 prob = result['fine_probs'][fl]
                 color = COARSE_COLORS[COARSE_FOR_FINE[fl]]
@@ -490,7 +470,6 @@ def main():
             st.pyplot(fig_fine)
             plt.close(fig_fine)
 
-        # Raw probabilities expander
         with st.expander("Show raw probabilities"):
             st.json({
                 'coarse_probabilities': result['coarse_probs'],
@@ -498,7 +477,6 @@ def main():
                 'selected_fine_labels': result['fine_labels'],
             })
 
-        # ── Saliency Analysis ────────────────────────────────────────────
         _render_saliency_section(
             result=result,
             coarse_model=coarse_model,
@@ -517,7 +495,6 @@ def _render_saliency_section(result, coarse_model, fine_model, tokenizer, device
             "Green = supports the predicted class, red = opposes it."
         )
 
-        # Method selector: occlusion (word) / phrase occlusion / gradient×embedding
         method = st.radio(
             "Method:",
             options=["Occlusion (word)", "Occlusion (phrase)", "Gradient × Embedding"],

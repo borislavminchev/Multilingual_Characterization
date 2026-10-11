@@ -50,12 +50,12 @@ def compute_metrics(eval_pred):
     """Compute metrics for HuggingFace Trainer."""
     predictions, labels = eval_pred
     predictions = np.argmax(predictions, axis=1)
-    
+
     accuracy = accuracy_score(labels, predictions)
     f1 = f1_score(labels, predictions, average='weighted', zero_division=0)
     precision = precision_score(labels, predictions, average='weighted', zero_division=0)
     recall = recall_score(labels, predictions, average='weighted', zero_division=0)
-    
+
     return {
         'accuracy': accuracy,
         'f1': f1,
@@ -66,42 +66,30 @@ def compute_metrics(eval_pred):
 
 def generate_predictions(trainer, dataset, df, output_path, device):
     """
-    Generate predictions on a dataset and save to CSV.
-    
-    Adds columns:
-    - predicted_coarse: predicted coarse label name
-    - predicted_coarse_id: predicted coarse label ID
-    - coarse_confidence: confidence score of prediction
-    - coarse_proba_*: probability for each coarse class
+    Run the trained coarse classifier over a dataset and save predictions to CSV.
+    Adds predicted_coarse(_id), coarse_confidence and one coarse_proba_* column per class.
     """
     print(f"\nGenerating predictions for {len(dataset)} samples...")
-    
+
     predictions_output = trainer.predict(dataset)
     logits = predictions_output.predictions
-    
-    # Convert to probabilities
+
     probs = torch.softmax(torch.tensor(logits), dim=-1).numpy()
     predicted_ids = np.argmax(probs, axis=1)
     confidences = np.max(probs, axis=1)
-    
-    # Create output dataframe
+
     output_df = df.copy()
     output_df['predicted_coarse'] = [coarse_id2label[pid] for pid in predicted_ids]
     output_df['predicted_coarse_id'] = predicted_ids
     output_df['coarse_confidence'] = confidences
-    
-    # Add per-class probabilities
+
     for class_name, class_id in coarse_label2id.items():
         output_df[f'coarse_proba_{class_name.lower()}'] = probs[:, class_id]
-    
-    # Create output directory if needed
+
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    
-    # Save to CSV
     output_df.to_csv(output_path, index=False)
-    print(f"✅ Saved predictions to {output_path}")
-    
-    # Print accuracy if ground truth is available
+    print(f"Saved predictions to {output_path}")
+
     if 'labels' in df.columns:
         gt_coarse = []
         for raw in df['labels'].tolist():
@@ -111,7 +99,7 @@ def generate_predictions(trainer, dataset, df, output_path, device):
         acc = accuracy_score(gt_ids, predicted_ids)
         f1 = f1_score(gt_ids, predicted_ids, average='weighted', zero_division=0)
         print(f"   Accuracy: {acc:.4f}, F1: {f1:.4f}")
-    
+
     return output_df
 
 
@@ -119,52 +107,45 @@ def main():
     print("="*100)
     print("COARSE ROLE CLASSIFIER TRAINING")
     print("="*100)
-    
-    # Set device
+
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    print(f"\n📱 Using device: {device}")
-    
-    # Load data
-    print("\n📂 Loading data...")
+    print(f"\nUsing device: {device}")
+
+    print("\nLoading data...")
     train_df = pd.read_csv(TRAIN_DATA_RATIONALE)
     val_df = pd.read_csv(VAL_DATA_RATIONALE)
     test_df = pd.read_csv(TEST_DATA_RATIONALE)
     print(f"   Train: {len(train_df)}, Val: {len(val_df)}, Test: {len(test_df)}")
-    
-    # Initialize tokenizer
-    print(f"\n🔤 Loading tokenizer: {MODEL_NAME}")
+
+    print(f"\nLoading tokenizer: {MODEL_NAME}")
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
     tokenizer.add_special_tokens({
         'additional_special_tokens': [ENTITY_START_TOKEN, ENTITY_END_TOKEN]
     })
-    
-    # Load base model
-    print(f"🧠 Loading base model: {MODEL_NAME}")
+
+    print(f"Loading base model: {MODEL_NAME}")
     base_model = AutoModel.from_pretrained(MODEL_NAME)
     base_model.resize_token_embeddings(len(tokenizer))
     base_model = base_model.to(device)
-    
-    # Create datasets
-    print("\n📊 Creating datasets...")
+
+    print("\nCreating datasets...")
     train_dataset = EntityFramingDataset(train_df, tokenizer, max_length=MAX_LENGTH)
     val_dataset = EntityFramingDataset(val_df, tokenizer, max_length=MAX_LENGTH)
     test_dataset = EntityFramingDataset(test_df, tokenizer, max_length=MAX_LENGTH)
-    
-    # Compute class counts for class-balanced loss
+
     class_counts = compute_class_counts_from_df(train_df)
-    print(f"\n📈 Class distribution:")
+    print(f"\nClass distribution:")
     for class_name, class_id in coarse_label2id.items():
         print(f"   {class_name}: {class_counts[class_id]}")
-    
-    # Initialize classifier with anti-overfitting settings
-    print("\n🏗️ Initializing CoarseRoleClassifier...")
+
+    print("\nInitializing CoarseRoleClassifier...")
     print(f"   Head type: {COARSE_HEAD_TYPE}")
     print(f"   Loss type: {COARSE_LOSS_TYPE}")
     print(f"   Learning rate: {COARSE_LEARNING_RATE}")
     print(f"   Unfrozen layers: {COARSE_NUM_UNFROZEN_LAYERS}")
     print(f"   Dropout: {COARSE_DROPOUT}")
     print(f"   Weight decay: {COARSE_WEIGHT_DECAY}")
-    
+
     classifier = CoarseRoleClassifier(
         base_model=base_model,
         tokenizer=tokenizer,
@@ -177,16 +158,15 @@ def main():
         head_type=COARSE_HEAD_TYPE,
         loss_type=COARSE_LOSS_TYPE
     )
-    
-    # Training arguments with regularization
+
     training_args = TrainingArguments(
         output_dir=COARSE_CHECKPOINT_DIR,
         num_train_epochs=COARSE_NUM_EPOCHS,
         per_device_train_batch_size=COARSE_BATCH_SIZE,
         per_device_eval_batch_size=COARSE_BATCH_SIZE,
         learning_rate=COARSE_LEARNING_RATE,
-        warmup_ratio=COARSE_WARMUP_RATIO,      # Use ratio instead of fixed steps
-        weight_decay=COARSE_WEIGHT_DECAY,       # L2 regularization
+        warmup_ratio=COARSE_WARMUP_RATIO,
+        weight_decay=COARSE_WEIGHT_DECAY,
         save_strategy='epoch',
         eval_strategy='epoch',
         logging_steps=50,
@@ -196,10 +176,9 @@ def main():
         greater_is_better=True,
         save_total_limit=10,
         remove_unused_columns=False,
-        report_to='none',  # Disable wandb/tensorboard
+        report_to='none',  # no wandb/tensorboard
     )
-    
-    # Create Trainer
+
     trainer = Trainer(
         model=classifier,
         args=training_args,
@@ -208,19 +187,17 @@ def main():
         data_collator=collate_fn_entity_framing,
         compute_metrics=compute_metrics,
     )
-    
-    # Train
+
     print("\n" + "="*100)
     print("STARTING TRAINING")
     print("="*100)
     train_result = trainer.train()
-    
+
     print(f"\n{'='*100}")
     print("TRAINING COMPLETED")
     print(f"{'='*100}")
     print(f"Train Loss: {train_result.training_loss:.4f}")
-    
-    # Evaluate on validation set
+
     print(f"\n{'='*100}")
     print("EVALUATING ON VALIDATION SET")
     print(f"{'='*100}")
@@ -229,8 +206,7 @@ def main():
     print(f"Val F1 Score:  {val_results['val_f1']:.4f}")
     print(f"Val Precision: {val_results['val_precision']:.4f}")
     print(f"Val Recall:    {val_results['val_recall']:.4f}")
-    
-    # Evaluate on test set
+
     print(f"\n{'='*100}")
     print("EVALUATING ON TEST SET")
     print(f"{'='*100}")
@@ -239,23 +215,22 @@ def main():
     print(f"Test F1 Score:  {test_results['test_f1']:.4f}")
     print(f"Test Precision: {test_results['test_precision']:.4f}")
     print(f"Test Recall:    {test_results['test_recall']:.4f}")
-    
-    # Generate predictions on all splits
+
     print(f"\n{'='*100}")
     print("GENERATING PREDICTIONS FOR FINE CLASSIFIER")
     print(f"{'='*100}")
-    
+
     os.makedirs(PREDICTIONS_ROOT, exist_ok=True)
-    
+
     generate_predictions(trainer, train_dataset, train_df, COARSE_PREDICTIONS_TRAIN, device)
     generate_predictions(trainer, val_dataset, val_df, COARSE_PREDICTIONS_VAL, device)
     generate_predictions(trainer, test_dataset, test_df, COARSE_PREDICTIONS_TEST, device)
-    
+
     print(f"\n{'='*100}")
     print("COARSE CLASSIFIER TRAINING COMPLETE")
     print(f"{'='*100}")
-    print(f"\n📁 Model saved to: {COARSE_CHECKPOINT_DIR}")
-    print(f"📁 Predictions saved to: {PREDICTIONS_ROOT}/")
+    print(f"\nModel saved to: {COARSE_CHECKPOINT_DIR}")
+    print(f"Predictions saved to: {PREDICTIONS_ROOT}/")
     print("\nNext step: Run train_fine.py to train the fine role classifier")
 
 

@@ -1,12 +1,9 @@
 """
-Loss Functions for Hierarchical Entity Role Classification
+Loss functions for the two classifiers.
 
-This module contains all loss functions used in the project:
-- FocalLoss: Standard focal loss for single-label classification
-- ClassBalancedCrossEntropy: Class-balanced CE (Cui et al., CVPR 2019)
-- MultiLabelFocalLoss: Focal loss for multi-label classification
-- AsymmetricLoss: ASL for multi-label (Ben-Baruch et al., 2021)
-- AsymmetricLossOptimized: ASL with class weighting and entropy regularization
+Single-label (coarse): FocalLoss, ClassBalancedCrossEntropy (Cui et al., CVPR 2019).
+Multi-label (fine): MultiLabelFocalLoss, AsymmetricLoss and AsymmetricLossOptimized
+(ASL, Ben-Baruch et al., 2021), plus a CardinalityRegularizer on the predicted count.
 """
 
 import torch

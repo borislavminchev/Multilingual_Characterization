@@ -53,10 +53,6 @@ for _c, _fines in FINE_LABELS_BY_COARSE.items():
         COARSE_FOR_FINE[_f] = _c
 
 
-# =============================================================================
-# DATA LOADING
-# =============================================================================
-
 def find_last_checkpoint(checkpoint_dir):
     """Find the checkpoint subdirectory with the highest step number."""
     if not os.path.isdir(checkpoint_dir):
@@ -77,13 +73,8 @@ def find_last_checkpoint(checkpoint_dir):
 
 def load_training_history(checkpoint_dir):
     """
-    Load the full training history from the last checkpoint's trainer_state.json.
-
-    Returns:
-        train_df: DataFrame with training logs (loss, grad_norm, learning_rate, step, epoch)
-        eval_df:  DataFrame with evaluation logs (eval_*, step, epoch)
-        state:    Full trainer_state dict (for best_model_checkpoint, etc.)
-    Returns (None, None, None) if checkpoints not found.
+    Load training history from the last checkpoint's trainer_state.json.
+    Returns (train_df, eval_df, state), or (None, None, None) if not found.
     """
     last_ckpt = find_last_checkpoint(checkpoint_dir)
     if last_ckpt is None:
@@ -121,10 +112,7 @@ def ema_smooth(values, alpha=0.2):
     return smoothed
 
 
-# =============================================================================
-# B1. Training Loss Curves
-# =============================================================================
-
+# B1: training loss curves
 def plot_b1_training_loss(coarse_train, fine_train):
     """Training loss over steps for both classifiers."""
     has_coarse = coarse_train is not None and 'loss' in coarse_train.columns
@@ -186,10 +174,7 @@ def plot_b1_training_loss(coarse_train, fine_train):
     print(f"  Saved: {path}")
 
 
-# =============================================================================
-# B2. Evaluation Metrics Over Training
-# =============================================================================
-
+# B2: evaluation metrics over training
 def plot_b2_eval_metrics(coarse_eval, fine_eval, coarse_state, fine_state):
     """Evaluation metrics vs epoch for both classifiers."""
     has_coarse = coarse_eval is not None and 'eval_f1' in coarse_eval.columns
@@ -216,7 +201,6 @@ def plot_b2_eval_metrics(coarse_eval, fine_eval, coarse_state, fine_state):
             f1_vals = coarse_eval['eval_f1'].values
             ax.plot(epochs, f1_vals, 's-', color='#F44336',
                     label='F1', linewidth=2, markersize=5)
-            # Mark best
             if coarse_state:
                 best_step = coarse_state.get('best_global_step')
                 if best_step and 'step' in coarse_eval.columns:
@@ -248,7 +232,6 @@ def plot_b2_eval_metrics(coarse_eval, fine_eval, coarse_state, fine_state):
                 ax.plot(epochs, fine_eval[col], 'o-', color=color,
                         label=label, linewidth=2, markersize=5)
 
-        # Mark best
         if fine_state and 'eval_sample_f1' in fine_eval.columns:
             best_step = fine_state.get('best_global_step')
             if best_step and 'step' in fine_eval.columns:
@@ -273,10 +256,7 @@ def plot_b2_eval_metrics(coarse_eval, fine_eval, coarse_state, fine_state):
     print(f"  Saved: {path}")
 
 
-# =============================================================================
-# B3. Learning Rate Schedule
-# =============================================================================
-
+# B3: learning rate schedule
 def plot_b3_learning_rate(coarse_train, fine_train):
     """Learning rate vs step."""
     has_coarse = coarse_train is not None and 'learning_rate' in coarse_train.columns
@@ -321,10 +301,7 @@ def plot_b3_learning_rate(coarse_train, fine_train):
     print(f"  Saved: {path}")
 
 
-# =============================================================================
-# B4. Gradient Norm Over Training
-# =============================================================================
-
+# B4: gradient norm over training
 def plot_b4_gradient_norm(coarse_train, fine_train):
     """Gradient norm vs step — shows training stability."""
     has_coarse = coarse_train is not None and 'grad_norm' in coarse_train.columns
@@ -373,10 +350,7 @@ def plot_b4_gradient_norm(coarse_train, fine_train):
     print(f"  Saved: {path}")
 
 
-# =============================================================================
-# B5. Fine Classifier: Precision/Recall/F1 + Prediction Count
-# =============================================================================
-
+# B5: fine classifier precision/recall/F1 + prediction count
 def plot_b5_fine_precision_recall(fine_eval):
     """Precision, recall, sample F1, and avg prediction count vs epoch."""
     if fine_eval is None:
@@ -393,7 +367,6 @@ def plot_b5_fine_precision_recall(fine_eval):
     fig, ax1 = plt.subplots(figsize=(10, 6))
     epochs = fine_eval['epoch'].values
 
-    # Primary y-axis: precision, recall, F1
     ax1.plot(epochs, fine_eval['eval_precision'], 'o-', color='#2196F3',
              label='Precision', linewidth=2, markersize=5)
     ax1.plot(epochs, fine_eval['eval_recall'], 's-', color='#4CAF50',
@@ -407,7 +380,6 @@ def plot_b5_fine_precision_recall(fine_eval):
     ax1.set_ylim(0, 1)
     ax1.grid(alpha=0.3)
 
-    # Secondary y-axis: avg prediction count
     if has_pred_count:
         ax2 = ax1.twinx()
         ax2.plot(epochs, fine_eval['eval_avg_pred_count'], 'D--', color='#FF9800',
@@ -415,7 +387,6 @@ def plot_b5_fine_precision_recall(fine_eval):
         ax2.set_ylabel("Avg Predictions per Sample", fontsize=12, color='#FF9800')
         ax2.tick_params(axis='y', labelcolor='#FF9800')
 
-        # Combined legend
         lines1, labels1 = ax1.get_legend_handles_labels()
         lines2, labels2 = ax2.get_legend_handles_labels()
         ax1.legend(lines1 + lines2, labels1 + labels2, fontsize=10, loc='lower right')
@@ -432,10 +403,7 @@ def plot_b5_fine_precision_recall(fine_eval):
     print(f"  Saved: {path}")
 
 
-# =============================================================================
-# B6. Coarse Classification Confusion Matrix
-# =============================================================================
-
+# B6: coarse classification confusion matrix
 def load_predictions():
     """Load final_predictions.csv and parse label columns."""
     if not os.path.isfile(PREDICTIONS_FILE):
@@ -480,10 +448,8 @@ def plot_b6_coarse_confusion(pred_df):
 
     fig, ax = plt.subplots(figsize=(8, 6.5))
 
-    # Plot with counts
     im = ax.imshow(cm_pct, cmap='Blues', vmin=0, vmax=100)
 
-    # Annotate with count + percentage
     for i in range(n):
         for j in range(n):
             count = cm[i, j]
@@ -499,7 +465,7 @@ def plot_b6_coarse_confusion(pred_df):
     ax.set_xlabel("Predicted", fontsize=12)
     ax.set_ylabel("Ground Truth", fontsize=12)
 
-    # Per-class accuracy on the side
+    # Per-class recall shown alongside each row
     for i in range(n):
         acc = cm[i, i] / row_sums[i, 0] * 100 if row_sums[i, 0] > 0 else 0
         ax.text(n + 0.15, i, f'{acc:.1f}%', ha='left', va='center',
@@ -521,17 +487,14 @@ def plot_b6_coarse_confusion(pred_df):
     print(f"  Saved: {path}")
 
 
-# =============================================================================
-# B7. Per Fine Label F1 Bar Chart
-# =============================================================================
-
+# B7: per fine label F1 bar chart
 def plot_b7_per_label_f1(pred_df):
     """Horizontal bar chart of F1 per fine label, grouped by coarse parent."""
     if pred_df is None:
         print("  Skipping B7: no predictions file")
         return
 
-    # Compute TP, FP, FN per fine label
+    # TP / FP / FN per fine label
     tp = Counter()
     fp = Counter()
     fn = Counter()
@@ -549,13 +512,12 @@ def plot_b7_per_label_f1(pred_df):
     # Compute per-label P, R, F1
     results = []
     for label in FINE_LABELS_ORDERED:
-        t = tp[label]
         f_p = fp[label]
         f_n = fn[label]
         precision = t / (t + f_p) if (t + f_p) > 0 else 0
         recall = t / (t + f_n) if (t + f_n) > 0 else 0
         f1 = 2 * precision * recall / (precision + recall) if (precision + recall) > 0 else 0
-        support = t + f_n  # ground truth count
+        support = t + f_n  # ground-truth count
         results.append({
             'label': label, 'coarse': COARSE_FOR_FINE[label],
             'precision': precision, 'recall': recall, 'f1': f1, 'support': support
@@ -571,7 +533,6 @@ def plot_b7_per_label_f1(pred_df):
 
     bars = ax.barh(y_pos, res_df['f1'], color=bar_colors, edgecolor='white', alpha=0.85)
 
-    # Annotate with F1 value + support count
     for i, row in res_df.iterrows():
         f1_val = row['f1']
         support = row['support']
@@ -588,13 +549,12 @@ def plot_b7_per_label_f1(pred_df):
     ax.invert_yaxis()
     ax.grid(axis='x', alpha=0.3)
 
-    # Add coarse group separators
+    # Separators between coarse groups
     protagonist_end = len(FINE_LABELS_BY_COARSE["Protagonist"]) - 0.5
     antagonist_end = protagonist_end + len(FINE_LABELS_BY_COARSE["Antagonist"])
     for pos in [protagonist_end, antagonist_end]:
         ax.axhline(y=pos, color='black', linewidth=1.5, linestyle='-')
 
-    # Coarse group labels on the right
     from matplotlib.patches import Patch
     legend_elements = [Patch(facecolor=colors_map[c], label=c) for c in COARSE_LABELS]
     ax.legend(handles=legend_elements, fontsize=10, loc='lower right')
@@ -609,16 +569,11 @@ def plot_b7_per_label_f1(pred_df):
     print(f"  Saved: {path}")
 
 
-# =============================================================================
-# MAIN
-# =============================================================================
-
 def main():
     print("=" * 60)
     print(" Model Training Analysis — SemEval-2025 Task 10 ST1")
     print("=" * 60)
 
-    # Load coarse classifier history
     print(f"\n[1/9] Loading coarse classifier history from {COARSE_CHECKPOINT_DIR}...")
     coarse_train, coarse_eval, coarse_state = load_training_history(COARSE_CHECKPOINT_DIR)
     if coarse_train is not None:
@@ -627,7 +582,6 @@ def main():
     else:
         print("  No coarse classifier checkpoints found")
 
-    # Load fine classifier history
     print(f"\n[2/9] Loading fine classifier history from {FINE_CHECKPOINT_DIR}...")
     fine_train, fine_eval, fine_state = load_training_history(FINE_CHECKPOINT_DIR)
     if fine_train is not None:
@@ -656,7 +610,7 @@ def main():
         print(f"\n[7/9] B5: Fine precision/recall/cardinality...")
         plot_b5_fine_precision_recall(fine_eval)
 
-    # Prediction-based diagrams (from final_predictions.csv)
+    # Prediction-based diagrams from final_predictions.csv
     print(f"\n[8/9] Loading predictions from {PREDICTIONS_FILE}...")
     pred_df = load_predictions()
     if pred_df is not None:

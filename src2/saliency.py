@@ -46,9 +46,7 @@ DISPLAY_ALPHA_CUTOFF = 0.05
 MAX_ALPHA = 0.75
 
 
-# =============================================================================
-# INTERNAL HELPERS
-# =============================================================================
+# Internal helpers
 
 def _resolve_special_ids(tokenizer):
     """Collect token IDs that must never be occluded and locate the entity markers."""
@@ -141,9 +139,7 @@ def _forward_prob(model, input_ids, attention_mask, target_class, task,
     return probs[:, target_class]  # shape (B,)
 
 
-# =============================================================================
-# OCCLUSION SALIENCY
-# =============================================================================
+# Occlusion saliency
 
 def compute_occlusion_saliency(
     input_ids,
@@ -253,9 +249,7 @@ def compute_occlusion_saliency(
     return saliency, valid_mask
 
 
-# =============================================================================
-# SPAN (PHRASE) OCCLUSION SALIENCY
-# =============================================================================
+# Span (phrase) occlusion saliency
 
 def _word_token_groups(input_ids_1d, attention_mask_1d, encoding, tokenizer):
     """Group maskable token positions by word.
@@ -541,9 +535,7 @@ def compute_span_occlusion_saliency(
     return saliency, valid_mask, info
 
 
-# =============================================================================
-# GRADIENT x EMBEDDING SALIENCY
-# =============================================================================
+# Gradient x embedding saliency
 
 def compute_gradient_x_embedding_saliency(
     input_ids,
@@ -630,9 +622,7 @@ def compute_gradient_x_embedding_saliency(
     return saliency.astype(np.float32)
 
 
-# =============================================================================
-# SUBWORD -> WORD AGGREGATION
-# =============================================================================
+# Subword -> word aggregation
 
 def aggregate_to_words(token_saliency, encoding, marked_text, strategy='sum'):
     """Group subword token saliency into whole-word saliency using word_ids().
@@ -702,9 +692,7 @@ def aggregate_to_words(token_saliency, encoding, marked_text, strategy='sum'):
     return out
 
 
-# =============================================================================
-# HTML RENDERING
-# =============================================================================
+# HTML rendering
 
 def _rgba(hex_color, alpha):
     r = int(hex_color[1:3], 16)
@@ -774,10 +762,8 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
         pieces.append(html.escape(segment))
 
     for w in words_sorted:
-        # Emit text before this word.
         if w['start'] > cursor:
             emit_plain(marked_text[cursor:w['start']])
-        # Emit the word itself, colored.
         s_norm = w['saliency'] / max_abs
         word_html = html.escape(w['word'])
         if abs(s_norm) < DISPLAY_ALPHA_CUTOFF or not _on_diagram(w):
@@ -799,7 +785,6 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
             )
         cursor = w['end']
 
-    # Emit trailing text.
     if cursor < len(marked_text):
         emit_plain(marked_text[cursor:])
 
@@ -843,9 +828,7 @@ def render_saliency_html(marked_text, words, target_label, method_name="occlusio
     return legend + body
 
 
-# =============================================================================
-# BAR CHART
-# =============================================================================
+# Bar chart
 
 def _fmt_share(v, total_abs):
     """Format a saliency value as a signed share (%) of the total influence.

@@ -155,20 +155,19 @@ def d1_system_architecture():
     arrow_props = dict(arrowstyle='->', color='#37474F', lw=2,
                        connectionstyle='arc3,rad=0')
 
-    # Input
     ax.text(7, 9.3, '... [ENTITY] Putin [/ENTITY] said that ...',
             ha='center', va='center', fontsize=11, family='monospace',
             bbox=box_input)
     ax.annotate('', xy=(7, 8.55), xytext=(7, 8.9),
                 arrowprops=arrow_props)
 
-    # XLM-RoBERTa
+    # XLM-RoBERTa encoder
     ax.text(7, 8.2, 'XLM-RoBERTa-base\n(12 Transformer layers, 768 dim, 6 unfrozen)',
             ha='center', va='center', fontsize=10, bbox=box_props)
     ax.annotate('', xy=(7, 7.45), xytext=(7, 7.8),
                 arrowprops=arrow_props)
 
-    # ESP
+    # Entity Span Pooling
     ax.text(7, 7.1, 'Entity Span Pooling\ne = mean(h_i ... h_j)',
             ha='center', va='center', fontsize=10, bbox=box_props)
 
@@ -221,7 +220,6 @@ def d1_system_architecture():
     ax.annotate('', xy=(10, 2.6), xytext=(10, 2.75),
                 arrowprops=arrow_props)
 
-    # Title
     ax.text(7, 0.5, 'Hierarchical Entity Role Classification — System Architecture',
             ha='center', va='center', fontsize=13, fontweight='bold', color='#263238')
 

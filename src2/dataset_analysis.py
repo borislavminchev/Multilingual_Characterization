@@ -19,7 +19,7 @@ import itertools
 import numpy as np
 import pandas as pd
 import matplotlib
-matplotlib.use('Agg')  # Non-interactive backend
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 from collections import defaultdict, Counter
@@ -33,7 +33,6 @@ from config import TRAIN_DATA_PARENT, VAL_DATA_PARENT
 OUTPUT_DIR = os.path.join(PROJECT_ROOT, "diagrams", "dataset")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# Ordered label lists matching taxonomy hierarchy
 COARSE_LABELS = ["Protagonist", "Antagonist", "Innocent"]
 
 FINE_LABELS_BY_COARSE = {
@@ -43,17 +42,12 @@ FINE_LABELS_BY_COARSE = {
     "Innocent": ["Forgotten", "Exploited", "Victim", "Scapegoat"],
 }
 
-# Flat ordered list grouped by coarse parent
 FINE_LABELS_ORDERED = []
 for coarse in COARSE_LABELS:
     FINE_LABELS_ORDERED.extend(FINE_LABELS_BY_COARSE[coarse])
 
 LANG_NAMES = {"BG": "Bulgarian", "EN": "English", "HI": "Hindi", "PT": "Portuguese", "RU": "Russian"}
 
-
-# =============================================================================
-# DATA LOADING
-# =============================================================================
 
 def extract_language(doc_id):
     """Extract language code from doc_id."""
@@ -79,7 +73,6 @@ def load_all_data():
     all_dfs = []
 
     for lang in available_languages:
-        # Train
         train_root = os.path.join(TRAIN_DATA_PARENT, lang, "raw-documents")
         train_ann = os.path.join(TRAIN_DATA_PARENT, lang, "subtask-1-annotations.txt")
         if os.path.exists(train_ann):
@@ -89,7 +82,6 @@ def load_all_data():
                 df['lang_folder'] = lang
                 all_dfs.append(df)
 
-        # Val
         val_root = os.path.join(VAL_DATA_PARENT, lang, "subtask-1-documents")
         val_ann = os.path.join(VAL_DATA_PARENT, lang, "subtask-1-annotations.txt")
         if os.path.exists(val_ann):
@@ -101,11 +93,10 @@ def load_all_data():
 
     combined = pd.concat(all_dfs, ignore_index=True)
 
-    # Extract language and domain
     combined['language'] = combined['lang_folder']
     combined['domain'] = combined['doc_id'].apply(extract_domain)
 
-    # Parse labels: extract coarse (first) and fine (rest)
+    # coarse = first label, fine = the rest
     combined['coarse_label'] = combined['labels'].apply(lambda x: x[0])
     combined['fine_labels'] = combined['labels'].apply(lambda x: x[1:])
     combined['num_fine_labels'] = combined['fine_labels'].apply(len)
@@ -118,10 +109,7 @@ def load_all_data():
     return combined
 
 
-# =============================================================================
-# A1. Fine Label Co-occurrence Heatmap
-# =============================================================================
-
+# A1: fine label co-occurrence heatmap
 def plot_a1_cooccurrence(df):
     """Three separate co-occurrence heatmaps, one PNG per coarse category."""
     n = len(FINE_LABELS_ORDERED)
@@ -176,16 +164,12 @@ def plot_a1_cooccurrence(df):
         offset += size
 
 
-# =============================================================================
-# A2. Coarse Label Distribution per Language
-# =============================================================================
-
+# A2: coarse label distribution per language
 def plot_a2_coarse_by_language(df):
     """Grouped bar chart: coarse label proportions per language."""
     lang_order = ["EN", "BG", "HI", "PT", "RU"]
     langs_present = [l for l in lang_order if l in df['language'].unique()]
 
-    # Compute counts and percentages
     cross = pd.crosstab(df['language'], df['coarse_label'])
     cross = cross.reindex(index=langs_present, columns=COARSE_LABELS, fill_value=0)
     cross_pct = cross.div(cross.sum(axis=1), axis=0) * 100
@@ -199,7 +183,6 @@ def plot_a2_coarse_by_language(df):
     for i, coarse in enumerate(COARSE_LABELS):
         bars = ax.bar(x + i * width, cross_pct[coarse], width, label=coarse,
                       color=colors[coarse], edgecolor='white')
-        # Add count annotations
         for j, bar in enumerate(bars):
             count = cross.iloc[j][coarse]
             if count > 0:
@@ -222,15 +205,12 @@ def plot_a2_coarse_by_language(df):
     print(f"  Saved: {path}")
 
 
-# =============================================================================
-# A3. Labels-per-Entity Cardinality Distribution
-# =============================================================================
-
+# A3: labels-per-entity cardinality distribution
 def plot_a3_cardinality(df):
     """Histogram of fine label counts per entity, overall and by coarse category."""
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
-    # (a) Overall
+    # (a) overall
     cardinality = df['num_fine_labels']
     max_card = cardinality.max()
     bins = np.arange(0.5, max_card + 1.5, 1)
@@ -240,7 +220,6 @@ def plot_a3_cardinality(df):
                     label=f'Mean = {cardinality.mean():.2f}')
     axes[0].axvline(cardinality.median(), color='orange', linestyle='-.', linewidth=1.5,
                     label=f'Median = {cardinality.median():.1f}')
-    # Mark TARGET_CARDINALITY
     axes[0].axvline(1.5, color='green', linestyle=':', linewidth=2,
                     label='Target = 1.5 (config)')
     axes[0].set_xlabel("Number of Fine Labels per Entity", fontsize=11)
@@ -250,7 +229,7 @@ def plot_a3_cardinality(df):
     axes[0].set_xticks(range(1, max_card + 1))
     axes[0].grid(axis='y', alpha=0.3)
 
-    # (b) By coarse category
+    # (b) by coarse category
     colors = {'Protagonist': '#2196F3', 'Antagonist': '#F44336', 'Innocent': '#4CAF50'}
     for coarse in COARSE_LABELS:
         subset = df[df['coarse_label'] == coarse]['num_fine_labels']
@@ -272,10 +251,7 @@ def plot_a3_cardinality(df):
     print(f"  Saved: {path}")
 
 
-# =============================================================================
-# A4. Entity Role Consistency / Diversity
-# =============================================================================
-
+# A4: entity role consistency / diversity
 def plot_a4_entity_diversity(df):
     """Analyze how many distinct role sets each entity mention receives."""
     # Group by normalized mention (lowercased to merge case variants)
@@ -287,7 +263,7 @@ def plot_a4_entity_diversity(df):
         fine_set = frozenset(row['fine_labels'])
         entity_roles[row['mention_lower']].append(fine_set)
 
-    # Only entities appearing 2+ times
+    # Only entities appearing 2+ times can show role variation
     multi_entities = {ent: roles for ent, roles in entity_roles.items() if len(roles) >= 2}
 
     if not multi_entities:
@@ -303,7 +279,7 @@ def plot_a4_entity_diversity(df):
 
     fig, axes = plt.subplots(1, 2, figsize=(15, 6))
 
-    # (a) Histogram of diversity
+    # (a) histogram of diversity
     max_div = max(diversity_counts)
     bins = np.arange(0.5, max_div + 1.5, 1)
     axes[0].hist(diversity_counts, bins=bins, color='#7E57C2', edgecolor='white', alpha=0.85)
@@ -320,7 +296,7 @@ def plot_a4_entity_diversity(df):
                  transform=axes[0].transAxes, ha='right', va='top', fontsize=10,
                  bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
 
-    # (b) Top-10 most role-diverse entities
+    # (b) top role-diverse entities
     sorted_entities = sorted(entity_details, key=lambda x: (-x[2], -x[1]))[:15]
     names = [e[0][:25] for e in sorted_entities]
     occurrences = [e[1] for e in sorted_entities]
@@ -329,7 +305,6 @@ def plot_a4_entity_diversity(df):
     y_pos = np.arange(len(names))
     bars = axes[1].barh(y_pos, unique_roles, color='#FF7043', edgecolor='white', alpha=0.85)
 
-    # Add occurrence count annotation
     for i, (occ, uniq) in enumerate(zip(occurrences, unique_roles)):
         axes[1].text(uniq + 0.1, i, f'({occ} occ.)', va='center', fontsize=9)
 
@@ -348,10 +323,7 @@ def plot_a4_entity_diversity(df):
     print(f"  Saved: {path}")
 
 
-# =============================================================================
-# A5. Text Length Distribution per Language
-# =============================================================================
-
+# A5: text length distribution per language
 def plot_a5_text_length(df):
     """Violin/box plot of document word counts per language."""
     df_copy = df.copy()
@@ -373,7 +345,6 @@ def plot_a5_text_length(df):
     ax.axhline(y=400, color='red', linestyle='--', linewidth=1.5, alpha=0.7,
                label='~512 tokens (approx.)')
 
-    # Add statistics
     for i, lang in enumerate(lang_order):
         subset = df_copy[df_copy['language'] == lang]['word_count']
         ax.text(i, ax.get_ylim()[1] * 0.95,
@@ -394,10 +365,7 @@ def plot_a5_text_length(df):
     print(f"  Saved: {path}")
 
 
-# =============================================================================
-# A6. Domain Breakdown per Language
-# =============================================================================
-
+# A6: domain breakdown per language
 def plot_a6_domain_breakdown(df):
     """Stacked bar chart: domain proportions per language (only languages with domain info)."""
     # Only include entities whose domain could be determined from doc_id
@@ -459,10 +427,6 @@ def plot_a6_domain_breakdown(df):
     plt.close(fig)
     print(f"  Saved: {path}")
 
-
-# =============================================================================
-# MAIN
-# =============================================================================
 
 def main():
     print("=" * 60)

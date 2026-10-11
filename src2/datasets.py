@@ -1,7 +1,6 @@
-# 1. EntityFramingDataset: Takes a DataFrame and tokenizer. 
-# Crucially, applies the entity markers ([ENTITY], [/ENTITY]) to the text. 
-# 2. compute_metrics: Defines the evaluation function used by the Hugging Face Trainer (e.g., micro-F1).
-# 3. FineRoleDataset: Dataset for fine-role multi-label classification with coarse label masking.
+# PyTorch datasets and collate functions for the two stages.
+# All of them mark the entity span with [ENTITY] ... [/ENTITY] before tokenizing;
+# the fine datasets additionally carry coarse labels (hard) or coarse probabilities (soft).
 
 import torch
 import ast
@@ -24,22 +23,16 @@ NUM_FINE_LABELS = len(fine_labels)
 def collate_fn_entity_framing(batch):
     """Custom collate function to handle variable-length fine_labels."""
     collated = {}
-    
-    # Collate standard tensors
+
     tensor_keys = ['input_ids', 'attention_mask', 'token_type_ids']
     for key in tensor_keys:
         if key in batch[0]:
             collated[key] = torch.stack([item[key] for item in batch])
-    
-    # Collate coarse_labels as a tensor and use as 'labels' for the Trainer
+
     collated['coarse_labels'] = torch.tensor([item['coarse_labels'] for item in batch])
-    
-    # Keep fine_labels as list (variable length)
-    collated['fine_labels'] = [item['fine_labels'] for item in batch]
-    
-    # Keep original labels for reference only (not used by Trainer)
+    collated['fine_labels'] = [item['fine_labels'] for item in batch]  # variable length, kept as list
     collated['original_labels'] = [item['labels'] for item in batch]
-    
+
     return collated
 
 
@@ -56,16 +49,13 @@ class EntityFramingDataset(Dataset):
         row = self.dataframe.iloc[idx]
         text = row['text']
         labels = row['labels']
-        
-        # Parse labels if they come as a string representation of a list
+
         if isinstance(labels, str):
             labels = ast.literal_eval(labels)
 
-        # Insert entity markers around the mention
         start, end = row['start'], row['end']
         marked_text = f"{text[:start]} {ENTITY_START_TOKEN} {text[start:end]} {ENTITY_END_TOKEN} {text[end:]}"
 
-        # Tokenize the text with entity markers
         encoding = self.tokenizer(
             marked_text,
             truncation=True,
@@ -75,39 +65,30 @@ class EntityFramingDataset(Dataset):
         )
 
         item = {key: val.squeeze(0) for key, val in encoding.items()}
-        
+
         item['coarse_labels'] = coarse_label2id[labels[0]]
         item['fine_labels'] = [fine_label2id[label] for label in labels[1:]]
-        item['labels'] = labels  # Original labels for reference
+        item['labels'] = labels
         return item
-    
+
 def collate_fn_fine_role(batch):
     """
-    Custom collate function for FineRoleDataset.
-    
-    Handles:
-    - Standard tensors (input_ids, attention_mask)
-    - coarse_labels as tensor (B,)
-    - fine_labels as multi-hot tensor (B, num_fine_labels)
+    Collate function for FineRoleDataset.
+    coarse_labels -> (B,); fine_labels -> multi-hot (B, num_fine_labels).
     """
     collated = {}
-    
-    # Collate standard tensors
+
     tensor_keys = ['input_ids', 'attention_mask', 'token_type_ids']
     for key in tensor_keys:
         if key in batch[0]:
             collated[key] = torch.stack([item[key] for item in batch])
-    
-    # Collate coarse_labels as a tensor (B,)
+
     collated['coarse_labels'] = torch.tensor([item['coarse_labels'] for item in batch])
-    
-    # Stack fine_labels multi-hot tensors (B, num_fine_labels)
     collated['fine_labels'] = torch.stack([item['fine_labels'] for item in batch])
-    
-    # Keep original labels for reference (not used by Trainer)
+
     if 'original_labels' in batch[0]:
         collated['original_labels'] = [item['original_labels'] for item in batch]
-    
+
     return collated
 
 
@@ -143,16 +124,13 @@ class FineRoleDataset(Dataset):
         row = self.dataframe.iloc[idx]
         text = row['text']
         labels = row['labels']
-        
-        # Parse labels if they come as a string representation of a list
+
         if isinstance(labels, str):
             labels = ast.literal_eval(labels)
-        
-        # Insert entity markers around the mention
+
         start, end = int(row['start']), int(row['end'])
         marked_text = f"{text[:start]} {ENTITY_START_TOKEN} {text[start:end]} {ENTITY_END_TOKEN} {text[end:]}"
-        
-        # Tokenize the text with entity markers
+
         encoding = self.tokenizer(
             marked_text,
             truncation=True,
@@ -160,30 +138,27 @@ class FineRoleDataset(Dataset):
             max_length=self.max_length,
             return_tensors='pt'
         )
-        
+
         item = {key: val.squeeze(0) for key, val in encoding.items()}
-        
-        # Get coarse label
+
+        # Predicted coarse at inference, ground-truth coarse during training
         if self.use_predicted_coarse and 'predicted_coarse' in row:
-            # Use predicted coarse label (for inference)
             predicted_coarse = row['predicted_coarse']
             if isinstance(predicted_coarse, str):
                 item['coarse_labels'] = coarse_label2id[predicted_coarse]
             else:
                 item['coarse_labels'] = int(predicted_coarse)
         else:
-            # Use ground-truth coarse label (for training)
             item['coarse_labels'] = coarse_label2id[labels[0]]
-        
-        # Convert fine labels to multi-hot encoding
+
         fine_label_tensor = torch.zeros(self.num_fine_labels, dtype=torch.float32)
-        for label in labels[1:]:  # Skip first label (coarse)
+        for label in labels[1:]:  # labels[0] is the coarse role
             if label in fine_label2id:
                 fine_label_tensor[fine_label2id[label]] = 1.0
-        
+
         item['fine_labels'] = fine_label_tensor
-        item['original_labels'] = labels  # Keep original labels for reference
-        
+        item['original_labels'] = labels
+
         return item
 
 
@@ -213,12 +188,10 @@ class FineRoleInferenceDataset(Dataset):
     def __getitem__(self, idx):
         row = self.dataframe.iloc[idx]
         text = row['text']
-        
-        # Insert entity markers around the mention
+
         start, end = int(row['start']), int(row['end'])
         marked_text = f"{text[:start]} {ENTITY_START_TOKEN} {text[start:end]} {ENTITY_END_TOKEN} {text[end:]}"
-        
-        # Tokenize the text with entity markers
+
         encoding = self.tokenizer(
             marked_text,
             truncation=True,
@@ -226,16 +199,15 @@ class FineRoleInferenceDataset(Dataset):
             max_length=self.max_length,
             return_tensors='pt'
         )
-        
+
         item = {key: val.squeeze(0) for key, val in encoding.items()}
-        
-        # Get predicted coarse label
+
         predicted_coarse = row['predicted_coarse']
         if isinstance(predicted_coarse, str):
             item['coarse_labels'] = coarse_label2id[predicted_coarse]
         else:
             item['coarse_labels'] = int(predicted_coarse)
-        
+
         return item
 
 
@@ -253,9 +225,7 @@ def collate_fn_fine_inference(batch):
     return collated
 
 
-# =============================================================================
-# SOFT CONDITIONED DATASETS (FOR COARSE PROBABILITY CONDITIONING)
-# =============================================================================
+# Soft-conditioned datasets: carry coarse probabilities instead of a hard coarse label.
 
 NUM_COARSE_LABELS = len(coarse_labels)
 
@@ -290,43 +260,39 @@ class SoftConditionedFineRoleDataset(Dataset):
         self.use_predicted_coarse = use_predicted_coarse
         self.num_fine_labels = NUM_FINE_LABELS
         self.num_coarse_labels = NUM_COARSE_LABELS
-        
-        # Check if coarse probabilities are available
+
         self.has_coarse_probs = self._check_coarse_probs_available()
-    
+
     def _check_coarse_probs_available(self):
-        """Check if coarse probability columns exist in dataframe."""
-        # Check for single column with list/array
+        """True if the dataframe carries coarse probabilities (single list column or per-class columns)."""
         if 'coarse_probs' in self.dataframe.columns:
             return True
-        # Check for individual probability columns
         prob_cols = ['coarse_prob_protagonist', 'coarse_prob_antagonist', 'coarse_prob_innocent']
         return all(col in self.dataframe.columns for col in prob_cols)
     
     def _get_coarse_probs(self, row):
-        """Extract coarse probabilities from row."""
+        """Extract coarse probabilities from the row (list column or per-class columns)."""
         if 'coarse_probs' in row and row['coarse_probs'] is not None:
             probs = row['coarse_probs']
             if isinstance(probs, str):
                 probs = ast.literal_eval(probs)
             return torch.tensor(probs, dtype=torch.float32)
-        
-        # Try individual columns (format: coarse_prob_<name>)
+
         if all(col in row.index for col in ['coarse_prob_protagonist', 'coarse_prob_antagonist', 'coarse_prob_innocent']):
             return torch.tensor([
                 row['coarse_prob_protagonist'],
                 row['coarse_prob_antagonist'],
                 row['coarse_prob_innocent']
             ], dtype=torch.float32)
-        
-        # Try alternate naming (format: coarse_proba_<name> from train_coarse.py)
+
+        # Alternate column naming written by train_coarse.py
         if all(col in row.index for col in ['coarse_proba_protagonist', 'coarse_proba_antagonist', 'coarse_proba_innocent']):
             return torch.tensor([
                 row['coarse_proba_protagonist'],
                 row['coarse_proba_antagonist'],
                 row['coarse_proba_innocent']
             ], dtype=torch.float32)
-        
+
         return None
     
     def __len__(self):
@@ -336,16 +302,13 @@ class SoftConditionedFineRoleDataset(Dataset):
         row = self.dataframe.iloc[idx]
         text = row['text']
         labels = row['labels']
-        
-        # Parse labels if they come as a string representation of a list
+
         if isinstance(labels, str):
             labels = ast.literal_eval(labels)
-        
-        # Insert entity markers around the mention
+
         start, end = int(row['start']), int(row['end'])
         marked_text = f"{text[:start]} {ENTITY_START_TOKEN} {text[start:end]} {ENTITY_END_TOKEN} {text[end:]}"
-        
-        # Tokenize the text with entity markers
+
         encoding = self.tokenizer(
             marked_text,
             truncation=True,
@@ -353,42 +316,37 @@ class SoftConditionedFineRoleDataset(Dataset):
             max_length=self.max_length,
             return_tensors='pt'
         )
-        
+
         item = {key: val.squeeze(0) for key, val in encoding.items()}
-        
-        # Get coarse information
+
         if self.use_predicted_coarse and 'predicted_coarse' in row:
-            # Use predicted coarse label
             predicted_coarse = row['predicted_coarse']
             if isinstance(predicted_coarse, str):
                 coarse_label_id = coarse_label2id[predicted_coarse]
             else:
                 coarse_label_id = int(predicted_coarse)
         else:
-            # Use ground-truth coarse label
             coarse_label_id = coarse_label2id[labels[0]]
-        
+
         item['coarse_labels'] = coarse_label_id
-        
-        # Get coarse probabilities (soft conditioning)
+
+        # Soft conditioning signal; fall back to a one-hot of the coarse label
         coarse_probs = self._get_coarse_probs(row)
         if coarse_probs is not None:
             item['coarse_probs'] = coarse_probs
         else:
-            # Fallback: use one-hot encoding of coarse label
             one_hot = torch.zeros(self.num_coarse_labels, dtype=torch.float32)
             one_hot[coarse_label_id] = 1.0
             item['coarse_probs'] = one_hot
-        
-        # Convert fine labels to multi-hot encoding
+
         fine_label_tensor = torch.zeros(self.num_fine_labels, dtype=torch.float32)
-        for label in labels[1:]:  # Skip first label (coarse)
+        for label in labels[1:]:
             if label in fine_label2id:
                 fine_label_tensor[fine_label2id[label]] = 1.0
-        
+
         item['fine_labels'] = fine_label_tensor
         item['original_labels'] = labels
-        
+
         return item
 
 
@@ -415,29 +373,28 @@ class SoftConditionedInferenceDataset(Dataset):
         self.num_coarse_labels = NUM_COARSE_LABELS
     
     def _get_coarse_probs(self, row):
-        """Extract coarse probabilities from row."""
+        """Extract coarse probabilities from the row (list column or per-class columns)."""
         if 'coarse_probs' in row and row['coarse_probs'] is not None:
             probs = row['coarse_probs']
             if isinstance(probs, str):
                 probs = ast.literal_eval(probs)
             return torch.tensor(probs, dtype=torch.float32)
-        
-        # Try individual columns (format: coarse_prob_<name>)
+
         if all(col in row.index for col in ['coarse_prob_protagonist', 'coarse_prob_antagonist', 'coarse_prob_innocent']):
             return torch.tensor([
                 row['coarse_prob_protagonist'],
                 row['coarse_prob_antagonist'],
                 row['coarse_prob_innocent']
             ], dtype=torch.float32)
-        
-        # Try alternate naming (format: coarse_proba_<name> from train_coarse.py)
+
+        # Alternate column naming written by train_coarse.py
         if all(col in row.index for col in ['coarse_proba_protagonist', 'coarse_proba_antagonist', 'coarse_proba_innocent']):
             return torch.tensor([
                 row['coarse_proba_protagonist'],
                 row['coarse_proba_antagonist'],
                 row['coarse_proba_innocent']
             ], dtype=torch.float32)
-        
+
         return None
     
     def __len__(self):
@@ -446,12 +403,10 @@ class SoftConditionedInferenceDataset(Dataset):
     def __getitem__(self, idx):
         row = self.dataframe.iloc[idx]
         text = row['text']
-        
-        # Insert entity markers around the mention
+
         start, end = int(row['start']), int(row['end'])
         marked_text = f"{text[:start]} {ENTITY_START_TOKEN} {text[start:end]} {ENTITY_END_TOKEN} {text[end:]}"
-        
-        # Tokenize the text with entity markers
+
         encoding = self.tokenizer(
             marked_text,
             truncation=True,
@@ -459,74 +414,47 @@ class SoftConditionedInferenceDataset(Dataset):
             max_length=self.max_length,
             return_tensors='pt'
         )
-        
+
         item = {key: val.squeeze(0) for key, val in encoding.items()}
-        
-        # Get predicted coarse label
+
         predicted_coarse = row['predicted_coarse']
         if isinstance(predicted_coarse, str):
             coarse_label_id = coarse_label2id[predicted_coarse]
         else:
             coarse_label_id = int(predicted_coarse)
-        
+
         item['coarse_labels'] = coarse_label_id
-        
-        # Get coarse probabilities
+
         coarse_probs = self._get_coarse_probs(row)
         if coarse_probs is not None:
             item['coarse_probs'] = coarse_probs
         else:
-            # Fallback: use one-hot encoding
             one_hot = torch.zeros(self.num_coarse_labels, dtype=torch.float32)
             one_hot[coarse_label_id] = 1.0
             item['coarse_probs'] = one_hot
-        
+
         return item
 
 
 def collate_fn_soft_conditioned(batch):
     """
-    Collate function for soft-conditioned datasets.
-    
-    Handles:
-    - Standard tensors (input_ids, attention_mask)
-    - coarse_labels as tensor (B,)
-    - coarse_probs as tensor (B, num_coarse)
-    - fine_labels as multi-hot tensor (B, num_fine_labels) if available
+    Collate function for soft-conditioned datasets:
+    coarse_labels (B,), coarse_probs (B, num_coarse), fine_labels multi-hot if present.
     """
     collated = {}
-    
-    # Collate standard tensors
+
     tensor_keys = ['input_ids', 'attention_mask', 'token_type_ids']
     for key in tensor_keys:
         if key in batch[0]:
             collated[key] = torch.stack([item[key] for item in batch])
-    
-    # Collate coarse_labels as a tensor (B,)
+
     collated['coarse_labels'] = torch.tensor([item['coarse_labels'] for item in batch])
-    
-    # Collate coarse_probs as a tensor (B, num_coarse)
     collated['coarse_probs'] = torch.stack([item['coarse_probs'] for item in batch])
-    
-    # Collate fine_labels if present (B, num_fine_labels)
+
     if 'fine_labels' in batch[0]:
         collated['fine_labels'] = torch.stack([item['fine_labels'] for item in batch])
-    
-    # Keep original labels for reference (not used by Trainer)
+
     if 'original_labels' in batch[0]:
         collated['original_labels'] = [item['original_labels'] for item in batch]
-    
+
     return collated
-
-
-# train_df, val_df, test_df = load_data(mode="document")
-
-# tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-# tokenizer.add_special_tokens({'additional_special_tokens': [ENTITY_START_TOKEN, ENTITY_END_TOKEN]})
-
-
-# train_dataset = EntityFramingDataset(train_df, tokenizer)
-# print("train_dataset[0]:", train_dataset[0])
-
-# print("Fine Labels:", load_fine_labels())
-# print("Coarse Labels:", load_coarse_labels())

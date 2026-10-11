@@ -27,10 +27,6 @@ import torch.nn.functional as F
 logger = logging.getLogger(__name__)
 
 
-# =============================================================================
-# UTILITY FUNCTIONS
-# =============================================================================
-
 def entity_span_pooling(hidden_states, input_ids, entity_start_id, entity_end_id):
     """
     Pool entity representations from hidden states.
@@ -70,9 +66,7 @@ def entity_span_pooling(hidden_states, input_ids, entity_start_id, entity_end_id
     return torch.stack(pooled_outputs)
 
 
-# =============================================================================
-# MLP CLASSIFICATION HEADS
-# =============================================================================
+# MLP classification heads
 
 class MLPClassificationHead(nn.Module):
     """
@@ -157,9 +151,7 @@ class MLPMultiLabelHead(nn.Module):
         return logits, mask
 
 
-# =============================================================================
-# SEMANTIC SIMILARITY HEADS
-# =============================================================================
+# Semantic similarity heads
 
 class SemanticSimilarityHead(nn.Module):
     """Semantic similarity head for coarse-level classification."""
@@ -191,8 +183,7 @@ class SemanticSimilarityHead(nn.Module):
             self.register_buffer('anchor_vectors', torch.tensor(anchor_vectors_list).detach())
         else:
             self.anchor_vectors = nn.Parameter(torch.tensor(anchor_vectors_list), requires_grad=True)
-        
-        # Projection with dropout for regularization
+
         self.projection = nn.Sequential(
             nn.Dropout(dropout),
             nn.Linear(input_dim, input_dim),
@@ -273,9 +264,7 @@ class FineSemanticSimilarityHead(nn.Module):
         return logits, mask
 
 
-# =============================================================================
-# HIERARCHY AFFINITY LAYER (FOR SOFT CONDITIONING)
-# =============================================================================
+# Hierarchy affinity layer (used for soft conditioning)
 
 class HierarchyAffinityLayer(nn.Module):
     """
@@ -341,9 +330,7 @@ class HierarchyAffinityLayer(nn.Module):
         return fine_prior
 
 
-# =============================================================================
-# CLASSIFIER MODELS
-# =============================================================================
+# Classifier models
 
 class CoarseRoleClassifier(nn.Module):
     """
@@ -369,20 +356,18 @@ class CoarseRoleClassifier(nn.Module):
         self.device = device
         self.head_type = head_type
         self.loss_type = loss_type
-        
-        # Freeze encoder layers
+
         total_layers = len(base_model.encoder.layer)
         for idx, layer in enumerate(base_model.encoder.layer):
             if idx < total_layers - num_unfrozen_layers:
                 for param in layer.parameters():
                     param.requires_grad = False
-        
+
         logger.info(f"CoarseRoleClassifier: Frozen {total_layers - num_unfrozen_layers}/{total_layers} layers")
-        
-        # Select classification head based on head_type
+
         num_classes = len(coarse_label2id)
         hidden_size = base_model.config.hidden_size
-        
+
         if head_type == 'semantic':
             self.classification_head = SemanticSimilarityHead(
                 model=base_model,
@@ -403,8 +388,7 @@ class CoarseRoleClassifier(nn.Module):
             logger.info(f"CoarseRoleClassifier: Using MLPClassificationHead")
         else:
             raise ValueError(f"Unknown head_type: {head_type}. Choose 'semantic' or 'mlp'.")
-        
-        # Select loss function based on loss_type
+
         if loss_type == 'focal':
             self.loss_fn = FocalLoss(
                 samples_per_cls=class_counts, 
@@ -418,11 +402,10 @@ class CoarseRoleClassifier(nn.Module):
             self.loss_fn = nn.CrossEntropyLoss(reduction='mean')
             logger.info(f"CoarseRoleClassifier: Using CrossEntropyLoss")
         elif loss_type == 'weighted_ce':
-            # Compute inverse frequency weights
             if class_counts is not None:
                 counts = torch.tensor(class_counts, dtype=torch.float32, device=device)
                 weights = 1.0 / (counts + 1e-8)
-                weights = weights / weights.sum() * len(weights)  # Normalize
+                weights = weights / weights.sum() * len(weights)
             else:
                 weights = None
             self.loss_fn = nn.CrossEntropyLoss(weight=weights, reduction='mean')
@@ -479,20 +462,18 @@ class FineRoleClassifier(nn.Module):
         self.threshold = threshold
         self.loss_type = loss_type
         self.head_type = head_type
-        
-        # Freeze encoder layers
+
         total_layers = len(base_model.encoder.layer)
         for idx, layer in enumerate(base_model.encoder.layer):
             if idx < total_layers - num_unfrozen_layers:
                 for param in layer.parameters():
                     param.requires_grad = False
-        
+
         logger.info(f"FineRoleClassifier: Frozen {total_layers - num_unfrozen_layers}/{total_layers} layers")
-        
-        # Select classification head based on head_type
+
         num_classes = len(fine_label2id)
         hidden_size = base_model.config.hidden_size
-        
+
         if head_type == 'semantic':
             self.classification_head = FineSemanticSimilarityHead(
                 model=base_model,
@@ -504,11 +485,10 @@ class FineRoleClassifier(nn.Module):
             )
             logger.info(f"FineRoleClassifier: Using FineSemanticSimilarityHead")
         elif head_type == 'mlp':
-            # Get coarse_to_fine_mask from TaxonomyManager for MLP head
             from taxonomy_manager import TaxonomyManager
             taxonomy_manager = TaxonomyManager(base_model, tokenizer, device=device)
             coarse_to_fine_mask = taxonomy_manager.get_coarse_to_fine_mask(device=device)
-            
+
             self.classification_head = MLPMultiLabelHead(
                 input_dim=hidden_size,
                 num_classes=num_classes,
@@ -519,8 +499,7 @@ class FineRoleClassifier(nn.Module):
             logger.info(f"FineRoleClassifier: Using MLPMultiLabelHead")
         else:
             raise ValueError(f"Unknown head_type: {head_type}. Choose 'semantic' or 'mlp'.")
-        
-        # Select loss function
+
         if loss_type == 'focal':
             self.loss_fn = MultiLabelFocalLoss(
                 samples_per_cls=class_counts, beta=0.9999, gamma=2.0,
@@ -599,15 +578,13 @@ class SoftConditionedFineClassifier(nn.Module):
         self.loss_type = loss_type
         self.num_coarse = num_coarse
         self.num_fine = num_fine
-        
-        # Freeze encoder layers
+
         total_layers = len(base_model.encoder.layer)
         for idx, layer in enumerate(base_model.encoder.layer):
             if idx < total_layers - num_unfrozen_layers:
                 for param in layer.parameters():
                     param.requires_grad = False
-        
-        # Entity to fine logits projection
+
         hidden_size = base_model.config.hidden_size
         self.entity_projection = nn.Sequential(
             nn.Linear(hidden_size, hidden_size),
@@ -616,22 +593,19 @@ class SoftConditionedFineClassifier(nn.Module):
             nn.Dropout(0.1),
             nn.Linear(hidden_size, num_fine)
         )
-        
-        # Hierarchy affinity layer
+
         self.hierarchy_affinity = HierarchyAffinityLayer(
             num_coarse=num_coarse,
             num_fine=num_fine,
             init_from_taxonomy=True,
             device=device
         )
-        
-        # Cardinality regularizer
+
         self.cardinality_reg = CardinalityRegularizer(
             target_cardinality=target_cardinality,
             weight=cardinality_weight
         )
-        
-        # Base loss function
+
         if loss_type == 'focal':
             self.loss_fn = MultiLabelFocalLoss(
                 samples_per_cls=class_counts, beta=0.9999, gamma=2.0,

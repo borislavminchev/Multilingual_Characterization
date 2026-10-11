@@ -1,5 +1,5 @@
-# Semantic Engine. Parses taxonomy.json and uses a Sentence-Transformer to generate 
-# the parent and subtype anchor vectors.
+# Parses taxonomy.json and builds an anchor vector for every coarse and fine role
+# by encoding its name with the model and taking the [CLS] representation.
 
 import torch
 import numpy as np
@@ -14,8 +14,7 @@ class TaxonomyManager:
         self.tokenizer = tokenizer
         self.device = device
         self.anchors = self.generate_anchors()
-         
-        # Cache tensor anchors
+
         self._parent_anchors_cache = None
         self._subtype_anchors_cache = None
 
@@ -24,18 +23,17 @@ class TaxonomyManager:
         description = item.get("description", "None")
         example = item.get("example", "None")
 
+        # Anchor is the role name alone; enriching it with description/example was
+        # tried but did not help, so the longer variant below is kept disabled.
         full_text = name
         # full_text = f"Role: {name}. Description: {description} Example: {example}".strip()
 
-
         inputs = self.tokenizer(full_text, return_tensors='pt', truncation=True, padding=True)
-        # Move inputs to the correct device
         inputs = {key: val.to(self.device) for key, val in inputs.items()}
-        # Get the [CLS] token representation as the embedding
         with torch.no_grad():
             outputs = self.model(**inputs)
             vector = outputs.last_hidden_state[:, 0, :].squeeze().cpu().numpy()
-    
+
         return name, vector
 
     def generate_anchors(self) -> dict:
@@ -143,15 +141,4 @@ class TaxonomyManager:
         """
         fine_labels = load_fine_labels()
         return [label['name'] for label in fine_labels if label['parent'] == coarse_label]
-    
 
-# from transformers import AutoModel, AutoTokenizer
-# model = AutoModel.from_pretrained("bert-base-uncased")
-# tokenizer = AutoTokenizer.from_pretrained("bert-base-uncased")
-
-# taxonomy_manager = TaxonomyManager(model, tokenizer)
-
-# parent_anchors = taxonomy_manager.get_parent_anchors()
-# subtype_anchors = taxonomy_manager.get_subtype_anchors("Antagonist")
-
-# print("Subtype Anchors:", subtype_anchors)

@@ -1,66 +1,5 @@
 # Experiment Tracking: Hierarchical Entity Role Classification
 
-## Project Overview
-
-This document tracks all experiments conducted for the Master's thesis on **Multilingual Hierarchical Entity Role Classification**. The system classifies named entities into:
-- **Coarse roles**: Protagonist, Antagonist, Innocent (3 classes, single-label)
-- **Fine roles**: 22 subtypes across the three coarse categories (multi-label)
-
-## System Architecture
-
-```
-Input Text with Entity Markers
-        ↓
-┌───────────────────────────────┐
-│   Base Model (XLM-RoBERTa)    │
-│   + Entity Span Pooling       │
-└───────────────────────────────┘
-        ↓
-┌───────────────────────────────┐
-│   Coarse Classifier           │
-│   (3-class single-label)      │
-│   Head: Semantic/MLP          │
-│   Loss: FocalLoss             │
-└───────────────────────────────┘
-        ↓ (soft probs or hard labels)
-┌───────────────────────────────┐
-│   Fine Classifier             │
-│   (22-class multi-label)      │
-│   Head: Semantic/MLP          │
-│   Conditioning: Soft/Hard/None│
-│   Loss: ASL/Focal/BCE         │
-└───────────────────────────────┘
-        ↓
-Final Predictions (Coarse + Fine labels)
-```
-
----
-
-## Current Best Configuration (Baseline E01)
-
-```python
-# Model
-MODEL_NAME = "xlm-roberta-base"
-
-# Coarse Classifier
-COARSE_HEAD_TYPE = 'semantic'
-COARSE_LEARNING_RATE = 6e-5
-COARSE_NUM_EPOCHS = 10
-COARSE_NUM_UNFROZEN_LAYERS = 6
-COARSE_FOCAL_GAMMA = 2.0
-
-# Fine Classifier  
-FINE_HEAD_TYPE = 'semantic'
-FINE_LOSS_TYPE = 'asl_optimized'
-ASL_GAMMA_NEG = 2.0
-ASL_GAMMA_POS = 0.0
-ASL_CLIP = 0.05
-USE_SOFT_CONDITIONING = True
-CARDINALITY_WEIGHT = 0.3
-```
-
----
-
 ## Master Experiment Table
 
 ### Key Metrics
@@ -73,13 +12,11 @@ CARDINALITY_WEIGHT = 0.3
 | **E2E Fine F1** | End-to-end sample-averaged F1 (errors propagate) |
 | **Exact Match** | % samples with ALL labels correct |
 
----
-
 ### Full Experiment Results
 
 | ID | Base Model | Coarse Head | Coarse Loss | Fine Head | Conditioning | Fine Loss | γ_neg | γ_pos | Clip | Card. | Coarse Val F1 | Coarse Test F1 | Fine Val μF1 | Fine Test μF1 | E2E Fine F1 | Exact Match | Status |
 |----|------------|-------------|-------------|-----------|--------------|-----------|-------|-------|------|-------|---------------|----------------|--------------|---------------|-------------|-------------|--------|
-| **E01** | xlm-roberta-base (6+6 unfrozen) | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | **81.16%** | **79.61%** | **93.03%** | **92.50%** | **50.66%** | **37.09%** | ✅ Baseline |
+| E01 | xlm-roberta-base (6+6 unfrozen) | Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | 81.16% | 79.61% | 93.03% | 92.50% | 50.66% | 37.09% | ⬜ |
 | E02 | microsoft/deberta-v3-base (3+3)| Semantic | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | 79.66% | 75.51% | 92.20% | 92.29% | 19.18% | 14.57% | ⬜ |
 | E03 | xlm-roberta-base | **MLP** | Focal | Semantic | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | 82.83% | 80.74% | 94.03 | 93.91 | 32.34 | 29.30 | ⬜ |
 | E04 | xlm-roberta-base | Semantic | Focal | **MLP** | Soft | ASL-Opt | 2.0 | 0.0 | 0.05 | 0.3 | 82.75 | 79.12 | 92.72 | 92.35 | 49.90 | 38.74 | ⬜ |
@@ -98,232 +35,60 @@ CARDINALITY_WEIGHT = 0.3
 
 ---
 
-## Experiment Categories
+## Configuration
 
-### A. Base Model Ablation (E01-E02)
-
-**Purpose**: Compare different pre-trained multilingual transformers.
-
-| ID | Model | Parameters | Hypothesis |
-|----|-------|------------|------------|
-| E01 | xlm-roberta-base | 270M | Baseline - strong multilingual capabilities |
-| E02 | microsoft/deberta-v3-base | ~184M | Alternative multilingual encoder |
-
-**Config changes for E02**:
-```python
-MODEL_NAME = "microsoft/deberta-v3-base"
-```
+Every experiment is defined entirely by `src2/config.py`. There are no command-line
+hyperparameters for training - to reproduce a row from the table above, edit the relevant
+values in that file and run the pipeline. 
 
 ---
 
-### B. Classification Head Ablation (E03-E05)
+## Running the Pipeline
 
-**Purpose**: Compare semantic similarity head vs simple MLP baseline.
+The system is trained and evaluated in three sequential stages. Each stage reads its settings
+from `config.py` and writes checkpoints/predictions that the next stage consumes, so they must
+be run in order. Run the commands from inside the `src2/` directory.
 
-| ID | Coarse Head | Fine Head | Hypothesis |
-|----|-------------|-----------|------------|
-| E01 | Semantic | Semantic | Uses label embeddings as anchors |
-| E03 | MLP | Semantic | Simpler coarse head may reduce overfitting |
-| E04 | Semantic | MLP | Simpler fine head for multi-label |
-| E05 | MLP | MLP | Full baseline without semantic similarity |
+### Stage 1 - Train the coarse classifier
+Trains the 3-class coarse classifier and writes its predicted coarse probabilities for the
+train/val/test splits (these feed the fine classifier).
 
-**Config changes for E03**:
-```python
-COARSE_HEAD_TYPE = 'mlp'
-FINE_HEAD_TYPE = 'semantic'
-```
-
-**Config changes for E04**:
-```python
-COARSE_HEAD_TYPE = 'semantic'
-FINE_HEAD_TYPE = 'mlp'
-```
-
-**Config changes for E05**:
-```python
-COARSE_HEAD_TYPE = 'mlp'
-FINE_HEAD_TYPE = 'mlp'
-```
-
----
-
-### C. Loss Function Ablation (E06-E10)
-
-**Purpose**: Compare different loss functions for multi-label classification.
-
-| ID | Fine Loss | Key Parameters | Hypothesis |
-|----|-----------|----------------|------------|
-| E01 | ASL-Optimized | γ_neg=2, γ_pos=0, clip=0.05 | Current best |
-| E06 | Focal | γ=2.0 | Standard focal loss baseline |
-| E07 | ASL (basic) | γ_neg=2, γ_pos=1 | ASL with positive focusing |
-| E08 | ASL-Optimized | γ_neg=4, γ_pos=1 | Paper default parameters |
-| E09 | ASL-Optimized | clip=0.0 | No probability clipping |
-| E10 | ASL-Optimized | clip=0.1 | Stronger clipping |
-
-**Config changes for E06**:
-```python
-FINE_LOSS_TYPE = 'focal'
-```
-
-**Config changes for E07**:
-```python
-FINE_LOSS_TYPE = 'asl'
-ASL_GAMMA_NEG = 2.0
-ASL_GAMMA_POS = 1.0
-```
-
-**Config changes for E08**:
-```python
-FINE_LOSS_TYPE = 'asl_optimized'
-ASL_GAMMA_NEG = 4.0
-ASL_GAMMA_POS = 1.0
-```
-
-**Config changes for E09**:
-```python
-ASL_CLIP = 0.0
-```
-
-**Config changes for E10**:
-```python
-ASL_CLIP = 0.1
-```
-
----
-
-### D. Cardinality Regularization Ablation (E11-E12)
-
-**Purpose**: Test impact of cardinality constraint on predictions.
-
-| ID | Weight | Target | Hypothesis |
-|----|--------|--------|------------|
-| E01 | 0.3 | 1.5 | Balanced constraint |
-| E11 | 0.0 | - | No cardinality constraint |
-| E12 | 0.5 | 1.5 | Stronger constraint |
-
-**Config changes for E11**:
-```python
-CARDINALITY_WEIGHT = 0.0
-```
-
-**Config changes for E12**:
-```python
-CARDINALITY_WEIGHT = 0.5
-```
-
----
-
-### E. Coarse Loss Function Ablation (E13-E15)
-
-**Purpose**: Compare different loss functions for the coarse classifier (single-label).
-
-| ID | Coarse Loss | Description | Hypothesis |
-|----|-------------|-------------|------------|
-| E01 | Focal | FocalLoss with γ=2.0 | Handles class imbalance well |
-| E13 | CE | Standard CrossEntropyLoss | Simple baseline |
-| E14 | Weighted CE | CrossEntropy with inverse frequency weights | Basic class balancing |
-| E15 | CB-CE | Class-Balanced CrossEntropy (Cui et al.) | Effective number of samples |
-
-**Config changes for E13**:
-```python
-COARSE_LOSS_TYPE = 'ce'
-```
-
-**Config changes for E14**:
-```python
-COARSE_LOSS_TYPE = 'weighted_ce'
-```
-
-**Config changes for E15**:
-```python
-COARSE_LOSS_TYPE = 'cb_ce'
-```
-
----
-
-### F. Hierarchy Conditioning Ablation (E16)
-
-**Purpose**: Compare soft conditioning vs hard masking.
-
-| ID | Conditioning | Description |
-|----|--------------|-------------|
-| E15 | Soft | Coarse probs → learned affinity matrix → fine prior |
-| E16 | Hard | Binary mask based on predicted coarse label |
-
-**Config changes for E16**:
-```python
-USE_SOFT_CONDITIONING = False  # Uses FineRoleClassifier with hard mask
-```
-
----
-
-## How to Run Experiments
-
-### 1. Modify Configuration
-Edit `src2/config.py` with the appropriate settings for each experiment.
-
-### 2. Train Coarse Classifier
 ```bash
-python src2/train_coarse.py
+cd src2
+python train_coarse.py
 ```
 
-### 3. Train Fine Classifier
+### Stage 2 - Train the fine classifier
+Trains the 22-label multi-label fine classifier on top of the coarse outputs from Stage 1.
+
 ```bash
-python src2/train_fine.py
+python train_fine.py
 ```
 
-### 4. Run Inference
+### Stage 3 - End-to-end inference and evaluation
+Combines both classifiers in a cascade and produces the final predictions, printing the
+end-to-end metrics (Coarse Accuracy, Fine Sample-F1, Exact Match).
+
 ```bash
-# For soft conditioning
-python src2/inference.py --soft
+# Uses the mode from config.py (USE_SOFT_CONDITIONING)
+python inference.py
 
-# For hard conditioning
-python src2/inference.py
+# Or force a mode explicitly:
+python inference.py --soft    # soft hierarchy conditioning
+python inference.py --hard    # hard masking
 ```
 
-### 5. Record Results
-Update this document with the results from each experiment.
-
 ---
 
-## Key Observations
+## Demo Application
 
-### Current Performance Analysis (E01)
+An interactive Streamlit app demonstrates the trained system on arbitrary text in any of the
+five languages and includes the word-attribution (saliency) module. It requires the checkpoints
+produced by Stages 1 and 2.
 
-1. **Coarse Classifier Overfitting**: 
-   - Train F1: 94.60% vs Test F1: 78.41% → 16% gap
-   - Indicates moderate overfitting despite regularization
+```bash
+cd src2
+streamlit run demo.py
+```
 
-2. **Fine Classifier Performs Well in Isolation**:
-   - 92.69% Micro-F1 when given correct coarse labels
-   - Model learns fine-grained distinctions effectively
-
-3. **Error Propagation Issue**:
-   - End-to-end Fine F1 drops to 49.97%
-   - ~20% incorrect coarse predictions cascade to fine classifier
-
-4. **Soft Conditioning Benefits**:
-   - Using coarse probabilities instead of hard labels
-   - Allows uncertainty to propagate through hierarchy
-
-5. **ASL Loss Effectiveness**:
-   - γ_neg=2.0, γ_pos=0.0 prevents all-zero predictions
-   - Critical for handling sparse multi-label setting
-
----
-
-## References
-
-1. **Focal Loss**: Lin et al., "Focal Loss for Dense Object Detection", ICCV 2017
-2. **Class-Balanced Loss**: Cui et al., "Class-Balanced Loss Based on Effective Number of Samples", CVPR 2019
-3. **Asymmetric Loss**: Ben-Baruch et al., "Asymmetric Loss For Multi-Label Classification", ICCV 2021
-4. **XLM-RoBERTa**: Conneau et al., "Unsupervised Cross-lingual Representation Learning at Scale", ACL 2020
-
----
-
-## Changelog
-
-| Date | Experiment | Changes | Results |
-|------|------------|---------|---------|
-| 2026-02-22 | E01 | Initial baseline with soft conditioning | Coarse 78.41%, Fine 92.69%, E2E 49.97% |
-| | | | |
+This launches a local web server and opens the app in the browser.
